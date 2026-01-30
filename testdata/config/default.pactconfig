@@ -1,0 +1,20 @@
+version: 1
+
+source:
+  directory: src
+  extensions:
+    - .pact
+
+output:
+  directory: docs/diagrams
+  formats:
+    - svg
+  types:
+    - class
+    - sequence
+    - state
+    - flow
+
+options:
+  watch: false
+  verbose: false
