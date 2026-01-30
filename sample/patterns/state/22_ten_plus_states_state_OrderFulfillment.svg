@@ -30,4 +30,46 @@
 <text x="500" y="655">Completed</text>
 <rect x="60" y="780" width="80" height="40" rx="10" ry="10" fill="#fff" stroke="#000"/>
 <text x="100" y="805">Cancelled</text>
+<line x1="100" y1="200" x2="300" y2="200" stroke="#000"/>
+<polygon points="300,200 292,203 292,196" fill="#000"/>
+<text x="200" y="195">validate</text>
+<line x1="300" y1="200" x2="500" y2="200" stroke="#000"/>
+<polygon points="500,200 492,203 492,196" fill="#000"/>
+<text x="400" y="195">requestPayment</text>
+<line x1="500" y1="200" x2="100" y2="350" stroke="#000"/>
+<polygon points="100,350 105,343 108,350" fill="#000"/>
+<text x="300" y="270">paymentReceived</text>
+<line x1="100" y1="350" x2="300" y2="350" stroke="#000"/>
+<polygon points="300,350 292,353 292,346" fill="#000"/>
+<text x="200" y="345">startPicking</text>
+<line x1="300" y1="350" x2="500" y2="350" stroke="#000"/>
+<polygon points="500,350 492,353 492,346" fill="#000"/>
+<text x="400" y="345">pickingComplete</text>
+<line x1="500" y1="350" x2="100" y2="500" stroke="#000"/>
+<polygon points="100,500 105,493 108,500" fill="#000"/>
+<text x="300" y="420">packingComplete</text>
+<line x1="100" y1="500" x2="300" y2="500" stroke="#000"/>
+<polygon points="300,500 292,503 292,496" fill="#000"/>
+<text x="200" y="495">handToCarrier</text>
+<line x1="300" y1="500" x2="500" y2="500" stroke="#000"/>
+<polygon points="500,500 492,503 492,496" fill="#000"/>
+<text x="400" y="495">carrierPickup</text>
+<line x1="500" y1="500" x2="100" y2="650" stroke="#000"/>
+<polygon points="100,650 105,643 108,650" fill="#000"/>
+<text x="300" y="570">outForDelivery</text>
+<line x1="100" y1="650" x2="300" y2="650" stroke="#000"/>
+<polygon points="300,650 292,653 292,646" fill="#000"/>
+<text x="200" y="645">delivered</text>
+<line x1="300" y1="650" x2="500" y2="650" stroke="#000"/>
+<polygon points="500,650 492,653 492,646" fill="#000"/>
+<text x="400" y="645">confirm</text>
+<line x1="100" y1="200" x2="100" y2="800" stroke="#000"/>
+<polygon points="100,800 96,792 103,792" fill="#000"/>
+<text x="100" y="495">cancel</text>
+<line x1="300" y1="200" x2="100" y2="800" stroke="#000"/>
+<polygon points="100,800 98,791 105,794" fill="#000"/>
+<text x="200" y="495">cancel</text>
+<line x1="500" y1="200" x2="100" y2="800" stroke="#000"/>
+<polygon points="100,800 100,792 106,796" fill="#000"/>
+<text x="300" y="495">cancel</text>
 </svg>

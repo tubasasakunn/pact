@@ -8,4 +8,19 @@
 <text x="100" y="205">MovingDown</text>
 <rect x="260" y="180" width="80" height="40" rx="10" ry="10" fill="#fff" stroke="#000"/>
 <text x="300" y="205">DoorOpen</text>
+<line x1="300" y1="50" x2="500" y2="50" stroke="#000"/>
+<polygon points="500,50 492,53 492,46" fill="#000"/>
+<text x="400" y="45">requestUp</text>
+<line x1="300" y1="50" x2="100" y2="200" stroke="#000"/>
+<polygon points="100,200 103,192 108,198" fill="#000"/>
+<text x="200" y="120">requestDown</text>
+<line x1="500" y1="50" x2="300" y2="200" stroke="#000"/>
+<polygon points="300,200 303,192 308,198" fill="#000"/>
+<text x="400" y="120">arrived</text>
+<line x1="100" y1="200" x2="300" y2="200" stroke="#000"/>
+<polygon points="300,200 292,203 292,196" fill="#000"/>
+<text x="200" y="195">arrived</text>
+<line x1="300" y1="200" x2="300" y2="50" stroke="#000"/>
+<polygon points="300,50 303,57 296,57" fill="#000"/>
+<text x="300" y="120">doorClosed</text>
 </svg>

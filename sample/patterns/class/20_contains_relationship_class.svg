@@ -1,0 +1,41 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" width="800" height="600">
+<rect x="50" y="50" width="200" height="60" stroke="#000" stroke-width="1" fill="#fff"/>
+<text x="150" y="70">&lt;&lt;component&gt;&gt;</text>
+<text x="150" y="90">Car</text>
+<rect x="300" y="50" width="200" height="120" fill="#fff" stroke="#000" stroke-width="1"/>
+<text x="400" y="70">CarData</text>
+<line x1="300" y1="85" x2="500" y2="85" stroke="#000"/>
+<text x="310" y="95">+ make: string</text>
+<text x="310" y="115">+ model: string</text>
+<text x="310" y="135">+ year: int</text>
+<rect x="550" y="50" width="200" height="60" fill="#fff" stroke="#000" stroke-width="1"/>
+<text x="650" y="70">&lt;&lt;component&gt;&gt;</text>
+<text x="650" y="90">Engine</text>
+<rect x="50" y="250" width="200" height="100" fill="#fff" stroke="#000" stroke-width="1"/>
+<text x="150" y="270">EngineData</text>
+<line x1="50" y1="285" x2="250" y2="285" stroke="#000"/>
+<text x="60" y="295">+ horsepower: int</text>
+<text x="60" y="315">+ cylinders: int</text>
+<rect x="300" y="250" width="200" height="60" stroke="#000" stroke-width="1" fill="#fff"/>
+<text x="400" y="270">&lt;&lt;component&gt;&gt;</text>
+<text x="400" y="290">Transmission</text>
+<rect x="550" y="250" width="200" height="100" fill="#fff" stroke="#000" stroke-width="1"/>
+<text x="650" y="270">TransmissionData</text>
+<line x1="550" y1="285" x2="750" y2="285" stroke="#000"/>
+<text x="560" y="295">+ gears: int</text>
+<text x="560" y="315">+ automatic: bool</text>
+<rect x="50" y="450" width="200" height="60" fill="#fff" stroke="#000" stroke-width="1"/>
+<text x="150" y="470">&lt;&lt;component&gt;&gt;</text>
+<text x="150" y="490">Wheels</text>
+<rect x="300" y="450" width="200" height="100" fill="#fff" stroke="#000" stroke-width="1"/>
+<text x="400" y="470">WheelData</text>
+<line x1="300" y1="485" x2="500" y2="485" stroke="#000"/>
+<text x="310" y="495">+ size: int</text>
+<text x="310" y="515">+ count: int</text>
+<line x1="150" y1="100" x2="550" y2="100" stroke="#000"/>
+<polygon points="" fill="#000"/>
+<line x1="150" y1="100" x2="300" y2="300" stroke="#000"/>
+<polygon points="" fill="#000"/>
+<line x1="150" y1="100" x2="50" y2="500" stroke="#000"/>
+<polygon points="" fill="#000"/>
+</svg>

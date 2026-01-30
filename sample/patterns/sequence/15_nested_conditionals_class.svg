@@ -12,6 +12,6 @@
 <text x="150" y="270">&lt;&lt;component&gt;&gt;</text>
 <text x="150" y="290">ExpressCarrier</text>
 <line x1="150" y1="100" x2="300" y2="100" stroke="#000" class="dashed"/>
-<line x1="150" y1="100" x2="550" y2="100" class="dashed" stroke="#000"/>
+<line x1="150" y1="100" x2="550" y2="100" stroke="#000" class="dashed"/>
 <line x1="150" y1="100" x2="50" y2="300" stroke="#000" class="dashed"/>
 </svg>

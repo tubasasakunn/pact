@@ -1,0 +1,37 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" width="800" height="600">
+<rect x="50" y="50" width="200" height="140" fill="#fff" stroke="#000" stroke-width="1"/>
+<text x="150" y="70">&lt;&lt;component&gt;&gt;</text>
+<text x="150" y="90">CustomerProfile</text>
+<line x1="50" y1="105" x2="250" y2="105" stroke="#000"/>
+<text x="60" y="115">+ GetCustomer()</text>
+<text x="60" y="135">+ CreateCustomer()</text>
+<text x="60" y="155">+ UpdateCustomer()</text>
+<text x="60" y="175">+ DeleteCustomer()</text>
+<rect x="300" y="50" width="200" height="540" fill="#fff" stroke="#000" stroke-width="1"/>
+<text x="400" y="70">DetailedCustomer</text>
+<line x1="300" y1="85" x2="500" y2="85" stroke="#000"/>
+<text x="310" y="95">+ id: string</text>
+<text x="310" y="115">+ firstName: string</text>
+<text x="310" y="135">+ lastName: string</text>
+<text x="310" y="155">+ middleName: string</text>
+<text x="310" y="175">+ email: string</text>
+<text x="310" y="195">+ phone: string</text>
+<text x="310" y="215">+ mobilePhone: string</text>
+<text x="310" y="235">+ dateOfBirth: string</text>
+<text x="310" y="255">+ gender: string</text>
+<text x="310" y="275">+ addressLine1: string</text>
+<text x="310" y="295">+ addressLine2: string</text>
+<text x="310" y="315">+ city: string</text>
+<text x="310" y="335">+ stateCode: string</text>
+<text x="310" y="355">+ postalCode: string</text>
+<text x="310" y="375">+ country: string</text>
+<text x="310" y="395">+ preferredLanguage: string</text>
+<text x="310" y="415">+ timezone: string</text>
+<text x="310" y="435">+ createdAt: string</text>
+<text x="310" y="455">+ updatedAt: string</text>
+<text x="310" y="475">+ lastLoginAt: string</text>
+<text x="310" y="495">+ isVerified: bool</text>
+<text x="310" y="515">+ isActive: bool</text>
+<text x="310" y="535">+ loyaltyPoints: int</text>
+<text x="310" y="555">+ membershipTier: string</text>
+</svg>

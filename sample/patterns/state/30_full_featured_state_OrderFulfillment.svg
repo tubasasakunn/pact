@@ -1,0 +1,109 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" width="800" height="600">
+<circle cx="100" cy="50" r="10" fill="#000"/>
+<circle cx="300" cy="50" r="12" stroke="#000" stroke-width="2"/>
+<circle cx="300" cy="50" r="8" fill="#000"/>
+<circle cx="500" cy="50" r="12" stroke="#000" stroke-width="2"/>
+<circle cx="500" cy="50" r="8" fill="#000"/>
+<rect x="60" y="180" width="80" height="40" rx="10" ry="10" fill="#fff" stroke="#000"/>
+<text x="100" y="205">Received</text>
+<rect x="260" y="180" width="80" height="40" rx="10" ry="10" fill="#fff" stroke="#000"/>
+<text x="300" y="205">Validating</text>
+<rect x="460" y="180" width="80" height="40" rx="10" ry="10" fill="#fff" stroke="#000"/>
+<text x="500" y="205">PaymentPending</text>
+<rect x="60" y="330" width="80" height="40" rx="10" ry="10" stroke="#000" fill="#fff"/>
+<text x="100" y="355">PaymentProcessing</text>
+<rect x="260" y="330" width="80" height="40" rx="10" ry="10" fill="#fff" stroke="#000"/>
+<text x="300" y="355">Confirmed</text>
+<rect x="460" y="330" width="80" height="40" rx="10" ry="10" stroke="#000" fill="#fff"/>
+<text x="500" y="355">Picking</text>
+<rect x="60" y="480" width="80" height="40" rx="10" ry="10" fill="#fff" stroke="#000"/>
+<text x="100" y="505">Packing</text>
+<rect x="260" y="480" width="80" height="40" rx="10" ry="10" stroke="#000" fill="#fff"/>
+<text x="300" y="505">ReadyToShip</text>
+<rect x="460" y="480" width="80" height="40" rx="10" ry="10" fill="#fff" stroke="#000"/>
+<text x="500" y="505">Shipped</text>
+<rect x="60" y="630" width="80" height="40" rx="10" ry="10" stroke="#000" fill="#fff"/>
+<text x="100" y="655">OutForDelivery</text>
+<rect x="260" y="630" width="80" height="40" rx="10" ry="10" fill="#fff" stroke="#000"/>
+<text x="300" y="655">Delivered</text>
+<rect x="460" y="630" width="80" height="40" rx="10" ry="10" stroke="#000" fill="#fff"/>
+<text x="500" y="655">Cancelled</text>
+<line x1="100" y1="200" x2="300" y2="200" stroke="#000"/>
+<polygon points="300,200 292,203 292,196" fill="#000"/>
+<text x="200" y="195">processOrder</text>
+<line x1="300" y1="200" x2="500" y2="200" stroke="#000"/>
+<polygon points="500,200 492,203 492,196" fill="#000"/>
+<text x="400" y="195">validationPassed</text>
+<line x1="500" y1="200" x2="100" y2="350" stroke="#000"/>
+<polygon points="100,350 105,343 108,350" fill="#000"/>
+<text x="300" y="270">paymentReceived</text>
+<line x1="100" y1="350" x2="300" y2="350" stroke="#000"/>
+<polygon points="300,350 292,353 292,346" fill="#000"/>
+<text x="200" y="345">paymentApproved</text>
+<line x1="300" y1="350" x2="500" y2="350" stroke="#000"/>
+<polygon points="500,350 492,353 492,346" fill="#000"/>
+<text x="400" y="345">startFulfillment</text>
+<line x1="500" y1="350" x2="100" y2="500" stroke="#000"/>
+<polygon points="100,500 105,493 108,500" fill="#000"/>
+<text x="300" y="420">itemsPicked</text>
+<line x1="100" y1="500" x2="300" y2="500" stroke="#000"/>
+<polygon points="300,500 292,503 292,496" fill="#000"/>
+<text x="200" y="495">packingComplete</text>
+<line x1="300" y1="500" x2="500" y2="500" stroke="#000"/>
+<polygon points="500,500 492,503 492,496" fill="#000"/>
+<text x="400" y="495">carrierPickup</text>
+<line x1="500" y1="500" x2="100" y2="650" stroke="#000"/>
+<polygon points="100,650 105,643 108,650" fill="#000"/>
+<text x="300" y="570">outForDelivery</text>
+<line x1="100" y1="650" x2="300" y2="650" stroke="#000"/>
+<polygon points="300,650 292,653 292,646" fill="#000"/>
+<text x="200" y="645">deliveryConfirmed</text>
+<line x1="300" y1="200" x2="500" y2="650" stroke="#000"/>
+<polygon points="500,650 493,644 500,641" fill="#000"/>
+<text x="400" y="420">validationFailed</text>
+<line x1="300" y1="200" x2="500" y2="650" stroke="#000"/>
+<polygon points="500,650 493,644 500,641" fill="#000"/>
+<text x="400" y="420">validationFailed</text>
+<line x1="100" y1="350" x2="500" y2="650" stroke="#000"/>
+<polygon points="500,650 491,648 496,642" fill="#000"/>
+<text x="300" y="495">paymentFailed</text>
+<line x1="100" y1="350" x2="500" y2="200" stroke="#000"/>
+<polygon points="500,200 494,206 491,199" fill="#000"/>
+<text x="300" y="270">paymentFailed</text>
+<line x1="100" y1="200" x2="300" y2="200" stroke="#000"/>
+<polygon points="300,200 292,203 292,196" fill="#000"/>
+<text x="200" y="195">[autoProcessEnabled]</text>
+<line x1="300" y1="350" x2="500" y2="350" stroke="#000"/>
+<polygon points="500,350 492,353 492,346" fill="#000"/>
+<text x="400" y="345">[warehouseReady]</text>
+<line x1="300" y1="500" x2="500" y2="500" stroke="#000"/>
+<polygon points="500,500 492,503 492,496" fill="#000"/>
+<text x="400" y="495">[carrierAvailable]</text>
+<line x1="500" y1="200" x2="500" y2="650" stroke="#000"/>
+<polygon points="500,650 496,642 503,642" fill="#000"/>
+<line x1="300" y1="500" x2="500" y2="650" stroke="#000"/>
+<polygon points="500,650 491,648 496,642" fill="#000"/>
+<line x1="500" y1="500" x2="300" y2="650" stroke="#000"/>
+<polygon points="300,650 303,642 308,648" fill="#000"/>
+<line x1="500" y1="350" x2="500" y2="350" stroke="#000"/>
+<text x="500" y="345">itemNotFound</text>
+<line x1="100" y1="500" x2="100" y2="500" stroke="#000"/>
+<text x="100" y="495">qualityCheckFailed</text>
+<line x1="100" y1="650" x2="100" y2="650" stroke="#000"/>
+<text x="100" y="645">deliveryAttemptFailed</text>
+<line x1="100" y1="200" x2="500" y2="650" stroke="#000"/>
+<polygon points="500,650 492,646 497,641" fill="#000"/>
+<text x="300" y="420">customerCancelled</text>
+<line x1="300" y1="200" x2="500" y2="650" stroke="#000"/>
+<polygon points="500,650 493,644 500,641" fill="#000"/>
+<text x="400" y="420">customerCancelled</text>
+<line x1="500" y1="200" x2="500" y2="650" stroke="#000"/>
+<polygon points="500,650 496,642 503,642" fill="#000"/>
+<text x="500" y="420">customerCancelled</text>
+<line x1="300" y1="350" x2="500" y2="650" stroke="#000"/>
+<polygon points="500,650 492,645 498,641" fill="#000"/>
+<text x="400" y="495">customerCancelled</text>
+<line x1="500" y1="350" x2="500" y2="650" stroke="#000"/>
+<polygon points="500,650 496,642 503,642" fill="#000"/>
+<text x="500" y="495">customerCancelled</text>
+</svg>

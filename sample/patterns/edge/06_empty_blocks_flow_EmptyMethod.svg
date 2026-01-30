@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" width="800" height="600">
+<rect x="350" y="50" width="100" height="40" rx="20" ry="20" fill="#fff" stroke="#000"/>
+<text x="400" y="75">Start</text>
+<rect x="350" y="130" width="100" height="40" rx="20" ry="20" stroke="#000" fill="#fff"/>
+<text x="400" y="155">End</text>
+<line x1="400" y1="90" x2="400" y2="130" stroke="#000"/>
+<polygon points="400,130 396,122 404,122" fill="#000"/>
+</svg>

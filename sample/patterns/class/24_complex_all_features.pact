@@ -11,7 +11,7 @@ component OrderManagement {
 	type Address {
 		street: string
 		city: string
-		state: string
+		stateProvince: string
 		zipCode: string
 		country: string
 	}

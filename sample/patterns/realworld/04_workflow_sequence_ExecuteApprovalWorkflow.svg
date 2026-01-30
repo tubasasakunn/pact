@@ -1,0 +1,60 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" width="800" height="600">
+<rect x="60" y="50" width="80" height="40" stroke="#000" fill="#fff"/>
+<text x="100" y="75">WorkflowOrchestrator</text>
+<line x1="100" y1="100" x2="100" y2="500" stroke="#000" class="dashed"/>
+<rect x="210" y="50" width="80" height="40" fill="#fff" stroke="#000"/>
+<text x="250" y="75">Task</text>
+<line x1="250" y1="100" x2="250" y2="500" stroke="#000" class="dashed"/>
+<rect x="360" y="50" width="80" height="40" fill="#fff" stroke="#000"/>
+<text x="400" y="75">Approval</text>
+<line x1="400" y1="100" x2="400" y2="500" stroke="#000" class="dashed"/>
+<rect x="510" y="50" width="80" height="40" fill="#fff" stroke="#000"/>
+<text x="550" y="75">User</text>
+<line x1="550" y1="100" x2="550" y2="500" stroke="#000" class="dashed"/>
+<rect x="660" y="50" width="80" height="40" fill="#fff" stroke="#000"/>
+<text x="700" y="75">NotificationService</text>
+<line x1="700" y1="100" x2="700" y2="500" stroke="#000" class="dashed"/>
+<line x1="100" y1="120" x2="250" y2="120" stroke="#000"/>
+<polygon points="250,120 242,123 242,116" fill="#000"/>
+<text x="175" y="115">GetTask</text>
+<line x1="100" y1="160" x2="400" y2="160" stroke="#000"/>
+<polygon points="400,160 392,163 392,156" fill="#000"/>
+<text x="250" y="155">GetApprovalRules</text>
+<line x1="100" y1="200" x2="550" y2="200" stroke="#000"/>
+<polygon points="550,200 542,203 542,196" fill="#000"/>
+<text x="325" y="195">GetApproversForLevel</text>
+<line x1="100" y1="240" x2="550" y2="240" stroke="#000"/>
+<polygon points="550,240 542,243 542,236" fill="#000"/>
+<text x="325" y="235">GetEffectiveApprover</text>
+<line x1="100" y1="280" x2="400" y2="280" stroke="#000"/>
+<polygon points="400,280 392,283 392,276" fill="#000"/>
+<text x="250" y="275">CreateApprovalRequest</text>
+<line x1="100" y1="320" x2="700" y2="320" stroke="#000"/>
+<polygon points="700,320 692,323 692,316" fill="#000"/>
+<text x="400" y="315">SendApprovalNotification</text>
+<rect x="50" y="350" width="700" height="20" stroke="#000" fill="none"/>
+<text x="60" y="360">[loop] for approver</text>
+<line x1="100" y1="360" x2="400" y2="360" stroke="#000"/>
+<polygon points="400,360 392,363 392,356" fill="#000"/>
+<text x="250" y="355">GetTaskApprovals</text>
+<line x1="100" y1="400" x2="250" y2="400" stroke="#000"/>
+<polygon points="250,400 242,403 242,396" fill="#000"/>
+<text x="175" y="395">UpdateStatus</text>
+<line x1="100" y1="440" x2="700" y2="440" stroke="#000"/>
+<polygon points="700,440 692,443 692,436" fill="#000"/>
+<text x="400" y="435">NotifyApproval</text>
+<rect x="50" y="470" width="700" height="20" stroke="#000" fill="none"/>
+<text x="60" y="480">[alt] condition</text>
+<line x1="100" y1="480" x2="250" y2="480" stroke="#000"/>
+<polygon points="250,480 242,483 242,476" fill="#000"/>
+<text x="175" y="475">UpdateStatus</text>
+<line x1="100" y1="520" x2="700" y2="520" stroke="#000"/>
+<polygon points="700,520 692,523 692,516" fill="#000"/>
+<text x="400" y="515">NotifyRejection</text>
+<rect x="50" y="550" width="700" height="20" stroke="#000" fill="none"/>
+<text x="60" y="560">[alt] condition</text>
+<rect x="50" y="550" width="700" height="20" stroke="#000" fill="none"/>
+<text x="60" y="560">[alt] condition</text>
+<rect x="50" y="550" width="700" height="20" stroke="#000" fill="none"/>
+<text x="60" y="560">[loop] while</text>
+</svg>

@@ -2,10 +2,19 @@
 <rect x="60" y="50" width="80" height="40" fill="#fff" stroke="#000"/>
 <text x="100" y="75">MethodOnOtherService</text>
 <line x1="100" y1="100" x2="100" y2="500" stroke="#000" class="dashed"/>
-<rect x="210" y="50" width="80" height="40" stroke="#000" fill="#fff"/>
+<rect x="210" y="50" width="80" height="40" fill="#fff" stroke="#000"/>
 <text x="250" y="75">DatabaseService</text>
 <line x1="250" y1="100" x2="250" y2="500" stroke="#000" class="dashed"/>
 <rect x="360" y="50" width="80" height="40" fill="#fff" stroke="#000"/>
 <text x="400" y="75">CacheService</text>
 <line x1="400" y1="100" x2="400" y2="500" stroke="#000" class="dashed"/>
+<line x1="100" y1="120" x2="400" y2="120" stroke="#000"/>
+<polygon points="400,120 392,123 392,116" fill="#000"/>
+<text x="250" y="115">get</text>
+<line x1="100" y1="160" x2="250" y2="160" stroke="#000"/>
+<polygon points="250,160 242,163 242,156" fill="#000"/>
+<text x="175" y="155">query</text>
+<line x1="100" y1="200" x2="400" y2="200" stroke="#000"/>
+<polygon points="400,200 392,203 392,196" fill="#000"/>
+<text x="250" y="195">set</text>
 </svg>

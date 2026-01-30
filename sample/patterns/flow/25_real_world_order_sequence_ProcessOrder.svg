@@ -4,10 +4,10 @@
 <line x1="100" y1="100" x2="100" y2="500" stroke="#000" class="dashed"/>
 <rect x="210" y="50" width="80" height="40" fill="#fff" stroke="#000"/>
 <text x="250" y="75">InventoryService</text>
-<line x1="250" y1="100" x2="250" y2="500" class="dashed" stroke="#000"/>
-<rect x="360" y="50" width="80" height="40" fill="#fff" stroke="#000"/>
+<line x1="250" y1="100" x2="250" y2="500" stroke="#000" class="dashed"/>
+<rect x="360" y="50" width="80" height="40" stroke="#000" fill="#fff"/>
 <text x="400" y="75">PaymentGateway</text>
-<line x1="400" y1="100" x2="400" y2="500" class="dashed" stroke="#000"/>
+<line x1="400" y1="100" x2="400" y2="500" stroke="#000" class="dashed"/>
 <rect x="510" y="50" width="80" height="40" fill="#fff" stroke="#000"/>
 <text x="550" y="75">ShippingService</text>
 <line x1="550" y1="100" x2="550" y2="500" stroke="#000" class="dashed"/>
@@ -20,4 +20,59 @@
 <rect x="960" y="50" width="80" height="40" fill="#fff" stroke="#000"/>
 <text x="1000" y="75">LoyaltyService</text>
 <line x1="1000" y1="100" x2="1000" y2="500" stroke="#000" class="dashed"/>
+<line x1="100" y1="120" x2="850" y2="120" stroke="#000"/>
+<polygon points="850,120 842,123 842,116" fill="#000"/>
+<text x="475" y="115">analyze</text>
+<line x1="100" y1="160" x2="250" y2="160" stroke="#000"/>
+<polygon points="250,160 242,163 242,156" fill="#000"/>
+<text x="175" y="155">checkAvailability</text>
+<line x1="100" y1="200" x2="250" y2="200" stroke="#000"/>
+<polygon points="250,200 242,203 242,196" fill="#000"/>
+<text x="175" y="195">reserve</text>
+<line x1="100" y1="240" x2="400" y2="240" stroke="#000"/>
+<polygon points="400,240 392,243 392,236" fill="#000"/>
+<text x="250" y="235">authorize</text>
+<line x1="100" y1="280" x2="400" y2="280" stroke="#000"/>
+<polygon points="400,280 392,283 392,276" fill="#000"/>
+<text x="250" y="275">capture</text>
+<line x1="100" y1="320" x2="1000" y2="320" stroke="#000"/>
+<polygon points="1000,320 993,323 993,316" fill="#000"/>
+<text x="550" y="315">awardPoints</text>
+<line x1="100" y1="360" x2="550" y2="360" stroke="#000"/>
+<polygon points="550,360 542,363 542,356" fill="#000"/>
+<text x="325" y="355">createShipment</text>
+<line x1="100" y1="400" x2="550" y2="400" stroke="#000"/>
+<polygon points="550,400 542,403 542,396" fill="#000"/>
+<text x="325" y="395">getTracking</text>
+<line x1="100" y1="440" x2="700" y2="440" stroke="#000"/>
+<polygon points="700,440 692,443 692,436" fill="#000"/>
+<text x="400" y="435">sendConfirmation</text>
+<line x1="100" y1="480" x2="250" y2="480" stroke="#000"/>
+<polygon points="250,480 242,483 242,476" fill="#000"/>
+<text x="175" y="475">release</text>
+<line x1="100" y1="520" x2="400" y2="520" stroke="#000"/>
+<polygon points="400,520 392,523 392,516" fill="#000"/>
+<text x="250" y="515">void</text>
+<rect x="50" y="550" width="700" height="20" fill="none" stroke="#000"/>
+<text x="60" y="560">[alt] condition</text>
+<line x1="100" y1="560" x2="250" y2="560" stroke="#000"/>
+<polygon points="250,560 242,563 242,556" fill="#000"/>
+<text x="175" y="555">release</text>
+<line x1="100" y1="600" x2="700" y2="600" stroke="#000"/>
+<polygon points="700,600 692,603 692,596" fill="#000"/>
+<text x="400" y="595">sendPaymentFailure</text>
+<rect x="50" y="630" width="700" height="20" stroke="#000" fill="none"/>
+<text x="60" y="640">[alt] condition</text>
+<line x1="100" y1="640" x2="700" y2="640" stroke="#000"/>
+<polygon points="700,640 692,643 692,636" fill="#000"/>
+<text x="400" y="635">sendOutOfStock</text>
+<rect x="50" y="670" width="700" height="20" stroke="#000" fill="none"/>
+<text x="60" y="680">[alt] condition</text>
+<line x1="100" y1="680" x2="700" y2="680" stroke="#000"/>
+<polygon points="700,680 692,683 692,676" fill="#000"/>
+<text x="400" y="675">sendFraudAlert</text>
+<rect x="50" y="710" width="700" height="20" stroke="#000" fill="none"/>
+<text x="60" y="720">[alt] condition</text>
+<rect x="50" y="710" width="700" height="20" stroke="#000" fill="none"/>
+<text x="60" y="720">[alt] condition</text>
 </svg>

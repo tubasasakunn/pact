@@ -1,0 +1,159 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" width="800" height="600">
+<rect x="50" y="50" width="200" height="200" fill="#fff" stroke="#000" stroke-width="1"/>
+<text x="150" y="70">&lt;&lt;component&gt;&gt;</text>
+<text x="150" y="90">Task</text>
+<line x1="50" y1="105" x2="250" y2="105" stroke="#000"/>
+<text x="60" y="115">+ CreateTask()</text>
+<text x="60" y="135">+ GetTask()</text>
+<text x="60" y="155">+ UpdateTask()</text>
+<text x="60" y="175">+ DeleteTask()</text>
+<text x="60" y="195">+ SubmitForApproval()</text>
+<text x="60" y="215">+ GetTaskHistory()</text>
+<text x="60" y="235">+ AddComment()</text>
+<rect x="300" y="50" width="200" height="300" fill="#fff" stroke="#000" stroke-width="1"/>
+<text x="400" y="70">TaskDetails</text>
+<line x1="300" y1="85" x2="500" y2="85" stroke="#000"/>
+<text x="310" y="95">+ id: string</text>
+<text x="310" y="115">+ title: string</text>
+<text x="310" y="135">+ description: string</text>
+<text x="310" y="155">+ creatorId: string</text>
+<text x="310" y="175">+ assigneeId: string</text>
+<text x="310" y="195">+ priority: string</text>
+<text x="310" y="215">+ category: string</text>
+<text x="310" y="235">+ dueDate: string</text>
+<text x="310" y="255">+ attachments: string</text>
+<text x="310" y="275">+ createdAt: string</text>
+<text x="310" y="295">+ updatedAt: string</text>
+<text x="310" y="315">+ status: string</text>
+<rect x="550" y="50" width="200" height="160" stroke-width="1" fill="#fff" stroke="#000"/>
+<text x="650" y="70">TaskComment</text>
+<line x1="550" y1="85" x2="750" y2="85" stroke="#000"/>
+<text x="560" y="95">+ id: string</text>
+<text x="560" y="115">+ taskId: string</text>
+<text x="560" y="135">+ authorId: string</text>
+<text x="560" y="155">+ content: string</text>
+<text x="560" y="175">+ createdAt: string</text>
+<rect x="50" y="250" width="200" height="200" fill="#fff" stroke="#000" stroke-width="1"/>
+<text x="150" y="270">TaskHistory</text>
+<line x1="50" y1="285" x2="250" y2="285" stroke="#000"/>
+<text x="60" y="295">+ id: string</text>
+<text x="60" y="315">+ taskId: string</text>
+<text x="60" y="335">+ action: string</text>
+<text x="60" y="355">+ actorId: string</text>
+<text x="60" y="375">+ previousValue: string</text>
+<text x="60" y="395">+ newValue: string</text>
+<text x="60" y="415">+ timestamp: string</text>
+<rect x="300" y="250" width="200" height="240" stroke="#000" stroke-width="1" fill="#fff"/>
+<text x="400" y="270">&lt;&lt;component&gt;&gt;</text>
+<text x="400" y="290">Approval</text>
+<line x1="300" y1="305" x2="500" y2="305" stroke="#000"/>
+<text x="310" y="315">+ CreateApprovalRequest()</text>
+<text x="310" y="335">+ GetApprovalRequest()</text>
+<text x="310" y="355">+ GetTaskApprovals()</text>
+<text x="310" y="375">+ DetermineApprovers()</text>
+<text x="310" y="395">+ ApproveTask()</text>
+<text x="310" y="415">+ RejectTask()</text>
+<text x="310" y="435">+ RequestChanges()</text>
+<text x="310" y="455">+ GetApprovalRules()</text>
+<text x="310" y="475">+ EscalateApproval()</text>
+<rect x="550" y="250" width="200" height="240" fill="#fff" stroke="#000" stroke-width="1"/>
+<text x="650" y="270">ApprovalRequest</text>
+<line x1="550" y1="285" x2="750" y2="285" stroke="#000"/>
+<text x="560" y="295">+ id: string</text>
+<text x="560" y="315">+ taskId: string</text>
+<text x="560" y="335">+ approverId: string</text>
+<text x="560" y="355">+ status: string</text>
+<text x="560" y="375">+ level: int</text>
+<text x="560" y="395">+ decision: string</text>
+<text x="560" y="415">+ comments: string</text>
+<text x="560" y="435">+ decidedAt: string</text>
+<text x="560" y="455">+ createdAt: string</text>
+<rect x="50" y="450" width="200" height="180" stroke-width="1" fill="#fff" stroke="#000"/>
+<text x="150" y="470">ApprovalRule</text>
+<line x1="50" y1="485" x2="250" y2="485" stroke="#000"/>
+<text x="60" y="495">+ id: string</text>
+<text x="60" y="515">+ category: string</text>
+<text x="60" y="535">+ minApprovers: int</text>
+<text x="60" y="555">+ requiredLevels: int</text>
+<text x="60" y="575">+ escalationTimeout: int</text>
+<text x="60" y="595">+ autoApproveAmount: float</text>
+<rect x="300" y="450" width="200" height="160" fill="#fff" stroke="#000" stroke-width="1"/>
+<text x="400" y="470">ApprovalChain</text>
+<line x1="300" y1="485" x2="500" y2="485" stroke="#000"/>
+<text x="310" y="495">+ taskId: string</text>
+<text x="310" y="515">+ requests: ApprovalRequest</text>
+<text x="310" y="535">+ currentLevel: int</text>
+<text x="310" y="555">+ totalLevels: int</text>
+<text x="310" y="575">+ status: string</text>
+<rect x="550" y="450" width="200" height="200" fill="#fff" stroke="#000" stroke-width="1"/>
+<text x="650" y="470">&lt;&lt;component&gt;&gt;</text>
+<text x="650" y="490">User</text>
+<line x1="550" y1="505" x2="750" y2="505" stroke="#000"/>
+<text x="560" y="515">+ GetUser()</text>
+<text x="560" y="535">+ GetUsersByDepartment()</text>
+<text x="560" y="555">+ GetUsersByRole()</text>
+<text x="560" y="575">+ GetApproversForLevel()</text>
+<text x="560" y="595">+ GetManager()</text>
+<text x="560" y="615">+ SetDelegate()</text>
+<text x="560" y="635">+ GetEffectiveApprover()</text>
+<rect x="50" y="650" width="200" height="240" stroke-width="1" fill="#fff" stroke="#000"/>
+<text x="150" y="670">UserProfile</text>
+<line x1="50" y1="685" x2="250" y2="685" stroke="#000"/>
+<text x="60" y="695">+ id: string</text>
+<text x="60" y="715">+ name: string</text>
+<text x="60" y="735">+ email: string</text>
+<text x="60" y="755">+ department: string</text>
+<text x="60" y="775">+ role: string</text>
+<text x="60" y="795">+ managerId: string</text>
+<text x="60" y="815">+ approvalLevel: int</text>
+<text x="60" y="835">+ delegateTo: string</text>
+<text x="60" y="855">+ delegateUntil: string</text>
+<rect x="300" y="650" width="200" height="200" fill="#fff" stroke="#000" stroke-width="1"/>
+<text x="400" y="670">&lt;&lt;component&gt;&gt;</text>
+<text x="400" y="690">NotificationService</text>
+<line x1="300" y1="705" x2="500" y2="705" stroke="#000"/>
+<text x="310" y="715">+ NotifySubmission()</text>
+<text x="310" y="735">+ NotifyApproval()</text>
+<text x="310" y="755">+ NotifyRejection()</text>
+<text x="310" y="775">+ NotifyChangesRequested()</text>
+<text x="310" y="795">+ NotifyNextLevelApprovers()</text>
+<text x="310" y="815">+ NotifyEscalation()</text>
+<text x="310" y="835">+ SendReminder()</text>
+<rect x="550" y="650" width="200" height="180" fill="#fff" stroke="#000" stroke-width="1"/>
+<text x="650" y="670">NotificationMessage</text>
+<line x1="550" y1="685" x2="750" y2="685" stroke="#000"/>
+<text x="560" y="695">+ recipientId: string</text>
+<text x="560" y="715">+ notificationType: string</text>
+<text x="560" y="735">+ subject: string</text>
+<text x="560" y="755">+ body: string</text>
+<text x="560" y="775">+ taskId: string</text>
+<text x="560" y="795">+ actionUrl: string</text>
+<rect x="50" y="850" width="200" height="80" fill="#fff" stroke="#000" stroke-width="1"/>
+<text x="150" y="870">&lt;&lt;interface&gt;&gt;</text>
+<text x="150" y="890">EmailService</text>
+<line x1="50" y1="905" x2="250" y2="905" stroke="#000"/>
+<text x="60" y="915">+ Send()</text>
+<rect x="300" y="850" width="200" height="100" stroke-width="1" fill="#fff" stroke="#000"/>
+<text x="400" y="870">&lt;&lt;interface&gt;&gt;</text>
+<text x="400" y="890">SlackService</text>
+<line x1="300" y1="905" x2="500" y2="905" stroke="#000"/>
+<text x="310" y="915">+ PostMessage()</text>
+<text x="310" y="935">+ SendDirectMessage()</text>
+<rect x="550" y="850" width="200" height="140" fill="#fff" stroke="#000" stroke-width="1"/>
+<text x="650" y="870">&lt;&lt;component&gt;&gt;</text>
+<text x="650" y="890">WorkflowOrchestrator</text>
+<line x1="550" y1="905" x2="750" y2="905" stroke="#000"/>
+<text x="560" y="915">+ StartWorkflow()</text>
+<text x="560" y="935">+ GetWorkflowStatus()</text>
+<text x="560" y="955">+ CancelWorkflow()</text>
+<text x="560" y="975">+ RetryWorkflow()</text>
+<line x1="150" y1="100" x2="550" y2="500" stroke="#000" class="dashed"/>
+<line x1="150" y1="100" x2="300" y2="300" stroke="#000" class="dashed"/>
+<line x1="150" y1="100" x2="300" y2="700" stroke="#000" class="dashed"/>
+<line x1="400" y1="300" x2="550" y2="500" stroke="#000" class="dashed"/>
+<line x1="400" y1="300" x2="300" y2="700" stroke="#000" class="dashed"/>
+<line x1="650" y1="900" x2="50" y2="100" stroke="#000" class="dashed"/>
+<line x1="650" y1="900" x2="300" y2="300" class="dashed" stroke="#000"/>
+<line x1="650" y1="900" x2="550" y2="500" stroke="#000" class="dashed"/>
+<line x1="650" y1="900" x2="300" y2="700" stroke="#000" class="dashed"/>
+</svg>

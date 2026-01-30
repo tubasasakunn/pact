@@ -7,7 +7,7 @@
 <line x1="300" y1="85" x2="500" y2="85" stroke="#000"/>
 <text x="310" y="95">+ id: string</text>
 <text x="310" y="115">+ value: string</text>
-<rect x="550" y="50" width="200" height="60" stroke-width="1" fill="#fff" stroke="#000"/>
+<rect x="550" y="50" width="200" height="60" fill="#fff" stroke="#000" stroke-width="1"/>
 <text x="650" y="70">&lt;&lt;component&gt;&gt;</text>
 <text x="650" y="90">ComponentB</text>
 <rect x="50" y="250" width="200" height="100" fill="#fff" stroke="#000" stroke-width="1"/>

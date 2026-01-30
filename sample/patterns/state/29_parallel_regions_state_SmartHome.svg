@@ -1,0 +1,151 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" width="800" height="600">
+<circle cx="100" cy="50" r="10" fill="#000"/>
+<circle cx="300" cy="50" r="12" stroke="#000" stroke-width="2"/>
+<circle cx="300" cy="50" r="8" fill="#000"/>
+<rect x="460" y="30" width="80" height="40" rx="10" ry="10" fill="#fff" stroke="#000"/>
+<text x="500" y="55">Initializing</text>
+<rect x="60" y="180" width="80" height="40" rx="10" ry="10" stroke="#000" fill="#fff"/>
+<text x="100" y="205">ShutDown</text>
+<rect x="260" y="180" width="80" height="40" rx="10" ry="10" fill="#fff" stroke="#000"/>
+<text x="300" y="205">Active</text>
+<rect x="460" y="180" width="80" height="40" rx="10" ry="10" fill="#fff" stroke="#000"/>
+<text x="500" y="205">LightingOff</text>
+<rect x="60" y="330" width="80" height="40" rx="10" ry="10" fill="#fff" stroke="#000"/>
+<text x="100" y="355">LightingDimmed</text>
+<rect x="260" y="330" width="80" height="40" rx="10" ry="10" fill="#fff" stroke="#000"/>
+<text x="300" y="355">LightingBright</text>
+<rect x="460" y="330" width="80" height="40" rx="10" ry="10" fill="#fff" stroke="#000"/>
+<text x="500" y="355">LightingAuto</text>
+<rect x="60" y="480" width="80" height="40" rx="10" ry="10" fill="#fff" stroke="#000"/>
+<text x="100" y="505">ClimateOff</text>
+<rect x="260" y="480" width="80" height="40" rx="10" ry="10" fill="#fff" stroke="#000"/>
+<text x="300" y="505">ClimateHeating</text>
+<rect x="460" y="480" width="80" height="40" rx="10" ry="10" fill="#fff" stroke="#000"/>
+<text x="500" y="505">ClimateCooling</text>
+<rect x="60" y="630" width="80" height="40" rx="10" ry="10" fill="#fff" stroke="#000"/>
+<text x="100" y="655">ClimateAuto</text>
+<rect x="260" y="630" width="80" height="40" rx="10" ry="10" fill="#fff" stroke="#000"/>
+<text x="300" y="655">SecurityDisarmed</text>
+<rect x="460" y="630" width="80" height="40" rx="10" ry="10" stroke="#000" fill="#fff"/>
+<text x="500" y="655">SecurityArmedHome</text>
+<rect x="60" y="780" width="80" height="40" rx="10" ry="10" fill="#fff" stroke="#000"/>
+<text x="100" y="805">SecurityArmedAway</text>
+<rect x="260" y="780" width="80" height="40" rx="10" ry="10" fill="#fff" stroke="#000"/>
+<text x="300" y="805">SecurityAlarm</text>
+<rect x="460" y="780" width="80" height="40" rx="10" ry="10" fill="#fff" stroke="#000"/>
+<text x="500" y="805">EntertainmentOff</text>
+<rect x="60" y="930" width="80" height="40" rx="10" ry="10" fill="#fff" stroke="#000"/>
+<text x="100" y="955">EntertainmentMusic</text>
+<rect x="260" y="930" width="80" height="40" rx="10" ry="10" fill="#fff" stroke="#000"/>
+<text x="300" y="955">EntertainmentTV</text>
+<rect x="460" y="930" width="80" height="40" rx="10" ry="10" fill="#fff" stroke="#000"/>
+<text x="500" y="955">EntertainmentMovie</text>
+<line x1="500" y1="50" x2="300" y2="200" stroke="#000"/>
+<polygon points="300,200 303,192 308,198" fill="#000"/>
+<text x="400" y="120">systemReady</text>
+<line x1="300" y1="200" x2="100" y2="200" stroke="#000"/>
+<polygon points="100,200 107,196 107,203" fill="#000"/>
+<text x="200" y="195">shutdownCommand</text>
+<line x1="300" y1="200" x2="500" y2="200" stroke="#000"/>
+<polygon points="500,200 492,203 492,196" fill="#000"/>
+<text x="400" y="195">lightsOff</text>
+<line x1="500" y1="200" x2="100" y2="350" stroke="#000"/>
+<polygon points="100,350 105,343 108,350" fill="#000"/>
+<text x="300" y="270">dimLights</text>
+<line x1="100" y1="350" x2="300" y2="350" stroke="#000"/>
+<polygon points="300,350 292,353 292,346" fill="#000"/>
+<text x="200" y="345">brightenLights</text>
+<line x1="300" y1="350" x2="100" y2="350" stroke="#000"/>
+<polygon points="100,350 107,346 107,353" fill="#000"/>
+<text x="200" y="345">dimLights</text>
+<line x1="500" y1="200" x2="500" y2="350" stroke="#000"/>
+<polygon points="500,350 496,342 503,342" fill="#000"/>
+<text x="500" y="270">autoLighting</text>
+<line x1="500" y1="350" x2="500" y2="200" stroke="#000"/>
+<polygon points="500,200 503,207 496,207" fill="#000"/>
+<text x="500" y="270">manualOverride</text>
+<line x1="100" y1="350" x2="500" y2="350" stroke="#000"/>
+<polygon points="500,350 492,353 492,346" fill="#000"/>
+<text x="300" y="345">autoLighting</text>
+<line x1="300" y1="350" x2="500" y2="350" stroke="#000"/>
+<polygon points="500,350 492,353 492,346" fill="#000"/>
+<text x="400" y="345">autoLighting</text>
+<line x1="300" y1="200" x2="100" y2="500" stroke="#000"/>
+<polygon points="100,500 101,491 107,495" fill="#000"/>
+<text x="200" y="345">climateOff</text>
+<line x1="100" y1="500" x2="300" y2="500" stroke="#000"/>
+<polygon points="300,500 292,503 292,496" fill="#000"/>
+<text x="200" y="495">heatOn</text>
+<line x1="100" y1="500" x2="500" y2="500" stroke="#000"/>
+<polygon points="500,500 492,503 492,496" fill="#000"/>
+<text x="300" y="495">coolOn</text>
+<line x1="300" y1="500" x2="100" y2="500" stroke="#000"/>
+<polygon points="100,500 107,496 107,503" fill="#000"/>
+<text x="200" y="495">climateOff</text>
+<line x1="500" y1="500" x2="100" y2="500" stroke="#000"/>
+<polygon points="100,500 107,496 107,503" fill="#000"/>
+<text x="300" y="495">climateOff</text>
+<line x1="100" y1="500" x2="100" y2="650" stroke="#000"/>
+<polygon points="100,650 96,642 103,642" fill="#000"/>
+<text x="100" y="570">autoClimate</text>
+<line x1="300" y1="500" x2="100" y2="650" stroke="#000"/>
+<polygon points="100,650 103,642 108,648" fill="#000"/>
+<text x="200" y="570">autoClimate</text>
+<line x1="500" y1="500" x2="100" y2="650" stroke="#000"/>
+<polygon points="100,650 105,643 108,650" fill="#000"/>
+<text x="300" y="570">autoClimate</text>
+<line x1="100" y1="650" x2="100" y2="500" stroke="#000"/>
+<polygon points="100,500 103,507 96,507" fill="#000"/>
+<text x="100" y="570">manualOverride</text>
+<line x1="300" y1="200" x2="300" y2="650" stroke="#000"/>
+<polygon points="300,650 296,642 303,642" fill="#000"/>
+<text x="300" y="420">disarmSecurity</text>
+<line x1="300" y1="650" x2="500" y2="650" stroke="#000"/>
+<polygon points="500,650 492,653 492,646" fill="#000"/>
+<text x="400" y="645">armHome</text>
+<line x1="300" y1="650" x2="100" y2="800" stroke="#000"/>
+<polygon points="100,800 103,792 108,798" fill="#000"/>
+<text x="200" y="720">armAway</text>
+<line x1="500" y1="650" x2="300" y2="650" stroke="#000"/>
+<polygon points="300,650 307,646 307,653" fill="#000"/>
+<text x="400" y="645">disarm</text>
+<line x1="100" y1="800" x2="300" y2="650" stroke="#000"/>
+<polygon points="300,650 296,657 291,651" fill="#000"/>
+<text x="200" y="720">disarm</text>
+<line x1="500" y1="650" x2="300" y2="800" stroke="#000"/>
+<polygon points="300,800 303,792 308,798" fill="#000"/>
+<text x="400" y="720">motionDetected</text>
+<line x1="100" y1="800" x2="300" y2="800" stroke="#000"/>
+<polygon points="300,800 292,803 292,796" fill="#000"/>
+<text x="200" y="795">motionDetected</text>
+<line x1="300" y1="800" x2="300" y2="650" stroke="#000"/>
+<polygon points="300,650 303,657 296,657" fill="#000"/>
+<text x="300" y="720">alarmDismissed</text>
+<line x1="300" y1="200" x2="500" y2="800" stroke="#000"/>
+<polygon points="500,800 494,794 501,791" fill="#000"/>
+<text x="400" y="495">entertainmentOff</text>
+<line x1="500" y1="800" x2="100" y2="950" stroke="#000"/>
+<polygon points="100,950 105,943 108,950" fill="#000"/>
+<text x="300" y="870">playMusic</text>
+<line x1="500" y1="800" x2="300" y2="950" stroke="#000"/>
+<polygon points="300,950 303,942 308,948" fill="#000"/>
+<text x="400" y="870">watchTV</text>
+<line x1="500" y1="800" x2="500" y2="950" stroke="#000"/>
+<polygon points="500,950 496,942 503,942" fill="#000"/>
+<text x="500" y="870">startMovie</text>
+<line x1="100" y1="950" x2="500" y2="800" stroke="#000"/>
+<polygon points="500,800 494,806 491,799" fill="#000"/>
+<text x="300" y="870">stopMedia</text>
+<line x1="300" y1="950" x2="500" y2="800" stroke="#000"/>
+<polygon points="500,800 496,807 491,801" fill="#000"/>
+<text x="400" y="870">stopMedia</text>
+<line x1="500" y1="950" x2="500" y2="800" stroke="#000"/>
+<polygon points="500,800 503,807 496,807" fill="#000"/>
+<text x="500" y="870">stopMedia</text>
+<line x1="100" y1="950" x2="300" y2="950" stroke="#000"/>
+<polygon points="300,950 292,953 292,946" fill="#000"/>
+<text x="200" y="945">switchToTV</text>
+<line x1="300" y1="950" x2="100" y2="950" stroke="#000"/>
+<polygon points="100,950 107,946 107,953" fill="#000"/>
+<text x="200" y="945">switchToMusic</text>
+</svg>
