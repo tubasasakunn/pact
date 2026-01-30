@@ -1,5 +1,5 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" width="800" height="600">
-<rect x="50" y="50" width="200" height="200" fill="#fff" stroke="#000" stroke-width="1"/>
+<rect x="50" y="50" width="200" height="200" stroke="#000" stroke-width="1" fill="#fff"/>
 <text x="150" y="70">&lt;&lt;component&gt;&gt;</text>
 <text x="150" y="90">Task</text>
 <line x1="50" y1="105" x2="250" y2="105" stroke="#000"/>
@@ -25,7 +25,7 @@
 <text x="310" y="275">+ createdAt: string</text>
 <text x="310" y="295">+ updatedAt: string</text>
 <text x="310" y="315">+ status: string</text>
-<rect x="550" y="50" width="200" height="160" stroke-width="1" fill="#fff" stroke="#000"/>
+<rect x="550" y="50" width="200" height="160" stroke="#000" stroke-width="1" fill="#fff"/>
 <text x="650" y="70">TaskComment</text>
 <line x1="550" y1="85" x2="750" y2="85" stroke="#000"/>
 <text x="560" y="95">+ id: string</text>
@@ -33,7 +33,7 @@
 <text x="560" y="135">+ authorId: string</text>
 <text x="560" y="155">+ content: string</text>
 <text x="560" y="175">+ createdAt: string</text>
-<rect x="50" y="250" width="200" height="200" fill="#fff" stroke="#000" stroke-width="1"/>
+<rect x="50" y="250" width="200" height="200" stroke="#000" stroke-width="1" fill="#fff"/>
 <text x="150" y="270">TaskHistory</text>
 <line x1="50" y1="285" x2="250" y2="285" stroke="#000"/>
 <text x="60" y="295">+ id: string</text>
@@ -43,7 +43,7 @@
 <text x="60" y="375">+ previousValue: string</text>
 <text x="60" y="395">+ newValue: string</text>
 <text x="60" y="415">+ timestamp: string</text>
-<rect x="300" y="250" width="200" height="240" stroke="#000" stroke-width="1" fill="#fff"/>
+<rect x="300" y="250" width="200" height="240" fill="#fff" stroke="#000" stroke-width="1"/>
 <text x="400" y="270">&lt;&lt;component&gt;&gt;</text>
 <text x="400" y="290">Approval</text>
 <line x1="300" y1="305" x2="500" y2="305" stroke="#000"/>
@@ -68,7 +68,7 @@
 <text x="560" y="415">+ comments: string</text>
 <text x="560" y="435">+ decidedAt: string</text>
 <text x="560" y="455">+ createdAt: string</text>
-<rect x="50" y="450" width="200" height="180" stroke-width="1" fill="#fff" stroke="#000"/>
+<rect x="50" y="450" width="200" height="180" fill="#fff" stroke="#000" stroke-width="1"/>
 <text x="150" y="470">ApprovalRule</text>
 <line x1="50" y1="485" x2="250" y2="485" stroke="#000"/>
 <text x="60" y="495">+ id: string</text>
@@ -96,7 +96,7 @@
 <text x="560" y="595">+ GetManager()</text>
 <text x="560" y="615">+ SetDelegate()</text>
 <text x="560" y="635">+ GetEffectiveApprover()</text>
-<rect x="50" y="650" width="200" height="240" stroke-width="1" fill="#fff" stroke="#000"/>
+<rect x="50" y="650" width="200" height="240" fill="#fff" stroke="#000" stroke-width="1"/>
 <text x="150" y="670">UserProfile</text>
 <line x1="50" y1="685" x2="250" y2="685" stroke="#000"/>
 <text x="60" y="695">+ id: string</text>
@@ -119,7 +119,7 @@
 <text x="310" y="795">+ NotifyNextLevelApprovers()</text>
 <text x="310" y="815">+ NotifyEscalation()</text>
 <text x="310" y="835">+ SendReminder()</text>
-<rect x="550" y="650" width="200" height="180" fill="#fff" stroke="#000" stroke-width="1"/>
+<rect x="550" y="650" width="200" height="180" stroke-width="1" fill="#fff" stroke="#000"/>
 <text x="650" y="670">NotificationMessage</text>
 <line x1="550" y1="685" x2="750" y2="685" stroke="#000"/>
 <text x="560" y="695">+ recipientId: string</text>
@@ -133,13 +133,13 @@
 <text x="150" y="890">EmailService</text>
 <line x1="50" y1="905" x2="250" y2="905" stroke="#000"/>
 <text x="60" y="915">+ Send()</text>
-<rect x="300" y="850" width="200" height="100" stroke-width="1" fill="#fff" stroke="#000"/>
+<rect x="300" y="850" width="200" height="100" fill="#fff" stroke="#000" stroke-width="1"/>
 <text x="400" y="870">&lt;&lt;interface&gt;&gt;</text>
 <text x="400" y="890">SlackService</text>
 <line x1="300" y1="905" x2="500" y2="905" stroke="#000"/>
 <text x="310" y="915">+ PostMessage()</text>
 <text x="310" y="935">+ SendDirectMessage()</text>
-<rect x="550" y="850" width="200" height="140" fill="#fff" stroke="#000" stroke-width="1"/>
+<rect x="550" y="850" width="200" height="140" stroke="#000" stroke-width="1" fill="#fff"/>
 <text x="650" y="870">&lt;&lt;component&gt;&gt;</text>
 <text x="650" y="890">WorkflowOrchestrator</text>
 <line x1="550" y1="905" x2="750" y2="905" stroke="#000"/>
@@ -151,9 +151,9 @@
 <line x1="150" y1="100" x2="300" y2="300" stroke="#000" class="dashed"/>
 <line x1="150" y1="100" x2="300" y2="700" stroke="#000" class="dashed"/>
 <line x1="400" y1="300" x2="550" y2="500" stroke="#000" class="dashed"/>
-<line x1="400" y1="300" x2="300" y2="700" stroke="#000" class="dashed"/>
-<line x1="650" y1="900" x2="50" y2="100" stroke="#000" class="dashed"/>
-<line x1="650" y1="900" x2="300" y2="300" class="dashed" stroke="#000"/>
+<line x1="400" y1="300" x2="300" y2="700" class="dashed" stroke="#000"/>
+<line x1="650" y1="900" x2="50" y2="100" class="dashed" stroke="#000"/>
+<line x1="650" y1="900" x2="300" y2="300" stroke="#000" class="dashed"/>
 <line x1="650" y1="900" x2="550" y2="500" stroke="#000" class="dashed"/>
 <line x1="650" y1="900" x2="300" y2="700" stroke="#000" class="dashed"/>
 </svg>

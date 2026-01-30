@@ -1,5 +1,5 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 2100" width="800" height="2100">
-<rect x="350" y="50" width="100" height="40" rx="20" ry="20" stroke="#000" fill="#fff"/>
+<rect x="350" y="50" width="100" height="40" rx="20" ry="20" fill="#fff" stroke="#000"/>
 <text x="400" y="75">Start</text>
 <rect x="350" y="130" width="100" height="40" fill="#fff" stroke="#000"/>
 <text x="400" y="155">task = ...</text>
@@ -11,31 +11,31 @@
 <text x="400" y="395">while?</text>
 <rect x="350" y="450" width="100" height="40" fill="#fff" stroke="#000"/>
 <text x="400" y="475">approvers = ...</text>
-<polygon points="400,530 440,550 400,570 360,550" stroke="#000" fill="#fff"/>
+<polygon points="400,530 440,550 400,570 360,550" fill="#fff" stroke="#000"/>
 <text x="400" y="555">for approver</text>
 <rect x="350" y="610" width="100" height="40" fill="#fff" stroke="#000"/>
 <text x="400" y="635">effectiveApprover = ...</text>
-<rect x="350" y="690" width="100" height="40" stroke="#000" fill="#fff"/>
+<rect x="350" y="690" width="100" height="40" fill="#fff" stroke="#000"/>
 <text x="400" y="715">CreateApprovalRequest()</text>
 <rect x="350" y="770" width="100" height="40" fill="#fff" stroke="#000"/>
 <text x="400" y="795">SendApprovalNotification()</text>
 <rect x="350" y="850" width="100" height="40" fill="#fff" stroke="#000"/>
 <text x="400" y="875">waitForApprovals()</text>
-<rect x="350" y="930" width="100" height="40" fill="#fff" stroke="#000"/>
+<rect x="350" y="930" width="100" height="40" stroke="#000" fill="#fff"/>
 <text x="400" y="955">approvals = ...</text>
 <rect x="350" y="1010" width="100" height="40" fill="#fff" stroke="#000"/>
 <text x="400" y="1035">levelApprovals = ...</text>
 <polygon points="400,1090 440,1110 400,1130 360,1110" fill="#fff" stroke="#000"/>
 <text x="400" y="1115">condition?</text>
-<rect x="350" y="1170" width="100" height="40" stroke="#000" fill="#fff"/>
+<rect x="350" y="1170" width="100" height="40" fill="#fff" stroke="#000"/>
 <text x="400" y="1195">currentLevel = ...</text>
 <polygon points="400,1250 440,1270 400,1290 360,1270" fill="#fff" stroke="#000"/>
 <text x="400" y="1275">condition?</text>
-<rect x="350" y="1330" width="100" height="40" fill="#fff" stroke="#000"/>
+<rect x="350" y="1330" width="100" height="40" stroke="#000" fill="#fff"/>
 <text x="400" y="1355">UpdateStatus()</text>
 <rect x="350" y="1410" width="100" height="40" fill="#fff" stroke="#000"/>
 <text x="400" y="1435">NotifyApproval()</text>
-<rect x="350" y="1490" width="100" height="40" rx="20" ry="20" fill="#fff" stroke="#000"/>
+<rect x="350" y="1490" width="100" height="40" rx="20" ry="20" stroke="#000" fill="#fff"/>
 <text x="400" y="1515">return</text>
 <polygon points="400,1570 440,1590 400,1610 360,1590" fill="#fff" stroke="#000"/>
 <text x="400" y="1595">condition?</text>

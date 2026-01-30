@@ -9,12 +9,12 @@
 <text x="60" y="175">+ IncrementFailedAttempts()</text>
 <text x="60" y="195">+ ResetFailedAttempts()</text>
 <text x="60" y="215">+ LockAccount()</text>
-<rect x="300" y="50" width="200" height="100" stroke="#000" stroke-width="1" fill="#fff"/>
+<rect x="300" y="50" width="200" height="100" fill="#fff" stroke="#000" stroke-width="1"/>
 <text x="400" y="70">Credentials</text>
 <line x1="300" y1="85" x2="500" y2="85" stroke="#000"/>
 <text x="310" y="95">+ username: string</text>
 <text x="310" y="115">+ password: string</text>
-<rect x="550" y="50" width="200" height="240" fill="#fff" stroke="#000" stroke-width="1"/>
+<rect x="550" y="50" width="200" height="240" stroke="#000" stroke-width="1" fill="#fff"/>
 <text x="650" y="70">UserAccount</text>
 <line x1="550" y1="85" x2="750" y2="85" stroke="#000"/>
 <text x="560" y="95">+ id: string</text>
@@ -26,7 +26,7 @@
 <text x="560" y="215">+ lastLogin: string</text>
 <text x="560" y="235">+ failedAttempts: int</text>
 <text x="560" y="255">+ lockedUntil: string</text>
-<rect x="50" y="250" width="200" height="200" stroke-width="1" fill="#fff" stroke="#000"/>
+<rect x="50" y="250" width="200" height="200" fill="#fff" stroke="#000" stroke-width="1"/>
 <text x="150" y="270">&lt;&lt;component&gt;&gt;</text>
 <text x="150" y="290">Token</text>
 <line x1="50" y1="305" x2="250" y2="305" stroke="#000"/>
@@ -37,7 +37,7 @@
 <text x="60" y="395">+ ValidateRefreshToken()</text>
 <text x="60" y="415">+ RevokeToken()</text>
 <text x="60" y="435">+ GetTokenInfo()</text>
-<rect x="300" y="250" width="200" height="160" stroke-width="1" fill="#fff" stroke="#000"/>
+<rect x="300" y="250" width="200" height="160" fill="#fff" stroke="#000" stroke-width="1"/>
 <text x="400" y="270">AccessToken</text>
 <line x1="300" y1="285" x2="500" y2="285" stroke="#000"/>
 <text x="310" y="295">+ token: string</text>
@@ -58,7 +58,7 @@
 <line x1="50" y1="485" x2="250" y2="485" stroke="#000"/>
 <text x="60" y="495">+ accessToken: AccessToken</text>
 <text x="60" y="515">+ refreshToken: RefreshToken</text>
-<rect x="300" y="450" width="200" height="120" stroke-width="1" fill="#fff" stroke="#000"/>
+<rect x="300" y="450" width="200" height="120" fill="#fff" stroke="#000" stroke-width="1"/>
 <text x="400" y="470">&lt;&lt;interface&gt;&gt;</text>
 <text x="400" y="490">CryptoService</text>
 <line x1="300" y1="505" x2="500" y2="505" stroke="#000"/>

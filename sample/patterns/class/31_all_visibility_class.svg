@@ -23,13 +23,13 @@
 <text x="60" y="295"># baseId: string</text>
 <text x="60" y="315"># inheritedField: string</text>
 <text x="60" y="335"># overridable: bool</text>
-<rect x="300" y="250" width="200" height="120" stroke-width="1" fill="#fff" stroke="#000"/>
+<rect x="300" y="250" width="200" height="120" fill="#fff" stroke="#000" stroke-width="1"/>
 <text x="400" y="270">PackageEntity</text>
 <line x1="300" y1="285" x2="500" y2="285" stroke="#000"/>
 <text x="310" y="295">~ packageId: string</text>
 <text x="310" y="315">~ internalStatus: string</text>
 <text x="310" y="335">~ moduleConfig: string</text>
-<rect x="550" y="250" width="200" height="220" stroke-width="1" fill="#fff" stroke="#000"/>
+<rect x="550" y="250" width="200" height="220" fill="#fff" stroke="#000" stroke-width="1"/>
 <text x="650" y="270">MixedVisibility</text>
 <line x1="550" y1="285" x2="750" y2="285" stroke="#000"/>
 <text x="560" y="295">+ publicId: string</text>

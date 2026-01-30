@@ -24,7 +24,7 @@
 <rect x="50" y="450" width="200" height="60" fill="#fff" stroke="#000" stroke-width="1"/>
 <text x="150" y="470">&lt;&lt;component&gt;&gt;</text>
 <text x="150" y="490">Service</text>
-<rect x="300" y="450" width="200" height="80" fill="#fff" stroke="#000" stroke-width="1"/>
+<rect x="300" y="450" width="200" height="80" stroke="#000" stroke-width="1" fill="#fff"/>
 <text x="400" y="470">ServiceData</text>
 <line x1="300" y1="485" x2="500" y2="485" stroke="#000"/>
 <text x="310" y="495">+ id: string</text>

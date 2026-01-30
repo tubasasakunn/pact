@@ -42,9 +42,9 @@
 <line x1="100" y1="280" x2="1000" y2="280" stroke="#000"/>
 <polygon points="1000,280 993,283 993,276" fill="#000"/>
 <text x="550" y="275">sendOutOfStockAlert</text>
-<rect x="50" y="310" width="700" height="20" stroke="#000" fill="none"/>
+<rect x="50" y="310" width="700" height="20" fill="none" stroke="#000"/>
 <text x="60" y="320">[alt] condition</text>
-<rect x="50" y="310" width="700" height="20" stroke="#000" fill="none"/>
+<rect x="50" y="310" width="700" height="20" fill="none" stroke="#000"/>
 <text x="60" y="320">[loop] for item</text>
 <line x1="100" y1="320" x2="550" y2="320" stroke="#000"/>
 <polygon points="550,320 542,323 542,316" fill="#000"/>
@@ -88,7 +88,7 @@
 <line x1="100" y1="760" x2="400" y2="760" stroke="#000"/>
 <polygon points="400,760 392,763 392,756" fill="#000"/>
 <text x="250" y="755">releaseAllReservations</text>
-<rect x="50" y="790" width="700" height="20" fill="none" stroke="#000"/>
+<rect x="50" y="790" width="700" height="20" stroke="#000" fill="none"/>
 <text x="60" y="800">[alt] condition</text>
 <line x1="100" y1="800" x2="700" y2="800" stroke="#000"/>
 <polygon points="700,800 692,803 692,796" fill="#000"/>
@@ -99,7 +99,7 @@
 <line x1="100" y1="880" x2="400" y2="880" stroke="#000"/>
 <polygon points="400,880 392,883 392,876" fill="#000"/>
 <text x="250" y="875">releaseAllReservations</text>
-<rect x="50" y="910" width="700" height="20" stroke="#000" fill="none"/>
+<rect x="50" y="910" width="700" height="20" fill="none" stroke="#000"/>
 <text x="60" y="920">[alt] condition</text>
 <line x1="100" y1="920" x2="850" y2="920" stroke="#000"/>
 <polygon points="850,920 842,923 842,916" fill="#000"/>
@@ -115,7 +115,7 @@
 <line x1="100" y1="1040" x2="400" y2="1040" stroke="#000"/>
 <polygon points="400,1040 392,1043 392,1036" fill="#000"/>
 <text x="250" y="1035">commitReservation</text>
-<rect x="50" y="1070" width="700" height="20" fill="none" stroke="#000"/>
+<rect x="50" y="1070" width="700" height="20" stroke="#000" fill="none"/>
 <text x="60" y="1080">[loop] for item</text>
 <line x1="100" y1="1080" x2="250" y2="1080" stroke="#000"/>
 <polygon points="250,1080 242,1083 242,1076" fill="#000"/>

@@ -30,13 +30,13 @@
 <text x="60" y="335">+ windowStart: string</text>
 <text x="60" y="355">+ limit: int</text>
 <text x="60" y="375">+ remaining: int</text>
-<rect x="300" y="250" width="200" height="100" stroke-width="1" fill="#fff" stroke="#000"/>
+<rect x="300" y="250" width="200" height="100" fill="#fff" stroke="#000" stroke-width="1"/>
 <text x="400" y="270">&lt;&lt;interface&gt;&gt;</text>
 <text x="400" y="290">LoadBalancer</text>
 <line x1="300" y1="305" x2="500" y2="305" stroke="#000"/>
 <text x="310" y="315">+ GetNextInstance()</text>
 <text x="310" y="335">+ ReportHealth()</text>
-<rect x="550" y="250" width="200" height="120" fill="#fff" stroke="#000" stroke-width="1"/>
+<rect x="550" y="250" width="200" height="120" stroke="#000" stroke-width="1" fill="#fff"/>
 <text x="650" y="270">&lt;&lt;interface&gt;&gt;</text>
 <text x="650" y="290">CircuitBreaker</text>
 <line x1="550" y1="305" x2="750" y2="305" stroke="#000"/>
@@ -52,7 +52,7 @@
 <text x="60" y="555">+ UpdateUser()</text>
 <text x="60" y="575">+ DeleteUser()</text>
 <text x="60" y="595">+ SearchUsers()</text>
-<rect x="300" y="450" width="200" height="160" fill="#fff" stroke="#000" stroke-width="1"/>
+<rect x="300" y="450" width="200" height="160" stroke-width="1" fill="#fff" stroke="#000"/>
 <text x="400" y="470">UserDTO</text>
 <line x1="300" y1="485" x2="500" y2="485" stroke="#000"/>
 <text x="310" y="495">+ id: string</text>
@@ -66,7 +66,7 @@
 <text x="560" y="495">+ email: string</text>
 <text x="560" y="515">+ name: string</text>
 <text x="560" y="535">+ password: string</text>
-<rect x="50" y="650" width="200" height="160" stroke="#000" stroke-width="1" fill="#fff"/>
+<rect x="50" y="650" width="200" height="160" fill="#fff" stroke="#000" stroke-width="1"/>
 <text x="150" y="670">&lt;&lt;interface&gt;&gt;</text>
 <text x="150" y="690">UserRepository</text>
 <line x1="50" y1="705" x2="250" y2="705" stroke="#000"/>
@@ -94,7 +94,7 @@
 <text x="560" y="775">+ total: float</text>
 <text x="560" y="795">+ createdAt: string</text>
 <text x="560" y="815">+ updatedAt: string</text>
-<rect x="50" y="850" width="200" height="120" stroke-width="1" fill="#fff" stroke="#000"/>
+<rect x="50" y="850" width="200" height="120" fill="#fff" stroke="#000" stroke-width="1"/>
 <text x="150" y="870">OrderItemDTO</text>
 <line x1="50" y1="885" x2="250" y2="885" stroke="#000"/>
 <text x="60" y="895">+ productId: string</text>
@@ -177,13 +177,13 @@
 <text x="310" y="1515">+ title: string</text>
 <text x="310" y="1535">+ body: string</text>
 <text x="310" y="1555">+ data: string</text>
-<rect x="550" y="1450" width="200" height="100" stroke="#000" stroke-width="1" fill="#fff"/>
+<rect x="550" y="1450" width="200" height="100" fill="#fff" stroke="#000" stroke-width="1"/>
 <text x="650" y="1470">&lt;&lt;interface&gt;&gt;</text>
 <text x="650" y="1490">EmailProvider</text>
 <line x1="550" y1="1505" x2="750" y2="1505" stroke="#000"/>
 <text x="560" y="1515">+ Send()</text>
 <text x="560" y="1535">+ SendBatch()</text>
-<rect x="50" y="1650" width="200" height="80" stroke-width="1" fill="#fff" stroke="#000"/>
+<rect x="50" y="1650" width="200" height="80" fill="#fff" stroke="#000" stroke-width="1"/>
 <text x="150" y="1670">&lt;&lt;interface&gt;&gt;</text>
 <text x="150" y="1690">PushProvider</text>
 <line x1="50" y1="1705" x2="250" y2="1705" stroke="#000"/>
@@ -194,21 +194,21 @@
 <line x1="300" y1="1705" x2="500" y2="1705" stroke="#000"/>
 <text x="310" y="1715">+ Enqueue()</text>
 <text x="310" y="1735">+ Dequeue()</text>
-<rect x="550" y="1650" width="200" height="120" fill="#fff" stroke="#000" stroke-width="1"/>
+<rect x="550" y="1650" width="200" height="120" stroke-width="1" fill="#fff" stroke="#000"/>
 <text x="650" y="1670">&lt;&lt;component&gt;&gt;</text>
 <text x="650" y="1690">AuthService</text>
 <line x1="550" y1="1705" x2="750" y2="1705" stroke="#000"/>
 <text x="560" y="1715">+ ValidateToken()</text>
 <text x="560" y="1735">+ GetUserIdFromToken()</text>
 <text x="560" y="1755">+ RefreshToken()</text>
-<rect x="50" y="1850" width="200" height="120" fill="#fff" stroke="#000" stroke-width="1"/>
+<rect x="50" y="1850" width="200" height="120" stroke-width="1" fill="#fff" stroke="#000"/>
 <text x="150" y="1870">&lt;&lt;component&gt;&gt;</text>
 <text x="150" y="1890">PaymentService</text>
 <line x1="50" y1="1905" x2="250" y2="1905" stroke="#000"/>
 <text x="60" y="1915">+ ProcessPayment()</text>
 <text x="60" y="1935">+ RefundPayment()</text>
 <text x="60" y="1955">+ GetPaymentStatus()</text>
-<rect x="300" y="1850" width="200" height="140" fill="#fff" stroke="#000" stroke-width="1"/>
+<rect x="300" y="1850" width="200" height="140" stroke-width="1" fill="#fff" stroke="#000"/>
 <text x="400" y="1870">PaymentResult</text>
 <line x1="300" y1="1885" x2="500" y2="1885" stroke="#000"/>
 <text x="310" y="1895">+ success: bool</text>
@@ -221,13 +221,13 @@
 <line x1="550" y1="1905" x2="750" y2="1905" stroke="#000"/>
 <text x="560" y="1915">+ Charge()</text>
 <text x="560" y="1935">+ Refund()</text>
-<line x1="150" y1="100" x2="50" y2="500" class="dashed" stroke="#000"/>
-<line x1="150" y1="100" x2="300" y2="700" class="dashed" stroke="#000"/>
+<line x1="150" y1="100" x2="50" y2="500" stroke="#000" class="dashed"/>
+<line x1="150" y1="100" x2="300" y2="700" stroke="#000" class="dashed"/>
 <line x1="150" y1="100" x2="300" y2="1100" stroke="#000" class="dashed"/>
 <line x1="150" y1="100" x2="550" y2="1300" stroke="#000" class="dashed"/>
 <line x1="150" y1="100" x2="550" y2="1700" stroke="#000" class="dashed"/>
-<line x1="150" y1="500" x2="550" y2="1300" class="dashed" stroke="#000"/>
-<line x1="400" y1="700" x2="50" y2="500" class="dashed" stroke="#000"/>
+<line x1="150" y1="500" x2="550" y2="1300" stroke="#000" class="dashed"/>
+<line x1="400" y1="700" x2="50" y2="500" stroke="#000" class="dashed"/>
 <line x1="400" y1="700" x2="300" y2="1100" stroke="#000" class="dashed"/>
 <line x1="400" y1="700" x2="550" y2="1300" stroke="#000" class="dashed"/>
 <line x1="400" y1="700" x2="50" y2="1900" stroke="#000" class="dashed"/>

@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" width="800" height="600">
+<circle cx="100" cy="50" r="10" fill="#000"/>
+<rect x="260" y="30" width="80" height="40" rx="10" ry="10" fill="#fff" stroke="#000"/>
+<text x="300" y="55">Disconnected</text>
+<rect x="460" y="30" width="80" height="40" rx="10" ry="10" fill="#fff" stroke="#000"/>
+<text x="500" y="55">Connected</text>
+<rect x="60" y="180" width="80" height="40" rx="10" ry="10" fill="#fff" stroke="#000"/>
+<text x="100" y="205">Suspicious</text>
+<rect x="260" y="180" width="80" height="40" rx="10" ry="10" stroke="#000" fill="#fff"/>
+<text x="300" y="205">Reconnecting</text>
+<line x1="300" y1="50" x2="500" y2="50" stroke="#000"/>
+<polygon points="500,50 492,53 492,46" fill="#000"/>
+<text x="400" y="45">connect</text>
+<line x1="500" y1="50" x2="100" y2="200" stroke="#000"/>
+<polygon points="100,200 105,193 108,200" fill="#000"/>
+<line x1="100" y1="200" x2="300" y2="50" stroke="#000"/>
+<polygon points="300,50 296,57 291,51" fill="#000"/>
+<line x1="100" y1="200" x2="500" y2="50" stroke="#000"/>
+<polygon points="500,50 494,56 491,49" fill="#000"/>
+<text x="300" y="120">heartbeatReceived</text>
+<line x1="500" y1="50" x2="500" y2="50" stroke="#000"/>
+<text x="500" y="45">heartbeatReceived</text>
+<line x1="300" y1="50" x2="300" y2="200" stroke="#000"/>
+<polygon points="300,200 296,192 303,192" fill="#000"/>
+<text x="300" y="120">reconnect</text>
+<line x1="300" y1="200" x2="500" y2="50" stroke="#000"/>
+<polygon points="500,50 496,57 491,51" fill="#000"/>
+<text x="400" y="120">success</text>
+<line x1="300" y1="200" x2="300" y2="50" stroke="#000"/>
+<polygon points="300,50 303,57 296,57" fill="#000"/>
+</svg>
