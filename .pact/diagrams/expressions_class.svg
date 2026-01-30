@@ -7,7 +7,7 @@
 <line x1="300" y1="85" x2="500" y2="85" stroke="#000"/>
 <text x="310" y="95">+ pos: Position</text>
 <text x="310" y="115">+ value: Any</text>
-<rect x="550" y="50" width="200" height="100" stroke-width="1" fill="#fff" stroke="#000"/>
+<rect x="550" y="50" width="200" height="100" fill="#fff" stroke="#000" stroke-width="1"/>
 <text x="650" y="70" text-anchor="middle">VariableExpr</text>
 <line x1="550" y1="85" x2="750" y2="85" stroke="#000"/>
 <text x="560" y="95">+ pos: Position</text>
@@ -32,20 +32,20 @@
 <text x="560" y="315">+ left: Expr</text>
 <text x="560" y="335">+ op: String</text>
 <text x="560" y="355">+ right: Expr</text>
-<rect x="50" y="450" width="200" height="120" stroke-width="1" fill="#fff" stroke="#000"/>
+<rect x="50" y="450" width="200" height="120" fill="#fff" stroke="#000" stroke-width="1"/>
 <text x="150" y="470" text-anchor="middle">UnaryExpr</text>
 <line x1="50" y1="485" x2="250" y2="485" stroke="#000"/>
 <text x="60" y="495">+ pos: Position</text>
 <text x="60" y="515">+ op: String</text>
 <text x="60" y="535">+ operand: Expr</text>
-<rect x="300" y="450" width="200" height="140" fill="#fff" stroke="#000" stroke-width="1"/>
+<rect x="300" y="450" width="200" height="140" stroke-width="1" fill="#fff" stroke="#000"/>
 <text x="400" y="470" text-anchor="middle">TernaryExpr</text>
 <line x1="300" y1="485" x2="500" y2="485" stroke="#000"/>
 <text x="310" y="495">+ pos: Position</text>
 <text x="310" y="515">+ condition: Expr</text>
 <text x="310" y="535">+ thenExpr: Expr</text>
 <text x="310" y="555">+ elseExpr: Expr</text>
-<rect x="550" y="450" width="200" height="140" fill="#fff" stroke="#000" stroke-width="1"/>
+<rect x="550" y="450" width="200" height="140" stroke-width="1" fill="#fff" stroke="#000"/>
 <text x="650" y="470" text-anchor="middle">NullishExpr</text>
 <line x1="550" y1="485" x2="750" y2="485" stroke="#000"/>
 <text x="560" y="495">+ pos: Position</text>

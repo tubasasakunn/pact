@@ -11,7 +11,7 @@
 <text x="400" y="395" text-anchor="middle">throw TransformError</text>
 <rect x="350" y="450" width="100" height="40" fill="#fff" stroke="#000"/>
 <text x="400" y="475" text-anchor="middle">renderer = ...</text>
-<rect x="350" y="530" width="100" height="40" stroke="#000" fill="#fff"/>
+<rect x="350" y="530" width="100" height="40" fill="#fff" stroke="#000"/>
 <text x="400" y="555" text-anchor="middle">result = ...</text>
 <rect x="350" y="610" width="100" height="40" rx="20" ry="20" fill="#fff" stroke="#000"/>
 <text x="400" y="635" text-anchor="middle">return</text>

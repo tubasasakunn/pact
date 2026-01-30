@@ -12,7 +12,7 @@
 <text x="60" y="235">+ diamondPoints()</text>
 <rect x="300" y="50" width="200" height="60" fill="#fff" stroke="#000" stroke-width="1"/>
 <text x="400" y="70" text-anchor="middle">ClassRenderer</text>
-<rect x="550" y="50" width="200" height="140" stroke="#000" stroke-width="1" fill="#fff"/>
+<rect x="550" y="50" width="200" height="140" fill="#fff" stroke="#000" stroke-width="1"/>
 <text x="650" y="70" text-anchor="middle">&lt;&lt;component&gt;&gt;</text>
 <text x="650" y="90" text-anchor="middle">SequenceRenderer</text>
 <line x1="550" y1="105" x2="750" y2="105" stroke="#000"/>

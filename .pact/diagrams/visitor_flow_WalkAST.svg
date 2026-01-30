@@ -13,7 +13,7 @@
 <text x="400" y="475" text-anchor="middle">walkComponents()</text>
 <rect x="350" y="530" width="100" height="40" rx="20" ry="20" fill="#fff" stroke="#000"/>
 <text x="400" y="555" text-anchor="middle">return</text>
-<rect x="350" y="610" width="100" height="40" rx="20" ry="20" stroke="#000" fill="#fff"/>
+<rect x="350" y="610" width="100" height="40" rx="20" ry="20" fill="#fff" stroke="#000"/>
 <text x="400" y="635" text-anchor="middle">End</text>
 <line x1="400" y1="90" x2="400" y2="130" stroke="#000"/>
 <polygon points="400,130 396,122 404,122" fill="#000"/>
