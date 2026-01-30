@@ -16,18 +16,40 @@ func (c *Canvas) Diamond(cx, cy, width, height int, opts ...Option) {
 // Arrow は矢印線を描画する
 func (c *Canvas) Arrow(x1, y1, x2, y2 int, opts ...Option) {
 	c.Line(x1, y1, x2, y2, opts...)
-	// 矢印の先端を描画（簡易版）
+	// 矢印の先端を描画
 	arrowSize := 8
-	dx := x2 - x1
-	dy := y2 - y1
-	// 簡易的な矢印の描画
-	if dx != 0 || dy != 0 {
-		c.Path(fmt.Sprintf("M%d,%d L%d,%d L%d,%d Z",
-			x2, y2,
-			x2-arrowSize, y2-arrowSize/2,
-			x2-arrowSize, y2+arrowSize/2,
-		), opts...)
+	dx := float64(x2 - x1)
+	dy := float64(y2 - y1)
+	length := sqrt(dx*dx + dy*dy)
+	if length == 0 {
+		return
 	}
+	// 単位ベクトル
+	ux := dx / length
+	uy := dy / length
+	// 垂直ベクトル
+	px := -uy
+	py := ux
+	// 矢印の頂点
+	ax := float64(x2) - ux*float64(arrowSize)
+	ay := float64(y2) - uy*float64(arrowSize)
+	// 矢印の両端
+	p1x := int(ax + px*float64(arrowSize)/2)
+	p1y := int(ay + py*float64(arrowSize)/2)
+	p2x := int(ax - px*float64(arrowSize)/2)
+	p2y := int(ay - py*float64(arrowSize)/2)
+	c.Polygon(fmt.Sprintf("%d,%d %d,%d %d,%d", x2, y2, p1x, p1y, p2x, p2y), Fill("#000"))
+}
+
+func sqrt(x float64) float64 {
+	if x <= 0 {
+		return 0
+	}
+	z := x
+	for i := 0; i < 10; i++ {
+		z = z - (z*z-x)/(2*z)
+	}
+	return z
 }
 
 // Stadium は角丸長方形（端子形状）を描画する

@@ -1,7 +1,7 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" width="800" height="600">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 1140" width="800" height="1140">
 <rect x="350" y="50" width="100" height="40" rx="20" ry="20" fill="#fff" stroke="#000"/>
 <text x="400" y="75">Start</text>
-<rect x="350" y="130" width="100" height="40" stroke="#000" fill="#fff"/>
+<rect x="350" y="130" width="100" height="40" fill="#fff" stroke="#000"/>
 <text x="400" y="155">ticket = ...</text>
 <polygon points="400,210 440,230 400,250 360,230" fill="#fff" stroke="#000"/>
 <text x="400" y="235">condition?</text>
@@ -19,9 +19,36 @@
 <text x="400" y="715">escalate()</text>
 <rect x="350" y="770" width="100" height="40" rx="20" ry="20" fill="#fff" stroke="#000"/>
 <text x="400" y="795">throw NoAgentAvailableError</text>
-<rect x="350" y="850" width="100" height="40" rx="20" ry="20" stroke="#000" fill="#fff"/>
+<rect x="350" y="850" width="100" height="40" rx="20" ry="20" fill="#fff" stroke="#000"/>
 <text x="400" y="875">throw InvalidStateError</text>
-<rect x="350" y="930" width="100" height="40" stroke="#000" fill="#fff"/>
+<rect x="350" y="930" width="100" height="40" fill="#fff" stroke="#000"/>
 <rect x="350" y="1010" width="100" height="40" rx="20" ry="20" fill="#fff" stroke="#000"/>
 <text x="400" y="1035">End</text>
+<line x1="400" y1="90" x2="400" y2="130" stroke="#000"/>
+<polygon points="400,130 396,122 404,122" fill="#000"/>
+<line x1="400" y1="170" x2="400" y2="210" stroke="#000"/>
+<polygon points="400,210 396,202 404,202" fill="#000"/>
+<line x1="400" y1="250" x2="400" y2="290" stroke="#000"/>
+<polygon points="400,290 396,282 404,282" fill="#000"/>
+<text x="410" y="270">Yes</text>
+<line x1="400" y1="330" x2="400" y2="370" stroke="#000"/>
+<polygon points="400,370 396,362 404,362" fill="#000"/>
+<line x1="400" y1="410" x2="400" y2="450" stroke="#000"/>
+<polygon points="400,450 396,442 404,442" fill="#000"/>
+<text x="410" y="430">Yes</text>
+<line x1="400" y1="490" x2="400" y2="530" stroke="#000"/>
+<polygon points="400,530 396,522 404,522" fill="#000"/>
+<line x1="400" y1="570" x2="400" y2="610" stroke="#000"/>
+<polygon points="400,610 396,602 404,602" fill="#000"/>
+<line x1="400" y1="410" x2="400" y2="690" stroke="#000"/>
+<polygon points="400,690 396,682 403,682" fill="#000"/>
+<text x="410" y="550">No</text>
+<line x1="400" y1="730" x2="400" y2="770" stroke="#000"/>
+<polygon points="400,770 396,762 404,762" fill="#000"/>
+<line x1="400" y1="250" x2="400" y2="850" stroke="#000"/>
+<polygon points="400,850 396,842 403,842" fill="#000"/>
+<line x1="400" y1="410" x2="400" y2="930" stroke="#000"/>
+<polygon points="400,930 396,922 403,922" fill="#000"/>
+<line x1="400" y1="970" x2="400" y2="1010" stroke="#000"/>
+<polygon points="400,1010 396,1002 404,1002" fill="#000"/>
 </svg>

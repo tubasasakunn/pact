@@ -32,8 +32,8 @@ func TestShapes_Arrow(t *testing.T) {
 	if !strings.Contains(svg, "<line") {
 		t.Error("expected line element")
 	}
-	if !strings.Contains(svg, "<path") {
-		t.Error("expected path element for arrowhead")
+	if !strings.Contains(svg, "<polygon") {
+		t.Error("expected polygon element for arrowhead")
 	}
 }
 

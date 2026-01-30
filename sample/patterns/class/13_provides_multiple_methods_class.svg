@@ -8,7 +8,7 @@
 <text x="60" y="155">+ UpdateProduct()</text>
 <text x="60" y="175">+ DeleteProduct()</text>
 <text x="60" y="195">+ ListProducts()</text>
-<rect x="300" y="50" width="200" height="120" stroke-width="1" fill="#fff" stroke="#000"/>
+<rect x="300" y="50" width="200" height="120" fill="#fff" stroke="#000" stroke-width="1"/>
 <text x="400" y="70">Product</text>
 <line x1="300" y1="85" x2="500" y2="85" stroke="#000"/>
 <text x="310" y="95">+ id: string</text>
