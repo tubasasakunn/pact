@@ -1,23 +1,23 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 900" width="800" height="900">
-<rect x="350" y="50" width="100" height="40" rx="20" ry="20" stroke="#000" fill="#fff"/>
-<text x="400" y="75">Start</text>
+<rect x="350" y="50" width="100" height="40" rx="20" ry="20" fill="#fff" stroke="#000"/>
+<text x="400" y="75" text-anchor="middle">Start</text>
 <rect x="350" y="130" width="100" height="40" fill="#fff" stroke="#000"/>
-<text x="400" y="155">isEmpty = ...</text>
+<text x="400" y="155" text-anchor="middle">isEmpty = ...</text>
 <polygon points="400,210 440,230 400,250 360,230" fill="#fff" stroke="#000"/>
-<text x="400" y="235">condition?</text>
+<text x="400" y="235" text-anchor="middle">condition?</text>
 <rect x="350" y="290" width="100" height="40" fill="#fff" stroke="#000"/>
-<text x="400" y="315">reportError()</text>
+<text x="400" y="315" text-anchor="middle">reportError()</text>
 <rect x="350" y="370" width="100" height="40" rx="20" ry="20" fill="#fff" stroke="#000"/>
-<text x="400" y="395">return</text>
+<text x="400" y="395" text-anchor="middle">return</text>
 <rect x="350" y="450" width="100" height="40" fill="#fff" stroke="#000"/>
-<text x="400" y="475">found = ...</text>
+<text x="400" y="475" text-anchor="middle">found = ...</text>
 <polygon points="400,530 440,550 400,570 360,550" fill="#fff" stroke="#000"/>
-<text x="400" y="555">condition?</text>
-<rect x="350" y="610" width="100" height="40" stroke="#000" fill="#fff"/>
-<text x="400" y="635">reportError()</text>
-<rect x="350" y="690" width="100" height="40" stroke="#000" fill="#fff"/>
-<rect x="350" y="770" width="100" height="40" rx="20" ry="20" fill="#fff" stroke="#000"/>
-<text x="400" y="795">End</text>
+<text x="400" y="555" text-anchor="middle">condition?</text>
+<rect x="350" y="610" width="100" height="40" fill="#fff" stroke="#000"/>
+<text x="400" y="635" text-anchor="middle">reportError()</text>
+<rect x="500" y="690" width="100" height="40" fill="#fff" stroke="#000"/>
+<rect x="350" y="770" width="100" height="40" rx="20" ry="20" stroke="#000" fill="#fff"/>
+<text x="400" y="795" text-anchor="middle">End</text>
 <line x1="400" y1="90" x2="400" y2="130" stroke="#000"/>
 <polygon points="400,130 396,122 404,122" fill="#000"/>
 <line x1="400" y1="170" x2="400" y2="210" stroke="#000"/>
@@ -34,11 +34,12 @@
 <line x1="400" y1="570" x2="400" y2="610" stroke="#000"/>
 <polygon points="400,610 396,602 404,602" fill="#000"/>
 <text x="410" y="590">Yes</text>
-<line x1="400" y1="650" x2="400" y2="690" stroke="#000"/>
-<polygon points="400,690 396,682 404,682" fill="#000"/>
-<line x1="400" y1="570" x2="400" y2="690" stroke="#000"/>
-<polygon points="400,690 396,682 403,682" fill="#000"/>
-<text x="410" y="630">No</text>
-<line x1="400" y1="730" x2="400" y2="770" stroke="#000"/>
-<polygon points="400,770 396,762 404,762" fill="#000"/>
+<line x1="400" y1="650" x2="550" y2="690" stroke="#000"/>
+<polygon points="550,690 541,691 543,684" fill="#000"/>
+<line x1="440" y1="550" x2="550" y2="550" stroke="#000"/>
+<line x1="550" y1="550" x2="550" y2="690" stroke="#000"/>
+<polygon points="550,690 546,682 553,682" fill="#000"/>
+<text x="460" y="545">No</text>
+<line x1="550" y1="730" x2="400" y2="770" stroke="#000"/>
+<polygon points="400,770 406,764 408,771" fill="#000"/>
 </svg>

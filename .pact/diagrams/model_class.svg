@@ -1,40 +1,40 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" width="800" height="600">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 850 900" width="850" height="900">
 <rect x="50" y="50" width="200" height="60" fill="#fff" stroke="#000" stroke-width="1"/>
-<text x="150" y="70">&lt;&lt;component&gt;&gt;</text>
-<text x="150" y="90">StateDiagram</text>
+<text x="150" y="70" text-anchor="middle">&lt;&lt;component&gt;&gt;</text>
+<text x="150" y="90" text-anchor="middle">StateDiagram</text>
 <rect x="300" y="50" width="200" height="60" fill="#fff" stroke="#000" stroke-width="1"/>
-<text x="400" y="70">&lt;&lt;enum&gt;&gt;</text>
-<text x="400" y="90">StateType</text>
+<text x="400" y="70" text-anchor="middle">&lt;&lt;enum&gt;&gt;</text>
+<text x="400" y="90" text-anchor="middle">StateType</text>
 <rect x="550" y="50" width="200" height="100" fill="#fff" stroke="#000" stroke-width="1"/>
-<text x="650" y="70">Duration</text>
+<text x="650" y="70" text-anchor="middle">Duration</text>
 <line x1="550" y1="85" x2="750" y2="85" stroke="#000"/>
 <text x="560" y="95">+ value: int</text>
 <text x="560" y="115">+ unit: string</text>
 <rect x="50" y="250" width="200" height="80" fill="#fff" stroke="#000" stroke-width="1"/>
-<text x="150" y="270">EventTrigger</text>
+<text x="150" y="270" text-anchor="middle">EventTrigger</text>
 <line x1="50" y1="285" x2="250" y2="285" stroke="#000"/>
 <text x="60" y="295">+ event: string</text>
 <rect x="300" y="250" width="200" height="80" fill="#fff" stroke="#000" stroke-width="1"/>
-<text x="400" y="270">AfterTrigger</text>
+<text x="400" y="270" text-anchor="middle">AfterTrigger</text>
 <line x1="300" y1="285" x2="500" y2="285" stroke="#000"/>
 <text x="310" y="295">+ duration: Duration</text>
 <rect x="550" y="250" width="200" height="80" fill="#fff" stroke="#000" stroke-width="1"/>
-<text x="650" y="270">WhenTrigger</text>
+<text x="650" y="270" text-anchor="middle">WhenTrigger</text>
 <line x1="550" y1="285" x2="750" y2="285" stroke="#000"/>
 <text x="560" y="295">+ condition: string</text>
 <rect x="50" y="450" width="200" height="140" fill="#fff" stroke="#000" stroke-width="1"/>
-<text x="150" y="470">Transition</text>
+<text x="150" y="470" text-anchor="middle">Transition</text>
 <line x1="50" y1="485" x2="250" y2="485" stroke="#000"/>
 <text x="60" y="495">+ fromState: string</text>
 <text x="60" y="515">+ toState: string</text>
 <text x="60" y="535">+ guard: string</text>
 <text x="60" y="555">+ actions: string</text>
 <rect x="300" y="450" width="200" height="80" fill="#fff" stroke="#000" stroke-width="1"/>
-<text x="400" y="470">Region</text>
+<text x="400" y="470" text-anchor="middle">Region</text>
 <line x1="300" y1="485" x2="500" y2="485" stroke="#000"/>
 <text x="310" y="495">+ name: string</text>
-<rect x="550" y="450" width="200" height="160" fill="#fff" stroke="#000" stroke-width="1"/>
-<text x="650" y="470">State</text>
+<rect x="550" y="450" width="200" height="160" stroke-width="1" fill="#fff" stroke="#000"/>
+<text x="650" y="470" text-anchor="middle">State</text>
 <line x1="550" y1="485" x2="750" y2="485" stroke="#000"/>
 <text x="560" y="495">+ id: string</text>
 <text x="560" y="515">+ name: string</text>
@@ -42,7 +42,7 @@
 <text x="560" y="555">+ entryActions: string</text>
 <text x="560" y="575">+ exitActions: string</text>
 <rect x="50" y="650" width="200" height="100" fill="#fff" stroke="#000" stroke-width="1"/>
-<text x="150" y="670">Diagram</text>
+<text x="150" y="670" text-anchor="middle">Diagram</text>
 <line x1="50" y1="685" x2="250" y2="685" stroke="#000"/>
 <text x="60" y="695">+ statesBlocks: State</text>
 <text x="60" y="715">+ transitions: Transition</text>

@@ -1,30 +1,30 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 1140" width="800" height="1140">
 <rect x="350" y="50" width="100" height="40" rx="20" ry="20" fill="#fff" stroke="#000"/>
-<text x="400" y="75">Start</text>
-<rect x="350" y="130" width="100" height="40" fill="#fff" stroke="#000"/>
-<text x="400" y="155">fullPath = ...</text>
+<text x="400" y="75" text-anchor="middle">Start</text>
+<rect x="350" y="130" width="100" height="40" stroke="#000" fill="#fff"/>
+<text x="400" y="155" text-anchor="middle">fullPath = ...</text>
 <rect x="350" y="210" width="100" height="40" fill="#fff" stroke="#000"/>
-<text x="400" y="235">dirPath = ...</text>
-<rect x="350" y="290" width="100" height="40" stroke="#000" fill="#fff"/>
-<text x="400" y="315">mkdirResult = ...</text>
+<text x="400" y="235" text-anchor="middle">dirPath = ...</text>
+<rect x="350" y="290" width="100" height="40" fill="#fff" stroke="#000"/>
+<text x="400" y="315" text-anchor="middle">mkdirResult = ...</text>
 <polygon points="400,370 440,390 400,410 360,390" fill="#fff" stroke="#000"/>
-<text x="400" y="395">condition?</text>
+<text x="400" y="395" text-anchor="middle">condition?</text>
 <rect x="350" y="450" width="100" height="40" fill="#fff" stroke="#000"/>
-<text x="400" y="475">failTest()</text>
+<text x="400" y="475" text-anchor="middle">failTest()</text>
 <rect x="350" y="530" width="100" height="40" rx="20" ry="20" fill="#fff" stroke="#000"/>
-<text x="400" y="555">throw MkdirError</text>
+<text x="400" y="555" text-anchor="middle">throw MkdirError</text>
 <rect x="350" y="610" width="100" height="40" fill="#fff" stroke="#000"/>
-<text x="400" y="635">writeResult = ...</text>
+<text x="400" y="635" text-anchor="middle">writeResult = ...</text>
 <polygon points="400,690 440,710 400,730 360,710" fill="#fff" stroke="#000"/>
-<text x="400" y="715">condition?</text>
-<rect x="350" y="770" width="100" height="40" stroke="#000" fill="#fff"/>
-<text x="400" y="795">failTest()</text>
-<rect x="350" y="850" width="100" height="40" rx="20" ry="20" stroke="#000" fill="#fff"/>
-<text x="400" y="875">throw WriteError</text>
+<text x="400" y="715" text-anchor="middle">condition?</text>
+<rect x="350" y="770" width="100" height="40" fill="#fff" stroke="#000"/>
+<text x="400" y="795" text-anchor="middle">failTest()</text>
+<rect x="350" y="850" width="100" height="40" rx="20" ry="20" fill="#fff" stroke="#000"/>
+<text x="400" y="875" text-anchor="middle">throw WriteError</text>
 <rect x="350" y="930" width="100" height="40" rx="20" ry="20" fill="#fff" stroke="#000"/>
-<text x="400" y="955">return</text>
+<text x="400" y="955" text-anchor="middle">return</text>
 <rect x="350" y="1010" width="100" height="40" rx="20" ry="20" fill="#fff" stroke="#000"/>
-<text x="400" y="1035">End</text>
+<text x="400" y="1035" text-anchor="middle">End</text>
 <line x1="400" y1="90" x2="400" y2="130" stroke="#000"/>
 <polygon points="400,130 396,122 404,122" fill="#000"/>
 <line x1="400" y1="170" x2="400" y2="210" stroke="#000"/>

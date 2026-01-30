@@ -62,6 +62,25 @@ func Class(className string) Option {
 	}
 }
 
+// StrokeDasharray は破線パターンを設定する
+func StrokeDasharray(pattern string) Option {
+	return func(attrs map[string]string) {
+		attrs["stroke-dasharray"] = pattern
+	}
+}
+
+// Dashed は破線を設定する（デフォルトパターン: 5,5）
+func Dashed() Option {
+	return StrokeDasharray("5,5")
+}
+
+// TextAnchor はテキストのアンカーを設定する
+func TextAnchor(anchor string) Option {
+	return func(attrs map[string]string) {
+		attrs["text-anchor"] = anchor
+	}
+}
+
 func applyOptions(attrs map[string]string, opts []Option) {
 	for _, opt := range opts {
 		opt(attrs)
