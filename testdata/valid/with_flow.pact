@@ -1,48 +1,45 @@
 // Component with flow definitions
 component OrderService {
-	repo: OrderRepository
-	paymentService: PaymentService
-	notificationService: NotificationService
+	depends on OrderRepository
+	depends on PaymentService
+	depends on NotificationService
 
 	flow CreateOrder {
-		start: "Receive Order Request"
-		validate: "Validate Order Data"
+		valid = self.validateOrder(request)
 		if valid {
-			checkInventory: "Check Inventory"
+			available = self.checkInventory(items)
 			if available {
-				createOrder: "Create Order Record"
-				processPayment: "Process Payment"
+				order = OrderRepository.create(request)
+				paymentSuccess = PaymentService.process(order)
 				if paymentSuccess {
-					confirmOrder: "Confirm Order"
-					sendNotification: "Send Confirmation Email"
+					self.confirmOrder(order)
+					NotificationService.sendConfirmation(order)
 				} else {
-					cancelOrder: "Cancel Order"
-					notifyFailure: "Notify Payment Failure"
+					self.cancelOrder(order)
+					NotificationService.notifyFailure(order)
 				}
 			} else {
-				notifyOutOfStock: "Notify Out of Stock"
+				NotificationService.notifyOutOfStock(items)
 			}
 		} else {
-			returnError: "Return Validation Error"
+			throw ValidationError
 		}
-		end: "Complete"
+		return order
 	}
 
 	flow CancelOrder {
-		start: "Receive Cancel Request"
-		findOrder: "Find Order"
-		if found {
-			checkStatus: "Check Order Status"
+		order = OrderRepository.find(orderId)
+		if order {
+			cancellable = self.checkCancellable(order)
 			if cancellable {
-				refund: "Process Refund"
-				updateStatus: "Update to Cancelled"
-				notify: "Send Cancellation Email"
+				PaymentService.refund(order)
+				self.updateStatus(order)
+				NotificationService.sendCancellation(order)
 			} else {
-				rejectCancel: "Reject Cancellation"
+				throw CancellationRejected
 			}
 		} else {
-			notFound: "Return Not Found"
+			throw OrderNotFound
 		}
-		end: "Complete"
 	}
 }

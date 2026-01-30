@@ -1,62 +1,68 @@
 // Component with state machine definitions
 component Order {
-	id: string
-	status: OrderStatus
-	items: []OrderItem
-	total: float
+	type OrderData {
+		id: string
+		total: float
+	}
 
 	states OrderStatus {
-		initial -> Draft
+		initial Draft
+		final Completed
+		final Cancelled
+		final Rejected
+		final Refunded
 
-		Draft -> Submitted: submit
-		Draft -> Cancelled: cancel
+		state Draft { }
+		state Submitted { }
+		state Confirmed { }
+		state Processing { }
+		state Shipped { }
+		state Delivered { }
+		state Returned { }
+		state Completed { }
+		state Cancelled { }
+		state Rejected { }
+		state Refunded { }
 
-		Submitted -> Confirmed: confirm
-		Submitted -> Rejected: reject
-		Submitted -> Cancelled: cancel
-
-		Confirmed -> Processing: startProcessing
-		Confirmed -> Cancelled: cancel
-
-		Processing -> Shipped: ship
-		Processing -> Cancelled: cancel
-
-		Shipped -> Delivered: deliver
-		Shipped -> Returned: returnRequest
-
-		Delivered -> Completed: complete
-		Delivered -> Returned: returnRequest
-
-		Returned -> Refunded: processRefund
-
-		Completed -> [*]
-		Cancelled -> [*]
-		Rejected -> [*]
-		Refunded -> [*]
+		Draft -> Submitted on submit
+		Draft -> Cancelled on cancel
+		Submitted -> Confirmed on confirm
+		Submitted -> Rejected on reject
+		Confirmed -> Processing on startProcessing
+		Processing -> Shipped on ship
+		Shipped -> Delivered on deliver
+		Delivered -> Completed on complete
+		Delivered -> Returned on returnRequest
+		Returned -> Refunded on processRefund
 	}
 }
 
 component Payment {
-	id: string
-	amount: float
-	status: PaymentStatus
+	type PaymentData {
+		id: string
+		amount: float
+	}
 
 	states PaymentStatus {
-		initial -> Pending
+		initial Pending
+		final Failed
+		final Voided
+		final Refunded
 
-		Pending -> Authorized: authorize
-		Pending -> Failed: fail
+		state Pending { }
+		state Authorized { }
+		state Captured { }
+		state PartiallyRefunded { }
+		state Failed { }
+		state Voided { }
+		state Refunded { }
 
-		Authorized -> Captured: capture
-		Authorized -> Voided: void
-
-		Captured -> Refunded: refund
-		Captured -> PartiallyRefunded: partialRefund
-
-		PartiallyRefunded -> Refunded: completeRefund
-
-		Failed -> [*]
-		Voided -> [*]
-		Refunded -> [*]
+		Pending -> Authorized on authorize
+		Pending -> Failed on fail
+		Authorized -> Captured on capture
+		Authorized -> Voided on void
+		Captured -> Refunded on refund
+		Captured -> PartiallyRefunded on partialRefund
+		PartiallyRefunded -> Refunded on completeRefund
 	}
 }

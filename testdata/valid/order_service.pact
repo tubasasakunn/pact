@@ -1,245 +1,94 @@
 // Real-world example: Order Service
 @version("1.0")
-@module("orders")
+component OrderService {
+	type Money {
+		amount: float
+		currency: string
+	}
 
-type Money {
-	amount: float
-	currency: string
-}
+	type Address {
+		line1: string
+		city: string
+		postalCode: string
+		country: string
+	}
 
-type Address {
-	line1: string
-	line2: string?
-	city: string
-	state: string
-	postalCode: string
-	country: string
-}
+	type OrderItem {
+		productId: string
+		quantity: int
+		unitPrice: Money
+	}
 
-type OrderItem {
-	productId: string
-	productName: string
-	quantity: int
-	unitPrice: Money
-	discount: Money?
-}
+	depends on OrderRepository
+	depends on PaymentGateway
+	depends on InventoryService
+	depends on ShippingService
+	depends on NotificationService
 
-type PaymentInfo {
-	method: string
-	cardLast4: string?
-	transactionId: string?
-}
-
-type ShippingInfo {
-	carrier: string
-	trackingNumber: string?
-	estimatedDelivery: timestamp?
-}
-
-interface OrderRepository {
-	method FindById(id: string): Order?
-	method FindByCustomer(customerId: string): []Order
-	method Save(order: Order): Order
-	method UpdateStatus(orderId: string, status: string): void
-}
-
-interface PaymentGateway {
-	method Authorize(amount: Money, paymentInfo: PaymentInfo): PaymentResult
-	method Capture(transactionId: string): PaymentResult
-	method Refund(transactionId: string, amount: Money): PaymentResult
-}
-
-interface InventoryService {
-	method CheckAvailability(items: []OrderItem): AvailabilityResult
-	method Reserve(orderId: string, items: []OrderItem): ReservationResult
-	method Release(orderId: string): void
-}
-
-interface ShippingService {
-	method CreateShipment(order: Order): ShipmentResult
-	method GetTrackingInfo(trackingNumber: string): TrackingInfo
-	method CancelShipment(trackingNumber: string): void
-}
-
-@aggregate
-component Order {
-	id: string
-	customerId: string
-	items: []OrderItem
-	shippingAddress: Address
-	billingAddress: Address
-	subtotal: Money
-	tax: Money
-	shipping: Money
-	discount: Money
-	total: Money
-	status: string
-	paymentInfo: PaymentInfo?
-	shippingInfo: ShippingInfo?
-	notes: string?
-	createdAt: timestamp
-	updatedAt: timestamp
-
-	method AddItem(item: OrderItem): void
-	method RemoveItem(productId: string): void
-	method UpdateQuantity(productId: string, quantity: int): void
-	method ApplyDiscount(discount: Money): void
-	method CalculateTotals(): void
+	provides OrderAPI {
+		CreateOrder(request: CreateOrderRequest) -> Order
+		SubmitOrder(orderId: string) -> Order
+		ProcessPayment(orderId: string) -> PaymentResult
+		CancelOrder(orderId: string, reason: string)
+		ShipOrder(orderId: string) -> ShipmentResult
+		GetOrderStatus(orderId: string) -> OrderStatus
+	}
 
 	states OrderStatus {
-		initial -> Draft
+		initial Draft
+		final Completed
+		final Cancelled
+		final Refunded
 
-		Draft -> Submitted: submit
-		Draft -> Abandoned: abandon
+		state Draft { }
+		state Submitted { }
+		state PaymentPending { }
+		state PaymentAuthorized { }
+		state Processing { }
+		state ReadyToShip { }
+		state Shipped { }
+		state Delivered { }
+		state Completed { }
+		state Cancelled { }
+		state Refunded { }
 
-		Submitted -> PaymentPending: awaitPayment
-		Submitted -> Cancelled: cancel
-
-		PaymentPending -> PaymentAuthorized: authorizePayment
-		PaymentPending -> PaymentFailed: paymentFail
-		PaymentPending -> Cancelled: cancel
-
-		PaymentAuthorized -> Processing: startProcessing
-		PaymentAuthorized -> Cancelled: cancel
-
-		PaymentFailed -> PaymentPending: retryPayment
-		PaymentFailed -> Cancelled: cancel
-
-		Processing -> ReadyToShip: packComplete
-		Processing -> Cancelled: cancel
-
-		ReadyToShip -> Shipped: ship
-		ReadyToShip -> Cancelled: cancel
-
-		Shipped -> OutForDelivery: outForDelivery
-		Shipped -> Delivered: deliver
-		Shipped -> DeliveryFailed: deliveryFail
-
-		OutForDelivery -> Delivered: deliver
-		OutForDelivery -> DeliveryFailed: deliveryFail
-
-		DeliveryFailed -> Shipped: reship
-		DeliveryFailed -> Returned: returnToSender
-
-		Delivered -> Completed: complete
-		Delivered -> ReturnRequested: requestReturn
-
-		ReturnRequested -> ReturnApproved: approveReturn
-		ReturnRequested -> ReturnDenied: denyReturn
-
-		ReturnApproved -> Returned: receiveReturn
-
-		Returned -> Refunded: processRefund
-
-		Completed -> [*]
-		Cancelled -> [*]
-		Abandoned -> [*]
-		Refunded -> [*]
-		ReturnDenied -> [*]
+		Draft -> Submitted on submit
+		Submitted -> PaymentPending on awaitPayment
+		PaymentPending -> PaymentAuthorized on authorizePayment
+		PaymentPending -> Cancelled on cancel
+		PaymentAuthorized -> Processing on startProcessing
+		Processing -> ReadyToShip on packComplete
+		ReadyToShip -> Shipped on ship
+		Shipped -> Delivered on deliver
+		Delivered -> Completed on complete
 	}
-}
-
-@service
-component OrderService {
-	private orderRepo: OrderRepository
-	private paymentGateway: PaymentGateway
-	private inventoryService: InventoryService
-	private shippingService: ShippingService
-	private notificationService: NotificationService
-	private eventPublisher: EventPublisher
-
-	relation OrderRepository: uses
-	relation PaymentGateway: uses
-	relation InventoryService: uses
-	relation ShippingService: uses
-
-	@transactional
-	method CreateOrder(request: CreateOrderRequest): Order
-
-	@transactional
-	method SubmitOrder(orderId: string): Order
-
-	method ProcessPayment(orderId: string): PaymentResult
-
-	@transactional
-	method CancelOrder(orderId: string, reason: string): void
-
-	method ShipOrder(orderId: string): ShipmentResult
-
-	method GetOrderStatus(orderId: string): OrderStatusResponse
-
-	method RequestReturn(orderId: string, reason: string): ReturnRequest
-
-	@transactional
-	method ProcessRefund(orderId: string): RefundResult
 
 	flow SubmitOrder {
-		start: "Receive Order Submission"
-		validateOrder: "Validate Order"
-		if orderValid {
-			checkInventory: "Check Inventory Availability"
-			if inventoryAvailable {
-				reserveInventory: "Reserve Inventory"
-				if reservationSuccess {
-					calculateTotals: "Calculate Order Totals"
-					authorizePayment: "Authorize Payment"
-					if paymentAuthorized {
-						createOrder: "Create Order Record"
-						publishEvent: "Publish OrderCreated Event"
-						sendConfirmation: "Send Order Confirmation"
-						success: "Order Submitted Successfully"
+		valid = self.validateOrder(order)
+		if valid {
+			available = InventoryService.checkAvailability(order.items)
+			if available {
+				reserved = InventoryService.reserve(order.id, order.items)
+				if reserved {
+					self.calculateTotals(order)
+					authorized = PaymentGateway.authorize(order.total, order.paymentInfo)
+					if authorized {
+						saved = OrderRepository.save(order)
+						self.publishEvent(saved)
+						NotificationService.sendConfirmation(saved)
+						return saved
 					} else {
-						releaseInventory: "Release Inventory"
-						paymentError: "Return Payment Error"
+						InventoryService.release(order.id)
+						throw PaymentError
 					}
 				} else {
-					inventoryError: "Return Inventory Error"
+					throw InventoryError
 				}
 			} else {
-				outOfStock: "Return Out of Stock Error"
+				throw OutOfStockError
 			}
 		} else {
-			validationError: "Return Validation Error"
+			throw ValidationError
 		}
-		end: "Complete"
 	}
-
-	flow ProcessReturn {
-		start: "Receive Return Request"
-		validateReturn: "Validate Return Eligibility"
-		if eligible {
-			createReturnLabel: "Create Return Shipping Label"
-			notifyCustomer: "Notify Customer"
-			waitForReturn: "Wait for Package Return"
-			if packageReceived {
-				inspectItems: "Inspect Returned Items"
-				if itemsAcceptable {
-					processRefund: "Process Refund"
-					updateInventory: "Update Inventory"
-					notifyRefund: "Notify Refund Complete"
-					success: "Return Processed"
-				} else {
-					rejectItems: "Reject Items"
-					notifyRejection: "Notify Customer of Rejection"
-				}
-			} else {
-				timeout: "Return Timeout"
-			}
-		} else {
-			notEligible: "Return Not Eligible"
-		}
-		end: "Complete"
-	}
-}
-
-@service
-component OrderEventHandler {
-	private orderService: OrderService
-	private notificationService: NotificationService
-	private analyticsService: AnalyticsService
-
-	method HandleOrderCreated(event: OrderCreatedEvent): void
-	method HandleOrderShipped(event: OrderShippedEvent): void
-	method HandleOrderDelivered(event: OrderDeliveredEvent): void
-	method HandlePaymentFailed(event: PaymentFailedEvent): void
 }

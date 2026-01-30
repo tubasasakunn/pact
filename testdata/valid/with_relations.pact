@@ -1,29 +1,37 @@
 // Components with relations
 component User {
-	id: string
-	name: string
+	type UserData {
+		id: string
+		name: string
+	}
 }
 
 component Order {
-	id: string
-	userId: string
-	total: float
+	type OrderData {
+		id: string
+		userId: string
+		total: float
+	}
 
-	relation User: uses
+	depends on User
 }
 
 component OrderItem {
-	id: string
-	orderId: string
-	productId: string
-	quantity: int
+	type OrderItemData {
+		id: string
+		orderId: string
+		productId: string
+		quantity: int
+	}
 
-	relation Order: belongs_to
-	relation Product: references
+	depends on Order
+	depends on Product
 }
 
 component Product {
-	id: string
-	name: string
-	price: float
+	type ProductData {
+		id: string
+		name: string
+		price: float
+	}
 }

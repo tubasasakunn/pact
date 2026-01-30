@@ -21,20 +21,26 @@ import (
 func TestPipeline_ClassDiagram_Full(t *testing.T) {
 	input := `
 component UserService {
-	id: string
-	name: string
-	email: string
+	type User {
+		id: string
+		name: string
+		email: string
+	}
 
-	method Create(user: User): User
-	method Get(id: string): User
-	method Delete(id: string): void
+	provides API {
+		Create(user: User) -> User
+		Get(id: string) -> User
+		Delete(id: string)
+	}
 }
 
 component OrderService {
-	orderId: string
-	userId: string
+	type Order {
+		orderId: string
+		userId: string
+	}
 
-	relation UserService: uses
+	depends on UserService
 }
 `
 	// Parse
@@ -73,11 +79,13 @@ component OrderService {
 func TestPipeline_SequenceDiagram_Full(t *testing.T) {
 	input := `
 component AuthService {
+	depends on UserDB
+	depends on TokenService
+
 	flow Login {
-		step1: receive credentials from Client
-		step2: call validate on UserDB
-		step3: call createToken on TokenService
-		step4: return token to Client
+		valid = UserDB.validate(credentials)
+		token = TokenService.createToken(user)
+		return token
 	}
 }
 `
@@ -115,12 +123,19 @@ func TestPipeline_StateDiagram_Full(t *testing.T) {
 	input := `
 component OrderService {
 	states OrderState {
-		initial -> Created
-		Created -> Pending: submit
-		Pending -> Processing: pay
-		Processing -> Shipped: ship
-		Shipped -> Delivered: deliver
-		Delivered -> [*]
+		initial Created
+		final Delivered
+
+		state Created { }
+		state Pending { }
+		state Processing { }
+		state Shipped { }
+		state Delivered { }
+
+		Created -> Pending on submit
+		Pending -> Processing on pay
+		Processing -> Shipped on ship
+		Shipped -> Delivered on deliver
 	}
 }
 `
@@ -158,20 +173,19 @@ func TestPipeline_Flowchart_Full(t *testing.T) {
 	input := `
 component PaymentService {
 	flow ProcessPayment {
-		start: "Start"
-		input: "Get Payment Info"
-		validate: "Validate Card"
+		info = self.getPaymentInfo()
+		cardValid = self.validateCard(info)
 		if cardValid {
-			process: "Process Payment"
-			if success {
-				confirm: "Send Confirmation"
+			result = self.processPayment(info)
+			if result {
+				self.sendConfirmation()
 			} else {
-				retry: "Retry Payment"
+				self.retryPayment()
 			}
 		} else {
-			reject: "Reject Payment"
+			throw PaymentError
 		}
-		end: "End"
+		return result
 	}
 }
 `
@@ -208,21 +222,28 @@ component PaymentService {
 func TestPipeline_AllDiagrams(t *testing.T) {
 	input := `
 component UserService {
-	id: string
-	name: string
+	type User {
+		id: string
+		name: string
+	}
 
-	method GetUser(id: string): User
+	provides API {
+		GetUser(id: string) -> User
+	}
 
 	flow FetchUser {
-		start: "Begin"
-		fetch: "Fetch from DB"
-		end: "Return"
+		user = self.fetchFromDB(id)
+		return user
 	}
 
 	states UserState {
-		initial -> Active
-		Active -> Inactive: deactivate
-		Inactive -> [*]
+		initial Active
+		final Inactive
+
+		state Active { }
+		state Inactive { }
+
+		Active -> Inactive on deactivate
 	}
 }
 `
@@ -282,58 +303,49 @@ func TestPipeline_ComplexSpec(t *testing.T) {
 @version("1.0")
 @author("test")
 component AuthenticationService {
-	// Fields
-	private tokenSecret: string
-	private expirationTime: int
-	users: map[string]User
+	type Credentials {
+		username: string
+		password: string
+	}
 
-	// Methods
-	public method Authenticate(credentials: Credentials): AuthResult
-	private method validatePassword(password: string, hash: string): bool
-	method generateToken(user: User): string
+	type AuthResult {
+		success: bool
+		token: string?
+		error: string?
+	}
 
-	// Relations
-	relation UserRepository: uses
-	relation TokenCache: uses
+	depends on UserRepository
+	depends on TokenCache
 
-	// Flow
+	provides AuthAPI {
+		Authenticate(credentials: Credentials) -> AuthResult
+	}
+
 	flow AuthenticateUser {
-		start: "Receive Request"
-		validate: "Validate Credentials"
+		valid = self.validateCredentials(credentials)
 		if valid {
-			generate: "Generate Token"
-			cache: "Cache Token"
-			respond: "Return Success"
+			token = self.generateToken(user)
+			TokenCache.cache(token)
+			return token
 		} else {
-			reject: "Return Error"
+			throw AuthError
 		}
-		end: "Complete"
 	}
 
-	// States
 	states SessionState {
-		initial -> Created
-		Created -> Active: activate
-		Active -> Expired: timeout
-		Active -> Revoked: revoke
-		Expired -> [*]
-		Revoked -> [*]
+		initial Created
+		final Expired
+		final Revoked
+
+		state Created { }
+		state Active { }
+		state Expired { }
+		state Revoked { }
+
+		Created -> Active on activate
+		Active -> Expired on timeout
+		Active -> Revoked on revoke
 	}
-}
-
-interface Authenticator {
-	method Authenticate(credentials: Credentials): AuthResult
-}
-
-type Credentials {
-	username: string
-	password: string
-}
-
-type AuthResult {
-	success: bool
-	token: string?
-	error: string?
 }
 `
 	lexer := parser.NewLexer(input)

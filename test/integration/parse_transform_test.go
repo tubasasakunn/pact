@@ -16,10 +16,14 @@ import (
 func TestIntegration_ParseToClassDiagram(t *testing.T) {
 	input := `
 component UserService {
-	id: string
-	name: string
+	type User {
+		id: string
+		name: string
+	}
 
-	method GetUser(id: string): User
+	provides API {
+		GetUser(id: string) -> User
+	}
 }
 `
 	lexer := parser.NewLexer(input)
@@ -45,10 +49,11 @@ component UserService {
 func TestIntegration_ParseToSequenceDiagram(t *testing.T) {
 	input := `
 component AuthService {
+	depends on Database
+
 	flow Login {
-		step1: receive request from Client
-		step2: call validate on Database
-		step3: return response to Client
+		result = Database.validate(request)
+		return result
 	}
 }
 `
@@ -76,10 +81,15 @@ func TestIntegration_ParseToStateDiagram(t *testing.T) {
 	input := `
 component OrderService {
 	states OrderState {
-		initial -> Pending
-		Pending -> Processing: process
-		Processing -> Completed: complete
-		Completed -> [*]
+		initial Pending
+		final Completed
+
+		state Pending { }
+		state Processing { }
+		state Completed { }
+
+		Pending -> Processing on process
+		Processing -> Completed on complete
 	}
 }
 `
@@ -107,14 +117,13 @@ func TestIntegration_ParseToFlowchart(t *testing.T) {
 	input := `
 component PaymentService {
 	flow ProcessPayment {
-		start: "Begin"
-		validate: "Validate Input"
+		valid = self.validate(input)
 		if valid {
-			process: "Process Payment"
+			result = self.process(payment)
 		} else {
-			error: "Return Error"
+			throw ValidationError
 		}
-		end: "Complete"
+		return result
 	}
 }
 `
@@ -140,9 +149,9 @@ component PaymentService {
 // I005: 複数ファイルのパース
 func TestIntegration_ParseMultipleFiles(t *testing.T) {
 	inputs := []string{
-		`component ServiceA { id: string }`,
-		`component ServiceB { name: string }`,
-		`component ServiceC { data: []byte }`,
+		`component ServiceA { type Data { id: string } }`,
+		`component ServiceB { type Info { name: string } }`,
+		`component ServiceC { type Blob { data: byte[] } }`,
 	}
 
 	for i, input := range inputs {
@@ -155,8 +164,8 @@ func TestIntegration_ParseMultipleFiles(t *testing.T) {
 			continue
 		}
 
-		if len(spec.Components) == 0 {
-			t.Errorf("expected components for input %d", i)
+		if spec.Component == nil {
+			t.Errorf("expected component for input %d", i)
 		}
 	}
 }

@@ -2,7 +2,11 @@
 import "./shared.pact"
 
 component ServiceA {
-	id: ID
+	type ServiceAData {
+		id: string
+	}
 
-	method Process(entityId: ID): void
+	provides ProcessAPI {
+		Process(entityId: string)
+	}
 }

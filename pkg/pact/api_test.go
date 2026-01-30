@@ -35,7 +35,7 @@ func TestAPI_ParseFile_NotFound(t *testing.T) {
 // A004: 文字列パース
 func TestAPI_ParseString(t *testing.T) {
 	client := New()
-	spec, err := client.ParseString(`component User { id: string }`)
+	spec, err := client.ParseString(`component User { type Data { id: string } }`)
 	if err != nil {
 		t.Fatalf("parse error: %v", err)
 	}
@@ -58,8 +58,10 @@ func TestAPI_ToClassDiagram(t *testing.T) {
 	client := New()
 	spec, err := client.ParseString(`
 component User {
-	id: string
-	name: string
+	type UserData {
+		id: string
+		name: string
+	}
 }
 `)
 	if err != nil {
@@ -80,9 +82,11 @@ func TestAPI_ToSequenceDiagram(t *testing.T) {
 	client := New()
 	spec, err := client.ParseString(`
 component Auth {
+	depends on Client
+
 	flow Login {
-		step1: receive request from Client
-		step2: return response to Client
+		result = Client.request(data)
+		return result
 	}
 }
 `)
@@ -119,9 +123,13 @@ func TestAPI_ToStateDiagram(t *testing.T) {
 	spec, err := client.ParseString(`
 component Order {
 	states OrderState {
-		initial -> Pending
-		Pending -> Complete: finish
-		Complete -> [*]
+		initial Pending
+		final Complete
+
+		state Pending { }
+		state Complete { }
+
+		Pending -> Complete on finish
 	}
 }
 `)
@@ -158,9 +166,8 @@ func TestAPI_ToFlowchart(t *testing.T) {
 	spec, err := client.ParseString(`
 component Process {
 	flow Main {
-		start: "Begin"
-		process: "Do Work"
-		end: "Complete"
+		result = self.doWork()
+		return result
 	}
 }
 `)
@@ -180,7 +187,7 @@ component Process {
 // A012: クラス図レンダー
 func TestAPI_RenderClassDiagram(t *testing.T) {
 	client := New()
-	spec, err := client.ParseString(`component User { id: string }`)
+	spec, err := client.ParseString(`component User { type Data { id: string } }`)
 	if err != nil {
 		t.Fatalf("parse error: %v", err)
 	}
@@ -205,8 +212,10 @@ func TestAPI_RenderSequenceDiagram(t *testing.T) {
 	client := New()
 	spec, err := client.ParseString(`
 component Auth {
+	depends on Client
+
 	flow Login {
-		step1: receive request from Client
+		result = Client.request(data)
 	}
 }
 `)
@@ -235,8 +244,13 @@ func TestAPI_RenderStateDiagram(t *testing.T) {
 	spec, err := client.ParseString(`
 component Order {
 	states State {
-		initial -> Active
-		Active -> [*]
+		initial Active
+		final Done
+
+		state Active { }
+		state Done { }
+
+		Active -> Done on finish
 	}
 }
 `)
@@ -265,8 +279,8 @@ func TestAPI_RenderFlowchart(t *testing.T) {
 	spec, err := client.ParseString(`
 component Process {
 	flow Main {
-		start: "Begin"
-		end: "End"
+		result = self.doWork()
+		return result
 	}
 }
 `)

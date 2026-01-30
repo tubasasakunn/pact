@@ -136,7 +136,7 @@ func (t *SequenceTransformer) transformSteps(steps []ast.Step, diagram *sequence
 				Events: []sequence.Event{},
 			}
 			t.transformSteps(s.Then, diagram, from, includeReturn)
-			if len(s.Else) > 0 {
+			if s.Else != nil {
 				fragment.AltLabel = "else"
 				t.transformSteps(s.Else, diagram, from, includeReturn)
 			}

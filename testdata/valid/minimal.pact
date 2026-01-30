@@ -1,4 +1,6 @@
 // Minimal component definition
 component User {
-	id: string
+	type UserData {
+		id: string
+	}
 }

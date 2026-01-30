@@ -1,27 +1,18 @@
 // Shared definitions
-type ID = string
-type Timestamp = int64
-
-type AuditInfo {
-	createdAt: Timestamp
-	createdBy: ID
-	updatedAt: Timestamp
-	updatedBy: ID
-}
-
-interface Entity {
-	method GetID(): ID
-}
-
-interface Auditable {
-	method GetAuditInfo(): AuditInfo
-}
-
 component BaseEntity {
-	implements Entity
+	type AuditInfo {
+		createdAt: int
+		createdBy: string
+		updatedAt: int
+		updatedBy: string
+	}
 
-	id: ID
-	audit: AuditInfo
+	type EntityData {
+		id: string
+		audit: AuditInfo
+	}
 
-	method GetID(): ID
+	provides EntityAPI {
+		GetID() -> string
+	}
 }

@@ -2,9 +2,13 @@
 import "./shared.pact"
 
 component ServiceB {
-	id: ID
+	type ServiceBData {
+		id: string
+	}
 
-	relation ServiceA: uses
+	depends on ServiceA
 
-	method Execute(entityId: ID): void
+	provides ExecuteAPI {
+		Execute(entityId: string)
+	}
 }

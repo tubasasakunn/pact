@@ -1,30 +1,28 @@
 // Interfaces and implementations
-interface Repository {
-	method Find(id: string): Entity
-	method Save(entity: Entity): void
-	method Delete(id: string): void
-}
-
-interface EventPublisher {
-	method Publish(event: Event): void
-}
-
 component UserRepository {
 	implements Repository
 
-	db: Database
+	provides RepositoryAPI {
+		Find(id: string) -> User
+		Save(user: User)
+		Delete(id: string)
+	}
 
-	method Find(id: string): User
-	method Save(user: User): void
-	method Delete(id: string): void
+	requires DatabaseConnection {
+		Connect() -> Connection
+	}
 }
 
 component OrderService {
 	implements EventPublisher
 
-	repo: OrderRepository
-	publisher: EventPublisher
+	provides OrderAPI {
+		CreateOrder(order: Order) -> Order
+	}
 
-	method CreateOrder(order: Order): Order
-	method Publish(event: Event): void
+	provides EventAPI {
+		Publish(event: Event)
+	}
+
+	depends on OrderRepository
 }

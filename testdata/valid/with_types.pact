@@ -1,19 +1,21 @@
 // Component with type definitions
-type Email = string
-type Age = int
-
-type Address {
-	street: string
-	city: string
-	zipCode: string
-}
-
-type UserStatus = "active" | "inactive" | "pending"
-
 component User {
-	id: string
-	email: Email
-	age: Age
-	address: Address
-	status: UserStatus
+	type Address {
+		street: string
+		city: string
+		zipCode: string
+	}
+
+	type UserData {
+		id: string
+		email: string
+		age: int
+		address: Address
+	}
+
+	enum UserStatus {
+		active
+		inactive
+		pending
+	}
 }

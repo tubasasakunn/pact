@@ -27,40 +27,58 @@ func (t *ClassTransformer) Transform(files []*ast.SpecFile, opts *TransformOptio
 	}
 
 	for _, file := range files {
-		if file.Component == nil {
-			continue
-		}
+		// ファイル内の全コンポーネントを収集
+		components := t.getComponents(file)
 
-		if opts != nil && len(opts.FilterComponents) > 0 {
-			if !contains(opts.FilterComponents, file.Component.Name) {
-				continue
+		for _, comp := range components {
+			if opts != nil && len(opts.FilterComponents) > 0 {
+				if !contains(opts.FilterComponents, comp.Name) {
+					continue
+				}
 			}
-		}
 
-		// コンポーネントをノードに変換
-		node := t.transformComponent(file.Component)
-		diagram.Nodes = append(diagram.Nodes, node)
+			// コンポーネントをノードに変換
+			node := t.transformComponent(comp)
+			diagram.Nodes = append(diagram.Nodes, node)
 
-		// 型をノードに変換
-		for _, typ := range file.Component.Body.Types {
-			typeNode := t.transformType(&typ)
-			diagram.Nodes = append(diagram.Nodes, typeNode)
-		}
+			// 型をノードに変換
+			for _, typ := range comp.Body.Types {
+				typeNode := t.transformType(&typ)
+				diagram.Nodes = append(diagram.Nodes, typeNode)
+			}
 
-		// 関係をエッジに変換
-		for _, rel := range file.Component.Body.Relations {
-			edge := t.transformRelation(file.Component.Name, &rel)
-			diagram.Edges = append(diagram.Edges, edge)
-		}
+			// 関係をエッジに変換
+			for _, rel := range comp.Body.Relations {
+				edge := t.transformRelation(comp.Name, &rel)
+				diagram.Edges = append(diagram.Edges, edge)
+			}
 
-		// インターフェースをノードに変換
-		for _, iface := range file.Component.Body.Requires {
-			ifaceNode := t.transformInterface(&iface)
-			diagram.Nodes = append(diagram.Nodes, ifaceNode)
+			// インターフェースをノードに変換
+			for _, iface := range comp.Body.Requires {
+				ifaceNode := t.transformInterface(&iface)
+				diagram.Nodes = append(diagram.Nodes, ifaceNode)
+			}
 		}
 	}
 
 	return diagram, nil
+}
+
+// getComponents はファイルから全コンポーネントを取得する
+func (t *ClassTransformer) getComponents(file *ast.SpecFile) []*ast.ComponentDecl {
+	// Componentsがある場合はそれを使用
+	if len(file.Components) > 0 {
+		result := make([]*ast.ComponentDecl, len(file.Components))
+		for i := range file.Components {
+			result[i] = &file.Components[i]
+		}
+		return result
+	}
+	// 単一Componentの場合
+	if file.Component != nil {
+		return []*ast.ComponentDecl{file.Component}
+	}
+	return nil
 }
 
 func (t *ClassTransformer) transformComponent(comp *ast.ComponentDecl) class.Node {
