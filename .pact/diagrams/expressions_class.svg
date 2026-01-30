@@ -1,0 +1,55 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" width="800" height="600">
+<rect x="50" y="50" width="200" height="60" fill="#fff" stroke="#000" stroke-width="1"/>
+<text x="150" y="70">&lt;&lt;component&gt;&gt;</text>
+<text x="150" y="90">ASTExpressions</text>
+<rect x="300" y="50" width="200" height="100" fill="#fff" stroke="#000" stroke-width="1"/>
+<text x="400" y="70">LiteralExpr</text>
+<line x1="300" y1="85" x2="500" y2="85" stroke="#000"/>
+<text x="310" y="95">+ pos: Position</text>
+<text x="310" y="115">+ value: Any</text>
+<rect x="550" y="50" width="200" height="100" stroke="#000" stroke-width="1" fill="#fff"/>
+<text x="650" y="70">VariableExpr</text>
+<line x1="550" y1="85" x2="750" y2="85" stroke="#000"/>
+<text x="560" y="95">+ pos: Position</text>
+<text x="560" y="115">+ name: String</text>
+<rect x="50" y="250" width="200" height="120" fill="#fff" stroke="#000" stroke-width="1"/>
+<text x="150" y="270">FieldExpr</text>
+<line x1="50" y1="285" x2="250" y2="285" stroke="#000"/>
+<text x="60" y="295">+ pos: Position</text>
+<text x="60" y="315">+ object: Expr</text>
+<text x="60" y="335">+ field: String</text>
+<rect x="300" y="250" width="200" height="140" fill="#fff" stroke="#000" stroke-width="1"/>
+<text x="400" y="270">CallExpr</text>
+<line x1="300" y1="285" x2="500" y2="285" stroke="#000"/>
+<text x="310" y="295">+ pos: Position</text>
+<text x="310" y="315">+ object: Expr</text>
+<text x="310" y="335">+ method: String</text>
+<text x="310" y="355">+ args: Expr</text>
+<rect x="550" y="250" width="200" height="140" stroke-width="1" fill="#fff" stroke="#000"/>
+<text x="650" y="270">BinaryExpr</text>
+<line x1="550" y1="285" x2="750" y2="285" stroke="#000"/>
+<text x="560" y="295">+ pos: Position</text>
+<text x="560" y="315">+ left: Expr</text>
+<text x="560" y="335">+ op: String</text>
+<text x="560" y="355">+ right: Expr</text>
+<rect x="50" y="450" width="200" height="120" fill="#fff" stroke="#000" stroke-width="1"/>
+<text x="150" y="470">UnaryExpr</text>
+<line x1="50" y1="485" x2="250" y2="485" stroke="#000"/>
+<text x="60" y="495">+ pos: Position</text>
+<text x="60" y="515">+ op: String</text>
+<text x="60" y="535">+ operand: Expr</text>
+<rect x="300" y="450" width="200" height="140" stroke="#000" stroke-width="1" fill="#fff"/>
+<text x="400" y="470">TernaryExpr</text>
+<line x1="300" y1="485" x2="500" y2="485" stroke="#000"/>
+<text x="310" y="495">+ pos: Position</text>
+<text x="310" y="515">+ condition: Expr</text>
+<text x="310" y="535">+ thenExpr: Expr</text>
+<text x="310" y="555">+ elseExpr: Expr</text>
+<rect x="550" y="450" width="200" height="140" fill="#fff" stroke="#000" stroke-width="1"/>
+<text x="650" y="470">NullishExpr</text>
+<line x1="550" y1="485" x2="750" y2="485" stroke="#000"/>
+<text x="560" y="495">+ pos: Position</text>
+<text x="560" y="515">+ left: Expr</text>
+<text x="560" y="535">+ right: Expr</text>
+<text x="560" y="555">+ throwErr: String</text>
+</svg>

@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" width="800" height="600">
+<rect x="50" y="50" width="200" height="140" fill="#fff" stroke="#000" stroke-width="1"/>
+<text x="150" y="70">&lt;&lt;component&gt;&gt;</text>
+<text x="150" y="90">ASTVisitor</text>
+<line x1="50" y1="105" x2="250" y2="105" stroke="#000"/>
+<text x="60" y="115">+ Walk()</text>
+<text x="60" y="135">+ WalkComponent()</text>
+<text x="60" y="155">+ WalkFlow()</text>
+<text x="60" y="175">+ WalkStates()</text>
+<rect x="300" y="50" width="200" height="360" fill="#fff" stroke="#000" stroke-width="1"/>
+<text x="400" y="70">VisitorCallbacks</text>
+<line x1="300" y1="85" x2="500" y2="85" stroke="#000"/>
+<text x="310" y="95">+ visitSpecFile: func</text>
+<text x="310" y="115">+ visitImportDecl: func</text>
+<text x="310" y="135">+ visitComponentDecl: func</text>
+<text x="310" y="155">+ visitAnnotationDecl: func</text>
+<text x="310" y="175">+ visitTypeDecl: func</text>
+<text x="310" y="195">+ visitFieldDecl: func</text>
+<text x="310" y="215">+ visitRelationDecl: func</text>
+<text x="310" y="235">+ visitInterfaceDecl: func</text>
+<text x="310" y="255">+ visitMethodDecl: func</text>
+<text x="310" y="275">+ visitFlowDecl: func</text>
+<text x="310" y="295">+ visitStep: func</text>
+<text x="310" y="315">+ visitExpr: func</text>
+<text x="310" y="335">+ visitStatesDecl: func</text>
+<text x="310" y="355">+ visitStateDecl: func</text>
+<text x="310" y="375">+ visitTransitionDecl: func</text>
+<rect x="550" y="50" width="200" height="80" fill="#fff" stroke="#000" stroke-width="1"/>
+<text x="650" y="70">BaseVisitor</text>
+<line x1="550" y1="85" x2="750" y2="85" stroke="#000"/>
+<text x="560" y="95">+ callbacks: VisitorCallbacks</text>
+</svg>

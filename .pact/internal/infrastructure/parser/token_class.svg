@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" width="800" height="600">
+<rect x="50" y="50" width="200" height="60" fill="#fff" stroke="#000" stroke-width="1"/>
+<text x="150" y="70">&lt;&lt;component&gt;&gt;</text>
+<text x="150" y="90">Token</text>
+<rect x="300" y="50" width="200" height="60" fill="#fff" stroke="#000" stroke-width="1"/>
+<text x="400" y="70">&lt;&lt;enum&gt;&gt;</text>
+<text x="400" y="90">TokenType</text>
+<rect x="550" y="50" width="200" height="140" fill="#fff" stroke="#000" stroke-width="1"/>
+<text x="650" y="70">Token</text>
+<line x1="550" y1="85" x2="750" y2="85" stroke="#000"/>
+<text x="560" y="95">+ tokenType: TokenType</text>
+<text x="560" y="115">+ literal: string</text>
+<text x="560" y="135">+ lineNumber: int</text>
+<text x="560" y="155">+ columnNumber: int</text>
+<rect x="50" y="250" width="200" height="100" fill="#fff" stroke="#000" stroke-width="1"/>
+<text x="150" y="270">Position</text>
+<line x1="50" y1="285" x2="250" y2="285" stroke="#000"/>
+<text x="60" y="295">+ lineNumber: int</text>
+<text x="60" y="315">+ columnNumber: int</text>
+<rect x="300" y="250" width="200" height="100" stroke="#000" stroke-width="1" fill="#fff"/>
+<text x="400" y="270">DurationValue</text>
+<line x1="300" y1="285" x2="500" y2="285" stroke="#000"/>
+<text x="310" y="295">+ amount: int</text>
+<text x="310" y="315">+ unit: string</text>
+</svg>

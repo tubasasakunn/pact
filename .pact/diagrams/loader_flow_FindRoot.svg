@@ -1,0 +1,34 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 820" width="800" height="820">
+<rect x="350" y="50" width="100" height="40" rx="20" ry="20" fill="#fff" stroke="#000"/>
+<text x="400" y="75">Start</text>
+<rect x="350" y="130" width="100" height="40" fill="#fff" stroke="#000"/>
+<text x="400" y="155">absPath = ...</text>
+<polygon points="400,210 440,230 400,250 360,230" stroke="#000" fill="#fff"/>
+<text x="400" y="235">condition?</text>
+<rect x="350" y="290" width="100" height="40" rx="20" ry="20" stroke="#000" fill="#fff"/>
+<text x="400" y="315">throw ConfigError</text>
+<rect x="350" y="370" width="100" height="40" fill="#fff" stroke="#000"/>
+<text x="400" y="395">rootPath = ...</text>
+<polygon points="400,450 440,470 400,490 360,470" fill="#fff" stroke="#000"/>
+<text x="400" y="475">condition?</text>
+<rect x="350" y="530" width="100" height="40" rx="20" ry="20" fill="#fff" stroke="#000"/>
+<text x="400" y="555">throw ConfigError</text>
+<rect x="350" y="610" width="100" height="40" rx="20" ry="20" fill="#fff" stroke="#000"/>
+<text x="400" y="635">return</text>
+<rect x="350" y="690" width="100" height="40" rx="20" ry="20" fill="#fff" stroke="#000"/>
+<text x="400" y="715">End</text>
+<line x1="400" y1="90" x2="400" y2="130" stroke="#000"/>
+<polygon points="400,130 396,122 404,122" fill="#000"/>
+<line x1="400" y1="170" x2="400" y2="210" stroke="#000"/>
+<polygon points="400,210 396,202 404,202" fill="#000"/>
+<line x1="400" y1="250" x2="400" y2="290" stroke="#000"/>
+<polygon points="400,290 396,282 404,282" fill="#000"/>
+<line x1="400" y1="250" x2="400" y2="370" stroke="#000"/>
+<polygon points="400,370 396,362 403,362" fill="#000"/>
+<line x1="400" y1="410" x2="400" y2="450" stroke="#000"/>
+<polygon points="400,450 396,442 404,442" fill="#000"/>
+<line x1="400" y1="490" x2="400" y2="530" stroke="#000"/>
+<polygon points="400,530 396,522 404,522" fill="#000"/>
+<line x1="400" y1="490" x2="400" y2="610" stroke="#000"/>
+<polygon points="400,610 396,602 403,602" fill="#000"/>
+</svg>
