@@ -1,0 +1,247 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" width="800" height="600">
+<rect x="50" y="50" width="200" height="60" fill="#fff" stroke="#000" stroke-width="1"/>
+<text x="150" y="70">&lt;&lt;component&gt;&gt;</text>
+<text x="150" y="90">AST</text>
+<rect x="300" y="50" width="200" height="140" fill="#fff" stroke="#000" stroke-width="1"/>
+<text x="400" y="70">SpecFile</text>
+<line x1="300" y1="85" x2="500" y2="85" stroke="#000"/>
+<text x="310" y="95">+ imports: ImportDecl</text>
+<text x="310" y="115">+ mainComponent: ComponentDecl</text>
+<text x="310" y="135">+ components: ComponentDecl</text>
+<text x="310" y="155">+ annotations: AnnotationDecl</text>
+<rect x="550" y="50" width="200" height="100" fill="#fff" stroke="#000" stroke-width="1"/>
+<text x="650" y="70">ImportDecl</text>
+<line x1="550" y1="85" x2="750" y2="85" stroke="#000"/>
+<text x="560" y="95">+ path: string</text>
+<text x="560" y="115">+ alias: string</text>
+<rect x="50" y="250" width="200" height="120" fill="#fff" stroke="#000" stroke-width="1"/>
+<text x="150" y="270">ComponentDecl</text>
+<line x1="50" y1="285" x2="250" y2="285" stroke="#000"/>
+<text x="60" y="295">+ name: string</text>
+<text x="60" y="315">+ body: ComponentBody</text>
+<text x="60" y="335">+ annotations: AnnotationDecl</text>
+<rect x="300" y="250" width="200" height="160" stroke-width="1" fill="#fff" stroke="#000"/>
+<text x="400" y="270">ComponentBody</text>
+<line x1="300" y1="285" x2="500" y2="285" stroke="#000"/>
+<text x="310" y="295">+ types: TypeDecl</text>
+<text x="310" y="315">+ relations: RelationDecl</text>
+<text x="310" y="335">+ interfaces: InterfaceDecl</text>
+<text x="310" y="355">+ flows: FlowDecl</text>
+<text x="310" y="375">+ stateBlocks: StatesDecl</text>
+<rect x="550" y="250" width="200" height="160" fill="#fff" stroke="#000" stroke-width="1"/>
+<text x="650" y="270">TypeDecl</text>
+<line x1="550" y1="285" x2="750" y2="285" stroke="#000"/>
+<text x="560" y="295">+ name: string</text>
+<text x="560" y="315">+ kind: TypeKind</text>
+<text x="560" y="335">+ fields: FieldDecl</text>
+<text x="560" y="355">+ values: string</text>
+<text x="560" y="375">+ annotations: AnnotationDecl</text>
+<rect x="50" y="450" width="200" height="60" stroke-width="1" fill="#fff" stroke="#000"/>
+<text x="150" y="470">&lt;&lt;enum&gt;&gt;</text>
+<text x="150" y="490">TypeKind</text>
+<rect x="300" y="450" width="200" height="140" fill="#fff" stroke="#000" stroke-width="1"/>
+<text x="400" y="470">FieldDecl</text>
+<line x1="300" y1="485" x2="500" y2="485" stroke="#000"/>
+<text x="310" y="495">+ name: string</text>
+<text x="310" y="515">+ fieldType: TypeExpr</text>
+<text x="310" y="535">+ visibility: Visibility</text>
+<text x="310" y="555">+ annotations: AnnotationDecl</text>
+<rect x="550" y="450" width="200" height="120" fill="#fff" stroke="#000" stroke-width="1"/>
+<text x="650" y="470">TypeExpr</text>
+<line x1="550" y1="485" x2="750" y2="485" stroke="#000"/>
+<text x="560" y="495">+ name: string</text>
+<text x="560" y="515">+ isNullable: bool</text>
+<text x="560" y="535">+ isArray: bool</text>
+<rect x="50" y="650" width="200" height="60" fill="#fff" stroke="#000" stroke-width="1"/>
+<text x="150" y="670">&lt;&lt;enum&gt;&gt;</text>
+<text x="150" y="690">Visibility</text>
+<rect x="300" y="650" width="200" height="160" stroke="#000" stroke-width="1" fill="#fff"/>
+<text x="400" y="670">RelationDecl</text>
+<line x1="300" y1="685" x2="500" y2="685" stroke="#000"/>
+<text x="310" y="695">+ kind: RelationKind</text>
+<text x="310" y="715">+ target: string</text>
+<text x="310" y="735">+ interfaceType: string</text>
+<text x="310" y="755">+ alias: string</text>
+<text x="310" y="775">+ annotations: AnnotationDecl</text>
+<rect x="550" y="650" width="200" height="60" fill="#fff" stroke="#000" stroke-width="1"/>
+<text x="650" y="670">&lt;&lt;enum&gt;&gt;</text>
+<text x="650" y="690">RelationKind</text>
+<rect x="50" y="850" width="200" height="140" fill="#fff" stroke="#000" stroke-width="1"/>
+<text x="150" y="870">InterfaceDecl</text>
+<line x1="50" y1="885" x2="250" y2="885" stroke="#000"/>
+<text x="60" y="895">+ name: string</text>
+<text x="60" y="915">+ kind: InterfaceKind</text>
+<text x="60" y="935">+ methods: MethodDecl</text>
+<text x="60" y="955">+ annotations: AnnotationDecl</text>
+<rect x="300" y="850" width="200" height="60" fill="#fff" stroke="#000" stroke-width="1"/>
+<text x="400" y="870">&lt;&lt;enum&gt;&gt;</text>
+<text x="400" y="890">InterfaceKind</text>
+<rect x="550" y="850" width="200" height="180" fill="#fff" stroke="#000" stroke-width="1"/>
+<text x="650" y="870">MethodDecl</text>
+<line x1="550" y1="885" x2="750" y2="885" stroke="#000"/>
+<text x="560" y="895">+ name: string</text>
+<text x="560" y="915">+ params: ParamDecl</text>
+<text x="560" y="935">+ returnType: TypeExpr</text>
+<text x="560" y="955">+ isAsync: bool</text>
+<text x="560" y="975">+ throwsList: string</text>
+<text x="560" y="995">+ annotations: AnnotationDecl</text>
+<rect x="50" y="1050" width="200" height="100" fill="#fff" stroke="#000" stroke-width="1"/>
+<text x="150" y="1070">ParamDecl</text>
+<line x1="50" y1="1085" x2="250" y2="1085" stroke="#000"/>
+<text x="60" y="1095">+ name: string</text>
+<text x="60" y="1115">+ paramType: TypeExpr</text>
+<rect x="300" y="1050" width="200" height="120" fill="#fff" stroke="#000" stroke-width="1"/>
+<text x="400" y="1070">FlowDecl</text>
+<line x1="300" y1="1085" x2="500" y2="1085" stroke="#000"/>
+<text x="310" y="1095">+ name: string</text>
+<text x="310" y="1115">+ steps: Step</text>
+<text x="310" y="1135">+ annotations: AnnotationDecl</text>
+<rect x="550" y="1050" width="200" height="100" fill="#fff" stroke="#000" stroke-width="1"/>
+<text x="650" y="1070">AssignStep</text>
+<line x1="550" y1="1085" x2="750" y2="1085" stroke="#000"/>
+<text x="560" y="1095">+ variable: string</text>
+<text x="560" y="1115">+ value: Expr</text>
+<rect x="50" y="1250" width="200" height="80" stroke="#000" stroke-width="1" fill="#fff"/>
+<text x="150" y="1270">CallStep</text>
+<line x1="50" y1="1285" x2="250" y2="1285" stroke="#000"/>
+<text x="60" y="1295">+ expr: CallExpr</text>
+<rect x="300" y="1250" width="200" height="80" fill="#fff" stroke="#000" stroke-width="1"/>
+<text x="400" y="1270">ReturnStep</text>
+<line x1="300" y1="1285" x2="500" y2="1285" stroke="#000"/>
+<text x="310" y="1295">+ value: Expr</text>
+<rect x="550" y="1250" width="200" height="80" fill="#fff" stroke="#000" stroke-width="1"/>
+<text x="650" y="1270">ThrowStep</text>
+<line x1="550" y1="1285" x2="750" y2="1285" stroke="#000"/>
+<text x="560" y="1295">+ errorType: string</text>
+<rect x="50" y="1450" width="200" height="120" fill="#fff" stroke="#000" stroke-width="1"/>
+<text x="150" y="1470">IfStep</text>
+<line x1="50" y1="1485" x2="250" y2="1485" stroke="#000"/>
+<text x="60" y="1495">+ condition: Expr</text>
+<text x="60" y="1515">+ thenSteps: Step</text>
+<text x="60" y="1535">+ elseSteps: Step</text>
+<rect x="300" y="1450" width="200" height="120" fill="#fff" stroke="#000" stroke-width="1"/>
+<text x="400" y="1470">ForStep</text>
+<line x1="300" y1="1485" x2="500" y2="1485" stroke="#000"/>
+<text x="310" y="1495">+ variable: string</text>
+<text x="310" y="1515">+ iterable: Expr</text>
+<text x="310" y="1535">+ body: Step</text>
+<rect x="550" y="1450" width="200" height="100" stroke-width="1" fill="#fff" stroke="#000"/>
+<text x="650" y="1470">WhileStep</text>
+<line x1="550" y1="1485" x2="750" y2="1485" stroke="#000"/>
+<text x="560" y="1495">+ condition: Expr</text>
+<text x="560" y="1515">+ body: Step</text>
+<rect x="50" y="1650" width="200" height="100" fill="#fff" stroke="#000" stroke-width="1"/>
+<text x="150" y="1670">LiteralExpr</text>
+<line x1="50" y1="1685" x2="250" y2="1685" stroke="#000"/>
+<text x="60" y="1695">+ value: string</text>
+<text x="60" y="1715">+ kind: LiteralKind</text>
+<rect x="300" y="1650" width="200" height="60" stroke-width="1" fill="#fff" stroke="#000"/>
+<text x="400" y="1670">&lt;&lt;enum&gt;&gt;</text>
+<text x="400" y="1690">LiteralKind</text>
+<rect x="550" y="1650" width="200" height="80" fill="#fff" stroke="#000" stroke-width="1"/>
+<text x="650" y="1670">VariableExpr</text>
+<line x1="550" y1="1685" x2="750" y2="1685" stroke="#000"/>
+<text x="560" y="1695">+ name: string</text>
+<rect x="50" y="1850" width="200" height="100" fill="#fff" stroke="#000" stroke-width="1"/>
+<text x="150" y="1870">FieldExpr</text>
+<line x1="50" y1="1885" x2="250" y2="1885" stroke="#000"/>
+<text x="60" y="1895">+ object: Expr</text>
+<text x="60" y="1915">+ field: string</text>
+<rect x="300" y="1850" width="200" height="120" stroke-width="1" fill="#fff" stroke="#000"/>
+<text x="400" y="1870">CallExpr</text>
+<line x1="300" y1="1885" x2="500" y2="1885" stroke="#000"/>
+<text x="310" y="1895">+ object: Expr</text>
+<text x="310" y="1915">+ methodName: string</text>
+<text x="310" y="1935">+ args: Expr</text>
+<rect x="550" y="1850" width="200" height="120" fill="#fff" stroke="#000" stroke-width="1"/>
+<text x="650" y="1870">BinaryExpr</text>
+<line x1="550" y1="1885" x2="750" y2="1885" stroke="#000"/>
+<text x="560" y="1895">+ left: Expr</text>
+<text x="560" y="1915">+ operator: string</text>
+<text x="560" y="1935">+ right: Expr</text>
+<rect x="50" y="2050" width="200" height="100" fill="#fff" stroke="#000" stroke-width="1"/>
+<text x="150" y="2070">UnaryExpr</text>
+<line x1="50" y1="2085" x2="250" y2="2085" stroke="#000"/>
+<text x="60" y="2095">+ operator: string</text>
+<text x="60" y="2115">+ operand: Expr</text>
+<rect x="300" y="2050" width="200" height="120" fill="#fff" stroke="#000" stroke-width="1"/>
+<text x="400" y="2070">TernaryExpr</text>
+<line x1="300" y1="2085" x2="500" y2="2085" stroke="#000"/>
+<text x="310" y="2095">+ condition: Expr</text>
+<text x="310" y="2115">+ consequent: Expr</text>
+<text x="310" y="2135">+ alternate: Expr</text>
+<rect x="550" y="2050" width="200" height="140" fill="#fff" stroke="#000" stroke-width="1"/>
+<text x="650" y="2070">NullishExpr</text>
+<line x1="550" y1="2085" x2="750" y2="2085" stroke="#000"/>
+<text x="560" y="2095">+ left: Expr</text>
+<text x="560" y="2115">+ right: Expr</text>
+<text x="560" y="2135">+ throwOnNull: bool</text>
+<text x="560" y="2155">+ errorType: string</text>
+<rect x="50" y="2250" width="200" height="200" fill="#fff" stroke="#000" stroke-width="1"/>
+<text x="150" y="2270">StatesDecl</text>
+<line x1="50" y1="2285" x2="250" y2="2285" stroke="#000"/>
+<text x="60" y="2295">+ name: string</text>
+<text x="60" y="2315">+ initialState: string</text>
+<text x="60" y="2335">+ finalStates: string</text>
+<text x="60" y="2355">+ stateDecls: StateDecl</text>
+<text x="60" y="2375">+ transitions: TransitionDecl</text>
+<text x="60" y="2395">+ parallels: ParallelDecl</text>
+<text x="60" y="2415">+ annotations: AnnotationDecl</text>
+<rect x="300" y="2250" width="200" height="160" fill="#fff" stroke="#000" stroke-width="1"/>
+<text x="400" y="2270">StateDecl</text>
+<line x1="300" y1="2285" x2="500" y2="2285" stroke="#000"/>
+<text x="310" y="2295">+ name: string</text>
+<text x="310" y="2315">+ entryActions: string</text>
+<text x="310" y="2335">+ exitActions: string</text>
+<text x="310" y="2355">+ nested: StateDecl</text>
+<text x="310" y="2375">+ annotations: AnnotationDecl</text>
+<rect x="550" y="2250" width="200" height="160" fill="#fff" stroke="#000" stroke-width="1"/>
+<text x="650" y="2270">TransitionDecl</text>
+<line x1="550" y1="2285" x2="750" y2="2285" stroke="#000"/>
+<text x="560" y="2295">+ fromState: string</text>
+<text x="560" y="2315">+ toState: string</text>
+<text x="560" y="2335">+ trigger: Trigger</text>
+<text x="560" y="2355">+ guard: Expr</text>
+<text x="560" y="2375">+ actions: string</text>
+<rect x="50" y="2450" width="200" height="80" fill="#fff" stroke="#000" stroke-width="1"/>
+<text x="150" y="2470">EventTrigger</text>
+<line x1="50" y1="2485" x2="250" y2="2485" stroke="#000"/>
+<text x="60" y="2495">+ eventName: string</text>
+<rect x="300" y="2450" width="200" height="80" fill="#fff" stroke="#000" stroke-width="1"/>
+<text x="400" y="2470">AfterTrigger</text>
+<line x1="300" y1="2485" x2="500" y2="2485" stroke="#000"/>
+<text x="310" y="2495">+ duration: Duration</text>
+<rect x="550" y="2450" width="200" height="80" stroke-width="1" fill="#fff" stroke="#000"/>
+<text x="650" y="2470">WhenTrigger</text>
+<line x1="550" y1="2485" x2="750" y2="2485" stroke="#000"/>
+<text x="560" y="2495">+ condition: Expr</text>
+<rect x="50" y="2650" width="200" height="100" fill="#fff" stroke="#000" stroke-width="1"/>
+<text x="150" y="2670">Duration</text>
+<line x1="50" y1="2685" x2="250" y2="2685" stroke="#000"/>
+<text x="60" y="2695">+ value: int</text>
+<text x="60" y="2715">+ unit: DurationUnit</text>
+<rect x="300" y="2650" width="200" height="60" fill="#fff" stroke="#000" stroke-width="1"/>
+<text x="400" y="2670">&lt;&lt;enum&gt;&gt;</text>
+<text x="400" y="2690">DurationUnit</text>
+<rect x="550" y="2650" width="200" height="100" fill="#fff" stroke="#000" stroke-width="1"/>
+<text x="650" y="2670">ParallelDecl</text>
+<line x1="550" y1="2685" x2="750" y2="2685" stroke="#000"/>
+<text x="560" y="2695">+ name: string</text>
+<text x="560" y="2715">+ regions: RegionDecl</text>
+<rect x="50" y="2850" width="200" height="120" fill="#fff" stroke="#000" stroke-width="1"/>
+<text x="150" y="2870">RegionDecl</text>
+<line x1="50" y1="2885" x2="250" y2="2885" stroke="#000"/>
+<text x="60" y="2895">+ name: string</text>
+<text x="60" y="2915">+ stateDecls: StateDecl</text>
+<text x="60" y="2935">+ transitions: TransitionDecl</text>
+<rect x="300" y="2850" width="200" height="100" fill="#fff" stroke="#000" stroke-width="1"/>
+<text x="400" y="2870">AnnotationDecl</text>
+<line x1="300" y1="2885" x2="500" y2="2885" stroke="#000"/>
+<text x="310" y="2895">+ name: string</text>
+<text x="310" y="2915">+ args: AnnotationArg</text>
+<rect x="550" y="2850" width="200" height="100" fill="#fff" stroke="#000" stroke-width="1"/>
+<text x="650" y="2870">AnnotationArg</text>
+<line x1="550" y1="2885" x2="750" y2="2885" stroke="#000"/>
+<text x="560" y="2895">+ key: string</text>
+<text x="560" y="2915">+ value: string</text>
+</svg>

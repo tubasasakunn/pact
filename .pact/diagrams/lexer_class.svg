@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" width="800" height="600">
+<rect x="50" y="50" width="200" height="100" fill="#fff" stroke="#000" stroke-width="1"/>
+<text x="150" y="70">&lt;&lt;component&gt;&gt;</text>
+<text x="150" y="90">Lexer</text>
+<line x1="50" y1="105" x2="250" y2="105" stroke="#000"/>
+<text x="60" y="115">+ NewLexer()</text>
+<text x="60" y="135">+ NextToken()</text>
+<rect x="300" y="50" width="200" height="60" stroke="#000" stroke-width="1" fill="#fff"/>
+<text x="400" y="70">&lt;&lt;enum&gt;&gt;</text>
+<text x="400" y="90">TokenType</text>
+<rect x="550" y="50" width="200" height="140" stroke="#000" stroke-width="1" fill="#fff"/>
+<text x="650" y="70">Token</text>
+<line x1="550" y1="85" x2="750" y2="85" stroke="#000"/>
+<text x="560" y="95">+ tokenType: TokenType</text>
+<text x="560" y="115">+ literal: string</text>
+<text x="560" y="135">+ line: int</text>
+<text x="560" y="155">+ column: int</text>
+<rect x="50" y="250" width="200" height="180" fill="#fff" stroke="#000" stroke-width="1"/>
+<text x="150" y="270">LexerState</text>
+<line x1="50" y1="285" x2="250" y2="285" stroke="#000"/>
+<text x="60" y="295">+ input: string</text>
+<text x="60" y="315">+ pos: int</text>
+<text x="60" y="335">+ readPos: int</text>
+<text x="60" y="355">+ ch: int</text>
+<text x="60" y="375">+ line: int</text>
+<text x="60" y="395">+ column: int</text>
+</svg>

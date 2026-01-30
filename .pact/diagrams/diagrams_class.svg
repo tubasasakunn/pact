@@ -1,0 +1,174 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" width="800" height="600">
+<rect x="50" y="50" width="200" height="60" fill="#fff" stroke="#000" stroke-width="1"/>
+<text x="150" y="70">&lt;&lt;component&gt;&gt;</text>
+<text x="150" y="90">DiagramModels</text>
+<rect x="300" y="50" width="200" height="100" fill="#fff" stroke="#000" stroke-width="1"/>
+<text x="400" y="70">ClassDiagram</text>
+<line x1="300" y1="85" x2="500" y2="85" stroke="#000"/>
+<text x="310" y="95">+ nodes: ClassNode</text>
+<text x="310" y="115">+ edges: ClassEdge</text>
+<rect x="550" y="50" width="200" height="180" fill="#fff" stroke="#000" stroke-width="1"/>
+<text x="650" y="70">ClassNode</text>
+<line x1="550" y1="85" x2="750" y2="85" stroke="#000"/>
+<text x="560" y="95">+ id: string</text>
+<text x="560" y="115">+ name: string</text>
+<text x="560" y="135">+ stereotype: string</text>
+<text x="560" y="155">+ attributes: Attribute</text>
+<text x="560" y="175">+ methods: Method</text>
+<text x="560" y="195">+ annotations: Annotation</text>
+<rect x="50" y="250" width="200" height="120" fill="#fff" stroke="#000" stroke-width="1"/>
+<text x="150" y="270">Attribute</text>
+<line x1="50" y1="285" x2="250" y2="285" stroke="#000"/>
+<text x="60" y="295">+ name: string</text>
+<text x="60" y="315">+ attrType: string</text>
+<text x="60" y="335">+ visibility: Visibility</text>
+<rect x="300" y="250" width="200" height="160" fill="#fff" stroke="#000" stroke-width="1"/>
+<text x="400" y="270">Method</text>
+<line x1="300" y1="285" x2="500" y2="285" stroke="#000"/>
+<text x="310" y="295">+ name: string</text>
+<text x="310" y="315">+ params: Param</text>
+<text x="310" y="335">+ returnType: string</text>
+<text x="310" y="355">+ visibility: Visibility</text>
+<text x="310" y="375">+ isAsync: bool</text>
+<rect x="550" y="250" width="200" height="100" fill="#fff" stroke="#000" stroke-width="1"/>
+<text x="650" y="270">Param</text>
+<line x1="550" y1="285" x2="750" y2="285" stroke="#000"/>
+<text x="560" y="295">+ name: string</text>
+<text x="560" y="315">+ paramType: string</text>
+<rect x="50" y="450" width="200" height="60" stroke="#000" stroke-width="1" fill="#fff"/>
+<text x="150" y="470">&lt;&lt;enum&gt;&gt;</text>
+<text x="150" y="490">Visibility</text>
+<rect x="300" y="450" width="200" height="180" fill="#fff" stroke="#000" stroke-width="1"/>
+<text x="400" y="470">ClassEdge</text>
+<line x1="300" y1="485" x2="500" y2="485" stroke="#000"/>
+<text x="310" y="495">+ fromId: string</text>
+<text x="310" y="515">+ toId: string</text>
+<text x="310" y="535">+ edgeType: EdgeType</text>
+<text x="310" y="555">+ label: string</text>
+<text x="310" y="575">+ decoration: Decoration</text>
+<text x="310" y="595">+ lineStyle: LineStyle</text>
+<rect x="550" y="450" width="200" height="60" fill="#fff" stroke="#000" stroke-width="1"/>
+<text x="650" y="470">&lt;&lt;enum&gt;&gt;</text>
+<text x="650" y="490">EdgeType</text>
+<rect x="50" y="650" width="200" height="60" fill="#fff" stroke="#000" stroke-width="1"/>
+<text x="150" y="670">&lt;&lt;enum&gt;&gt;</text>
+<text x="150" y="690">Decoration</text>
+<rect x="300" y="650" width="200" height="60" fill="#fff" stroke="#000" stroke-width="1"/>
+<text x="400" y="670">&lt;&lt;enum&gt;&gt;</text>
+<text x="400" y="690">LineStyle</text>
+<rect x="550" y="650" width="200" height="100" fill="#fff" stroke="#000" stroke-width="1"/>
+<text x="650" y="670">SequenceDiagram</text>
+<line x1="550" y1="685" x2="750" y2="685" stroke="#000"/>
+<text x="560" y="695">+ participants: Participant</text>
+<text x="560" y="715">+ events: SequenceEvent</text>
+<rect x="50" y="850" width="200" height="120" fill="#fff" stroke="#000" stroke-width="1"/>
+<text x="150" y="870">Participant</text>
+<line x1="50" y1="885" x2="250" y2="885" stroke="#000"/>
+<text x="60" y="895">+ id: string</text>
+<text x="60" y="915">+ name: string</text>
+<text x="60" y="935">+ participantType: ParticipantType</text>
+<rect x="300" y="850" width="200" height="60" stroke-width="1" fill="#fff" stroke="#000"/>
+<text x="400" y="870">&lt;&lt;enum&gt;&gt;</text>
+<text x="400" y="890">ParticipantType</text>
+<rect x="550" y="850" width="200" height="140" fill="#fff" stroke="#000" stroke-width="1"/>
+<text x="650" y="870">MessageEvent</text>
+<line x1="550" y1="885" x2="750" y2="885" stroke="#000"/>
+<text x="560" y="895">+ fromId: string</text>
+<text x="560" y="915">+ toId: string</text>
+<text x="560" y="935">+ label: string</text>
+<text x="560" y="955">+ messageType: MessageType</text>
+<rect x="50" y="1050" width="200" height="60" fill="#fff" stroke="#000" stroke-width="1"/>
+<text x="150" y="1070">&lt;&lt;enum&gt;&gt;</text>
+<text x="150" y="1090">MessageType</text>
+<rect x="300" y="1050" width="200" height="140" fill="#fff" stroke="#000" stroke-width="1"/>
+<text x="400" y="1070">FragmentEvent</text>
+<line x1="300" y1="1085" x2="500" y2="1085" stroke="#000"/>
+<text x="310" y="1095">+ fragmentType: FragmentType</text>
+<text x="310" y="1115">+ label: string</text>
+<text x="310" y="1135">+ events: SequenceEvent</text>
+<text x="310" y="1155">+ altLabel: string</text>
+<rect x="550" y="1050" width="200" height="60" fill="#fff" stroke="#000" stroke-width="1"/>
+<text x="650" y="1070">&lt;&lt;enum&gt;&gt;</text>
+<text x="650" y="1090">FragmentType</text>
+<rect x="50" y="1250" width="200" height="100" fill="#fff" stroke="#000" stroke-width="1"/>
+<text x="150" y="1270">StateDiagram</text>
+<line x1="50" y1="1285" x2="250" y2="1285" stroke="#000"/>
+<text x="60" y="1295">+ stateNodes: StateNode</text>
+<text x="60" y="1315">+ stateTransitions: StateTransition</text>
+<rect x="300" y="1250" width="200" height="200" fill="#fff" stroke="#000" stroke-width="1"/>
+<text x="400" y="1270">StateNode</text>
+<line x1="300" y1="1285" x2="500" y2="1285" stroke="#000"/>
+<text x="310" y="1295">+ id: string</text>
+<text x="310" y="1315">+ name: string</text>
+<text x="310" y="1335">+ nodeType: StateType</text>
+<text x="310" y="1355">+ entryActions: string</text>
+<text x="310" y="1375">+ exitActions: string</text>
+<text x="310" y="1395">+ children: StateNode</text>
+<text x="310" y="1415">+ regions: Region</text>
+<rect x="550" y="1250" width="200" height="60" fill="#fff" stroke="#000" stroke-width="1"/>
+<text x="650" y="1270">&lt;&lt;enum&gt;&gt;</text>
+<text x="650" y="1290">StateType</text>
+<rect x="50" y="1450" width="200" height="120" fill="#fff" stroke="#000" stroke-width="1"/>
+<text x="150" y="1470">Region</text>
+<line x1="50" y1="1485" x2="250" y2="1485" stroke="#000"/>
+<text x="60" y="1495">+ name: string</text>
+<text x="60" y="1515">+ stateNodes: StateNode</text>
+<text x="60" y="1535">+ transitions: StateTransition</text>
+<rect x="300" y="1450" width="200" height="160" fill="#fff" stroke="#000" stroke-width="1"/>
+<text x="400" y="1470">StateTransition</text>
+<line x1="300" y1="1485" x2="500" y2="1485" stroke="#000"/>
+<text x="310" y="1495">+ fromId: string</text>
+<text x="310" y="1515">+ toId: string</text>
+<text x="310" y="1535">+ trigger: Trigger</text>
+<text x="310" y="1555">+ guard: string</text>
+<text x="310" y="1575">+ actions: string</text>
+<rect x="550" y="1450" width="200" height="80" fill="#fff" stroke="#000" stroke-width="1"/>
+<text x="650" y="1470">EventTrigger</text>
+<line x1="550" y1="1485" x2="750" y2="1485" stroke="#000"/>
+<text x="560" y="1495">+ eventName: string</text>
+<rect x="50" y="1650" width="200" height="80" fill="#fff" stroke="#000" stroke-width="1"/>
+<text x="150" y="1670">AfterTrigger</text>
+<line x1="50" y1="1685" x2="250" y2="1685" stroke="#000"/>
+<text x="60" y="1695">+ duration: Duration</text>
+<rect x="300" y="1650" width="200" height="80" fill="#fff" stroke="#000" stroke-width="1"/>
+<text x="400" y="1670">WhenTrigger</text>
+<line x1="300" y1="1685" x2="500" y2="1685" stroke="#000"/>
+<text x="310" y="1695">+ condition: string</text>
+<rect x="550" y="1650" width="200" height="100" fill="#fff" stroke="#000" stroke-width="1"/>
+<text x="650" y="1670">Duration</text>
+<line x1="550" y1="1685" x2="750" y2="1685" stroke="#000"/>
+<text x="560" y="1695">+ value: int</text>
+<text x="560" y="1715">+ unit: string</text>
+<rect x="50" y="1850" width="200" height="120" fill="#fff" stroke="#000" stroke-width="1"/>
+<text x="150" y="1870">FlowDiagram</text>
+<line x1="50" y1="1885" x2="250" y2="1885" stroke="#000"/>
+<text x="60" y="1895">+ flowNodes: FlowNode</text>
+<text x="60" y="1915">+ flowEdges: FlowEdge</text>
+<text x="60" y="1935">+ swimlanes: Swimlane</text>
+<rect x="300" y="1850" width="200" height="140" fill="#fff" stroke="#000" stroke-width="1"/>
+<text x="400" y="1870">FlowNode</text>
+<line x1="300" y1="1885" x2="500" y2="1885" stroke="#000"/>
+<text x="310" y="1895">+ id: string</text>
+<text x="310" y="1915">+ label: string</text>
+<text x="310" y="1935">+ shape: NodeShape</text>
+<text x="310" y="1955">+ swimlane: string</text>
+<rect x="550" y="1850" width="200" height="60" stroke="#000" stroke-width="1" fill="#fff"/>
+<text x="650" y="1870">&lt;&lt;enum&gt;&gt;</text>
+<text x="650" y="1890">NodeShape</text>
+<rect x="50" y="2050" width="200" height="120" stroke="#000" stroke-width="1" fill="#fff"/>
+<text x="150" y="2070">FlowEdge</text>
+<line x1="50" y1="2085" x2="250" y2="2085" stroke="#000"/>
+<text x="60" y="2095">+ fromId: string</text>
+<text x="60" y="2115">+ toId: string</text>
+<text x="60" y="2135">+ label: string</text>
+<rect x="300" y="2050" width="200" height="100" fill="#fff" stroke="#000" stroke-width="1"/>
+<text x="400" y="2070">Swimlane</text>
+<line x1="300" y1="2085" x2="500" y2="2085" stroke="#000"/>
+<text x="310" y="2095">+ id: string</text>
+<text x="310" y="2115">+ name: string</text>
+<rect x="550" y="2050" width="200" height="100" fill="#fff" stroke="#000" stroke-width="1"/>
+<text x="650" y="2070">Annotation</text>
+<line x1="550" y1="2085" x2="750" y2="2085" stroke="#000"/>
+<text x="560" y="2095">+ name: string</text>
+<text x="560" y="2115">+ value: string</text>
+</svg>
