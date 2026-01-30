@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" width="800" height="600">
+<rect x="60" y="50" width="80" height="40" fill="#fff" stroke="#000"/>
+<text x="100" y="75">OrderProcessingService</text>
+<line x1="100" y1="100" x2="100" y2="500" stroke="#000" class="dashed"/>
+<rect x="210" y="50" width="80" height="40" fill="#fff" stroke="#000"/>
+<text x="250" y="75">InventoryService</text>
+<line x1="250" y1="100" x2="250" y2="500" class="dashed" stroke="#000"/>
+<rect x="360" y="50" width="80" height="40" fill="#fff" stroke="#000"/>
+<text x="400" y="75">PaymentGateway</text>
+<line x1="400" y1="100" x2="400" y2="500" class="dashed" stroke="#000"/>
+<rect x="510" y="50" width="80" height="40" fill="#fff" stroke="#000"/>
+<text x="550" y="75">ShippingService</text>
+<line x1="550" y1="100" x2="550" y2="500" stroke="#000" class="dashed"/>
+<rect x="660" y="50" width="80" height="40" fill="#fff" stroke="#000"/>
+<text x="700" y="75">NotificationService</text>
+<line x1="700" y1="100" x2="700" y2="500" stroke="#000" class="dashed"/>
+<rect x="810" y="50" width="80" height="40" fill="#fff" stroke="#000"/>
+<text x="850" y="75">FraudDetectionService</text>
+<line x1="850" y1="100" x2="850" y2="500" stroke="#000" class="dashed"/>
+<rect x="960" y="50" width="80" height="40" fill="#fff" stroke="#000"/>
+<text x="1000" y="75">LoyaltyService</text>
+<line x1="1000" y1="100" x2="1000" y2="500" stroke="#000" class="dashed"/>
+</svg>

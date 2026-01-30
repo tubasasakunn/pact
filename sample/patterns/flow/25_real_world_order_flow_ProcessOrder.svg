@@ -1,0 +1,66 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" width="800" height="600">
+<rect x="350" y="50" width="100" height="40" rx="20" ry="20" fill="#fff" stroke="#000"/>
+<text x="400" y="75">Start</text>
+<rect x="350" y="130" width="100" height="40" fill="#fff" stroke="#000"/>
+<text x="400" y="155">order = ...</text>
+<polygon points="400,210 440,230 400,250 360,230" fill="#fff" stroke="#000"/>
+<text x="400" y="235">condition?</text>
+<rect x="350" y="290" width="100" height="40" fill="#fff" stroke="#000"/>
+<text x="400" y="315">fraudCheck = ...</text>
+<polygon points="400,370 440,390 400,410 360,390" fill="#fff" stroke="#000"/>
+<text x="400" y="395">condition?</text>
+<rect x="350" y="450" width="100" height="40" fill="#fff" stroke="#000"/>
+<text x="400" y="475">inventory = ...</text>
+<polygon points="400,530 440,550 400,570 360,550" fill="#fff" stroke="#000"/>
+<text x="400" y="555">condition?</text>
+<rect x="350" y="610" width="100" height="40" stroke="#000" fill="#fff"/>
+<text x="400" y="635">reserved = ...</text>
+<rect x="350" y="690" width="100" height="40" fill="#fff" stroke="#000"/>
+<text x="400" y="715">payment = ...</text>
+<polygon points="400,770 440,790 400,810 360,790" fill="#fff" stroke="#000"/>
+<text x="400" y="795">condition?</text>
+<rect x="350" y="850" width="100" height="40" fill="#fff" stroke="#000"/>
+<text x="400" y="875">captured = ...</text>
+<polygon points="400,930 440,950 400,970 360,950" fill="#fff" stroke="#000"/>
+<text x="400" y="955">condition?</text>
+<rect x="350" y="1010" width="100" height="40" fill="#fff" stroke="#000"/>
+<text x="400" y="1035">awardPoints()</text>
+<rect x="350" y="1090" width="100" height="40" fill="#fff" stroke="#000"/>
+<text x="400" y="1115">shipment = ...</text>
+<rect x="350" y="1170" width="100" height="40" fill="#fff" stroke="#000"/>
+<text x="400" y="1195">trackingNumber = ...</text>
+<rect x="350" y="1250" width="100" height="40" fill="#fff" stroke="#000"/>
+<text x="400" y="1275">order = ...</text>
+<rect x="350" y="1330" width="100" height="40" fill="#fff" stroke="#000"/>
+<text x="400" y="1355">sendConfirmation()</text>
+<rect x="350" y="1410" width="100" height="40" rx="20" ry="20" fill="#fff" stroke="#000"/>
+<text x="400" y="1435">return</text>
+<rect x="350" y="1490" width="100" height="40" fill="#fff" stroke="#000"/>
+<text x="400" y="1515">release()</text>
+<rect x="350" y="1570" width="100" height="40" fill="#fff" stroke="#000"/>
+<text x="400" y="1595">void()</text>
+<rect x="350" y="1650" width="100" height="40" rx="20" ry="20" fill="#fff" stroke="#000"/>
+<text x="400" y="1675">throw PaymentCaptureError</text>
+<rect x="350" y="1730" width="100" height="40" fill="#fff" stroke="#000"/>
+<text x="400" y="1755">release()</text>
+<rect x="350" y="1810" width="100" height="40" fill="#fff" stroke="#000"/>
+<text x="400" y="1835">sendPaymentFailure()</text>
+<rect x="350" y="1890" width="100" height="40" rx="20" ry="20" fill="#fff" stroke="#000"/>
+<text x="400" y="1915">throw PaymentAuthorizationError</text>
+<rect x="350" y="1970" width="100" height="40" fill="#fff" stroke="#000"/>
+<rect x="350" y="2050" width="100" height="40" stroke="#000" fill="#fff"/>
+<text x="400" y="2075">sendOutOfStock()</text>
+<rect x="350" y="2130" width="100" height="40" rx="20" ry="20" fill="#fff" stroke="#000"/>
+<text x="400" y="2155">throw OutOfStockError</text>
+<rect x="350" y="2210" width="100" height="40" fill="#fff" stroke="#000"/>
+<rect x="350" y="2290" width="100" height="40" fill="#fff" stroke="#000"/>
+<text x="400" y="2315">sendFraudAlert()</text>
+<rect x="350" y="2370" width="100" height="40" rx="20" ry="20" fill="#fff" stroke="#000"/>
+<text x="400" y="2395">throw FraudDetectedError</text>
+<rect x="350" y="2450" width="100" height="40" fill="#fff" stroke="#000"/>
+<rect x="350" y="2530" width="100" height="40" rx="20" ry="20" fill="#fff" stroke="#000"/>
+<text x="400" y="2555">throw OrderValidationError</text>
+<rect x="350" y="2610" width="100" height="40" fill="#fff" stroke="#000"/>
+<rect x="350" y="2690" width="100" height="40" rx="20" ry="20" fill="#fff" stroke="#000"/>
+<text x="400" y="2715">End</text>
+</svg>

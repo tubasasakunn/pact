@@ -1,0 +1,34 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" width="800" height="600">
+<rect x="350" y="50" width="100" height="40" rx="20" ry="20" fill="#fff" stroke="#000"/>
+<text x="400" y="75">Start</text>
+<rect x="350" y="130" width="100" height="40" fill="#fff" stroke="#000"/>
+<text x="400" y="155">info()</text>
+<rect x="350" y="210" width="100" height="40" fill="#fff" stroke="#000"/>
+<text x="400" y="235">startTimer()</text>
+<rect x="350" y="290" width="100" height="40" fill="#fff" stroke="#000"/>
+<text x="400" y="315">cached = ...</text>
+<rect x="350" y="370" width="100" height="40" fill="#fff" stroke="#000"/>
+<text x="400" y="395">config = ...</text>
+<rect x="350" y="450" width="100" height="40" fill="#fff" stroke="#000"/>
+<text x="400" y="475">validated = ...</text>
+<rect x="350" y="530" width="100" height="40" fill="#fff" stroke="#000"/>
+<text x="400" y="555">prepared = ...</text>
+<rect x="350" y="610" width="100" height="40" fill="#fff" stroke="#000"/>
+<text x="400" y="635">enriched = ...</text>
+<rect x="350" y="690" width="100" height="40" fill="#fff" stroke="#000"/>
+<text x="400" y="715">transformed = ...</text>
+<rect x="350" y="770" width="100" height="40" fill="#fff" stroke="#000"/>
+<text x="400" y="795">processed = ...</text>
+<rect x="350" y="850" width="100" height="40" stroke="#000" fill="#fff"/>
+<text x="400" y="875">result = ...</text>
+<rect x="350" y="930" width="100" height="40" fill="#fff" stroke="#000"/>
+<text x="400" y="955">set()</text>
+<rect x="350" y="1010" width="100" height="40" fill="#fff" stroke="#000"/>
+<text x="400" y="1035">stopTimer()</text>
+<rect x="350" y="1090" width="100" height="40" stroke="#000" fill="#fff"/>
+<text x="400" y="1115">info()</text>
+<rect x="350" y="1170" width="100" height="40" rx="20" ry="20" fill="#fff" stroke="#000"/>
+<text x="400" y="1195">return</text>
+<rect x="350" y="1250" width="100" height="40" rx="20" ry="20" fill="#fff" stroke="#000"/>
+<text x="400" y="1275">End</text>
+</svg>
