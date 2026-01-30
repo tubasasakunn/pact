@@ -15,6 +15,16 @@ import (
 	"pact/internal/infrastructure/renderer/svg"
 )
 
+// Type aliases for public use
+type (
+	SpecFile      = ast.SpecFile
+	ComponentDecl = ast.ComponentDecl
+	ComponentBody = ast.ComponentBody
+	RelationDecl  = ast.RelationDecl
+	FlowDecl      = ast.FlowDecl
+	StatesDecl    = ast.StatesDecl
+)
+
 // Client provides the main API for parsing and generating diagrams.
 type Client struct{}
 

@@ -117,7 +117,7 @@ func TestCLI_Generate_SingleFile(t *testing.T) {
 	binary := buildCLI(t)
 	dir := setupTestDir(t)
 
-	createTestPactFile(t, dir, "test.pact", `component User { id: string }`)
+	createTestPactFile(t, dir, "test.pact", `component User { type Data { id: string } }`)
 
 	cmd := exec.Command(binary, "generate", "test.pact")
 	cmd.Dir = dir
@@ -177,7 +177,7 @@ func TestCLI_Generate_TypeClass(t *testing.T) {
 	binary := buildCLI(t)
 	dir := setupTestDir(t)
 
-	createTestPactFile(t, dir, "test.pact", `component Test { id: string }`)
+	createTestPactFile(t, dir, "test.pact", `component Test { type Data { id: string } }`)
 
 	cmd := exec.Command(binary, "generate", "-t", "class", "test.pact")
 	cmd.Dir = dir
@@ -195,7 +195,8 @@ func TestCLI_Generate_TypeSequence(t *testing.T) {
 	createTestPactFile(t, dir, "test.pact", `
 component Test {
 	flow TestFlow {
-		step1: "Start"
+		result = self.doWork()
+		return result
 	}
 }`)
 
@@ -215,8 +216,13 @@ func TestCLI_Generate_TypeState(t *testing.T) {
 	createTestPactFile(t, dir, "test.pact", `
 component Test {
 	states TestState {
-		initial -> Active
-		Active -> [*]
+		initial Active
+		final Done
+
+		state Active { }
+		state Done { }
+
+		Active -> Done on finish
 	}
 }`)
 
@@ -236,8 +242,8 @@ func TestCLI_Generate_TypeFlow(t *testing.T) {
 	createTestPactFile(t, dir, "test.pact", `
 component Test {
 	flow TestFlow {
-		start: "Begin"
-		end: "End"
+		result = self.process()
+		return result
 	}
 }`)
 
@@ -254,7 +260,7 @@ func TestCLI_Generate_TypeMultiple(t *testing.T) {
 	binary := buildCLI(t)
 	dir := setupTestDir(t)
 
-	createTestPactFile(t, dir, "test.pact", `component Test { id: string }`)
+	createTestPactFile(t, dir, "test.pact", `component Test { type Data { id: string } }`)
 
 	cmd := exec.Command(binary, "generate", "-t", "class,sequence", "test.pact")
 	cmd.Dir = dir
@@ -269,7 +275,7 @@ func TestCLI_Generate_TypeAll(t *testing.T) {
 	binary := buildCLI(t)
 	dir := setupTestDir(t)
 
-	createTestPactFile(t, dir, "test.pact", `component Test { id: string }`)
+	createTestPactFile(t, dir, "test.pact", `component Test { type Data { id: string } }`)
 
 	cmd := exec.Command(binary, "generate", "-t", "all", "test.pact")
 	cmd.Dir = dir
@@ -316,7 +322,7 @@ func TestCLI_Validate_Valid(t *testing.T) {
 	binary := buildCLI(t)
 	dir := setupTestDir(t)
 
-	createTestPactFile(t, dir, "valid.pact", `component Valid { id: string }`)
+	createTestPactFile(t, dir, "valid.pact", `component Valid { type Data { id: string } }`)
 
 	cmd := exec.Command(binary, "validate", "valid.pact")
 	cmd.Dir = dir
