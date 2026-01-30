@@ -8,6 +8,7 @@ import (
 	"testing"
 
 	"pact/internal/application/transformer"
+	"pact/internal/domain/ast"
 	"pact/internal/infrastructure/parser"
 	"pact/internal/infrastructure/renderer/svg"
 )
@@ -37,7 +38,7 @@ component OrderService {
 }
 `
 	// Parse
-	lexer := parser.NewLexer(strings.NewReader(input))
+	lexer := parser.NewLexer(input)
 	p := parser.NewParser(lexer)
 	spec, err := p.Parse()
 	if err != nil {
@@ -46,7 +47,7 @@ component OrderService {
 
 	// Transform
 	tr := transformer.NewClassTransformer()
-	diagram, err := tr.Transform(spec)
+	diagram, err := tr.Transform([]*ast.SpecFile{spec}, nil)
 	if err != nil {
 		t.Fatalf("transform error: %v", err)
 	}
@@ -81,7 +82,7 @@ component AuthService {
 }
 `
 	// Parse
-	lexer := parser.NewLexer(strings.NewReader(input))
+	lexer := parser.NewLexer(input)
 	p := parser.NewParser(lexer)
 	spec, err := p.Parse()
 	if err != nil {
@@ -90,7 +91,7 @@ component AuthService {
 
 	// Transform
 	tr := transformer.NewSequenceTransformer()
-	diagram, err := tr.Transform(spec, "Login")
+	diagram, err := tr.Transform([]*ast.SpecFile{spec}, &transformer.SequenceOptions{FlowName: "Login"})
 	if err != nil {
 		t.Fatalf("transform error: %v", err)
 	}
@@ -124,7 +125,7 @@ component OrderService {
 }
 `
 	// Parse
-	lexer := parser.NewLexer(strings.NewReader(input))
+	lexer := parser.NewLexer(input)
 	p := parser.NewParser(lexer)
 	spec, err := p.Parse()
 	if err != nil {
@@ -133,7 +134,7 @@ component OrderService {
 
 	// Transform
 	tr := transformer.NewStateTransformer()
-	diagram, err := tr.Transform(spec, "OrderState")
+	diagram, err := tr.Transform([]*ast.SpecFile{spec}, &transformer.StateOptions{StatesName: "OrderState"})
 	if err != nil {
 		t.Fatalf("transform error: %v", err)
 	}
@@ -175,7 +176,7 @@ component PaymentService {
 }
 `
 	// Parse
-	lexer := parser.NewLexer(strings.NewReader(input))
+	lexer := parser.NewLexer(input)
 	p := parser.NewParser(lexer)
 	spec, err := p.Parse()
 	if err != nil {
@@ -184,7 +185,7 @@ component PaymentService {
 
 	// Transform
 	tr := transformer.NewFlowTransformer()
-	diagram, err := tr.Transform(spec, "ProcessPayment")
+	diagram, err := tr.Transform([]*ast.SpecFile{spec}, &transformer.FlowOptions{FlowName: "ProcessPayment"})
 	if err != nil {
 		t.Fatalf("transform error: %v", err)
 	}
@@ -225,16 +226,18 @@ component UserService {
 	}
 }
 `
-	lexer := parser.NewLexer(strings.NewReader(input))
+	lexer := parser.NewLexer(input)
 	p := parser.NewParser(lexer)
 	spec, err := p.Parse()
 	if err != nil {
 		t.Fatalf("parse error: %v", err)
 	}
 
+	specs := []*ast.SpecFile{spec}
+
 	// Class diagram
 	classTr := transformer.NewClassTransformer()
-	classDiagram, err := classTr.Transform(spec)
+	classDiagram, err := classTr.Transform(specs, nil)
 	if err != nil {
 		t.Fatalf("class transform error: %v", err)
 	}
@@ -244,7 +247,7 @@ component UserService {
 
 	// Sequence diagram
 	seqTr := transformer.NewSequenceTransformer()
-	seqDiagram, err := seqTr.Transform(spec, "FetchUser")
+	seqDiagram, err := seqTr.Transform(specs, &transformer.SequenceOptions{FlowName: "FetchUser"})
 	if err != nil {
 		t.Fatalf("sequence transform error: %v", err)
 	}
@@ -254,7 +257,7 @@ component UserService {
 
 	// State diagram
 	stateTr := transformer.NewStateTransformer()
-	stateDiagram, err := stateTr.Transform(spec, "UserState")
+	stateDiagram, err := stateTr.Transform(specs, &transformer.StateOptions{StatesName: "UserState"})
 	if err != nil {
 		t.Fatalf("state transform error: %v", err)
 	}
@@ -264,7 +267,7 @@ component UserService {
 
 	// Flow diagram
 	flowTr := transformer.NewFlowTransformer()
-	flowDiagram, err := flowTr.Transform(spec, "FetchUser")
+	flowDiagram, err := flowTr.Transform(specs, &transformer.FlowOptions{FlowName: "FetchUser"})
 	if err != nil {
 		t.Fatalf("flow transform error: %v", err)
 	}
@@ -333,31 +336,33 @@ type AuthResult {
 	error: string?
 }
 `
-	lexer := parser.NewLexer(strings.NewReader(input))
+	lexer := parser.NewLexer(input)
 	p := parser.NewParser(lexer)
 	spec, err := p.Parse()
 	if err != nil {
 		t.Fatalf("parse error: %v", err)
 	}
 
+	specs := []*ast.SpecFile{spec}
+
 	// All transformations should succeed
 	classTr := transformer.NewClassTransformer()
-	if _, err := classTr.Transform(spec); err != nil {
+	if _, err := classTr.Transform(specs, nil); err != nil {
 		t.Errorf("class transform error: %v", err)
 	}
 
 	seqTr := transformer.NewSequenceTransformer()
-	if _, err := seqTr.Transform(spec, "AuthenticateUser"); err != nil {
+	if _, err := seqTr.Transform(specs, &transformer.SequenceOptions{FlowName: "AuthenticateUser"}); err != nil {
 		t.Errorf("sequence transform error: %v", err)
 	}
 
 	stateTr := transformer.NewStateTransformer()
-	if _, err := stateTr.Transform(spec, "SessionState"); err != nil {
+	if _, err := stateTr.Transform(specs, &transformer.StateOptions{StatesName: "SessionState"}); err != nil {
 		t.Errorf("state transform error: %v", err)
 	}
 
 	flowTr := transformer.NewFlowTransformer()
-	if _, err := flowTr.Transform(spec, "AuthenticateUser"); err != nil {
+	if _, err := flowTr.Transform(specs, &transformer.FlowOptions{FlowName: "AuthenticateUser"}); err != nil {
 		t.Errorf("flow transform error: %v", err)
 	}
 }
@@ -382,7 +387,7 @@ func TestPipeline_RealWorldExample(t *testing.T) {
 				t.Fatalf("failed to read: %v", err)
 			}
 
-			lexer := parser.NewLexer(strings.NewReader(string(content)))
+			lexer := parser.NewLexer(string(content))
 			p := parser.NewParser(lexer)
 			spec, err := p.Parse()
 			if err != nil {
@@ -391,7 +396,7 @@ func TestPipeline_RealWorldExample(t *testing.T) {
 
 			// At least class diagram should work
 			classTr := transformer.NewClassTransformer()
-			diagram, err := classTr.Transform(spec)
+			diagram, err := classTr.Transform([]*ast.SpecFile{spec}, nil)
 			if err != nil {
 				t.Fatalf("transform error: %v", err)
 			}
@@ -417,7 +422,7 @@ func TestPipeline_RealWorldExample(t *testing.T) {
 func TestIntegration_ParseError_Propagation(t *testing.T) {
 	input := `component { invalid syntax`
 
-	lexer := parser.NewLexer(strings.NewReader(input))
+	lexer := parser.NewLexer(input)
 	p := parser.NewParser(lexer)
 	_, err := p.Parse()
 	if err == nil {
@@ -429,7 +434,7 @@ func TestIntegration_ParseError_Propagation(t *testing.T) {
 func TestIntegration_TransformError_Propagation(t *testing.T) {
 	input := `component Empty { }`
 
-	lexer := parser.NewLexer(strings.NewReader(input))
+	lexer := parser.NewLexer(input)
 	p := parser.NewParser(lexer)
 	spec, err := p.Parse()
 	if err != nil {
@@ -438,7 +443,7 @@ func TestIntegration_TransformError_Propagation(t *testing.T) {
 
 	// Request non-existent flow
 	tr := transformer.NewSequenceTransformer()
-	_, err = tr.Transform(spec, "NonExistentFlow")
+	_, err = tr.Transform([]*ast.SpecFile{spec}, &transformer.SequenceOptions{FlowName: "NonExistentFlow"})
 	if err == nil {
 		t.Error("expected transform error for non-existent flow")
 	}
@@ -449,7 +454,7 @@ func TestIntegration_ErrorPosition(t *testing.T) {
 	input := `component Test {
 	invalid syntax here
 }`
-	lexer := parser.NewLexer(strings.NewReader(input))
+	lexer := parser.NewLexer(input)
 	p := parser.NewParser(lexer)
 	_, err := p.Parse()
 	if err == nil {
@@ -476,7 +481,7 @@ func TestIntegration_ErrorType(t *testing.T) {
 
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			lexer := parser.NewLexer(strings.NewReader(tt.input))
+			lexer := parser.NewLexer(tt.input)
 			p := parser.NewParser(lexer)
 			_, err := p.Parse()
 			if err == nil {

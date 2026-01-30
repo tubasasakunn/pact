@@ -1,10 +1,10 @@
 package integration
 
 import (
-	"strings"
 	"testing"
 
 	"pact/internal/application/transformer"
+	"pact/internal/domain/ast"
 	"pact/internal/infrastructure/parser"
 )
 
@@ -22,7 +22,7 @@ component UserService {
 	method GetUser(id: string): User
 }
 `
-	lexer := parser.NewLexer(strings.NewReader(input))
+	lexer := parser.NewLexer(input)
 	p := parser.NewParser(lexer)
 
 	spec, err := p.Parse()
@@ -31,7 +31,7 @@ component UserService {
 	}
 
 	tr := transformer.NewClassTransformer()
-	diagram, err := tr.Transform(spec)
+	diagram, err := tr.Transform([]*ast.SpecFile{spec}, nil)
 	if err != nil {
 		t.Fatalf("transform error: %v", err)
 	}
@@ -52,7 +52,7 @@ component AuthService {
 	}
 }
 `
-	lexer := parser.NewLexer(strings.NewReader(input))
+	lexer := parser.NewLexer(input)
 	p := parser.NewParser(lexer)
 
 	spec, err := p.Parse()
@@ -61,7 +61,7 @@ component AuthService {
 	}
 
 	tr := transformer.NewSequenceTransformer()
-	diagram, err := tr.Transform(spec, "Login")
+	diagram, err := tr.Transform([]*ast.SpecFile{spec}, &transformer.SequenceOptions{FlowName: "Login"})
 	if err != nil {
 		t.Fatalf("transform error: %v", err)
 	}
@@ -83,7 +83,7 @@ component OrderService {
 	}
 }
 `
-	lexer := parser.NewLexer(strings.NewReader(input))
+	lexer := parser.NewLexer(input)
 	p := parser.NewParser(lexer)
 
 	spec, err := p.Parse()
@@ -92,7 +92,7 @@ component OrderService {
 	}
 
 	tr := transformer.NewStateTransformer()
-	diagram, err := tr.Transform(spec, "OrderState")
+	diagram, err := tr.Transform([]*ast.SpecFile{spec}, &transformer.StateOptions{StatesName: "OrderState"})
 	if err != nil {
 		t.Fatalf("transform error: %v", err)
 	}
@@ -118,7 +118,7 @@ component PaymentService {
 	}
 }
 `
-	lexer := parser.NewLexer(strings.NewReader(input))
+	lexer := parser.NewLexer(input)
 	p := parser.NewParser(lexer)
 
 	spec, err := p.Parse()
@@ -127,7 +127,7 @@ component PaymentService {
 	}
 
 	tr := transformer.NewFlowTransformer()
-	diagram, err := tr.Transform(spec, "ProcessPayment")
+	diagram, err := tr.Transform([]*ast.SpecFile{spec}, &transformer.FlowOptions{FlowName: "ProcessPayment"})
 	if err != nil {
 		t.Fatalf("transform error: %v", err)
 	}
@@ -146,7 +146,7 @@ func TestIntegration_ParseMultipleFiles(t *testing.T) {
 	}
 
 	for i, input := range inputs {
-		lexer := parser.NewLexer(strings.NewReader(input))
+		lexer := parser.NewLexer(input)
 		p := parser.NewParser(lexer)
 
 		spec, err := p.Parse()

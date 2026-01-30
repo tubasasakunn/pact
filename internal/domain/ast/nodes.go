@@ -2,9 +2,13 @@ package ast
 
 // SpecFile は .pact ファイル全体を表す
 type SpecFile struct {
-	Path      string
-	Imports   []ImportDecl
-	Component *ComponentDecl
+	Path        string
+	Imports     []ImportDecl
+	Component   *ComponentDecl   // 後方互換性のため残す
+	Components  []ComponentDecl  // 複数コンポーネント対応
+	Interfaces  []InterfaceDecl  // ファイルレベルのインターフェース
+	Types       []TypeDecl       // ファイルレベルの型定義
+	Annotations []AnnotationDecl // ファイルレベルのアノテーション
 }
 
 // ImportDecl は import 文を表す

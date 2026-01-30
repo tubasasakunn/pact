@@ -33,6 +33,11 @@ func (p *Parser) ParseFile() (*ast.SpecFile, error) {
 	return nil, &errors.ParseError{Message: "not implemented"}
 }
 
+// Parse はParseFileのエイリアス
+func (p *Parser) Parse() (*ast.SpecFile, error) {
+	return p.ParseFile()
+}
+
 // ParseString は文字列をパースする
 func ParseString(input string) (*ast.SpecFile, error) {
 	l := NewLexer(input)

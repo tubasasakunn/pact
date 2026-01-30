@@ -3,7 +3,7 @@ package pact
 
 import (
 	"io"
-	"strings"
+	"os"
 
 	"pact/internal/application/transformer"
 	"pact/internal/domain/ast"
@@ -25,13 +25,16 @@ func New() *Client {
 
 // ParseFile parses a .pact file and returns the AST.
 func (c *Client) ParseFile(path string) (*ast.SpecFile, error) {
-	// Implementation: read file and parse
-	return nil, nil
+	content, err := os.ReadFile(path)
+	if err != nil {
+		return nil, err
+	}
+	return c.ParseString(string(content))
 }
 
 // ParseString parses a .pact string and returns the AST.
 func (c *Client) ParseString(content string) (*ast.SpecFile, error) {
-	lexer := parser.NewLexer(strings.NewReader(content))
+	lexer := parser.NewLexer(content)
 	p := parser.NewParser(lexer)
 	return p.Parse()
 }
@@ -39,25 +42,25 @@ func (c *Client) ParseString(content string) (*ast.SpecFile, error) {
 // ToClassDiagram transforms the AST to a class diagram.
 func (c *Client) ToClassDiagram(spec *ast.SpecFile) (*class.Diagram, error) {
 	tr := transformer.NewClassTransformer()
-	return tr.Transform(spec)
+	return tr.Transform([]*ast.SpecFile{spec}, nil)
 }
 
 // ToSequenceDiagram transforms the AST to a sequence diagram for the given flow.
 func (c *Client) ToSequenceDiagram(spec *ast.SpecFile, flowName string) (*sequence.Diagram, error) {
 	tr := transformer.NewSequenceTransformer()
-	return tr.Transform(spec, flowName)
+	return tr.Transform([]*ast.SpecFile{spec}, &transformer.SequenceOptions{FlowName: flowName})
 }
 
 // ToStateDiagram transforms the AST to a state diagram for the given states.
 func (c *Client) ToStateDiagram(spec *ast.SpecFile, statesName string) (*state.Diagram, error) {
 	tr := transformer.NewStateTransformer()
-	return tr.Transform(spec, statesName)
+	return tr.Transform([]*ast.SpecFile{spec}, &transformer.StateOptions{StatesName: statesName})
 }
 
 // ToFlowchart transforms the AST to a flowchart for the given flow.
 func (c *Client) ToFlowchart(spec *ast.SpecFile, flowName string) (*flow.Diagram, error) {
 	tr := transformer.NewFlowTransformer()
-	return tr.Transform(spec, flowName)
+	return tr.Transform([]*ast.SpecFile{spec}, &transformer.FlowOptions{FlowName: flowName})
 }
 
 // RenderClassDiagram renders a class diagram to SVG.

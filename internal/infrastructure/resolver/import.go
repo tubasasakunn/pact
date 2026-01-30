@@ -22,6 +22,26 @@ func NewResolver(parser Parser) *Resolver {
 	return &Resolver{parser: parser}
 }
 
+// ImportResolver はパスベースのインポート解決器
+type ImportResolver struct{}
+
+// NewImportResolver は新しいImportResolverを作成する
+func NewImportResolver() *ImportResolver {
+	return &ImportResolver{}
+}
+
+// Resolve はファイルパスからインポートを解決し、依存順に返す
+func (r *ImportResolver) Resolve(path string) ([]string, error) {
+	// TODO: 実装
+	return nil, &errors.ImportError{Path: path, Message: "not implemented"}
+}
+
+// IsCycleError はエラーがCycleErrorかどうかを判定する
+func IsCycleError(err error) bool {
+	_, ok := err.(*errors.CycleError)
+	return ok
+}
+
 // Resolve はファイルリストのインポートを解決し、依存順にソートして返す
 func (r *Resolver) Resolve(files []*ast.SpecFile) ([]*ast.SpecFile, error) {
 	// TODO: 実装
