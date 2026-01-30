@@ -3,6 +3,7 @@ package canvas
 import (
 	"bytes"
 	"fmt"
+	"html"
 	"io"
 )
 
@@ -151,7 +152,7 @@ func (c *Canvas) Text(x, y int, text string, opts ...Option) {
 	applyOptions(attrs, opts)
 	c.elements = append(c.elements, fmt.Sprintf(
 		`<text x="%d" y="%d"%s>%s</text>`,
-		x, y, attrsToString(attrs), text,
+		x, y, attrsToString(attrs), html.EscapeString(text),
 	))
 }
 

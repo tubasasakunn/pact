@@ -128,7 +128,7 @@ func TestClassRenderer_Stereotype(t *testing.T) {
 	renderer.Render(diagram, &buf)
 
 	svg := buf.String()
-	if !strings.Contains(svg, "<<interface>>") {
+	if !strings.Contains(svg, "&lt;&lt;interface&gt;&gt;") {
 		t.Error("expected stereotype in output")
 	}
 }
