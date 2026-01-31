@@ -25,7 +25,7 @@
 <text x="633" y="335">+ visitStatesDecl: func</text>
 <text x="633" y="355">+ visitStateDecl: func</text>
 <text x="633" y="375">+ visitTransitionDecl: func</text>
-<rect x="887" y="50" width="238" height="80" fill="#fff" stroke="#000" stroke-width="1"/>
+<rect x="887" y="50" width="238" height="80" stroke-width="1" fill="#fff" stroke="#000"/>
 <text x="1006" y="70" text-anchor="middle">BaseVisitor</text>
 <line x1="887" y1="85" x2="1125" y2="85" stroke="#000"/>
 <text x="897" y="95">+ callbacks: VisitorCallbacks</text>

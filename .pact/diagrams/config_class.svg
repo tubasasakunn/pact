@@ -6,7 +6,7 @@
 <text x="116" y="115">+ Default(): ConfigData</text>
 <text x="116" y="135">+ DiagramEnabled(diagramKind: string): bool</text>
 <text x="116" y="155">+ IsExcluded(filePath: string): bool</text>
-<rect x="485" y="50" width="209" height="180" fill="#fff" stroke="#000" stroke-width="1"/>
+<rect x="485" y="50" width="209" height="180" stroke-width="1" fill="#fff" stroke="#000"/>
 <text x="589" y="70" text-anchor="middle">ConfigData</text>
 <line x1="485" y1="85" x2="694" y2="85" stroke="#000"/>
 <text x="495" y="95">+ sourceRoot: string</text>

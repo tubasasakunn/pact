@@ -11,7 +11,7 @@
 <text x="60" y="215">+ ReadNumber(): Token</text>
 <text x="60" y="235">+ ReadString(): string</text>
 <text x="60" y="255">+ LookupIdent(ident: string): TokenType</text>
-<rect x="400" y="50" width="202" height="220" fill="#fff" stroke="#000" stroke-width="1"/>
+<rect x="400" y="50" width="202" height="220" stroke-width="1" fill="#fff" stroke="#000"/>
 <text x="501" y="70" text-anchor="middle">LexerState</text>
 <line x1="400" y1="85" x2="602" y2="85" stroke="#000"/>
 <text x="410" y="95">+ input: string</text>
@@ -22,7 +22,7 @@
 <text x="410" y="195">+ columnNumber: int</text>
 <text x="410" y="215">+ tokenLineNumber: int</text>
 <text x="410" y="235">+ tokenColumnNumber: int</text>
-<rect x="642" y="50" width="188" height="100" stroke="#000" stroke-width="1" fill="#fff"/>
+<rect x="642" y="50" width="188" height="100" fill="#fff" stroke="#000" stroke-width="1"/>
 <text x="736" y="70" text-anchor="middle">KeywordEntry</text>
 <line x1="642" y1="85" x2="830" y2="85" stroke="#000"/>
 <text x="652" y="95">+ keyword: string</text>

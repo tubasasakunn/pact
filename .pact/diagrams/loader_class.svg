@@ -1,5 +1,5 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" width="800" height="600">
-<rect x="91" y="50" width="375" height="140" stroke-width="1" fill="#fff" stroke="#000"/>
+<rect x="91" y="50" width="375" height="140" stroke="#000" stroke-width="1" fill="#fff"/>
 <text x="278" y="70" text-anchor="middle">&lt;&lt;component&gt;&gt;</text>
 <text x="278" y="90" text-anchor="middle">ConfigLoader</text>
 <line x1="91" y1="105" x2="466" y2="105" stroke="#000"/>

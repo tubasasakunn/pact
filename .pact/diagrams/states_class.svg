@@ -1,8 +1,8 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 2287 600" width="2287" height="600">
-<rect x="50" y="50" width="123" height="60" fill="#fff" stroke="#000" stroke-width="1"/>
+<rect x="50" y="50" width="123" height="60" stroke-width="1" fill="#fff" stroke="#000"/>
 <text x="111" y="70" text-anchor="middle">&lt;&lt;component&gt;&gt;</text>
 <text x="111" y="90" text-anchor="middle">ASTStates</text>
-<rect x="213" y="50" width="238" height="220" stroke-width="1" fill="#fff" stroke="#000"/>
+<rect x="213" y="50" width="238" height="220" fill="#fff" stroke="#000" stroke-width="1"/>
 <text x="332" y="70" text-anchor="middle">StatesDecl</text>
 <line x1="213" y1="85" x2="451" y2="85" stroke="#000"/>
 <text x="223" y="95">+ pos: Position</text>
@@ -43,17 +43,17 @@
 <line x1="1145" y1="85" x2="1319" y2="85" stroke="#000"/>
 <text x="1155" y="95">+ pos: Position</text>
 <text x="1155" y="115">+ duration: Duration</text>
-<rect x="1359" y="50" width="130" height="100" stroke-width="1" fill="#fff" stroke="#000"/>
+<rect x="1359" y="50" width="130" height="100" fill="#fff" stroke="#000" stroke-width="1"/>
 <text x="1424" y="70" text-anchor="middle">Duration</text>
 <line x1="1359" y1="85" x2="1489" y2="85" stroke="#000"/>
 <text x="1369" y="95">+ value: Int</text>
 <text x="1369" y="115">+ unit: String</text>
-<rect x="1529" y="50" width="152" height="100" stroke-width="1" fill="#fff" stroke="#000"/>
+<rect x="1529" y="50" width="152" height="100" fill="#fff" stroke="#000" stroke-width="1"/>
 <text x="1605" y="70" text-anchor="middle">WhenTrigger</text>
 <line x1="1529" y1="85" x2="1681" y2="85" stroke="#000"/>
 <text x="1539" y="95">+ pos: Position</text>
 <text x="1539" y="115">+ condition: Expr</text>
-<rect x="1721" y="50" width="238" height="140" stroke="#000" stroke-width="1" fill="#fff"/>
+<rect x="1721" y="50" width="238" height="140" fill="#fff" stroke="#000" stroke-width="1"/>
 <text x="1840" y="70" text-anchor="middle">ParallelDecl</text>
 <line x1="1721" y1="85" x2="1959" y2="85" stroke="#000"/>
 <text x="1731" y="95">+ pos: Position</text>

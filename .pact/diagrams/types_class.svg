@@ -2,7 +2,7 @@
 <rect x="50" y="50" width="123" height="60" fill="#fff" stroke="#000" stroke-width="1"/>
 <text x="111" y="70" text-anchor="middle">&lt;&lt;component&gt;&gt;</text>
 <text x="111" y="90" text-anchor="middle">DiagramCommon</text>
-<rect x="213" y="50" width="120" height="60" stroke="#000" stroke-width="1" fill="#fff"/>
+<rect x="213" y="50" width="120" height="60" fill="#fff" stroke="#000" stroke-width="1"/>
 <text x="273" y="70" text-anchor="middle">&lt;&lt;enum&gt;&gt;</text>
 <text x="273" y="90" text-anchor="middle">DiagramType</text>
 <rect x="373" y="50" width="217" height="100" fill="#fff" stroke="#000" stroke-width="1"/>
@@ -10,7 +10,7 @@
 <line x1="373" y1="85" x2="590" y2="85" stroke="#000"/>
 <text x="383" y="95">+ name: string</text>
 <text x="383" y="115">+ arguments: AnnotationArg</text>
-<rect x="630" y="50" width="137" height="100" fill="#fff" stroke="#000" stroke-width="1"/>
+<rect x="630" y="50" width="137" height="100" stroke-width="1" fill="#fff" stroke="#000"/>
 <text x="698" y="70" text-anchor="middle">AnnotationArg</text>
 <line x1="630" y1="85" x2="767" y2="85" stroke="#000"/>
 <text x="640" y="95">+ key: string</text>

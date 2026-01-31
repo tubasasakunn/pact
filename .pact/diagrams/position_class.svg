@@ -1,5 +1,5 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" width="800" height="600">
-<rect x="253" y="50" width="123" height="60" stroke-width="1" fill="#fff" stroke="#000"/>
+<rect x="253" y="50" width="123" height="60" fill="#fff" stroke="#000" stroke-width="1"/>
 <text x="314" y="70" text-anchor="middle">&lt;&lt;component&gt;&gt;</text>
 <text x="314" y="90" text-anchor="middle">ASTPosition</text>
 <rect x="416" y="50" width="130" height="140" fill="#fff" stroke="#000" stroke-width="1"/>
