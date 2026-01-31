@@ -1,5 +1,5 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 850 700" width="850" height="700">
-<rect x="50" y="50" width="200" height="60" fill="#fff" stroke="#000" stroke-width="1"/>
+<rect x="50" y="50" width="200" height="60" stroke="#000" stroke-width="1" fill="#fff"/>
 <text x="150" y="70" text-anchor="middle">&lt;&lt;component&gt;&gt;</text>
 <text x="150" y="90" text-anchor="middle">ASTNodes</text>
 <rect x="300" y="50" width="200" height="200" fill="#fff" stroke="#000" stroke-width="1"/>
@@ -34,7 +34,7 @@
 <text x="310" y="355">+ requiresInterfaces: InterfaceDecl</text>
 <text x="310" y="375">+ flows: FlowDecl</text>
 <text x="310" y="395">+ statesBlocks: StatesDecl</text>
-<rect x="550" y="250" width="200" height="120" stroke="#000" stroke-width="1" fill="#fff"/>
+<rect x="550" y="250" width="200" height="120" fill="#fff" stroke="#000" stroke-width="1"/>
 <text x="650" y="270" text-anchor="middle">AnnotationDecl</text>
 <line x1="550" y1="285" x2="750" y2="285" stroke="#000"/>
 <text x="560" y="295">+ pos: Position</text>

@@ -1,8 +1,8 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 850 900" width="850" height="900">
-<rect x="50" y="50" width="200" height="60" stroke-width="1" fill="#fff" stroke="#000"/>
+<rect x="50" y="50" width="200" height="60" fill="#fff" stroke="#000" stroke-width="1"/>
 <text x="150" y="70" text-anchor="middle">&lt;&lt;component&gt;&gt;</text>
 <text x="150" y="90" text-anchor="middle">ASTStates</text>
-<rect x="300" y="50" width="200" height="220" fill="#fff" stroke="#000" stroke-width="1"/>
+<rect x="300" y="50" width="200" height="220" stroke="#000" stroke-width="1" fill="#fff"/>
 <text x="400" y="70" text-anchor="middle">StatesDecl</text>
 <line x1="300" y1="85" x2="500" y2="85" stroke="#000"/>
 <text x="310" y="95">+ pos: Position</text>
@@ -24,7 +24,7 @@
 <text x="560" y="195">+ initialState: String</text>
 <text x="560" y="215">+ statesBlocks: StateDecl</text>
 <text x="560" y="235">+ transitions: TransitionDecl</text>
-<rect x="50" y="250" width="200" height="180" fill="#fff" stroke="#000" stroke-width="1"/>
+<rect x="50" y="250" width="200" height="180" stroke-width="1" fill="#fff" stroke="#000"/>
 <text x="150" y="270" text-anchor="middle">TransitionDecl</text>
 <line x1="50" y1="285" x2="250" y2="285" stroke="#000"/>
 <text x="60" y="295">+ pos: Position</text>
@@ -43,17 +43,17 @@
 <line x1="550" y1="285" x2="750" y2="285" stroke="#000"/>
 <text x="560" y="295">+ pos: Position</text>
 <text x="560" y="315">+ duration: Duration</text>
-<rect x="50" y="450" width="200" height="100" fill="#fff" stroke="#000" stroke-width="1"/>
+<rect x="50" y="450" width="200" height="100" stroke-width="1" fill="#fff" stroke="#000"/>
 <text x="150" y="470" text-anchor="middle">Duration</text>
 <line x1="50" y1="485" x2="250" y2="485" stroke="#000"/>
 <text x="60" y="495">+ value: Int</text>
 <text x="60" y="515">+ unit: String</text>
-<rect x="300" y="450" width="200" height="100" fill="#fff" stroke="#000" stroke-width="1"/>
+<rect x="300" y="450" width="200" height="100" stroke="#000" stroke-width="1" fill="#fff"/>
 <text x="400" y="470" text-anchor="middle">WhenTrigger</text>
 <line x1="300" y1="485" x2="500" y2="485" stroke="#000"/>
 <text x="310" y="495">+ pos: Position</text>
 <text x="310" y="515">+ condition: Expr</text>
-<rect x="550" y="450" width="200" height="140" fill="#fff" stroke="#000" stroke-width="1"/>
+<rect x="550" y="450" width="200" height="140" stroke="#000" stroke-width="1" fill="#fff"/>
 <text x="650" y="470" text-anchor="middle">ParallelDecl</text>
 <line x1="550" y1="485" x2="750" y2="485" stroke="#000"/>
 <text x="560" y="495">+ pos: Position</text>
