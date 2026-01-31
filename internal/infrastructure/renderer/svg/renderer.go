@@ -323,26 +323,25 @@ func (r *ClassRenderer) renderEdgeImproved(c *canvas.Canvas, edge class.Edge, x1
 		opts = append(opts, canvas.Dashed())
 	}
 
-	// 障害物（他のノード）を検出
-	needsRouting := false
+	// 障害物リストを構築（始点・終点ノード以外）
+	var obstacles []rect
 	for nodeID, pos := range nodePositions {
 		if nodeID == edge.From || nodeID == edge.To {
 			continue
 		}
-		// 直線がノードと交差するかチェック
-		if r.lineIntersectsRect(x1, y1, x2, y2, pos.x, pos.y, pos.width, pos.height) {
-			needsRouting = true
-			break
-		}
+		obstacles = append(obstacles, rect{pos.x, pos.y, pos.width, pos.height})
 	}
 
-	if needsRouting || (abs(x2-x1) > 30 && abs(y2-y1) > 30) {
-		// 直交ルーティング（Z字型またはL字型）
-		r.renderOrthogonalEdge(c, edge, x1, y1, x2, y2, opts)
-	} else {
-		// 直線
-		c.Line(x1, y1, x2, y2, opts...)
-		r.drawArrowHead(c, edge, x1, y1, x2, y2)
+	// ウェイポイントを計算
+	waypoints := r.calculateWaypoints(x1, y1, x2, y2, obstacles)
+
+	// パスを描画
+	r.renderPath(c, waypoints, opts)
+
+	// 矢印を描画（最後のセグメントの方向で）
+	if len(waypoints) >= 2 {
+		lastIdx := len(waypoints) - 1
+		r.drawArrowHead(c, edge, waypoints[lastIdx-1].x, waypoints[lastIdx-1].y, waypoints[lastIdx].x, waypoints[lastIdx].y)
 	}
 
 	// ラベル描画
@@ -350,6 +349,133 @@ func (r *ClassRenderer) renderEdgeImproved(c *canvas.Canvas, edge class.Edge, x1
 		midX := (x1 + x2) / 2
 		midY := (y1 + y2) / 2
 		c.Text(midX, midY-5, edge.Label, canvas.TextAnchor("middle"))
+	}
+}
+
+// rect は矩形を表す
+type rect struct {
+	x, y, w, h int
+}
+
+// point は点を表す
+type point struct {
+	x, y int
+}
+
+// calculateWaypoints は障害物を回避するウェイポイントを計算
+func (r *ClassRenderer) calculateWaypoints(x1, y1, x2, y2 int, obstacles []rect) []point {
+	start := point{x1, y1}
+	end := point{x2, y2}
+
+	// 直線で障害物と交差しないか確認
+	if !r.pathIntersectsAnyObstacle(start, end, obstacles) {
+		// 直線で接続可能
+		if abs(x2-x1) < 10 || abs(y2-y1) < 10 {
+			// ほぼ水平または垂直
+			return []point{start, end}
+		}
+	}
+
+	// 直交ルーティングが必要
+	margin := 20 // 障害物からのマージン
+
+	// ルーティング戦略を選択
+	// 1. L字型（1回曲がり）
+	// 2. Z字型（2回曲がり）
+	// 3. U字型（障害物を迂回）
+
+	// まずL字型を試す（終点側で曲がる）
+	corner1 := point{x1, y2}
+	if !r.pathIntersectsAnyObstacle(start, corner1, obstacles) &&
+		!r.pathIntersectsAnyObstacle(corner1, end, obstacles) {
+		return []point{start, corner1, end}
+	}
+
+	// L字型（始点側で曲がる）
+	corner2 := point{x2, y1}
+	if !r.pathIntersectsAnyObstacle(start, corner2, obstacles) &&
+		!r.pathIntersectsAnyObstacle(corner2, end, obstacles) {
+		return []point{start, corner2, end}
+	}
+
+	// Z字型（中央で曲がる）
+	if abs(y2-y1) > abs(x2-x1) {
+		// 垂直が主方向：垂直-水平-垂直
+		midY := (y1 + y2) / 2
+		mid1 := point{x1, midY}
+		mid2 := point{x2, midY}
+		if !r.pathIntersectsAnyObstacle(start, mid1, obstacles) &&
+			!r.pathIntersectsAnyObstacle(mid1, mid2, obstacles) &&
+			!r.pathIntersectsAnyObstacle(mid2, end, obstacles) {
+			return []point{start, mid1, mid2, end}
+		}
+	} else {
+		// 水平が主方向：水平-垂直-水平
+		midX := (x1 + x2) / 2
+		mid1 := point{midX, y1}
+		mid2 := point{midX, y2}
+		if !r.pathIntersectsAnyObstacle(start, mid1, obstacles) &&
+			!r.pathIntersectsAnyObstacle(mid1, mid2, obstacles) &&
+			!r.pathIntersectsAnyObstacle(mid2, end, obstacles) {
+			return []point{start, mid1, mid2, end}
+		}
+	}
+
+	// U字型ルーティング（障害物の外側を通る）
+	// 全障害物のバウンディングボックスを計算
+	if len(obstacles) > 0 {
+		minObsX, minObsY := obstacles[0].x, obstacles[0].y
+		maxObsX, maxObsY := obstacles[0].x+obstacles[0].w, obstacles[0].y+obstacles[0].h
+
+		for _, obs := range obstacles {
+			if obs.x < minObsX {
+				minObsX = obs.x
+			}
+			if obs.y < minObsY {
+				minObsY = obs.y
+			}
+			if obs.x+obs.w > maxObsX {
+				maxObsX = obs.x + obs.w
+			}
+			if obs.y+obs.h > maxObsY {
+				maxObsY = obs.y + obs.h
+			}
+		}
+
+		// 上を通るルート
+		topY := minObsY - margin
+		if y1 <= topY || y2 <= topY {
+			mid1 := point{x1, topY}
+			mid2 := point{x2, topY}
+			return []point{start, mid1, mid2, end}
+		}
+
+		// 下を通るルート
+		bottomY := maxObsY + margin
+		mid1 := point{x1, bottomY}
+		mid2 := point{x2, bottomY}
+		return []point{start, mid1, mid2, end}
+	}
+
+	// フォールバック: 単純なZ字型
+	midY := (y1 + y2) / 2
+	return []point{start, {x1, midY}, {x2, midY}, end}
+}
+
+// pathIntersectsAnyObstacle はパスが障害物と交差するか確認
+func (r *ClassRenderer) pathIntersectsAnyObstacle(p1, p2 point, obstacles []rect) bool {
+	for _, obs := range obstacles {
+		if r.lineIntersectsRect(p1.x, p1.y, p2.x, p2.y, obs.x, obs.y, obs.w, obs.h) {
+			return true
+		}
+	}
+	return false
+}
+
+// renderPath はウェイポイントに沿ってパスを描画
+func (r *ClassRenderer) renderPath(c *canvas.Canvas, waypoints []point, opts []canvas.Option) {
+	for i := 0; i < len(waypoints)-1; i++ {
+		c.Line(waypoints[i].x, waypoints[i].y, waypoints[i+1].x, waypoints[i+1].y, opts...)
 	}
 }
 
