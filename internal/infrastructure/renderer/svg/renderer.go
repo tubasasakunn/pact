@@ -33,64 +33,107 @@ func (r *ClassRenderer) Render(diagram *class.Diagram, w io.Writer) error {
 		nodeSizes[node.ID] = struct{ width, height int }{w, h}
 	}
 
-	// 動的レイアウト計算
+	// エッジ接続情報を構築
+	outgoing := make(map[string][]string) // from -> []to
+	incoming := make(map[string][]string) // to -> []from
+	for _, edge := range diagram.Edges {
+		outgoing[edge.From] = append(outgoing[edge.From], edge.To)
+		incoming[edge.To] = append(incoming[edge.To], edge.From)
+	}
+
+	// レイヤー割り当て（トポロジカルソート風）
+	layers := r.assignLayers(diagram.Nodes, incoming, outgoing)
+
+	// 各レイヤーの幅と高さを計算
+	layerWidths := make([]int, len(layers))
+	layerHeights := make([]int, len(layers))
+	for i, layer := range layers {
+		totalWidth := 0
+		maxHeight := 0
+		for j, nodeID := range layer {
+			size := nodeSizes[nodeID]
+			totalWidth += size.width
+			if j < len(layer)-1 {
+				totalWidth += 40 // ノード間マージン
+			}
+			if size.height > maxHeight {
+				maxHeight = size.height
+			}
+		}
+		layerWidths[i] = totalWidth
+		layerHeights[i] = maxHeight
+	}
+
+	// 最大幅を計算
+	maxLayerWidth := 0
+	for _, w := range layerWidths {
+		if w > maxLayerWidth {
+			maxLayerWidth = w
+		}
+	}
+	canvasWidth := maxLayerWidth + 100
+	if canvasWidth < 800 {
+		canvasWidth = 800
+	}
+
+	// ノード位置を計算（レイヤーベース）
 	nodePositions := make(map[string]struct{ x, y, width, height int })
-	margin := 30 // ノード間のマージン
-
-	// 行ごとにノードを配置（幅に基づいて動的に列数を決定）
-	x := 50
 	y := 50
-	rowMaxHeight := 0
-	maxWidth := 800 // キャンバスの最小幅
-	currentRowWidth := 50
+	layerMargin := 60 // レイヤー間のマージン
 
+	for i, layer := range layers {
+		// レイヤーを中央揃え
+		layerWidth := layerWidths[i]
+		startX := (canvasWidth - layerWidth) / 2
+		if startX < 50 {
+			startX = 50
+		}
+
+		x := startX
+		for _, nodeID := range layer {
+			size := nodeSizes[nodeID]
+			nodePositions[nodeID] = struct{ x, y, width, height int }{x, y, size.width, size.height}
+			x += size.width + 40
+		}
+
+		y += layerHeights[i] + layerMargin
+	}
+
+	// ノードを描画
+	nodeMap := make(map[string]class.Node)
 	for _, node := range diagram.Nodes {
-		size := nodeSizes[node.ID]
-
-		// 行の幅が限界を超えたら次の行へ
-		if currentRowWidth+size.width+margin > 900 && currentRowWidth > 50 {
-			x = 50
-			y += rowMaxHeight + margin
-			rowMaxHeight = 0
-			currentRowWidth = 50
-		}
-
-		nodePositions[node.ID] = struct{ x, y, width, height int }{x, y, size.width, size.height}
-
-		// ノードの描画
-		r.renderNode(c, node, x, y, size.width)
-
-		// 次のノード位置を計算
-		x += size.width + margin
-		currentRowWidth = x
-		if currentRowWidth > maxWidth {
-			maxWidth = currentRowWidth
-		}
-		if size.height > rowMaxHeight {
-			rowMaxHeight = size.height
-		}
+		nodeMap[node.ID] = node
+	}
+	for _, node := range diagram.Nodes {
+		pos := nodePositions[node.ID]
+		r.renderNode(c, node, pos.x, pos.y, pos.width)
 	}
 
 	// キャンバスサイズを設定
-	totalHeight := y + rowMaxHeight + 50
+	totalHeight := y + 50
 	if totalHeight < 600 {
 		totalHeight = 600
 	}
-	c.SetSize(maxWidth+50, totalHeight)
+	c.SetSize(canvasWidth, totalHeight)
 
-	// エッジをレンダリング
+	// エッジをレンダリング（改良版）
+	edgeOffsets := make(map[string]int) // 同じノードペア間のオフセット
 	for _, edge := range diagram.Edges {
 		fromPos, fromOk := nodePositions[edge.From]
 		toPos, toOk := nodePositions[edge.To]
 		if !fromOk || !toOk {
 			continue
 		}
-		// 接続点を計算（右端から左端へ）
-		fromX := fromPos.x + fromPos.width
-		fromY := fromPos.y + fromPos.height/2
-		toX := toPos.x
-		toY := toPos.y + toPos.height/2
-		r.renderEdge(c, edge, fromX, fromY, toX, toY)
+
+		// エッジの方向を判断して接続点を決定
+		fromX, fromY, toX, toY := r.calculateEdgeEndpoints(fromPos, toPos)
+
+		// 同じ方向のエッジをオフセット
+		key := fmt.Sprintf("%s-%s", edge.From, edge.To)
+		offset := edgeOffsets[key]
+		edgeOffsets[key] = offset + 1
+
+		r.renderEdgeWithOffset(c, edge, fromX, fromY, toX, toY, offset*15)
 	}
 
 	// ノートをレンダリング
@@ -115,6 +158,167 @@ func (r *ClassRenderer) calculateNodeHeight(node class.Node) int {
 		height += len(node.Methods) * 20
 	}
 	return height
+}
+
+// assignLayers はノードをレイヤーに割り当てる（Sugiyama法の簡易版）
+func (r *ClassRenderer) assignLayers(nodes []class.Node, incoming, outgoing map[string][]string) [][]string {
+	// ノードIDのセット
+	nodeSet := make(map[string]bool)
+	for _, node := range nodes {
+		nodeSet[node.ID] = true
+	}
+
+	// 入次数を計算
+	inDegree := make(map[string]int)
+	for _, node := range nodes {
+		inDegree[node.ID] = len(incoming[node.ID])
+	}
+
+	// レイヤー割り当て
+	var layers [][]string
+	assigned := make(map[string]bool)
+
+	for len(assigned) < len(nodes) {
+		var currentLayer []string
+
+		// 入次数が0のノード（または未処理の依存元がないノード）を現在のレイヤーに追加
+		for _, node := range nodes {
+			if assigned[node.ID] {
+				continue
+			}
+
+			// このノードの全ての依存元が既に割り当て済みかチェック
+			allDepsAssigned := true
+			for _, from := range incoming[node.ID] {
+				if nodeSet[from] && !assigned[from] {
+					allDepsAssigned = false
+					break
+				}
+			}
+
+			if allDepsAssigned {
+				currentLayer = append(currentLayer, node.ID)
+			}
+		}
+
+		// デッドロック防止: 何も追加できなければ残りを全部追加
+		if len(currentLayer) == 0 {
+			for _, node := range nodes {
+				if !assigned[node.ID] {
+					currentLayer = append(currentLayer, node.ID)
+				}
+			}
+		}
+
+		// 割り当て済みにマーク
+		for _, id := range currentLayer {
+			assigned[id] = true
+		}
+
+		if len(currentLayer) > 0 {
+			layers = append(layers, currentLayer)
+		}
+	}
+
+	return layers
+}
+
+// calculateEdgeEndpoints はエッジの接続点を計算する
+func (r *ClassRenderer) calculateEdgeEndpoints(fromPos, toPos struct{ x, y, width, height int }) (fromX, fromY, toX, toY int) {
+	fromCenterX := fromPos.x + fromPos.width/2
+	fromCenterY := fromPos.y + fromPos.height/2
+	toCenterX := toPos.x + toPos.width/2
+	toCenterY := toPos.y + toPos.height/2
+
+	// 垂直方向の差が大きい場合（下向き接続）
+	if toCenterY > fromCenterY+fromPos.height/2 {
+		fromX = fromCenterX
+		fromY = fromPos.y + fromPos.height // 下端
+		toX = toCenterX
+		toY = toPos.y // 上端
+		return
+	}
+
+	// 上向き接続
+	if toCenterY < fromCenterY-fromPos.height/2 {
+		fromX = fromCenterX
+		fromY = fromPos.y // 上端
+		toX = toCenterX
+		toY = toPos.y + toPos.height // 下端
+		return
+	}
+
+	// 水平方向（右向き）
+	if toCenterX > fromCenterX {
+		fromX = fromPos.x + fromPos.width // 右端
+		fromY = fromCenterY
+		toX = toPos.x // 左端
+		toY = toCenterY
+		return
+	}
+
+	// 水平方向（左向き）
+	fromX = fromPos.x // 左端
+	fromY = fromCenterY
+	toX = toPos.x + toPos.width // 右端
+	toY = toCenterY
+	return
+}
+
+// renderEdgeWithOffset はオフセット付きでエッジを描画する
+func (r *ClassRenderer) renderEdgeWithOffset(c *canvas.Canvas, edge class.Edge, x1, y1, x2, y2, offset int) {
+	// オフセットを適用（垂直エッジの場合はX方向、水平の場合はY方向）
+	if abs(y2-y1) > abs(x2-x1) {
+		// 主に垂直
+		x1 += offset
+		x2 += offset
+	} else {
+		// 主に水平
+		y1 += offset
+		y2 += offset
+	}
+
+	opts := []canvas.Option{canvas.Stroke("#000")}
+	if edge.LineStyle == class.LineStyleDashed {
+		opts = append(opts, canvas.Dashed())
+	}
+
+	// 直交ルーティング（L字型パス）
+	if abs(x2-x1) > 20 && abs(y2-y1) > 20 {
+		// 中間点でL字に曲げる
+		midY := (y1 + y2) / 2
+		c.Line(x1, y1, x1, midY, opts...)
+		c.Line(x1, midY, x2, midY, opts...)
+		c.Line(x2, midY, x2, y2, opts...)
+
+		// 矢印の先端
+		r.drawArrowHead(c, edge, x2, midY, x2, y2)
+	} else {
+		// 直線
+		c.Line(x1, y1, x2, y2, opts...)
+		r.drawArrowHead(c, edge, x1, y1, x2, y2)
+	}
+}
+
+// drawArrowHead はエッジの装飾（矢印先端）を描画
+func (r *ClassRenderer) drawArrowHead(c *canvas.Canvas, edge class.Edge, fromX, fromY, toX, toY int) {
+	switch edge.Decoration {
+	case class.DecorationTriangle:
+		c.Polygon(trianglePoints(toX, toY, fromX, fromY), canvas.Fill("#fff"), canvas.Stroke("#000"))
+	case class.DecorationFilledDiamond:
+		c.Polygon(diamondPoints(fromX, fromY, toX, toY), canvas.Fill("#000"))
+	case class.DecorationEmptyDiamond:
+		c.Polygon(diamondPoints(fromX, fromY, toX, toY), canvas.Fill("#fff"), canvas.Stroke("#000"))
+	default:
+		c.Polygon(trianglePoints(toX, toY, fromX, fromY), canvas.Fill("#000"))
+	}
+}
+
+func abs(x int) int {
+	if x < 0 {
+		return -x
+	}
+	return x
 }
 
 // calculateNodeWidth はテキスト内容に基づいてノード幅を計算する
