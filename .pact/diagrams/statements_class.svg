@@ -2,7 +2,7 @@
 <rect x="50" y="50" width="123" height="60" stroke-width="1" fill="#fff" stroke="#000"/>
 <text x="111" y="70" text-anchor="middle">&lt;&lt;component&gt;&gt;</text>
 <text x="111" y="90" text-anchor="middle">ASTStatements</text>
-<rect x="213" y="50" width="238" height="140" stroke="#000" stroke-width="1" fill="#fff"/>
+<rect x="213" y="50" width="238" height="140" fill="#fff" stroke="#000" stroke-width="1"/>
 <text x="332" y="70" text-anchor="middle">FlowDecl</text>
 <line x1="213" y1="85" x2="451" y2="85" stroke="#000"/>
 <text x="223" y="95">+ pos: Position</text>
@@ -16,14 +16,14 @@
 <text x="501" y="115">+ variable: String</text>
 <text x="501" y="135">+ value: Expr</text>
 <text x="501" y="155">+ annotations: AnnotationDecl</text>
-<rect x="769" y="50" width="238" height="140" fill="#fff" stroke="#000" stroke-width="1"/>
+<rect x="769" y="50" width="238" height="140" stroke="#000" stroke-width="1" fill="#fff"/>
 <text x="888" y="70" text-anchor="middle">CallStep</text>
 <line x1="769" y1="85" x2="1007" y2="85" stroke="#000"/>
 <text x="779" y="95">+ pos: Position</text>
 <text x="779" y="115">+ expr: Expr</text>
 <text x="779" y="135">+ isAwaited: Boolean</text>
 <text x="779" y="155">+ annotations: AnnotationDecl</text>
-<rect x="1047" y="50" width="238" height="120" stroke-width="1" fill="#fff" stroke="#000"/>
+<rect x="1047" y="50" width="238" height="120" fill="#fff" stroke="#000" stroke-width="1"/>
 <text x="1166" y="70" text-anchor="middle">ReturnStep</text>
 <line x1="1047" y1="85" x2="1285" y2="85" stroke="#000"/>
 <text x="1057" y="95">+ pos: Position</text>

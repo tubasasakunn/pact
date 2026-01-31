@@ -18,7 +18,7 @@
 <text x="60" y="355">+ GenerateFlowcharts(client: Client, spec: SpecFile, outputDir: string, baseName: string): error</text>
 <text x="60" y="375">+ GetFlowNames(spec: SpecFile): string</text>
 <text x="60" y="395">+ GetStateNames(spec: SpecFile): string</text>
-<rect x="854" y="50" width="188" height="120" fill="#fff" stroke="#000" stroke-width="1"/>
+<rect x="854" y="50" width="188" height="120" stroke-width="1" fill="#fff" stroke="#000"/>
 <text x="948" y="70" text-anchor="middle">GenerateOptions</text>
 <line x1="854" y1="85" x2="1042" y2="85" stroke="#000"/>
 <text x="864" y="95">+ outputDir: string</text>
