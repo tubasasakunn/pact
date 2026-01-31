@@ -1,5 +1,5 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 850 600" width="850" height="600">
-<rect x="50" y="50" width="303" height="140" stroke-width="1" fill="#fff" stroke="#000"/>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 823 600" width="823" height="600">
+<rect x="50" y="50" width="303" height="140" fill="#fff" stroke="#000" stroke-width="1"/>
 <text x="201" y="70" text-anchor="middle">&lt;&lt;component&gt;&gt;</text>
 <text x="201" y="90" text-anchor="middle">Parser</text>
 <line x1="50" y1="105" x2="353" y2="105" stroke="#000"/>
@@ -7,14 +7,14 @@
 <text x="60" y="135">+ Parse(): SpecFile</text>
 <text x="60" y="155">+ ParseFile(): SpecFile</text>
 <text x="60" y="175">+ ParseString(input: string): SpecFile</text>
-<rect x="383" y="50" width="181" height="140" fill="#fff" stroke="#000" stroke-width="1"/>
-<text x="473" y="70" text-anchor="middle">ParserState</text>
-<line x1="383" y1="85" x2="564" y2="85" stroke="#000"/>
-<text x="393" y="95">+ lexer: Lexer</text>
-<text x="393" y="115">+ currentToken: Token</text>
-<text x="393" y="135">+ peekToken: Token</text>
-<text x="393" y="155">+ parseErrors: Error</text>
-<rect x="594" y="50" width="159" height="60" fill="#fff" stroke="#000" stroke-width="1"/>
-<text x="673" y="70" text-anchor="middle">&lt;&lt;enum&gt;&gt;</text>
-<text x="673" y="90" text-anchor="middle">OperatorPrecedence</text>
+<rect x="393" y="50" width="181" height="140" fill="#fff" stroke="#000" stroke-width="1"/>
+<text x="483" y="70" text-anchor="middle">ParserState</text>
+<line x1="393" y1="85" x2="574" y2="85" stroke="#000"/>
+<text x="403" y="95">+ lexer: Lexer</text>
+<text x="403" y="115">+ currentToken: Token</text>
+<text x="403" y="135">+ peekToken: Token</text>
+<text x="403" y="155">+ parseErrors: Error</text>
+<rect x="614" y="50" width="159" height="60" fill="#fff" stroke="#000" stroke-width="1"/>
+<text x="693" y="70" text-anchor="middle">&lt;&lt;enum&gt;&gt;</text>
+<text x="693" y="90" text-anchor="middle">OperatorPrecedence</text>
 </svg>

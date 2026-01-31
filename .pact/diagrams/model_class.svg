@@ -1,49 +1,49 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 934 600" width="934" height="600">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 2003 600" width="2003" height="600">
 <rect x="50" y="50" width="123" height="60" fill="#fff" stroke="#000" stroke-width="1"/>
 <text x="111" y="70" text-anchor="middle">&lt;&lt;component&gt;&gt;</text>
 <text x="111" y="90" text-anchor="middle">StateDiagram</text>
-<rect x="203" y="50" width="120" height="60" fill="#fff" stroke="#000" stroke-width="1"/>
-<text x="263" y="70" text-anchor="middle">&lt;&lt;enum&gt;&gt;</text>
-<text x="263" y="90" text-anchor="middle">StateType</text>
-<rect x="353" y="50" width="130" height="100" fill="#fff" stroke="#000" stroke-width="1"/>
-<text x="418" y="70" text-anchor="middle">Duration</text>
-<line x1="353" y1="85" x2="483" y2="85" stroke="#000"/>
-<text x="363" y="95">+ value: int</text>
-<text x="363" y="115">+ unit: string</text>
-<rect x="513" y="50" width="137" height="80" fill="#fff" stroke="#000" stroke-width="1"/>
-<text x="581" y="70" text-anchor="middle">EventTrigger</text>
-<line x1="513" y1="85" x2="650" y2="85" stroke="#000"/>
-<text x="523" y="95">+ event: string</text>
-<rect x="680" y="50" width="174" height="80" fill="#fff" stroke="#000" stroke-width="1"/>
-<text x="767" y="70" text-anchor="middle">AfterTrigger</text>
-<line x1="680" y1="85" x2="854" y2="85" stroke="#000"/>
-<text x="690" y="95">+ duration: Duration</text>
-<rect x="50" y="180" width="166" height="80" fill="#fff" stroke="#000" stroke-width="1"/>
-<text x="133" y="200" text-anchor="middle">WhenTrigger</text>
-<line x1="50" y1="215" x2="216" y2="215" stroke="#000"/>
-<text x="60" y="225">+ condition: string</text>
-<rect x="246" y="180" width="166" height="140" fill="#fff" stroke="#000" stroke-width="1"/>
-<text x="329" y="200" text-anchor="middle">Transition</text>
-<line x1="246" y1="215" x2="412" y2="215" stroke="#000"/>
-<text x="256" y="225">+ fromState: string</text>
-<text x="256" y="245">+ toState: string</text>
-<text x="256" y="265">+ guard: string</text>
-<text x="256" y="285">+ actions: string</text>
-<rect x="442" y="180" width="130" height="80" fill="#fff" stroke="#000" stroke-width="1"/>
-<text x="507" y="200" text-anchor="middle">Region</text>
-<line x1="442" y1="215" x2="572" y2="215" stroke="#000"/>
-<text x="452" y="225">+ name: string</text>
-<rect x="602" y="180" width="188" height="160" stroke="#000" stroke-width="1" fill="#fff"/>
-<text x="696" y="200" text-anchor="middle">State</text>
-<line x1="602" y1="215" x2="790" y2="215" stroke="#000"/>
-<text x="612" y="225">+ id: string</text>
-<text x="612" y="245">+ name: string</text>
-<text x="612" y="265">+ stateType: StateType</text>
-<text x="612" y="285">+ entryActions: string</text>
-<text x="612" y="305">+ exitActions: string</text>
-<rect x="50" y="370" width="209" height="100" fill="#fff" stroke="#000" stroke-width="1"/>
-<text x="154" y="390" text-anchor="middle">Diagram</text>
-<line x1="50" y1="405" x2="259" y2="405" stroke="#000"/>
-<text x="60" y="415">+ statesBlocks: State</text>
-<text x="60" y="435">+ transitions: Transition</text>
+<rect x="213" y="50" width="120" height="60" fill="#fff" stroke="#000" stroke-width="1"/>
+<text x="273" y="70" text-anchor="middle">&lt;&lt;enum&gt;&gt;</text>
+<text x="273" y="90" text-anchor="middle">StateType</text>
+<rect x="373" y="50" width="130" height="100" fill="#fff" stroke="#000" stroke-width="1"/>
+<text x="438" y="70" text-anchor="middle">Duration</text>
+<line x1="373" y1="85" x2="503" y2="85" stroke="#000"/>
+<text x="383" y="95">+ value: int</text>
+<text x="383" y="115">+ unit: string</text>
+<rect x="543" y="50" width="137" height="80" fill="#fff" stroke="#000" stroke-width="1"/>
+<text x="611" y="70" text-anchor="middle">EventTrigger</text>
+<line x1="543" y1="85" x2="680" y2="85" stroke="#000"/>
+<text x="553" y="95">+ event: string</text>
+<rect x="720" y="50" width="174" height="80" stroke-width="1" fill="#fff" stroke="#000"/>
+<text x="807" y="70" text-anchor="middle">AfterTrigger</text>
+<line x1="720" y1="85" x2="894" y2="85" stroke="#000"/>
+<text x="730" y="95">+ duration: Duration</text>
+<rect x="934" y="50" width="166" height="80" fill="#fff" stroke="#000" stroke-width="1"/>
+<text x="1017" y="70" text-anchor="middle">WhenTrigger</text>
+<line x1="934" y1="85" x2="1100" y2="85" stroke="#000"/>
+<text x="944" y="95">+ condition: string</text>
+<rect x="1140" y="50" width="166" height="140" fill="#fff" stroke="#000" stroke-width="1"/>
+<text x="1223" y="70" text-anchor="middle">Transition</text>
+<line x1="1140" y1="85" x2="1306" y2="85" stroke="#000"/>
+<text x="1150" y="95">+ fromState: string</text>
+<text x="1150" y="115">+ toState: string</text>
+<text x="1150" y="135">+ guard: string</text>
+<text x="1150" y="155">+ actions: string</text>
+<rect x="1346" y="50" width="130" height="80" fill="#fff" stroke="#000" stroke-width="1"/>
+<text x="1411" y="70" text-anchor="middle">Region</text>
+<line x1="1346" y1="85" x2="1476" y2="85" stroke="#000"/>
+<text x="1356" y="95">+ name: string</text>
+<rect x="1516" y="50" width="188" height="160" fill="#fff" stroke="#000" stroke-width="1"/>
+<text x="1610" y="70" text-anchor="middle">State</text>
+<line x1="1516" y1="85" x2="1704" y2="85" stroke="#000"/>
+<text x="1526" y="95">+ id: string</text>
+<text x="1526" y="115">+ name: string</text>
+<text x="1526" y="135">+ stateType: StateType</text>
+<text x="1526" y="155">+ entryActions: string</text>
+<text x="1526" y="175">+ exitActions: string</text>
+<rect x="1744" y="50" width="209" height="100" fill="#fff" stroke="#000" stroke-width="1"/>
+<text x="1848" y="70" text-anchor="middle">Diagram</text>
+<line x1="1744" y1="85" x2="1953" y2="85" stroke="#000"/>
+<text x="1754" y="95">+ statesBlocks: State</text>
+<text x="1754" y="115">+ transitions: Transition</text>
 </svg>
