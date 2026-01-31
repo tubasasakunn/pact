@@ -25,35 +25,58 @@ func NewClassRenderer() *ClassRenderer {
 func (r *ClassRenderer) Render(diagram *class.Diagram, w io.Writer) error {
 	c := canvas.New()
 
-	// ノード数に応じてサイズを計算
-	cols := 3
-	rows := (len(diagram.Nodes) + cols - 1) / cols
-	width := 50 + cols*250 + 50
-	height := 50 + rows*200 + 50
-	if width < 800 {
-		width = 800
+	// 各ノードのサイズを事前計算
+	nodeSizes := make(map[string]struct{ width, height int })
+	for _, node := range diagram.Nodes {
+		w := r.calculateNodeWidth(node)
+		h := r.calculateNodeHeight(node)
+		nodeSizes[node.ID] = struct{ width, height int }{w, h}
 	}
-	if height < 600 {
-		height = 600
-	}
-	c.SetSize(width, height)
 
-	y := 50
+	// 動的レイアウト計算
 	nodePositions := make(map[string]struct{ x, y, width, height int })
+	margin := 30 // ノード間のマージン
 
-	// ノードをレンダリング
-	for i, node := range diagram.Nodes {
-		x := 50 + (i%cols)*250
-		if i > 0 && i%cols == 0 {
-			y += 200
+	// 行ごとにノードを配置（幅に基づいて動的に列数を決定）
+	x := 50
+	y := 50
+	rowMaxHeight := 0
+	maxWidth := 800 // キャンバスの最小幅
+	currentRowWidth := 50
+
+	for _, node := range diagram.Nodes {
+		size := nodeSizes[node.ID]
+
+		// 行の幅が限界を超えたら次の行へ
+		if currentRowWidth+size.width+margin > 900 && currentRowWidth > 50 {
+			x = 50
+			y += rowMaxHeight + margin
+			rowMaxHeight = 0
+			currentRowWidth = 50
 		}
 
-		nodeHeight := r.calculateNodeHeight(node)
-		nodePositions[node.ID] = struct{ x, y, width, height int }{x, y, 200, nodeHeight}
+		nodePositions[node.ID] = struct{ x, y, width, height int }{x, y, size.width, size.height}
 
 		// ノードの描画
-		r.renderNode(c, node, x, y)
+		r.renderNode(c, node, x, y, size.width)
+
+		// 次のノード位置を計算
+		x += size.width + margin
+		currentRowWidth = x
+		if currentRowWidth > maxWidth {
+			maxWidth = currentRowWidth
+		}
+		if size.height > rowMaxHeight {
+			rowMaxHeight = size.height
+		}
 	}
+
+	// キャンバスサイズを設定
+	totalHeight := y + rowMaxHeight + 50
+	if totalHeight < 600 {
+		totalHeight = 600
+	}
+	c.SetSize(maxWidth+50, totalHeight)
 
 	// エッジをレンダリング
 	for _, edge := range diagram.Edges {
@@ -94,26 +117,74 @@ func (r *ClassRenderer) calculateNodeHeight(node class.Node) int {
 	return height
 }
 
-func (r *ClassRenderer) renderNode(c *canvas.Canvas, node class.Node, x, y int) {
+// calculateNodeWidth はテキスト内容に基づいてノード幅を計算する
+func (r *ClassRenderer) calculateNodeWidth(node class.Node) int {
+	minWidth := 120
+	padding := 30 // 左右のパディング
+	fontSize := 12
+
+	maxTextWidth := 0
+
+	// クラス名の幅
+	nameWidth, _ := canvas.MeasureText(node.Name, fontSize)
+	if nameWidth > maxTextWidth {
+		maxTextWidth = nameWidth
+	}
+
+	// ステレオタイプの幅
+	if node.Stereotype != "" {
+		stereoWidth, _ := canvas.MeasureText("<<"+node.Stereotype+">>", fontSize)
+		if stereoWidth > maxTextWidth {
+			maxTextWidth = stereoWidth
+		}
+	}
+
+	// 属性の幅
+	for _, attr := range node.Attributes {
+		text := visibilitySymbol(attr.Visibility) + attr.Name + ": " + attr.Type
+		attrWidth, _ := canvas.MeasureText(text, fontSize)
+		if attrWidth > maxTextWidth {
+			maxTextWidth = attrWidth
+		}
+	}
+
+	// メソッドの幅
+	for _, method := range node.Methods {
+		text := visibilitySymbol(class.Visibility(method.Visibility)) + r.formatMethod(method)
+		methodWidth, _ := canvas.MeasureText(text, fontSize)
+		if methodWidth > maxTextWidth {
+			maxTextWidth = methodWidth
+		}
+	}
+
+	width := maxTextWidth + padding
+	if width < minWidth {
+		width = minWidth
+	}
+	return width
+}
+
+func (r *ClassRenderer) renderNode(c *canvas.Canvas, node class.Node, x, y, width int) {
 	height := r.calculateNodeHeight(node)
 
 	// ノード本体
-	c.Rect(x, y, 200, height, canvas.Fill("#fff"), canvas.Stroke("#000"), canvas.StrokeWidth(1))
+	c.Rect(x, y, width, height, canvas.Fill("#fff"), canvas.Stroke("#000"), canvas.StrokeWidth(1))
 
 	// ステレオタイプ
 	textY := y + 20
+	centerX := x + width/2
 	if node.Stereotype != "" {
-		c.Text(x+100, textY, "<<"+node.Stereotype+">>", canvas.TextAnchor("middle"))
+		c.Text(centerX, textY, "<<"+node.Stereotype+">>", canvas.TextAnchor("middle"))
 		textY += 20
 	}
 
 	// 名前
-	c.Text(x+100, textY, node.Name, canvas.TextAnchor("middle"))
+	c.Text(centerX, textY, node.Name, canvas.TextAnchor("middle"))
 	textY += 20
 
 	// 属性
 	if len(node.Attributes) > 0 {
-		c.Line(x, textY-5, x+200, textY-5, canvas.Stroke("#000"))
+		c.Line(x, textY-5, x+width, textY-5, canvas.Stroke("#000"))
 		for _, attr := range node.Attributes {
 			vis := visibilitySymbol(attr.Visibility)
 			c.Text(x+10, textY+5, vis+attr.Name+": "+attr.Type)
@@ -123,7 +194,7 @@ func (r *ClassRenderer) renderNode(c *canvas.Canvas, node class.Node, x, y int) 
 
 	// メソッド
 	if len(node.Methods) > 0 {
-		c.Line(x, textY-5, x+200, textY-5, canvas.Stroke("#000"))
+		c.Line(x, textY-5, x+width, textY-5, canvas.Stroke("#000"))
 		for _, method := range node.Methods {
 			vis := visibilitySymbol(class.Visibility(method.Visibility))
 			methodStr := r.formatMethod(method)
