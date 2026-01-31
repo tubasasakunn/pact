@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" width="800" height="600">
+<rect x="228" y="50" width="123" height="70" fill="#fff" stroke="#000" stroke-width="1"/>
+<text x="289" y="77" text-anchor="middle">&lt;&lt;component&gt;&gt;</text>
+<text x="289" y="97" text-anchor="middle">SupportTicket</text>
+<rect x="391" y="50" width="181" height="160" fill="#fff" stroke="#000" stroke-width="1"/>
+<text x="481" y="77" text-anchor="middle">Ticket</text>
+<line x1="391" y1="92" x2="572" y2="92" stroke="#000"/>
+<text x="401" y="107">+ id: string</text>
+<text x="401" y="127">+ title: string</text>
+<text x="401" y="147">+ description: string</text>
+<text x="401" y="167">+ priority: string</text>
+<text x="401" y="187">+ assignee: string</text>
+</svg>

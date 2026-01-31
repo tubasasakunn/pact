@@ -120,7 +120,8 @@ func (t *FlowTransformer) transformStep(step ast.Step, prevNodeID string, diagra
 
 	switch s := step.(type) {
 	case *ast.AssignStep:
-		node := t.createNode(s.Variable+" = ...", flow.NodeShapeProcess)
+		label := s.Variable + " = " + t.formatExpr(s.Value)
+		node := t.createNode(label, flow.NodeShapeProcess)
 		if call, ok := s.Value.(*ast.CallExpr); ok {
 			if v, ok := call.Object.(*ast.VariableExpr); ok {
 				node.Swimlane = v.Name
@@ -288,7 +289,8 @@ func (t *FlowTransformer) transformStepWithLabel(step ast.Step, prevNodeID strin
 	// 最初のノードを作成し、ラベル付きエッジで接続
 	switch s := step.(type) {
 	case *ast.AssignStep:
-		node := t.createNode(s.Variable+" = ...", flow.NodeShapeProcess)
+		nodeLabel := s.Variable + " = " + t.formatExpr(s.Value)
+		node := t.createNode(nodeLabel, flow.NodeShapeProcess)
 		diagram.Nodes = append(diagram.Nodes, node)
 		if prevNodeID != "" {
 			diagram.Edges = append(diagram.Edges, flow.Edge{From: prevNodeID, To: node.ID, Label: label})
@@ -308,5 +310,37 @@ func (t *FlowTransformer) transformStepWithLabel(step ast.Step, prevNodeID strin
 	default:
 		// その他のステップは通常の変換
 		return t.transformStep(step, prevNodeID, diagram)
+	}
+}
+
+// formatExpr は式を文字列に整形する
+func (t *FlowTransformer) formatExpr(expr ast.Expr) string {
+	if expr == nil {
+		return "?"
+	}
+
+	switch e := expr.(type) {
+	case *ast.LiteralExpr:
+		return fmt.Sprintf("%v", e.Value)
+	case *ast.VariableExpr:
+		return e.Name
+	case *ast.FieldExpr:
+		return t.formatExpr(e.Object) + "." + e.Field
+	case *ast.CallExpr:
+		obj := t.formatExpr(e.Object)
+		args := ""
+		for i, arg := range e.Args {
+			if i > 0 {
+				args += ", "
+			}
+			args += t.formatExpr(arg)
+		}
+		return obj + "." + e.Method + "(" + args + ")"
+	case *ast.BinaryExpr:
+		return t.formatExpr(e.Left) + " " + e.Op + " " + t.formatExpr(e.Right)
+	case *ast.UnaryExpr:
+		return e.Op + t.formatExpr(e.Operand)
+	default:
+		return "..."
 	}
 }

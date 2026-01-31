@@ -168,13 +168,33 @@ func (r *ClassRenderer) Render(diagram *class.Diagram, w io.Writer) error {
 }
 
 func (r *ClassRenderer) calculateNodeHeight(node class.Node) int {
-	height := 60
+	lineHeight := 20
+	padding := 15 // 上下のパディング
+	sectionGap := 10 // セクション間のギャップ
+
+	height := padding // 上パディング
+
+	// ステレオタイプ
+	if node.Stereotype != "" {
+		height += lineHeight
+	}
+
+	// 名前
+	height += lineHeight
+
+	// 属性セクション
 	if len(node.Attributes) > 0 {
-		height += len(node.Attributes) * 20
+		height += sectionGap // 区切り線の余白
+		height += len(node.Attributes) * lineHeight
 	}
+
+	// メソッドセクション
 	if len(node.Methods) > 0 {
-		height += len(node.Methods) * 20
+		height += sectionGap // 区切り線の余白
+		height += len(node.Methods) * lineHeight
 	}
+
+	height += padding // 下パディング
 	return height
 }
 
@@ -756,40 +776,52 @@ func (r *ClassRenderer) calculateNodeWidth(node class.Node) int {
 
 func (r *ClassRenderer) renderNode(c *canvas.Canvas, node class.Node, x, y, width int) {
 	height := r.calculateNodeHeight(node)
+	lineHeight := 20
+	padding := 15
+	sectionGap := 10
 
 	// ノード本体
 	c.Rect(x, y, width, height, canvas.Fill("#fff"), canvas.Stroke("#000"), canvas.StrokeWidth(1))
 
-	// ステレオタイプ
-	textY := y + 20
 	centerX := x + width/2
+	textY := y + padding + 12 // ベースライン調整
+
+	// ステレオタイプ
 	if node.Stereotype != "" {
 		c.Text(centerX, textY, "<<"+node.Stereotype+">>", canvas.TextAnchor("middle"))
-		textY += 20
+		textY += lineHeight
 	}
 
 	// 名前
 	c.Text(centerX, textY, node.Name, canvas.TextAnchor("middle"))
-	textY += 20
+	textY += lineHeight
 
-	// 属性
+	// 属性セクション
 	if len(node.Attributes) > 0 {
-		c.Line(x, textY-5, x+width, textY-5, canvas.Stroke("#000"))
+		// 区切り線（テキストの上に十分なマージンを取る）
+		lineY := textY - lineHeight/2 + sectionGap/2
+		c.Line(x, lineY, x+width, lineY, canvas.Stroke("#000"))
+		textY += sectionGap
+
 		for _, attr := range node.Attributes {
 			vis := visibilitySymbol(attr.Visibility)
-			c.Text(x+10, textY+5, vis+attr.Name+": "+attr.Type)
-			textY += 20
+			c.Text(x+10, textY, vis+attr.Name+": "+attr.Type)
+			textY += lineHeight
 		}
 	}
 
-	// メソッド
+	// メソッドセクション
 	if len(node.Methods) > 0 {
-		c.Line(x, textY-5, x+width, textY-5, canvas.Stroke("#000"))
+		// 区切り線
+		lineY := textY - lineHeight/2 + sectionGap/2
+		c.Line(x, lineY, x+width, lineY, canvas.Stroke("#000"))
+		textY += sectionGap
+
 		for _, method := range node.Methods {
 			vis := visibilitySymbol(class.Visibility(method.Visibility))
 			methodStr := r.formatMethod(method)
-			c.Text(x+10, textY+5, vis+methodStr)
-			textY += 20
+			c.Text(x+10, textY, vis+methodStr)
+			textY += lineHeight
 		}
 	}
 }
@@ -1109,6 +1141,11 @@ func (r *SequenceRenderer) renderParticipantWithWidth(c *canvas.Canvas, p sequen
 // StateRenderer は状態図をSVGにレンダリングする
 type StateRenderer struct{}
 
+// stateRect は状態のバウンディングボックスを表す
+type stateRect struct {
+	x, y, w, h int
+}
+
 // NewStateRenderer は新しいStateRendererを作成する
 func NewStateRenderer() *StateRenderer {
 	return &StateRenderer{}
@@ -1220,6 +1257,18 @@ func (r *StateRenderer) Render(diagram *state.Diagram, w io.Writer) error {
 
 	// 遷移を描画（直交ルーティング）
 	labelOffset := make(map[string]int)
+	// ノードのバウンディングボックスリストを作成
+	var nodeBounds []stateRect
+	for id, pos := range statePositions {
+		size := stateSizes[id]
+		nodeBounds = append(nodeBounds, stateRect{
+			x: pos.x - size.w/2,
+			y: pos.y - size.h/2,
+			w: size.w,
+			h: size.h,
+		})
+	}
+
 	for _, t := range diagram.Transitions {
 		fromPos, fromOk := statePositions[t.From]
 		toPos, toOk := statePositions[t.To]
@@ -1230,7 +1279,7 @@ func (r *StateRenderer) Render(diagram *state.Diagram, w io.Writer) error {
 			offset := labelOffset[key]
 			labelOffset[key] = offset + 15
 			r.renderOrthogonalTransition(c, t, fromPos.x, fromPos.y, fromSize.w, fromSize.h,
-				toPos.x, toPos.y, toSize.w, toSize.h, offset)
+				toPos.x, toPos.y, toSize.w, toSize.h, offset, nodeBounds)
 		}
 	}
 
@@ -1465,7 +1514,7 @@ func (r *StateRenderer) renderTransition(c *canvas.Canvas, t state.Transition, x
 
 // renderOrthogonalTransition は直交ルーティングで遷移を描画する
 func (r *StateRenderer) renderOrthogonalTransition(c *canvas.Canvas, t state.Transition,
-	x1, y1, w1, h1, x2, y2, w2, h2 int, labelOffset int) {
+	x1, y1, w1, h1, x2, y2, w2, h2 int, labelOffset int, nodeBounds []stateRect) {
 
 	// 出発点と到着点を計算（ボックスの端）
 	var startX, startY, endX, endY int
@@ -1474,6 +1523,9 @@ func (r *StateRenderer) renderOrthogonalTransition(c *canvas.Canvas, t state.Tra
 	// 方向を判定
 	dx := x2 - x1
 	dy := y2 - y1
+
+	// 始点・終点ノードを除いた障害物リスト
+	obstacles := r.filterObstacles(nodeBounds, x1, y1, w1, h1, x2, y2, w2, h2)
 
 	if dx == 0 && dy == 0 {
 		// 自己遷移
@@ -1491,77 +1543,233 @@ func (r *StateRenderer) renderOrthogonalTransition(c *canvas.Canvas, t state.Tra
 	} else if abs(dx) > abs(dy) {
 		// 主に水平方向
 		if dx > 0 {
-			// 右方向
 			startX = x1 + w1/2
 			startY = y1
 			endX = x2 - w2/2
 			endY = y2
 		} else {
-			// 左方向
 			startX = x1 - w1/2
 			startY = y1
 			endX = x2 + w2/2
 			endY = y2
 		}
 
-		if startY == endY {
-			// 純粋な水平線
-			c.Line(startX, startY, endX, endY, canvas.Stroke("#000"))
-			c.DrawArrowHead(endX, endY, startX, startY)
-			midX = (startX + endX) / 2
-			midY = startY
-		} else {
-			// 水平->垂直->水平 のルーティング
-			midX = (startX + endX) / 2
-			c.Line(startX, startY, midX, startY, canvas.Stroke("#000"))
-			c.Line(midX, startY, midX, endY, canvas.Stroke("#000"))
-			c.Line(midX, endY, endX, endY, canvas.Stroke("#000"))
-			c.DrawArrowHead(endX, endY, midX, endY)
-			midY = (startY + endY) / 2
-		}
+		// ウェイポイントを計算（障害物回避付き）
+		waypoints := r.calculateStateWaypoints(startX, startY, endX, endY, obstacles)
+		midX, midY = r.drawWaypointsAndGetMid(c, waypoints)
 	} else {
 		// 主に垂直方向
 		if dy > 0 {
-			// 下方向
 			startX = x1
 			startY = y1 + h1/2
 			endX = x2
 			endY = y2 - h2/2
 		} else {
-			// 上方向
 			startX = x1
 			startY = y1 - h1/2
 			endX = x2
 			endY = y2 + h2/2
 		}
 
-		if startX == endX {
-			// 真っ直ぐ下/上
-			c.Line(startX, startY, endX, endY, canvas.Stroke("#000"))
-			c.DrawArrowHead(endX, endY, startX, startY)
-		} else {
-			// 垂直->水平->垂直 のルーティング
-			midY = (startY + endY) / 2
-			c.Line(startX, startY, startX, midY, canvas.Stroke("#000"))
-			c.Line(startX, midY, endX, midY, canvas.Stroke("#000"))
-			c.Line(endX, midY, endX, endY, canvas.Stroke("#000"))
-			if dy > 0 {
-				c.DrawArrowHead(endX, endY, endX, midY)
-			} else {
-				c.DrawArrowHead(endX, endY, endX, midY)
-			}
-		}
-		midX = (startX + endX) / 2
-		if startX == endX {
-			midY = (startY + endY) / 2
-		}
+		// ウェイポイントを計算（障害物回避付き）
+		waypoints := r.calculateStateWaypoints(startX, startY, endX, endY, obstacles)
+		midX, midY = r.drawWaypointsAndGetMid(c, waypoints)
 	}
 
 	// ラベルを構築
 	label := r.buildTransitionLabel(t)
 	if label != "" {
-		c.Text(midX, midY-5-labelOffset, label, canvas.TextAnchor("middle"))
+		labelX, labelY := r.findSafeLabelPosition(midX, midY-5-labelOffset, label, nodeBounds)
+		c.Text(labelX, labelY, label, canvas.TextAnchor("middle"))
 	}
+}
+
+// filterObstacles は始点・終点ノードを除いた障害物リストを返す
+func (r *StateRenderer) filterObstacles(nodeBounds []stateRect, x1, y1, w1, h1, x2, y2, w2, h2 int) []stateRect {
+	var obstacles []stateRect
+	// 始点ノードの矩形
+	srcRect := stateRect{x: x1 - w1/2, y: y1 - h1/2, w: w1, h: h1}
+	// 終点ノードの矩形
+	dstRect := stateRect{x: x2 - w2/2, y: y2 - h2/2, w: w2, h: h2}
+
+	for _, node := range nodeBounds {
+		// 始点・終点と重なるノードは除外
+		if r.rectsOverlap(node, srcRect) || r.rectsOverlap(node, dstRect) {
+			continue
+		}
+		obstacles = append(obstacles, node)
+	}
+	return obstacles
+}
+
+// rectsOverlap は2つの矩形が重なるかチェック
+func (r *StateRenderer) rectsOverlap(a, b stateRect) bool {
+	return a.x < b.x+b.w && a.x+a.w > b.x && a.y < b.y+b.h && a.y+a.h > b.y
+}
+
+// calculateStateWaypoints は障害物を回避するウェイポイントを計算
+func (r *StateRenderer) calculateStateWaypoints(x1, y1, x2, y2 int, obstacles []stateRect) []struct{ x, y int } {
+	start := struct{ x, y int }{x1, y1}
+	end := struct{ x, y int }{x2, y2}
+
+	// 直線でOKかチェック（水平または垂直のみ）
+	if x1 == x2 || y1 == y2 {
+		if !r.pathIntersectsObstacles(x1, y1, x2, y2, obstacles) {
+			return []struct{ x, y int }{start, end}
+		}
+	}
+
+	// L字型を試す（縦→横）
+	corner1 := struct{ x, y int }{x1, y2}
+	if !r.pathIntersectsObstacles(x1, y1, x1, y2, obstacles) &&
+		!r.pathIntersectsObstacles(x1, y2, x2, y2, obstacles) {
+		return []struct{ x, y int }{start, corner1, end}
+	}
+
+	// L字型を試す（横→縦）
+	corner2 := struct{ x, y int }{x2, y1}
+	if !r.pathIntersectsObstacles(x1, y1, x2, y1, obstacles) &&
+		!r.pathIntersectsObstacles(x2, y1, x2, y2, obstacles) {
+		return []struct{ x, y int }{start, corner2, end}
+	}
+
+	// Z字型を試す
+	midY := (y1 + y2) / 2
+	mid1 := struct{ x, y int }{x1, midY}
+	mid2 := struct{ x, y int }{x2, midY}
+	if !r.pathIntersectsObstacles(x1, y1, x1, midY, obstacles) &&
+		!r.pathIntersectsObstacles(x1, midY, x2, midY, obstacles) &&
+		!r.pathIntersectsObstacles(x2, midY, x2, y2, obstacles) {
+		return []struct{ x, y int }{start, mid1, mid2, end}
+	}
+
+	// 迂回ルート（上または下を回る）
+	margin := 30
+	// 全障害物の最小Y/最大Yを求めて迂回
+	minY, maxY := y1, y1
+	for _, obs := range obstacles {
+		if obs.y < minY {
+			minY = obs.y
+		}
+		if obs.y+obs.h > maxY {
+			maxY = obs.y + obs.h
+		}
+	}
+
+	// 上を回る
+	topY := minY - margin
+	if topY > 0 {
+		wp1 := struct{ x, y int }{x1, topY}
+		wp2 := struct{ x, y int }{x2, topY}
+		return []struct{ x, y int }{start, wp1, wp2, end}
+	}
+
+	// 下を回る
+	bottomY := maxY + margin
+	wp1 := struct{ x, y int }{x1, bottomY}
+	wp2 := struct{ x, y int }{x2, bottomY}
+	return []struct{ x, y int }{start, wp1, wp2, end}
+}
+
+// pathIntersectsObstacles はパスが障害物と交差するかチェック
+func (r *StateRenderer) pathIntersectsObstacles(x1, y1, x2, y2 int, obstacles []stateRect) bool {
+	// 簡易判定：パスのバウンディングボックスと各障害物の重なりチェック
+	minX, maxX := x1, x2
+	if x1 > x2 {
+		minX, maxX = x2, x1
+	}
+	minY, maxY := y1, y2
+	if y1 > y2 {
+		minY, maxY = y2, y1
+	}
+
+	// パスに厚みを持たせる
+	padding := 5
+	minX -= padding
+	maxX += padding
+	minY -= padding
+	maxY += padding
+
+	for _, obs := range obstacles {
+		// 障害物のバウンディングボックスとの交差チェック
+		if maxX > obs.x && minX < obs.x+obs.w && maxY > obs.y && minY < obs.y+obs.h {
+			return true
+		}
+	}
+	return false
+}
+
+// drawWaypointsAndGetMid はウェイポイントを描画し、中間点を返す
+func (r *StateRenderer) drawWaypointsAndGetMid(c *canvas.Canvas, waypoints []struct{ x, y int }) (int, int) {
+	if len(waypoints) < 2 {
+		return 0, 0
+	}
+
+	// パスを描画
+	for i := 0; i < len(waypoints)-1; i++ {
+		c.Line(waypoints[i].x, waypoints[i].y, waypoints[i+1].x, waypoints[i+1].y, canvas.Stroke("#000"))
+	}
+
+	// 矢印を描画
+	last := waypoints[len(waypoints)-1]
+	prev := waypoints[len(waypoints)-2]
+	c.DrawArrowHead(last.x, last.y, prev.x, prev.y)
+
+	// 中間点を計算（パスの中央セグメント上）
+	midIdx := len(waypoints) / 2
+	if midIdx > 0 {
+		midX := (waypoints[midIdx-1].x + waypoints[midIdx].x) / 2
+		midY := (waypoints[midIdx-1].y + waypoints[midIdx].y) / 2
+		return midX, midY
+	}
+	return (waypoints[0].x + waypoints[1].x) / 2, (waypoints[0].y + waypoints[1].y) / 2
+}
+
+// findSafeLabelPosition はラベルがノードと重ならない位置を探す
+func (r *StateRenderer) findSafeLabelPosition(x, y int, label string, nodeBounds []stateRect) (int, int) {
+	// ラベルのおおよそのサイズを推定
+	labelWidth, _ := canvas.MeasureText(label, 12)
+	labelHeight := 15
+
+	// 候補位置のリスト（元の位置、上、下、右にオフセット）
+	offsets := []struct{ dx, dy int }{
+		{0, 0},      // 元の位置
+		{0, -20},    // 上にずらす
+		{0, 20},     // 下にずらす
+		{30, 0},     // 右にずらす
+		{-30, 0},    // 左にずらす
+		{30, -15},   // 右上
+		{-30, -15},  // 左上
+	}
+
+	for _, off := range offsets {
+		testX := x + off.dx
+		testY := y + off.dy
+		if !r.labelOverlapsNodes(testX, testY, labelWidth, labelHeight, nodeBounds) {
+			return testX, testY
+		}
+	}
+
+	// どの位置も重なる場合は元の位置を返す（上にさらにオフセット）
+	return x, y - 30
+}
+
+// labelOverlapsNodes はラベルがノードと重なるかチェック
+func (r *StateRenderer) labelOverlapsNodes(x, y, labelW, labelH int, nodeBounds []stateRect) bool {
+	// ラベルの矩形（中央揃えなのでx - labelW/2から開始）
+	lx := x - labelW/2
+	ly := y - labelH
+	lw := labelW
+	lh := labelH
+
+	for _, node := range nodeBounds {
+		// 矩形の重なりチェック
+		if lx < node.x+node.w && lx+lw > node.x &&
+			ly < node.y+node.h && ly+lh > node.y {
+			return true
+		}
+	}
+	return false
 }
 
 // buildTransitionLabel は遷移ラベルを構築する
