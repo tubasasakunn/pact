@@ -44,6 +44,9 @@ func (r *ClassRenderer) Render(diagram *class.Diagram, w io.Writer) error {
 	// レイヤー割り当て（トポロジカルソート風）
 	layers := r.assignLayers(diagram.Nodes, incoming, outgoing)
 
+	// バリセンター法でレイヤー内のノード順序を最適化（交差最小化）
+	layers = r.optimizeLayerOrder(layers, incoming, outgoing, nodeSizes)
+
 	// 各レイヤーの幅と高さを計算
 	layerWidths := make([]int, len(layers))
 	layerHeights := make([]int, len(layers))
@@ -173,6 +176,119 @@ func (r *ClassRenderer) calculateNodeHeight(node class.Node) int {
 		height += len(node.Methods) * 20
 	}
 	return height
+}
+
+// optimizeLayerOrder はバリセンター法でレイヤー内のノード順序を最適化する
+func (r *ClassRenderer) optimizeLayerOrder(layers [][]string, incoming, outgoing map[string][]string, nodeSizes map[string]struct{ width, height int }) [][]string {
+	if len(layers) <= 1 {
+		return layers
+	}
+
+	// ノードのレイヤー内位置を追跡
+	nodePosition := make(map[string]int) // nodeID -> position in layer
+
+	// 初期位置を設定
+	for _, layer := range layers {
+		for pos, nodeID := range layer {
+			nodePosition[nodeID] = pos
+		}
+	}
+
+	// 複数回の反復で最適化（上下両方向からスイープ）
+	iterations := 4
+	for iter := 0; iter < iterations; iter++ {
+		// 下向きスイープ（レイヤー1から最後まで）
+		for i := 1; i < len(layers); i++ {
+			layers[i] = r.reorderLayerByBarycenter(layers[i], layers[i-1], incoming, nodePosition)
+			// 位置を更新
+			for pos, nodeID := range layers[i] {
+				nodePosition[nodeID] = pos
+			}
+		}
+
+		// 上向きスイープ（最後から1つ前からレイヤー0まで）
+		for i := len(layers) - 2; i >= 0; i-- {
+			layers[i] = r.reorderLayerByBarycenter(layers[i], layers[i+1], outgoing, nodePosition)
+			// 位置を更新
+			for pos, nodeID := range layers[i] {
+				nodePosition[nodeID] = pos
+			}
+		}
+	}
+
+	return layers
+}
+
+// reorderLayerByBarycenter はバリセンター値に基づいてレイヤー内のノードを並び替える
+func (r *ClassRenderer) reorderLayerByBarycenter(layer, adjacentLayer []string, connections map[string][]string, nodePosition map[string]int) []string {
+	if len(layer) <= 1 {
+		return layer
+	}
+
+	// 隣接レイヤーのノード位置マップ
+	adjacentPos := make(map[string]int)
+	for pos, nodeID := range adjacentLayer {
+		adjacentPos[nodeID] = pos
+	}
+
+	// 各ノードのバリセンター値を計算
+	nodes := make([]nodeWithBarycenter, len(layer))
+	for i, nodeID := range layer {
+		// 隣接レイヤーへの接続を取得
+		connectedNodes := connections[nodeID]
+		if len(connectedNodes) == 0 {
+			// 接続がない場合は現在位置を維持
+			nodes[i] = nodeWithBarycenter{nodeID, float64(nodePosition[nodeID]), false}
+			continue
+		}
+
+		// バリセンター（接続先の平均位置）を計算
+		sum := 0.0
+		count := 0
+		for _, connID := range connectedNodes {
+			if pos, ok := adjacentPos[connID]; ok {
+				sum += float64(pos)
+				count++
+			}
+		}
+
+		if count > 0 {
+			nodes[i] = nodeWithBarycenter{nodeID, sum / float64(count), true}
+		} else {
+			nodes[i] = nodeWithBarycenter{nodeID, float64(nodePosition[nodeID]), false}
+		}
+	}
+
+	// バリセンター値でソート（安定ソート）
+	r.stableSortByBarycenter(nodes)
+
+	// 結果を返す
+	result := make([]string, len(layer))
+	for i, n := range nodes {
+		result[i] = n.id
+	}
+	return result
+}
+
+// stableSortByBarycenter はバリセンター値で安定ソートする
+func (r *ClassRenderer) stableSortByBarycenter(nodes []nodeWithBarycenter) {
+	// 挿入ソート（安定性を保証）
+	for i := 1; i < len(nodes); i++ {
+		key := nodes[i]
+		j := i - 1
+		for j >= 0 && nodes[j].barycenter > key.barycenter {
+			nodes[j+1] = nodes[j]
+			j--
+		}
+		nodes[j+1] = key
+	}
+}
+
+// nodeWithBarycenter はバリセンター値を持つノード
+type nodeWithBarycenter struct {
+	id         string
+	barycenter float64
+	hasConn    bool
 }
 
 // assignLayers はノードをレイヤーに割り当てる（Sugiyama法の簡易版）
