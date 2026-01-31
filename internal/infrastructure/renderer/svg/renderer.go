@@ -116,8 +116,18 @@ func (r *ClassRenderer) Render(diagram *class.Diagram, w io.Writer) error {
 	}
 	c.SetSize(canvasWidth, totalHeight)
 
-	// エッジをレンダリング（改良版）
-	edgeOffsets := make(map[string]int) // 同じノードペア間のオフセット
+	// エッジをレンダリング（改良版：接続点の分散配置）
+	// 各ノードからの出力エッジ数と入力エッジ数をカウント
+	outgoingCount := make(map[string]int)
+	incomingCount := make(map[string]int)
+	outgoingIndex := make(map[string]int)
+	incomingIndex := make(map[string]int)
+
+	for _, edge := range diagram.Edges {
+		outgoingCount[edge.From]++
+		incomingCount[edge.To]++
+	}
+
 	for _, edge := range diagram.Edges {
 		fromPos, fromOk := nodePositions[edge.From]
 		toPos, toOk := nodePositions[edge.To]
@@ -125,15 +135,20 @@ func (r *ClassRenderer) Render(diagram *class.Diagram, w io.Writer) error {
 			continue
 		}
 
-		// エッジの方向を判断して接続点を決定
-		fromX, fromY, toX, toY := r.calculateEdgeEndpoints(fromPos, toPos)
+		// 接続点のインデックスを取得
+		outIdx := outgoingIndex[edge.From]
+		inIdx := incomingIndex[edge.To]
+		outgoingIndex[edge.From]++
+		incomingIndex[edge.To]++
 
-		// 同じ方向のエッジをオフセット
-		key := fmt.Sprintf("%s-%s", edge.From, edge.To)
-		offset := edgeOffsets[key]
-		edgeOffsets[key] = offset + 1
+		// 分散された接続点を計算
+		fromX, fromY, toX, toY := r.calculateDistributedEndpoints(
+			fromPos, toPos,
+			outIdx, outgoingCount[edge.From],
+			inIdx, incomingCount[edge.To],
+		)
 
-		r.renderEdgeWithOffset(c, edge, fromX, fromY, toX, toY, offset*15)
+		r.renderEdgeImproved(c, edge, fromX, fromY, toX, toY, nodePositions)
 	}
 
 	// ノートをレンダリング
@@ -223,46 +238,177 @@ func (r *ClassRenderer) assignLayers(nodes []class.Node, incoming, outgoing map[
 	return layers
 }
 
-// calculateEdgeEndpoints はエッジの接続点を計算する
-func (r *ClassRenderer) calculateEdgeEndpoints(fromPos, toPos struct{ x, y, width, height int }) (fromX, fromY, toX, toY int) {
+// calculateDistributedEndpoints は複数エッジの接続点を分散配置する
+func (r *ClassRenderer) calculateDistributedEndpoints(
+	fromPos, toPos struct{ x, y, width, height int },
+	outIdx, outTotal, inIdx, inTotal int,
+) (fromX, fromY, toX, toY int) {
 	fromCenterX := fromPos.x + fromPos.width/2
 	fromCenterY := fromPos.y + fromPos.height/2
 	toCenterX := toPos.x + toPos.width/2
 	toCenterY := toPos.y + toPos.height/2
 
-	// 垂直方向の差が大きい場合（下向き接続）
-	if toCenterY > fromCenterY+fromPos.height/2 {
-		fromX = fromCenterX
-		fromY = fromPos.y + fromPos.height // 下端
-		toX = toCenterX
-		toY = toPos.y // 上端
+	// エッジ配置の分散幅（ノード幅の80%を使用）
+	fromSpread := int(float64(fromPos.width) * 0.8)
+	toSpread := int(float64(toPos.width) * 0.8)
+
+	// 垂直方向の差が大きい場合（下向き/上向き接続）
+	if abs(toCenterY-fromCenterY) > abs(toCenterX-fromCenterX) {
+		// 出力点を下端/上端に分散配置
+		fromOffset := 0
+		if outTotal > 1 {
+			fromOffset = (outIdx - outTotal/2) * (fromSpread / maxInt(outTotal-1, 1))
+		}
+		toOffset := 0
+		if inTotal > 1 {
+			toOffset = (inIdx - inTotal/2) * (toSpread / maxInt(inTotal-1, 1))
+		}
+
+		if toCenterY > fromCenterY {
+			// 下向き
+			fromX = fromCenterX + fromOffset
+			fromY = fromPos.y + fromPos.height
+			toX = toCenterX + toOffset
+			toY = toPos.y
+		} else {
+			// 上向き
+			fromX = fromCenterX + fromOffset
+			fromY = fromPos.y
+			toX = toCenterX + toOffset
+			toY = toPos.y + toPos.height
+		}
 		return
 	}
 
-	// 上向き接続
-	if toCenterY < fromCenterY-fromPos.height/2 {
-		fromX = fromCenterX
-		fromY = fromPos.y // 上端
-		toX = toCenterX
-		toY = toPos.y + toPos.height // 下端
-		return
+	// 水平方向の接続
+	fromHeightSpread := int(float64(fromPos.height) * 0.6)
+	toHeightSpread := int(float64(toPos.height) * 0.6)
+
+	fromYOffset := 0
+	if outTotal > 1 {
+		fromYOffset = (outIdx - outTotal/2) * (fromHeightSpread / maxInt(outTotal-1, 1))
+	}
+	toYOffset := 0
+	if inTotal > 1 {
+		toYOffset = (inIdx - inTotal/2) * (toHeightSpread / maxInt(inTotal-1, 1))
 	}
 
-	// 水平方向（右向き）
 	if toCenterX > fromCenterX {
-		fromX = fromPos.x + fromPos.width // 右端
-		fromY = fromCenterY
-		toX = toPos.x // 左端
-		toY = toCenterY
-		return
+		// 右向き
+		fromX = fromPos.x + fromPos.width
+		fromY = fromCenterY + fromYOffset
+		toX = toPos.x
+		toY = toCenterY + toYOffset
+	} else {
+		// 左向き
+		fromX = fromPos.x
+		fromY = fromCenterY + fromYOffset
+		toX = toPos.x + toPos.width
+		toY = toCenterY + toYOffset
+	}
+	return
+}
+
+func maxInt(a, b int) int {
+	if a > b {
+		return a
+	}
+	return b
+}
+
+// renderEdgeImproved は改良されたエッジ描画
+func (r *ClassRenderer) renderEdgeImproved(c *canvas.Canvas, edge class.Edge, x1, y1, x2, y2 int, nodePositions map[string]struct{ x, y, width, height int }) {
+	opts := []canvas.Option{canvas.Stroke("#000")}
+	if edge.LineStyle == class.LineStyleDashed {
+		opts = append(opts, canvas.Dashed())
 	}
 
-	// 水平方向（左向き）
-	fromX = fromPos.x // 左端
-	fromY = fromCenterY
-	toX = toPos.x + toPos.width // 右端
-	toY = toCenterY
-	return
+	// 障害物（他のノード）を検出
+	needsRouting := false
+	for nodeID, pos := range nodePositions {
+		if nodeID == edge.From || nodeID == edge.To {
+			continue
+		}
+		// 直線がノードと交差するかチェック
+		if r.lineIntersectsRect(x1, y1, x2, y2, pos.x, pos.y, pos.width, pos.height) {
+			needsRouting = true
+			break
+		}
+	}
+
+	if needsRouting || (abs(x2-x1) > 30 && abs(y2-y1) > 30) {
+		// 直交ルーティング（Z字型またはL字型）
+		r.renderOrthogonalEdge(c, edge, x1, y1, x2, y2, opts)
+	} else {
+		// 直線
+		c.Line(x1, y1, x2, y2, opts...)
+		r.drawArrowHead(c, edge, x1, y1, x2, y2)
+	}
+
+	// ラベル描画
+	if edge.Label != "" {
+		midX := (x1 + x2) / 2
+		midY := (y1 + y2) / 2
+		c.Text(midX, midY-5, edge.Label, canvas.TextAnchor("middle"))
+	}
+}
+
+// lineIntersectsRect は直線が矩形と交差するかチェック
+func (r *ClassRenderer) lineIntersectsRect(x1, y1, x2, y2, rx, ry, rw, rh int) bool {
+	// 簡易的な交差判定：直線のバウンディングボックスと矩形の交差
+	minX := minInt(x1, x2)
+	maxX := maxInt(x1, x2)
+	minY := minInt(y1, y2)
+	maxY := maxInt(y1, y2)
+
+	// 矩形の内側にマージンを設けて判定
+	margin := 10
+	rectLeft := rx + margin
+	rectRight := rx + rw - margin
+	rectTop := ry + margin
+	rectBottom := ry + rh - margin
+
+	// バウンディングボックスが重なっているかチェック
+	if maxX < rectLeft || minX > rectRight || maxY < rectTop || minY > rectBottom {
+		return false
+	}
+
+	// 直線が矩形の内部を通過するかの簡易チェック
+	// 直線の中点が矩形内にあるか
+	midX := (x1 + x2) / 2
+	midY := (y1 + y2) / 2
+	if midX > rectLeft && midX < rectRight && midY > rectTop && midY < rectBottom {
+		return true
+	}
+
+	return false
+}
+
+func minInt(a, b int) int {
+	if a < b {
+		return a
+	}
+	return b
+}
+
+// renderOrthogonalEdge は直交エッジを描画
+func (r *ClassRenderer) renderOrthogonalEdge(c *canvas.Canvas, edge class.Edge, x1, y1, x2, y2 int, opts []canvas.Option) {
+	// 垂直が主な方向か判定
+	if abs(y2-y1) > abs(x2-x1) {
+		// Z字型ルーティング（垂直-水平-垂直）
+		midY := (y1 + y2) / 2
+		c.Line(x1, y1, x1, midY, opts...)
+		c.Line(x1, midY, x2, midY, opts...)
+		c.Line(x2, midY, x2, y2, opts...)
+		r.drawArrowHead(c, edge, x2, midY, x2, y2)
+	} else {
+		// Z字型ルーティング（水平-垂直-水平）
+		midX := (x1 + x2) / 2
+		c.Line(x1, y1, midX, y1, opts...)
+		c.Line(midX, y1, midX, y2, opts...)
+		c.Line(midX, y2, x2, y2, opts...)
+		r.drawArrowHead(c, edge, midX, y2, x2, y2)
+	}
 }
 
 // renderEdgeWithOffset はオフセット付きでエッジを描画する
