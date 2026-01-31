@@ -478,16 +478,14 @@ type point struct {
 	x, y int
 }
 
-// calculateWaypoints は障害物を回避するウェイポイントを計算
+// calculateWaypoints は障害物を回避するウェイポイントを計算（常に直交ルーティング）
 func (r *ClassRenderer) calculateWaypoints(x1, y1, x2, y2 int, obstacles []rect) []point {
 	start := point{x1, y1}
 	end := point{x2, y2}
 
-	// 直線で障害物と交差しないか確認
-	if !r.pathIntersectsAnyObstacle(start, end, obstacles) {
-		// 直線で接続可能
-		if abs(x2-x1) < 10 || abs(y2-y1) < 10 {
-			// ほぼ水平または垂直
+	// 完全に水平または垂直の場合のみ直線を許可
+	if x1 == x2 || y1 == y2 {
+		if !r.pathIntersectsAnyObstacle(start, end, obstacles) {
 			return []point{start, end}
 		}
 	}
@@ -1137,31 +1135,63 @@ func (r *StateRenderer) Render(diagram *state.Diagram, w io.Writer) error {
 		}
 	}
 
-	// レイアウト計算
+	// 各状態の幅を事前計算
+	stateWidths := make(map[string]int)
+	for _, s := range normalStates {
+		stateWidths[s.ID] = r.calculateStateWidth(*s)
+	}
+
+	// 列ごとの最大幅を計算
 	cols := 3
 	rows := (len(normalStates) + cols - 1) / cols
-	width := 100 + cols*200 + 100
+	colMaxWidths := make([]int, cols)
+	for i, s := range normalStates {
+		col := i % cols
+		w := stateWidths[s.ID]
+		if w > colMaxWidths[col] {
+			colMaxWidths[col] = w
+		}
+	}
+
+	// 列の開始X座標を計算（動的間隔）
+	margin := 50   // 左マージン
+	colGap := 40   // 列間のギャップ
+	colCenters := make([]int, cols)
+	x := margin
+	for col := 0; col < cols; col++ {
+		colWidth := colMaxWidths[col]
+		if colWidth < 100 {
+			colWidth = 100
+		}
+		colCenters[col] = x + colWidth/2
+		x += colWidth + colGap
+	}
+
+	// キャンバスサイズを計算
+	totalWidth := x + margin
 	height := 100 + rows*120 + 100
 	if len(finalStates) > 0 {
 		height += 80
 	}
-	if width < 800 {
-		width = 800
+	if totalWidth < 800 {
+		totalWidth = 800
 	}
 	if height < 600 {
 		height = 600
 	}
-	c.SetSize(width, height)
+	c.SetSize(totalWidth, height)
 
-	// 状態の位置を記録
+	// 状態の位置とサイズを記録
 	statePositions := make(map[string]struct{ x, y int })
+	stateSizes := make(map[string]struct{ w, h int })
 
 	// 初期状態を描画
 	if initialState != nil {
-		x := 100
-		y := 50
-		statePositions[initialState.ID] = struct{ x, y int }{x, y}
-		c.Circle(x, y, 10, canvas.Fill("#000"))
+		ix := colCenters[0]
+		iy := 50
+		statePositions[initialState.ID] = struct{ x, y int }{ix, iy}
+		stateSizes[initialState.ID] = struct{ w, h int }{20, 20}
+		c.Circle(ix, iy, 10, canvas.Fill("#000"))
 	}
 
 	// 通常状態を描画
@@ -1169,32 +1199,38 @@ func (r *StateRenderer) Render(diagram *state.Diagram, w io.Writer) error {
 	for i, s := range normalStates {
 		col := i % cols
 		row := i / cols
-		x := 100 + col*200
-		y := startY + row*120
-		statePositions[s.ID] = struct{ x, y int }{x, y}
-		r.renderState(c, *s, x, y)
+		sx := colCenters[col]
+		sy := startY + row*120
+		statePositions[s.ID] = struct{ x, y int }{sx, sy}
+		sw := stateWidths[s.ID]
+		sh := r.calculateStateHeight(*s)
+		stateSizes[s.ID] = struct{ w, h int }{sw, sh}
+		r.renderState(c, *s, sx, sy)
 	}
 
 	// 終了状態を描画
 	finalY := startY + rows*120 + 40
 	for i, s := range finalStates {
-		x := 100 + i*150
-		statePositions[s.ID] = struct{ x, y int }{x, finalY}
-		c.Circle(x, finalY, 12, canvas.Stroke("#000"), canvas.StrokeWidth(2))
-		c.Circle(x, finalY, 8, canvas.Fill("#000"))
+		fx := colCenters[0] + i*150
+		statePositions[s.ID] = struct{ x, y int }{fx, finalY}
+		stateSizes[s.ID] = struct{ w, h int }{24, 24}
+		c.Circle(fx, finalY, 12, canvas.Stroke("#000"), canvas.StrokeWidth(2))
+		c.Circle(fx, finalY, 8, canvas.Fill("#000"))
 	}
 
-	// 遷移を描画（ラベル位置をずらして重複を避ける）
+	// 遷移を描画（直交ルーティング）
 	labelOffset := make(map[string]int)
 	for _, t := range diagram.Transitions {
 		fromPos, fromOk := statePositions[t.From]
 		toPos, toOk := statePositions[t.To]
 		if fromOk && toOk {
-			// ラベルオフセットを計算（同じ遷移元のラベルをずらす）
+			fromSize := stateSizes[t.From]
+			toSize := stateSizes[t.To]
 			key := fmt.Sprintf("%d,%d-%d,%d", fromPos.x, fromPos.y, toPos.x, toPos.y)
 			offset := labelOffset[key]
 			labelOffset[key] = offset + 15
-			r.renderTransition(c, t, fromPos.x, fromPos.y, toPos.x, toPos.y, offset)
+			r.renderOrthogonalTransition(c, t, fromPos.x, fromPos.y, fromSize.w, fromSize.h,
+				toPos.x, toPos.y, toSize.w, toSize.h, offset)
 		}
 	}
 
@@ -1205,6 +1241,15 @@ func (r *StateRenderer) Render(diagram *state.Diagram, w io.Writer) error {
 
 	_, err := c.WriteTo(w)
 	return err
+}
+
+// calculateStateHeight は状態ボックスの高さを計算する
+func (r *StateRenderer) calculateStateHeight(s state.State) int {
+	hasActions := len(s.Entry) > 0 || len(s.Exit) > 0
+	if hasActions {
+		return 60 + len(s.Entry)*15 + len(s.Exit)*15
+	}
+	return 40
 }
 
 // calculateStateWidth は状態ボックスの幅を計算する
@@ -1416,6 +1461,150 @@ func (r *StateRenderer) renderTransition(c *canvas.Canvas, t state.Transition, x
 	if label != "" {
 		c.Text(midX, midY, label, canvas.TextAnchor("middle"))
 	}
+}
+
+// renderOrthogonalTransition は直交ルーティングで遷移を描画する
+func (r *StateRenderer) renderOrthogonalTransition(c *canvas.Canvas, t state.Transition,
+	x1, y1, w1, h1, x2, y2, w2, h2 int, labelOffset int) {
+
+	// 出発点と到着点を計算（ボックスの端）
+	var startX, startY, endX, endY int
+	var midX, midY int
+
+	// 方向を判定
+	dx := x2 - x1
+	dy := y2 - y1
+
+	if dx == 0 && dy == 0 {
+		// 自己遷移
+		startX = x1 + w1/2
+		startY = y1
+		endX = x1
+		endY = y1 - h1/2 - 10
+		c.Line(startX, startY, startX+30, startY, canvas.Stroke("#000"))
+		c.Line(startX+30, startY, startX+30, startY-30, canvas.Stroke("#000"))
+		c.Line(startX+30, startY-30, endX, startY-30, canvas.Stroke("#000"))
+		c.Line(endX, startY-30, endX, endY, canvas.Stroke("#000"))
+		c.DrawArrowHead(endX, endY, endX, startY-30)
+		midX = startX + 15
+		midY = startY - 15
+	} else if abs(dx) > abs(dy) {
+		// 主に水平方向
+		if dx > 0 {
+			// 右方向
+			startX = x1 + w1/2
+			startY = y1
+			endX = x2 - w2/2
+			endY = y2
+		} else {
+			// 左方向
+			startX = x1 - w1/2
+			startY = y1
+			endX = x2 + w2/2
+			endY = y2
+		}
+
+		if startY == endY {
+			// 純粋な水平線
+			c.Line(startX, startY, endX, endY, canvas.Stroke("#000"))
+			c.DrawArrowHead(endX, endY, startX, startY)
+			midX = (startX + endX) / 2
+			midY = startY
+		} else {
+			// 水平->垂直->水平 のルーティング
+			midX = (startX + endX) / 2
+			c.Line(startX, startY, midX, startY, canvas.Stroke("#000"))
+			c.Line(midX, startY, midX, endY, canvas.Stroke("#000"))
+			c.Line(midX, endY, endX, endY, canvas.Stroke("#000"))
+			c.DrawArrowHead(endX, endY, midX, endY)
+			midY = (startY + endY) / 2
+		}
+	} else {
+		// 主に垂直方向
+		if dy > 0 {
+			// 下方向
+			startX = x1
+			startY = y1 + h1/2
+			endX = x2
+			endY = y2 - h2/2
+		} else {
+			// 上方向
+			startX = x1
+			startY = y1 - h1/2
+			endX = x2
+			endY = y2 + h2/2
+		}
+
+		if startX == endX {
+			// 真っ直ぐ下/上
+			c.Line(startX, startY, endX, endY, canvas.Stroke("#000"))
+			c.DrawArrowHead(endX, endY, startX, startY)
+		} else {
+			// 垂直->水平->垂直 のルーティング
+			midY = (startY + endY) / 2
+			c.Line(startX, startY, startX, midY, canvas.Stroke("#000"))
+			c.Line(startX, midY, endX, midY, canvas.Stroke("#000"))
+			c.Line(endX, midY, endX, endY, canvas.Stroke("#000"))
+			if dy > 0 {
+				c.DrawArrowHead(endX, endY, endX, midY)
+			} else {
+				c.DrawArrowHead(endX, endY, endX, midY)
+			}
+		}
+		midX = (startX + endX) / 2
+		if startX == endX {
+			midY = (startY + endY) / 2
+		}
+	}
+
+	// ラベルを構築
+	label := r.buildTransitionLabel(t)
+	if label != "" {
+		c.Text(midX, midY-5-labelOffset, label, canvas.TextAnchor("middle"))
+	}
+}
+
+// buildTransitionLabel は遷移ラベルを構築する
+func (r *StateRenderer) buildTransitionLabel(t state.Transition) string {
+	triggerLabel := ""
+	if t.Trigger != nil {
+		switch trig := t.Trigger.(type) {
+		case *state.EventTrigger:
+			triggerLabel = trig.Event
+		case *state.WhenTrigger:
+			triggerLabel = "when(" + trig.Condition + ")"
+		case *state.AfterTrigger:
+			triggerLabel = fmt.Sprintf("after %d%s", trig.Duration.Value, trig.Duration.Unit)
+		}
+	}
+
+	guardLabel := ""
+	if t.Guard != "" {
+		guardLabel = "[" + t.Guard + "]"
+	}
+
+	actionLabel := ""
+	if len(t.Actions) > 0 {
+		actionLabel = "/ "
+		for i, action := range t.Actions {
+			if i > 0 {
+				actionLabel += ", "
+			}
+			actionLabel += action
+		}
+	}
+
+	label := triggerLabel
+	if guardLabel != "" {
+		if label != "" {
+			label += " "
+		}
+		label += guardLabel
+	}
+	if actionLabel != "" {
+		label += " " + actionLabel
+	}
+	return label
 }
 
 // FlowRenderer はフローチャートをSVGにレンダリングする
@@ -1644,14 +1833,35 @@ func (r *FlowRenderer) renderFlowNodeWithWidth(c *canvas.Canvas, node flow.Node,
 }
 
 func (r *FlowRenderer) renderFlowEdge(c *canvas.Canvas, edge flow.Edge, x1, y1, x2, y2 int) {
-	// 矢印を描画
-	c.Arrow(x1, y1, x2, y2, canvas.Stroke("#000"))
+	// 直交ルーティングで矢印を描画
+	if x1 == x2 {
+		// 垂直方向のみ
+		c.Line(x1, y1, x2, y2, canvas.Stroke("#000"))
+		c.DrawArrowHead(x2, y2, x1, y1)
+	} else if y1 == y2 {
+		// 水平方向のみ
+		c.Line(x1, y1, x2, y2, canvas.Stroke("#000"))
+		c.DrawArrowHead(x2, y2, x1, y1)
+	} else {
+		// L字型ルーティング
+		midY := (y1 + y2) / 2
+		c.Line(x1, y1, x1, midY, canvas.Stroke("#000"))
+		c.Line(x1, midY, x2, midY, canvas.Stroke("#000"))
+		c.Line(x2, midY, x2, y2, canvas.Stroke("#000"))
+		c.DrawArrowHead(x2, y2, x2, midY)
+	}
 
 	// ラベルがある場合は表示
 	if edge.Label != "" {
-		midX := (x1 + x2) / 2
-		midY := (y1 + y2) / 2
-		c.Text(midX+10, midY, edge.Label)
+		var labelX, labelY int
+		if x1 == x2 {
+			labelX = x1 + 10
+			labelY = (y1 + y2) / 2
+		} else {
+			labelX = (x1 + x2) / 2
+			labelY = (y1 + y2) / 2
+		}
+		c.Text(labelX, labelY, edge.Label)
 	}
 }
 
