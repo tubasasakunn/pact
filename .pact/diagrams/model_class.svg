@@ -2,7 +2,7 @@
 <rect x="50" y="50" width="123" height="60" fill="#fff" stroke="#000" stroke-width="1"/>
 <text x="111" y="70" text-anchor="middle">&lt;&lt;component&gt;&gt;</text>
 <text x="111" y="90" text-anchor="middle">StateDiagram</text>
-<rect x="213" y="50" width="120" height="60" stroke="#000" stroke-width="1" fill="#fff"/>
+<rect x="213" y="50" width="120" height="60" fill="#fff" stroke="#000" stroke-width="1"/>
 <text x="273" y="70" text-anchor="middle">&lt;&lt;enum&gt;&gt;</text>
 <text x="273" y="90" text-anchor="middle">StateType</text>
 <rect x="373" y="50" width="130" height="100" fill="#fff" stroke="#000" stroke-width="1"/>
@@ -14,26 +14,26 @@
 <text x="611" y="70" text-anchor="middle">EventTrigger</text>
 <line x1="543" y1="85" x2="680" y2="85" stroke="#000"/>
 <text x="553" y="95">+ event: string</text>
-<rect x="720" y="50" width="174" height="80" fill="#fff" stroke="#000" stroke-width="1"/>
+<rect x="720" y="50" width="174" height="80" stroke="#000" stroke-width="1" fill="#fff"/>
 <text x="807" y="70" text-anchor="middle">AfterTrigger</text>
 <line x1="720" y1="85" x2="894" y2="85" stroke="#000"/>
 <text x="730" y="95">+ duration: Duration</text>
-<rect x="934" y="50" width="166" height="80" stroke-width="1" fill="#fff" stroke="#000"/>
+<rect x="934" y="50" width="166" height="80" stroke="#000" stroke-width="1" fill="#fff"/>
 <text x="1017" y="70" text-anchor="middle">WhenTrigger</text>
 <line x1="934" y1="85" x2="1100" y2="85" stroke="#000"/>
 <text x="944" y="95">+ condition: string</text>
-<rect x="1140" y="50" width="166" height="140" fill="#fff" stroke="#000" stroke-width="1"/>
+<rect x="1140" y="50" width="166" height="140" stroke-width="1" fill="#fff" stroke="#000"/>
 <text x="1223" y="70" text-anchor="middle">Transition</text>
 <line x1="1140" y1="85" x2="1306" y2="85" stroke="#000"/>
 <text x="1150" y="95">+ fromState: string</text>
 <text x="1150" y="115">+ toState: string</text>
 <text x="1150" y="135">+ guard: string</text>
 <text x="1150" y="155">+ actions: string</text>
-<rect x="1346" y="50" width="130" height="80" fill="#fff" stroke="#000" stroke-width="1"/>
+<rect x="1346" y="50" width="130" height="80" stroke="#000" stroke-width="1" fill="#fff"/>
 <text x="1411" y="70" text-anchor="middle">Region</text>
 <line x1="1346" y1="85" x2="1476" y2="85" stroke="#000"/>
 <text x="1356" y="95">+ name: string</text>
-<rect x="1516" y="50" width="188" height="160" fill="#fff" stroke="#000" stroke-width="1"/>
+<rect x="1516" y="50" width="188" height="160" stroke-width="1" fill="#fff" stroke="#000"/>
 <text x="1610" y="70" text-anchor="middle">State</text>
 <line x1="1516" y1="85" x2="1704" y2="85" stroke="#000"/>
 <text x="1526" y="95">+ id: string</text>

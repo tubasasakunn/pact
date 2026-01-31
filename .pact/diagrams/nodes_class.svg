@@ -2,7 +2,7 @@
 <rect x="50" y="50" width="123" height="60" fill="#fff" stroke="#000" stroke-width="1"/>
 <text x="111" y="70" text-anchor="middle">&lt;&lt;component&gt;&gt;</text>
 <text x="111" y="90" text-anchor="middle">ASTNodes</text>
-<rect x="213" y="50" width="245" height="200" fill="#fff" stroke="#000" stroke-width="1"/>
+<rect x="213" y="50" width="245" height="200" stroke="#000" stroke-width="1" fill="#fff"/>
 <text x="335" y="70" text-anchor="middle">SpecFile</text>
 <line x1="213" y1="85" x2="458" y2="85" stroke="#000"/>
 <text x="223" y="95">+ path: String</text>
@@ -25,7 +25,7 @@
 <text x="685" y="115">+ name: String</text>
 <text x="685" y="135">+ annotations: AnnotationDecl</text>
 <text x="685" y="155">+ body: ComponentBody</text>
-<rect x="953" y="50" width="281" height="180" stroke="#000" stroke-width="1" fill="#fff"/>
+<rect x="953" y="50" width="281" height="180" fill="#fff" stroke="#000" stroke-width="1"/>
 <text x="1093" y="70" text-anchor="middle">ComponentBody</text>
 <line x1="953" y1="85" x2="1234" y2="85" stroke="#000"/>
 <text x="963" y="95">+ types: TypeDecl</text>
@@ -40,7 +40,7 @@
 <text x="1284" y="95">+ pos: Position</text>
 <text x="1284" y="115">+ name: String</text>
 <text x="1284" y="135">+ args: AnnotationArg</text>
-<rect x="1495" y="50" width="137" height="100" stroke="#000" stroke-width="1" fill="#fff"/>
+<rect x="1495" y="50" width="137" height="100" fill="#fff" stroke="#000" stroke-width="1"/>
 <text x="1563" y="70" text-anchor="middle">AnnotationArg</text>
 <line x1="1495" y1="85" x2="1632" y2="85" stroke="#000"/>
 <text x="1505" y="95">+ key: String</text>

@@ -16,7 +16,7 @@
 <text x="501" y="115">+ variable: String</text>
 <text x="501" y="135">+ value: Expr</text>
 <text x="501" y="155">+ annotations: AnnotationDecl</text>
-<rect x="769" y="50" width="238" height="140" fill="#fff" stroke="#000" stroke-width="1"/>
+<rect x="769" y="50" width="238" height="140" stroke="#000" stroke-width="1" fill="#fff"/>
 <text x="888" y="70" text-anchor="middle">CallStep</text>
 <line x1="769" y1="85" x2="1007" y2="85" stroke="#000"/>
 <text x="779" y="95">+ pos: Position</text>
@@ -29,7 +29,7 @@
 <text x="1057" y="95">+ pos: Position</text>
 <text x="1057" y="115">+ value: Expr</text>
 <text x="1057" y="135">+ annotations: AnnotationDecl</text>
-<rect x="1325" y="50" width="238" height="120" fill="#fff" stroke="#000" stroke-width="1"/>
+<rect x="1325" y="50" width="238" height="120" stroke="#000" stroke-width="1" fill="#fff"/>
 <text x="1444" y="70" text-anchor="middle">ThrowStep</text>
 <line x1="1325" y1="85" x2="1563" y2="85" stroke="#000"/>
 <text x="1335" y="95">+ pos: Position</text>
@@ -43,7 +43,7 @@
 <text x="1613" y="135">+ thenSteps: Step</text>
 <text x="1613" y="155">+ elseSteps: Step</text>
 <text x="1613" y="175">+ annotations: AnnotationDecl</text>
-<rect x="1881" y="50" width="238" height="160" fill="#fff" stroke="#000" stroke-width="1"/>
+<rect x="1881" y="50" width="238" height="160" stroke="#000" stroke-width="1" fill="#fff"/>
 <text x="2000" y="70" text-anchor="middle">ForStep</text>
 <line x1="1881" y1="85" x2="2119" y2="85" stroke="#000"/>
 <text x="1891" y="95">+ pos: Position</text>
