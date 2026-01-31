@@ -8,7 +8,7 @@
 <text x="386" y="125" text-anchor="middle">Assigned</text>
 <line x1="297" y1="135" x2="475" y2="135" stroke="#000"/>
 <text x="302" y="150">entry/ notify_assignee</text>
-<rect x="515" y="100" width="149" height="90" rx="10" ry="10" stroke="#000" fill="#fff"/>
+<rect x="515" y="100" width="149" height="90" rx="10" ry="10" fill="#fff" stroke="#000"/>
 <text x="589" y="125" text-anchor="middle">InProgress</text>
 <line x1="515" y1="135" x2="663" y2="135" stroke="#000"/>
 <text x="520" y="150">entry/ start_timer</text>
