@@ -9,7 +9,7 @@
 <text x="310" y="115">+ name: String</text>
 <text x="310" y="135">+ annotations: AnnotationDecl</text>
 <text x="310" y="155">+ steps: Step</text>
-<rect x="550" y="50" width="200" height="140" stroke="#000" stroke-width="1" fill="#fff"/>
+<rect x="550" y="50" width="200" height="140" fill="#fff" stroke="#000" stroke-width="1"/>
 <text x="650" y="70" text-anchor="middle">AssignStep</text>
 <line x1="550" y1="85" x2="750" y2="85" stroke="#000"/>
 <text x="560" y="95">+ pos: Position</text>
@@ -29,7 +29,7 @@
 <text x="310" y="295">+ pos: Position</text>
 <text x="310" y="315">+ value: Expr</text>
 <text x="310" y="335">+ annotations: AnnotationDecl</text>
-<rect x="550" y="250" width="200" height="120" fill="#fff" stroke="#000" stroke-width="1"/>
+<rect x="550" y="250" width="200" height="120" stroke="#000" stroke-width="1" fill="#fff"/>
 <text x="650" y="270" text-anchor="middle">ThrowStep</text>
 <line x1="550" y1="285" x2="750" y2="285" stroke="#000"/>
 <text x="560" y="295">+ pos: Position</text>
@@ -43,7 +43,7 @@
 <text x="60" y="535">+ thenSteps: Step</text>
 <text x="60" y="555">+ elseSteps: Step</text>
 <text x="60" y="575">+ annotations: AnnotationDecl</text>
-<rect x="300" y="450" width="200" height="160" stroke="#000" stroke-width="1" fill="#fff"/>
+<rect x="300" y="450" width="200" height="160" stroke-width="1" fill="#fff" stroke="#000"/>
 <text x="400" y="470" text-anchor="middle">ForStep</text>
 <line x1="300" y1="485" x2="500" y2="485" stroke="#000"/>
 <text x="310" y="495">+ pos: Position</text>
@@ -51,7 +51,7 @@
 <text x="310" y="535">+ iterable: Expr</text>
 <text x="310" y="555">+ body: Step</text>
 <text x="310" y="575">+ annotations: AnnotationDecl</text>
-<rect x="550" y="450" width="200" height="140" stroke-width="1" fill="#fff" stroke="#000"/>
+<rect x="550" y="450" width="200" height="140" fill="#fff" stroke="#000" stroke-width="1"/>
 <text x="650" y="470" text-anchor="middle">WhileStep</text>
 <line x1="550" y1="485" x2="750" y2="485" stroke="#000"/>
 <text x="560" y="495">+ pos: Position</text>

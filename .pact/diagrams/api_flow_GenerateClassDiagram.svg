@@ -5,12 +5,12 @@
 <text x="400" y="155" text-anchor="middle">transformer = ...</text>
 <rect x="350" y="210" width="100" height="40" fill="#fff" stroke="#000"/>
 <text x="400" y="235" text-anchor="middle">diagram = ...</text>
-<polygon points="400,290 440,310 400,330 360,310" fill="#fff" stroke="#000"/>
+<polygon points="400,290 440,310 400,330 360,310" stroke="#000" fill="#fff"/>
 <text x="400" y="315" text-anchor="middle">condition?</text>
 <rect x="350" y="370" width="100" height="40" rx="20" ry="20" fill="#fff" stroke="#000"/>
 <text x="400" y="395" text-anchor="middle">throw TransformError</text>
-<rect x="350" y="450" width="100" height="40" fill="#fff" stroke="#000"/>
-<text x="400" y="475" text-anchor="middle">renderer = ...</text>
+<rect x="500" y="450" width="100" height="40" stroke="#000" fill="#fff"/>
+<text x="550" y="475" text-anchor="middle">renderer = ...</text>
 <rect x="350" y="530" width="100" height="40" fill="#fff" stroke="#000"/>
 <text x="400" y="555" text-anchor="middle">result = ...</text>
 <rect x="350" y="610" width="100" height="40" rx="20" ry="20" fill="#fff" stroke="#000"/>
@@ -25,10 +25,14 @@
 <polygon points="400,290 396,282 404,282" fill="#000"/>
 <line x1="400" y1="330" x2="400" y2="370" stroke="#000"/>
 <polygon points="400,370 396,362 404,362" fill="#000"/>
-<line x1="400" y1="330" x2="400" y2="450" stroke="#000"/>
-<polygon points="400,450 396,442 403,442" fill="#000"/>
-<line x1="400" y1="490" x2="400" y2="530" stroke="#000"/>
-<polygon points="400,530 396,522 404,522" fill="#000"/>
+<line x1="440" y1="310" x2="550" y2="310" stroke="#000"/>
+<line x1="550" y1="310" x2="550" y2="450" stroke="#000"/>
+<polygon points="550,450 546,442 553,442" fill="#000"/>
+<text x="460" y="305">No</text>
+<line x1="550" y1="490" x2="400" y2="530" stroke="#000"/>
+<polygon points="400,530 406,524 408,531" fill="#000"/>
 <line x1="400" y1="570" x2="400" y2="610" stroke="#000"/>
 <polygon points="400,610 396,602 404,602" fill="#000"/>
+<line x1="400" y1="650" x2="400" y2="690" stroke="#000"/>
+<polygon points="400,690 396,682 404,682" fill="#000"/>
 </svg>

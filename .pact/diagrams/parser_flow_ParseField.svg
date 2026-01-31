@@ -1,9 +1,9 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 900" width="800" height="900">
-<rect x="350" y="50" width="100" height="40" rx="20" ry="20" stroke="#000" fill="#fff"/>
+<rect x="350" y="50" width="100" height="40" rx="20" ry="20" fill="#fff" stroke="#000"/>
 <text x="400" y="75" text-anchor="middle">Start</text>
-<rect x="350" y="130" width="100" height="40" stroke="#000" fill="#fff"/>
+<rect x="350" y="130" width="100" height="40" fill="#fff" stroke="#000"/>
 <text x="400" y="155" text-anchor="middle">annotations = ...</text>
-<rect x="350" y="210" width="100" height="40" fill="#fff" stroke="#000"/>
+<rect x="350" y="210" width="100" height="40" stroke="#000" fill="#fff"/>
 <text x="400" y="235" text-anchor="middle">visibility = ...</text>
 <rect x="350" y="290" width="100" height="40" fill="#fff" stroke="#000"/>
 <text x="400" y="315" text-anchor="middle">name = ...</text>
@@ -35,4 +35,6 @@
 <polygon points="400,610 396,602 404,602" fill="#000"/>
 <line x1="400" y1="650" x2="400" y2="690" stroke="#000"/>
 <polygon points="400,690 396,682 404,682" fill="#000"/>
+<line x1="400" y1="730" x2="400" y2="770" stroke="#000"/>
+<polygon points="400,770 396,762 404,762" fill="#000"/>
 </svg>

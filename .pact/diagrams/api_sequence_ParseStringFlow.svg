@@ -10,11 +10,11 @@
 <line x1="400" y1="100" x2="400" y2="500" stroke="#000" stroke-dasharray="5,5"/>
 <rect x="510" y="50" width="80" height="40" fill="#fff" stroke="#000"/>
 <text x="550" y="75" text-anchor="middle">ClassTransformer</text>
-<line x1="550" y1="100" x2="550" y2="500" stroke="#000" stroke-dasharray="5,5"/>
+<line x1="550" y1="100" x2="550" y2="500" stroke-dasharray="5,5" stroke="#000"/>
 <rect x="660" y="50" width="80" height="40" fill="#fff" stroke="#000"/>
 <text x="700" y="75" text-anchor="middle">SequenceTransformer</text>
 <line x1="700" y1="100" x2="700" y2="500" stroke="#000" stroke-dasharray="5,5"/>
-<rect x="810" y="50" width="80" height="40" stroke="#000" fill="#fff"/>
+<rect x="810" y="50" width="80" height="40" fill="#fff" stroke="#000"/>
 <text x="850" y="75" text-anchor="middle">StateTransformer</text>
 <line x1="850" y1="100" x2="850" y2="500" stroke="#000" stroke-dasharray="5,5"/>
 <rect x="960" y="50" width="80" height="40" fill="#fff" stroke="#000"/>
@@ -28,10 +28,10 @@
 <line x1="1300" y1="100" x2="1300" y2="500" stroke="#000" stroke-dasharray="5,5"/>
 <rect x="1410" y="50" width="80" height="40" fill="#fff" stroke="#000"/>
 <text x="1450" y="75" text-anchor="middle">StateRenderer</text>
-<line x1="1450" y1="100" x2="1450" y2="500" stroke-dasharray="5,5" stroke="#000"/>
+<line x1="1450" y1="100" x2="1450" y2="500" stroke="#000" stroke-dasharray="5,5"/>
 <rect x="1560" y="50" width="80" height="40" fill="#fff" stroke="#000"/>
 <text x="1600" y="75" text-anchor="middle">FlowRenderer</text>
-<line x1="1600" y1="100" x2="1600" y2="500" stroke="#000" stroke-dasharray="5,5"/>
+<line x1="1600" y1="100" x2="1600" y2="500" stroke-dasharray="5,5" stroke="#000"/>
 <line x1="100" y1="120" x2="400" y2="120" stroke="#000"/>
 <polygon points="400,120 392,123 392,116" fill="#000"/>
 <text x="250" y="115" text-anchor="middle">New</text>

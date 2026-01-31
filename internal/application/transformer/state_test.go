@@ -39,7 +39,7 @@ func TestStateTransformer_MinimalStates(t *testing.T) {
 	}
 }
 
-// TST002: 初期状態
+// TST002: 初期状態（疑似状態）
 func TestStateTransformer_InitialState(t *testing.T) {
 	statesDecl := ast.StatesDecl{
 		Name:    "OrderState",
@@ -50,18 +50,31 @@ func TestStateTransformer_InitialState(t *testing.T) {
 	transformer := NewStateTransformer()
 	diagram, _ := transformer.Transform(files, &StateOptions{StatesName: "OrderState"})
 
+	// 初期疑似状態を探す（Name = "" で Type = StateTypeInitial）
 	var initialState *state.State
 	for i := range diagram.States {
-		if diagram.States[i].Name == "Pending" {
+		if diagram.States[i].Type == state.StateTypeInitial {
 			initialState = &diagram.States[i]
 			break
 		}
 	}
 	if initialState == nil {
-		t.Fatal("expected initial state")
+		t.Fatal("expected initial pseudo-state")
 	}
-	if initialState.Type != state.StateTypeInitial {
-		t.Errorf("expected initial type, got %v", initialState.Type)
+	if initialState.Name != "" {
+		t.Errorf("expected empty name for initial pseudo-state, got %v", initialState.Name)
+	}
+
+	// 初期状態から最初の状態への遷移があることを確認
+	var hasInitialTransition bool
+	for _, tr := range diagram.Transitions {
+		if tr.From == initialState.ID && tr.To == "Pending" {
+			hasInitialTransition = true
+			break
+		}
+	}
+	if !hasInitialTransition {
+		t.Error("expected transition from initial pseudo-state to Pending")
 	}
 }
 
@@ -135,13 +148,15 @@ func TestStateTransformer_Transition_Event(t *testing.T) {
 	transformer := NewStateTransformer()
 	diagram, _ := transformer.Transform(files, &StateOptions{StatesName: "OrderState"})
 
-	if len(diagram.Transitions) != 1 {
-		t.Fatalf("expected 1 transition, got %d", len(diagram.Transitions))
+	// 2 transitions: initial->Pending, Pending->Processing
+	if len(diagram.Transitions) != 2 {
+		t.Fatalf("expected 2 transitions, got %d", len(diagram.Transitions))
 	}
 
-	trigger, ok := diagram.Transitions[0].Trigger.(*state.EventTrigger)
+	// Transitions[0] is initial->Pending, Transitions[1] is the user-defined one
+	trigger, ok := diagram.Transitions[1].Trigger.(*state.EventTrigger)
 	if !ok {
-		t.Fatalf("expected EventTrigger, got %T", diagram.Transitions[0].Trigger)
+		t.Fatalf("expected EventTrigger, got %T", diagram.Transitions[1].Trigger)
 	}
 	if trigger.Event != "Start" {
 		t.Errorf("expected event 'Start', got %q", trigger.Event)
@@ -162,9 +177,10 @@ func TestStateTransformer_Transition_After(t *testing.T) {
 	transformer := NewStateTransformer()
 	diagram, _ := transformer.Transform(files, &StateOptions{StatesName: "OrderState"})
 
-	trigger, ok := diagram.Transitions[0].Trigger.(*state.AfterTrigger)
+	// Transitions[0] is initial->Pending, Transitions[1] is the user-defined one
+	trigger, ok := diagram.Transitions[1].Trigger.(*state.AfterTrigger)
 	if !ok {
-		t.Fatalf("expected AfterTrigger, got %T", diagram.Transitions[0].Trigger)
+		t.Fatalf("expected AfterTrigger, got %T", diagram.Transitions[1].Trigger)
 	}
 	if trigger.Duration.Value != 30 || trigger.Duration.Unit != "s" {
 		t.Errorf("expected 30s, got %d%s", trigger.Duration.Value, trigger.Duration.Unit)
@@ -185,9 +201,10 @@ func TestStateTransformer_Transition_When(t *testing.T) {
 	transformer := NewStateTransformer()
 	diagram, _ := transformer.Transform(files, &StateOptions{StatesName: "OrderState"})
 
-	trigger, ok := diagram.Transitions[0].Trigger.(*state.WhenTrigger)
+	// Transitions[0] is initial->Pending, Transitions[1] is the user-defined one
+	trigger, ok := diagram.Transitions[1].Trigger.(*state.WhenTrigger)
 	if !ok {
-		t.Fatalf("expected WhenTrigger, got %T", diagram.Transitions[0].Trigger)
+		t.Fatalf("expected WhenTrigger, got %T", diagram.Transitions[1].Trigger)
 	}
 	if trigger.Condition != "isReady" {
 		t.Errorf("expected condition 'isReady', got %q", trigger.Condition)
@@ -213,8 +230,9 @@ func TestStateTransformer_Transition_Guard(t *testing.T) {
 	transformer := NewStateTransformer()
 	diagram, _ := transformer.Transform(files, &StateOptions{StatesName: "OrderState"})
 
-	if diagram.Transitions[0].Guard != "isValid" {
-		t.Errorf("expected guard 'isValid', got %q", diagram.Transitions[0].Guard)
+	// Transitions[0] is initial->Pending, Transitions[1] is the user-defined one
+	if diagram.Transitions[1].Guard != "isValid" {
+		t.Errorf("expected guard 'isValid', got %q", diagram.Transitions[1].Guard)
 	}
 }
 
@@ -237,8 +255,9 @@ func TestStateTransformer_Transition_Actions(t *testing.T) {
 	transformer := NewStateTransformer()
 	diagram, _ := transformer.Transform(files, &StateOptions{StatesName: "OrderState"})
 
-	if len(diagram.Transitions[0].Actions) != 2 {
-		t.Errorf("expected 2 actions, got %d", len(diagram.Transitions[0].Actions))
+	// Transitions[0] is initial->Pending, Transitions[1] is the user-defined one
+	if len(diagram.Transitions[1].Actions) != 2 {
+		t.Errorf("expected 2 actions, got %d", len(diagram.Transitions[1].Actions))
 	}
 }
 
@@ -406,7 +425,8 @@ func TestStateTransformer_DurationUnits(t *testing.T) {
 		transformer := NewStateTransformer()
 		diagram, _ := transformer.Transform(files, &StateOptions{StatesName: "OrderState"})
 
-		trigger := diagram.Transitions[0].Trigger.(*state.AfterTrigger)
+		// Transitions[0] is initial->Pending, Transitions[1] is the user-defined one
+		trigger := diagram.Transitions[1].Trigger.(*state.AfterTrigger)
 		if trigger.Duration.Unit != unit {
 			t.Errorf("expected unit %q, got %q", unit, trigger.Duration.Unit)
 		}

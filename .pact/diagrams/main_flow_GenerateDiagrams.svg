@@ -3,11 +3,11 @@
 <text x="400" y="75" text-anchor="middle">Start</text>
 <rect x="350" y="130" width="100" height="40" fill="#fff" stroke="#000"/>
 <text x="400" y="155" text-anchor="middle">opts = ...</text>
-<rect x="350" y="210" width="100" height="40" fill="#fff" stroke="#000"/>
+<rect x="350" y="210" width="100" height="40" stroke="#000" fill="#fff"/>
 <text x="400" y="235" text-anchor="middle">validateOptions()</text>
 <rect x="350" y="290" width="100" height="40" fill="#fff" stroke="#000"/>
 <text x="400" y="315" text-anchor="middle">processInputFiles()</text>
-<rect x="350" y="370" width="100" height="40" rx="20" ry="20" stroke="#000" fill="#fff"/>
+<rect x="350" y="370" width="100" height="40" rx="20" ry="20" fill="#fff" stroke="#000"/>
 <text x="400" y="395" text-anchor="middle">return</text>
 <rect x="350" y="450" width="100" height="40" rx="20" ry="20" fill="#fff" stroke="#000"/>
 <text x="400" y="475" text-anchor="middle">End</text>
@@ -19,4 +19,6 @@
 <polygon points="400,290 396,282 404,282" fill="#000"/>
 <line x1="400" y1="330" x2="400" y2="370" stroke="#000"/>
 <polygon points="400,370 396,362 404,362" fill="#000"/>
+<line x1="400" y1="410" x2="400" y2="450" stroke="#000"/>
+<polygon points="400,450 396,442 404,442" fill="#000"/>
 </svg>

@@ -1,8 +1,8 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" width="800" height="600">
 <rect x="60" y="50" width="80" height="40" fill="#fff" stroke="#000"/>
 <text x="100" y="75" text-anchor="middle">Config</text>
-<line x1="100" y1="100" x2="100" y2="500" stroke="#000" stroke-dasharray="5,5"/>
-<rect x="50" y="110" width="700" height="20" fill="none" stroke="#000"/>
+<line x1="100" y1="100" x2="100" y2="500" stroke-dasharray="5,5" stroke="#000"/>
+<rect x="50" y="110" width="700" height="20" stroke="#000" fill="none"/>
 <text x="60" y="120">[alt] condition</text>
 <rect x="50" y="110" width="700" height="20" stroke="#000" fill="none"/>
 <text x="60" y="120">[alt] condition</text>

@@ -52,12 +52,20 @@ func (t *StateTransformer) Transform(files []*ast.SpecFile, opts *StateOptions) 
 		Transitions: []state.Transition{},
 	}
 
-	// Initial状態
-	diagram.States = append(diagram.States, state.State{
-		ID:   targetStates.Initial,
-		Name: targetStates.Initial,
-		Type: state.StateTypeInitial,
-	})
+	// 初期疑似状態（黒丸）を追加
+	initialPseudoID := "__initial__"
+	if targetStates.Initial != "" {
+		diagram.States = append(diagram.States, state.State{
+			ID:   initialPseudoID,
+			Name: "",
+			Type: state.StateTypeInitial,
+		})
+		// 初期疑似状態から最初の状態への遷移
+		diagram.Transitions = append(diagram.Transitions, state.Transition{
+			From: initialPseudoID,
+			To:   targetStates.Initial,
+		})
+	}
 
 	// Final状態
 	for _, final := range targetStates.Finals {
@@ -68,16 +76,21 @@ func (t *StateTransformer) Transform(files []*ast.SpecFile, opts *StateOptions) 
 		})
 	}
 
-	// 通常の状態
+	// 既に追加された状態名を記録
+	stateNames := make(map[string]bool)
+	for _, final := range targetStates.Finals {
+		stateNames[final] = true
+	}
+
+	// 通常の状態（重複を避ける）
 	for _, s := range targetStates.States {
-		diagram.States = append(diagram.States, t.transformState(&s))
+		if !stateNames[s.Name] {
+			diagram.States = append(diagram.States, t.transformState(&s))
+			stateNames[s.Name] = true
+		}
 	}
 
 	// 遷移から状態を収集
-	stateNames := make(map[string]bool)
-	for _, s := range diagram.States {
-		stateNames[s.Name] = true
-	}
 	for _, trans := range targetStates.Transitions {
 		if !stateNames[trans.From] {
 			diagram.States = append(diagram.States, state.State{

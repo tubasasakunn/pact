@@ -10,7 +10,9 @@ import (
 
 // FlowTransformer はASTをフローチャートに変換する
 type FlowTransformer struct {
-	nodeCounter int
+	nodeCounter   int
+	pendingNoEdge bool   // 次のエッジに"No"ラベルを付けるかどうか
+	noEdgeFromID  string // "No"エッジの起点ノードID
 }
 
 // NewFlowTransformer は新しいFlowTransformerを作成する
@@ -53,6 +55,8 @@ func (t *FlowTransformer) Transform(files []*ast.SpecFile, opts *FlowOptions) (*
 	}
 
 	t.nodeCounter = 0
+	t.pendingNoEdge = false
+	t.noEdgeFromID = ""
 	diagram := &flow.Diagram{
 		Nodes:     []flow.Node{},
 		Edges:     []flow.Edge{},
@@ -103,6 +107,17 @@ func (t *FlowTransformer) createNode(label string, shape flow.NodeShape) flow.No
 }
 
 func (t *FlowTransformer) transformStep(step ast.Step, prevNodeID string, diagram *flow.Diagram) string {
+	// "No"エッジが保留中の場合、エッジにラベルを付ける
+	addEdge := func(from, to string) {
+		edge := flow.Edge{From: from, To: to}
+		if t.pendingNoEdge && from == t.noEdgeFromID {
+			edge.Label = "No"
+			t.pendingNoEdge = false
+			t.noEdgeFromID = ""
+		}
+		diagram.Edges = append(diagram.Edges, edge)
+	}
+
 	switch s := step.(type) {
 	case *ast.AssignStep:
 		node := t.createNode(s.Variable+" = ...", flow.NodeShapeProcess)
@@ -113,7 +128,7 @@ func (t *FlowTransformer) transformStep(step ast.Step, prevNodeID string, diagra
 		}
 		diagram.Nodes = append(diagram.Nodes, node)
 		if prevNodeID != "" {
-			diagram.Edges = append(diagram.Edges, flow.Edge{From: prevNodeID, To: node.ID})
+			addEdge(prevNodeID, node.ID)
 		}
 		return node.ID
 
@@ -127,7 +142,7 @@ func (t *FlowTransformer) transformStep(step ast.Step, prevNodeID string, diagra
 			}
 			diagram.Nodes = append(diagram.Nodes, node)
 			if prevNodeID != "" {
-				diagram.Edges = append(diagram.Edges, flow.Edge{From: prevNodeID, To: node.ID})
+				addEdge(prevNodeID, node.ID)
 			}
 			return node.ID
 		}
@@ -137,9 +152,9 @@ func (t *FlowTransformer) transformStep(step ast.Step, prevNodeID string, diagra
 		node := t.createNode("return", flow.NodeShapeTerminal)
 		diagram.Nodes = append(diagram.Nodes, node)
 		if prevNodeID != "" {
-			diagram.Edges = append(diagram.Edges, flow.Edge{From: prevNodeID, To: node.ID})
+			addEdge(prevNodeID, node.ID)
 		}
-		return "" // returnの後は接続しない
+		return node.ID // returnノードからEndへ接続する
 
 	case *ast.ThrowStep:
 		node := t.createNode("throw "+s.Error, flow.NodeShapeTerminal)
@@ -153,11 +168,12 @@ func (t *FlowTransformer) transformStep(step ast.Step, prevNodeID string, diagra
 		decisionNode := t.createNode("condition?", flow.NodeShapeDecision)
 		diagram.Nodes = append(diagram.Nodes, decisionNode)
 		if prevNodeID != "" {
-			diagram.Edges = append(diagram.Edges, flow.Edge{From: prevNodeID, To: decisionNode.ID})
+			addEdge(prevNodeID, decisionNode.ID)
 		}
 
 		// Then分岐
 		var thenEndID string
+		thenEndsWithTerminal := false
 		if len(s.Then) > 0 {
 			currentID := decisionNode.ID
 			for i, thenStep := range s.Then {
@@ -170,6 +186,10 @@ func (t *FlowTransformer) transformStep(step ast.Step, prevNodeID string, diagra
 				}
 			}
 			thenEndID = currentID
+			// thenがreturn/throwで終わる場合
+			if thenEndID == "" {
+				thenEndsWithTerminal = true
+			}
 		} else {
 			thenEndID = decisionNode.ID
 		}
@@ -205,6 +225,12 @@ func (t *FlowTransformer) transformStep(step ast.Step, prevNodeID string, diagra
 				diagram.Edges = append(diagram.Edges, flow.Edge{From: decisionNode.ID, To: mergeNode.ID, Label: "No"})
 			}
 			return mergeNode.ID
+		}
+
+		// then が終端で終わり、else がない場合、次のステップに "No" ラベルを付ける
+		if thenEndsWithTerminal && len(s.Else) == 0 {
+			t.pendingNoEdge = true
+			t.noEdgeFromID = decisionNode.ID
 		}
 		return decisionNode.ID
 
