@@ -1,0 +1,52 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1235 600" width="1235" height="600">
+<rect x="50" y="50" width="332" height="120" fill="#fff" stroke="#000" stroke-width="1"/>
+<text x="216" y="70" text-anchor="middle">&lt;&lt;component&gt;&gt;</text>
+<text x="216" y="90" text-anchor="middle">UserService</text>
+<line x1="50" y1="105" x2="382" y2="105" stroke="#000"/>
+<text x="60" y="115">+ GetUser(id: string): User</text>
+<text x="60" y="135">+ CreateUser(req: CreateUserRequest): User</text>
+<text x="60" y="155">+ DeleteUser(id: string): bool</text>
+<rect x="422" y="50" width="166" height="140" fill="#fff" stroke="#000" stroke-width="1"/>
+<text x="505" y="70" text-anchor="middle">User</text>
+<line x1="422" y1="85" x2="588" y2="85" stroke="#000"/>
+<text x="432" y="95">+ id: string</text>
+<text x="432" y="115">+ name: string</text>
+<text x="432" y="135">+ email: string</text>
+<text x="432" y="155">+ createdAt: string</text>
+<rect x="628" y="50" width="152" height="100" stroke="#000" stroke-width="1" fill="#fff"/>
+<text x="704" y="70" text-anchor="middle">CreateUserRequest</text>
+<line x1="628" y1="85" x2="780" y2="85" stroke="#000"/>
+<text x="638" y="95">+ name: string</text>
+<text x="638" y="115">+ email: string</text>
+<rect x="381" y="250" width="231" height="100" fill="#fff" stroke="#000" stroke-width="1"/>
+<text x="496" y="270" text-anchor="middle">&lt;&lt;component&gt;&gt;</text>
+<text x="496" y="290" text-anchor="middle">Database</text>
+<line x1="381" y1="305" x2="612" y2="305" stroke="#000"/>
+<text x="391" y="315">+ Query(sql: string): string</text>
+<text x="391" y="335">+ Execute(sql: string): bool</text>
+<rect x="820" y="50" width="159" height="120" fill="#fff" stroke="#000" stroke-width="1"/>
+<text x="899" y="70" text-anchor="middle">Connection</text>
+<line x1="820" y1="85" x2="979" y2="85" stroke="#000"/>
+<text x="830" y="95">+ host: string</text>
+<text x="830" y="115">+ port: int</text>
+<text x="830" y="135">+ database: string</text>
+<rect x="652" y="250" width="202" height="120" stroke-width="1" fill="#fff" stroke="#000"/>
+<text x="753" y="270" text-anchor="middle">&lt;&lt;component&gt;&gt;</text>
+<text x="753" y="290" text-anchor="middle">Logger</text>
+<line x1="652" y1="305" x2="854" y2="305" stroke="#000"/>
+<text x="662" y="315">+ Info(message: string)</text>
+<text x="662" y="335">+ Error(message: string)</text>
+<text x="662" y="355">+ Debug(message: string)</text>
+<rect x="1019" y="50" width="166" height="120" fill="#fff" stroke="#000" stroke-width="1"/>
+<text x="1102" y="70" text-anchor="middle">LogEntry</text>
+<line x1="1019" y1="85" x2="1185" y2="85" stroke="#000"/>
+<text x="1029" y="95">+ level: string</text>
+<text x="1029" y="115">+ message: string</text>
+<text x="1029" y="135">+ timestamp: string</text>
+<line x1="382" y1="38" x2="381" y2="300" stroke="#000" stroke-dasharray="5,5"/>
+<polygon points="381,300 376,289 386,290" fill="#000"/>
+<line x1="382" y1="110" x2="382" y2="370" stroke="#000" stroke-dasharray="5,5"/>
+<line x1="382" y1="370" x2="652" y2="370" stroke="#000" stroke-dasharray="5,5"/>
+<line x1="652" y1="370" x2="652" y2="310" stroke="#000" stroke-dasharray="5,5"/>
+<polygon points="652,310 657,319 647,319" fill="#000"/>
+</svg>

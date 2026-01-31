@@ -1,0 +1,55 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1290 600" width="1290" height="600">
+<rect x="50" y="50" width="231" height="120" fill="#fff" stroke="#000" stroke-width="1"/>
+<text x="165" y="70" text-anchor="middle">&lt;&lt;component&gt;&gt;</text>
+<text x="165" y="90" text-anchor="middle">Order</text>
+<line x1="50" y1="105" x2="281" y2="105" stroke="#000"/>
+<text x="60" y="115">+ AddItem(item: OrderItem)</text>
+<text x="60" y="135">+ RemoveItem(itemId: string)</text>
+<text x="60" y="155">+ CalculateTotal(): Money</text>
+<rect x="321" y="50" width="159" height="100" fill="#fff" stroke="#000" stroke-width="1"/>
+<text x="400" y="70" text-anchor="middle">Money</text>
+<line x1="321" y1="85" x2="480" y2="85" stroke="#000"/>
+<text x="331" y="95">+ amount: float</text>
+<text x="331" y="115">+ currency: string</text>
+<rect x="520" y="50" width="174" height="120" stroke-width="1" fill="#fff" stroke="#000"/>
+<text x="607" y="70" text-anchor="middle">OrderData</text>
+<line x1="520" y1="85" x2="694" y2="85" stroke="#000"/>
+<text x="530" y="95">+ id: string</text>
+<text x="530" y="115">+ customerId: string</text>
+<text x="530" y="135">+ total: Money</text>
+<rect x="502" y="230" width="123" height="60" fill="#fff" stroke="#000" stroke-width="1"/>
+<text x="563" y="250" text-anchor="middle">&lt;&lt;component&gt;&gt;</text>
+<text x="563" y="270" text-anchor="middle">Customer</text>
+<rect x="734" y="50" width="130" height="100" fill="#fff" stroke="#000" stroke-width="1"/>
+<text x="799" y="70" text-anchor="middle">CustomerData</text>
+<line x1="734" y1="85" x2="864" y2="85" stroke="#000"/>
+<text x="744" y="95">+ id: string</text>
+<text x="744" y="115">+ name: string</text>
+<rect x="665" y="230" width="123" height="60" fill="#fff" stroke="#000" stroke-width="1"/>
+<text x="726" y="250" text-anchor="middle">&lt;&lt;component&gt;&gt;</text>
+<text x="726" y="270" text-anchor="middle">OrderItem</text>
+<rect x="904" y="50" width="166" height="120" stroke-width="1" fill="#fff" stroke="#000"/>
+<text x="987" y="70" text-anchor="middle">ItemData</text>
+<line x1="904" y1="85" x2="1070" y2="85" stroke="#000"/>
+<text x="914" y="95">+ id: string</text>
+<text x="914" y="115">+ productId: string</text>
+<text x="914" y="135">+ quantity: int</text>
+<rect x="583" y="350" width="123" height="60" fill="#fff" stroke="#000" stroke-width="1"/>
+<text x="644" y="370" text-anchor="middle">&lt;&lt;component&gt;&gt;</text>
+<text x="644" y="390" text-anchor="middle">Product</text>
+<rect x="1110" y="50" width="130" height="120" fill="#fff" stroke="#000" stroke-width="1"/>
+<text x="1175" y="70" text-anchor="middle">ProductData</text>
+<line x1="1110" y1="85" x2="1240" y2="85" stroke="#000"/>
+<text x="1120" y="95">+ id: string</text>
+<text x="1120" y="115">+ name: string</text>
+<text x="1120" y="135">+ price: float</text>
+<line x1="281" y1="38" x2="281" y2="260" stroke="#000" stroke-dasharray="5,5"/>
+<line x1="281" y1="260" x2="502" y2="260" stroke="#000" stroke-dasharray="5,5"/>
+<polygon points="502,260 492,264 492,255" fill="#000"/>
+<line x1="281" y1="110" x2="281" y2="260" stroke="#000" stroke-dasharray="5,5"/>
+<line x1="281" y1="260" x2="665" y2="260" stroke="#000" stroke-dasharray="5,5"/>
+<polygon points="665,260 655,264 655,255" fill="#000"/>
+<line x1="726" y1="290" x2="726" y2="350" stroke="#000" stroke-dasharray="5,5"/>
+<line x1="726" y1="350" x2="644" y2="350" stroke="#000" stroke-dasharray="5,5"/>
+<polygon points="644,350 653,345 653,354" fill="#000"/>
+</svg>

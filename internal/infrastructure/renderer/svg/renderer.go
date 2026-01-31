@@ -935,21 +935,44 @@ func NewSequenceRenderer() *SequenceRenderer {
 func (r *SequenceRenderer) Render(diagram *sequence.Diagram, w io.Writer) error {
 	c := canvas.New()
 
-	// サイズを計算
-	width := 100 + len(diagram.Participants)*150 + 50
-	if width < 800 {
-		width = 800
-	}
-	c.SetSize(width, 600)
+	// 各参加者のボックス幅を計算
+	participantWidths := make(map[string]int)
+	minWidth := 80
+	padding := 20
+	fontSize := 12
 
-	// 参加者の位置を記録
+	for _, p := range diagram.Participants {
+		textWidth, _ := canvas.MeasureText(p.Name, fontSize)
+		width := textWidth + padding
+		if width < minWidth {
+			width = minWidth
+		}
+		participantWidths[p.ID] = width
+	}
+
+	// 参加者の位置を計算（動的間隔）
 	participantX := make(map[string]int)
+	margin := 30 // 参加者間のマージン
+	x := 50
+
+	for _, p := range diagram.Participants {
+		w := participantWidths[p.ID]
+		participantX[p.ID] = x + w/2 // 中心位置
+		x += w + margin
+	}
+
+	// キャンバス幅を計算
+	totalWidth := x + 50
+	if totalWidth < 800 {
+		totalWidth = 800
+	}
+	c.SetSize(totalWidth, 600)
 
 	// 参加者をレンダリング
-	for i, p := range diagram.Participants {
-		x := 100 + i*150
-		participantX[p.ID] = x
-		r.renderParticipant(c, p, x, 50)
+	for _, p := range diagram.Participants {
+		px := participantX[p.ID]
+		pw := participantWidths[p.ID]
+		r.renderParticipantWithWidth(c, p, px, 50, pw)
 	}
 
 	// メッセージをレンダリング
@@ -1060,6 +1083,10 @@ func (r *SequenceRenderer) drawOpenArrow(c *canvas.Canvas, fromX, toX, y int) {
 }
 
 func (r *SequenceRenderer) renderParticipant(c *canvas.Canvas, p sequence.Participant, x, y int) {
+	r.renderParticipantWithWidth(c, p, x, y, 80)
+}
+
+func (r *SequenceRenderer) renderParticipantWithWidth(c *canvas.Canvas, p sequence.Participant, x, y, width int) {
 	switch p.Type {
 	case sequence.ParticipantTypeActor:
 		// 人型を描画
@@ -1070,10 +1097,10 @@ func (r *SequenceRenderer) renderParticipant(c *canvas.Canvas, p sequence.Partic
 		c.Line(x, y+30, x+10, y+45, canvas.Stroke("#000"))
 		c.Text(x, y+60, p.Name, canvas.TextAnchor("middle"))
 	case sequence.ParticipantTypeDatabase:
-		c.Cylinder(x-30, y, 60, 50)
+		c.Cylinder(x-width/2, y, width, 50)
 		c.Text(x, y+60, p.Name, canvas.TextAnchor("middle"))
 	default:
-		c.Rect(x-40, y, 80, 40, canvas.Fill("#fff"), canvas.Stroke("#000"))
+		c.Rect(x-width/2, y, width, 40, canvas.Fill("#fff"), canvas.Stroke("#000"))
 		c.Text(x, y+25, p.Name, canvas.TextAnchor("middle"))
 	}
 
@@ -1180,6 +1207,41 @@ func (r *StateRenderer) Render(diagram *state.Diagram, w io.Writer) error {
 	return err
 }
 
+// calculateStateWidth は状態ボックスの幅を計算する
+func (r *StateRenderer) calculateStateWidth(s state.State) int {
+	minWidth := 80
+	padding := 20
+	fontSize := 12
+
+	maxWidth := 0
+
+	// 状態名の幅
+	nameWidth, _ := canvas.MeasureText(s.Name, fontSize)
+	if nameWidth > maxWidth {
+		maxWidth = nameWidth
+	}
+
+	// Entry/Exitアクションの幅
+	for _, entry := range s.Entry {
+		actionWidth, _ := canvas.MeasureText("entry/ "+entry, fontSize)
+		if actionWidth > maxWidth {
+			maxWidth = actionWidth
+		}
+	}
+	for _, exit := range s.Exit {
+		actionWidth, _ := canvas.MeasureText("exit/ "+exit, fontSize)
+		if actionWidth > maxWidth {
+			maxWidth = actionWidth
+		}
+	}
+
+	width := maxWidth + padding
+	if width < minWidth {
+		width = minWidth
+	}
+	return width
+}
+
 func (r *StateRenderer) renderState(c *canvas.Canvas, s state.State, x, y int) {
 	// 複合状態の場合
 	if s.Type == state.StateTypeCompound && len(s.Children) > 0 {
@@ -1194,25 +1256,26 @@ func (r *StateRenderer) renderState(c *canvas.Canvas, s state.State, x, y int) {
 	}
 
 	// 通常の状態
+	width := r.calculateStateWidth(s)
 	hasActions := len(s.Entry) > 0 || len(s.Exit) > 0
 	height := 40
 	if hasActions {
 		height = 60 + len(s.Entry)*15 + len(s.Exit)*15
 	}
 
-	c.RoundRect(x-40, y-20, 80, height, 10, 10, canvas.Fill("#fff"), canvas.Stroke("#000"))
+	c.RoundRect(x-width/2, y-20, width, height, 10, 10, canvas.Fill("#fff"), canvas.Stroke("#000"))
 	c.Text(x, y+5, s.Name, canvas.TextAnchor("middle"))
 
 	// Entry/Exitアクションを描画
 	if hasActions {
-		c.Line(x-40, y+15, x+40, y+15, canvas.Stroke("#000"))
+		c.Line(x-width/2, y+15, x+width/2, y+15, canvas.Stroke("#000"))
 		actionY := y + 30
 		for _, entry := range s.Entry {
-			c.Text(x-35, actionY, "entry/ "+entry)
+			c.Text(x-width/2+5, actionY, "entry/ "+entry)
 			actionY += 15
 		}
 		for _, exit := range s.Exit {
-			c.Text(x-35, actionY, "exit/ "+exit)
+			c.Text(x-width/2+5, actionY, "exit/ "+exit)
 			actionY += 15
 		}
 	}
@@ -1531,20 +1594,48 @@ func (r *FlowRenderer) renderWithoutSwimlanes(c *canvas.Canvas, diagram *flow.Di
 	c.SetSize(800, height)
 }
 
+// calculateFlowNodeWidth はフローノードの幅を計算する
+func (r *FlowRenderer) calculateFlowNodeWidth(node flow.Node) int {
+	minWidth := 100
+	padding := 30
+	fontSize := 12
+
+	if node.Label == "" {
+		return minWidth
+	}
+
+	textWidth, _ := canvas.MeasureText(node.Label, fontSize)
+	width := textWidth + padding
+	if width < minWidth {
+		width = minWidth
+	}
+	return width
+}
+
 func (r *FlowRenderer) renderFlowNode(c *canvas.Canvas, node flow.Node, x, y int) {
+	width := r.calculateFlowNodeWidth(node)
+	r.renderFlowNodeWithWidth(c, node, x, y, width)
+}
+
+func (r *FlowRenderer) renderFlowNodeWithWidth(c *canvas.Canvas, node flow.Node, x, y, width int) {
 	switch node.Shape {
 	case flow.NodeShapeTerminal:
-		c.Stadium(x-50, y, 100, 40, canvas.Fill("#fff"), canvas.Stroke("#000"))
+		c.Stadium(x-width/2, y, width, 40, canvas.Fill("#fff"), canvas.Stroke("#000"))
 	case flow.NodeShapeProcess:
-		c.Rect(x-50, y, 100, 40, canvas.Fill("#fff"), canvas.Stroke("#000"))
+		c.Rect(x-width/2, y, width, 40, canvas.Fill("#fff"), canvas.Stroke("#000"))
 	case flow.NodeShapeDecision:
-		c.Diamond(x, y+20, 80, 40, canvas.Fill("#fff"), canvas.Stroke("#000"))
+		// 判断ノードは幅を少し大きめに
+		diamondWidth := width
+		if diamondWidth < 80 {
+			diamondWidth = 80
+		}
+		c.Diamond(x, y+20, diamondWidth, 40, canvas.Fill("#fff"), canvas.Stroke("#000"))
 	case flow.NodeShapeDatabase:
-		c.Cylinder(x-30, y, 60, 50)
+		c.Cylinder(x-width/2, y, width, 50)
 	case flow.NodeShapeIO:
-		c.Parallelogram(x-50, y, 100, 40, 15, canvas.Fill("#fff"), canvas.Stroke("#000"))
+		c.Parallelogram(x-width/2, y, width, 40, 15, canvas.Fill("#fff"), canvas.Stroke("#000"))
 	default:
-		c.Rect(x-50, y, 100, 40, canvas.Fill("#fff"), canvas.Stroke("#000"))
+		c.Rect(x-width/2, y, width, 40, canvas.Fill("#fff"), canvas.Stroke("#000"))
 	}
 
 	if node.Label != "" {
