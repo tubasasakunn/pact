@@ -1,32 +1,49 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 850 600" width="850" height="600">
-<rect x="50" y="50" width="200" height="60" stroke-width="1" fill="#fff" stroke="#000"/>
-<text x="150" y="70" text-anchor="middle">&lt;&lt;component&gt;&gt;</text>
-<text x="150" y="90" text-anchor="middle">FlowDiagram</text>
-<rect x="300" y="50" width="200" height="60" fill="#fff" stroke="#000" stroke-width="1"/>
-<text x="400" y="70" text-anchor="middle">&lt;&lt;enum&gt;&gt;</text>
-<text x="400" y="90" text-anchor="middle">NodeShape</text>
-<rect x="550" y="50" width="200" height="100" fill="#fff" stroke="#000" stroke-width="1"/>
-<text x="650" y="70" text-anchor="middle">Swimlane</text>
-<line x1="550" y1="85" x2="750" y2="85" stroke="#000"/>
-<text x="560" y="95">+ id: string</text>
-<text x="560" y="115">+ name: string</text>
-<rect x="50" y="250" width="200" height="140" stroke="#000" stroke-width="1" fill="#fff"/>
-<text x="150" y="270" text-anchor="middle">Node</text>
-<line x1="50" y1="285" x2="250" y2="285" stroke="#000"/>
-<text x="60" y="295">+ id: string</text>
-<text x="60" y="315">+ label: string</text>
-<text x="60" y="335">+ shape: NodeShape</text>
-<text x="60" y="355">+ swimlane: string</text>
-<rect x="300" y="250" width="200" height="120" fill="#fff" stroke="#000" stroke-width="1"/>
-<text x="400" y="270" text-anchor="middle">Edge</text>
-<line x1="300" y1="285" x2="500" y2="285" stroke="#000"/>
-<text x="310" y="295">+ fromNode: string</text>
-<text x="310" y="315">+ toNode: string</text>
-<text x="310" y="335">+ label: string</text>
-<rect x="550" y="250" width="200" height="120" fill="#fff" stroke="#000" stroke-width="1"/>
-<text x="650" y="270" text-anchor="middle">Diagram</text>
-<line x1="550" y1="285" x2="750" y2="285" stroke="#000"/>
-<text x="560" y="295">+ nodes: Node</text>
-<text x="560" y="315">+ edges: Edge</text>
-<text x="560" y="335">+ swimlanes: Swimlane</text>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 934 600" width="934" height="600">
+<rect x="50" y="50" width="123" height="60" fill="#fff" stroke="#000" stroke-width="1"/>
+<text x="111" y="70" text-anchor="middle">&lt;&lt;component&gt;&gt;</text>
+<text x="111" y="90" text-anchor="middle">StateDiagram</text>
+<rect x="203" y="50" width="120" height="60" fill="#fff" stroke="#000" stroke-width="1"/>
+<text x="263" y="70" text-anchor="middle">&lt;&lt;enum&gt;&gt;</text>
+<text x="263" y="90" text-anchor="middle">StateType</text>
+<rect x="353" y="50" width="130" height="100" fill="#fff" stroke="#000" stroke-width="1"/>
+<text x="418" y="70" text-anchor="middle">Duration</text>
+<line x1="353" y1="85" x2="483" y2="85" stroke="#000"/>
+<text x="363" y="95">+ value: int</text>
+<text x="363" y="115">+ unit: string</text>
+<rect x="513" y="50" width="137" height="80" fill="#fff" stroke="#000" stroke-width="1"/>
+<text x="581" y="70" text-anchor="middle">EventTrigger</text>
+<line x1="513" y1="85" x2="650" y2="85" stroke="#000"/>
+<text x="523" y="95">+ event: string</text>
+<rect x="680" y="50" width="174" height="80" fill="#fff" stroke="#000" stroke-width="1"/>
+<text x="767" y="70" text-anchor="middle">AfterTrigger</text>
+<line x1="680" y1="85" x2="854" y2="85" stroke="#000"/>
+<text x="690" y="95">+ duration: Duration</text>
+<rect x="50" y="180" width="166" height="80" fill="#fff" stroke="#000" stroke-width="1"/>
+<text x="133" y="200" text-anchor="middle">WhenTrigger</text>
+<line x1="50" y1="215" x2="216" y2="215" stroke="#000"/>
+<text x="60" y="225">+ condition: string</text>
+<rect x="246" y="180" width="166" height="140" fill="#fff" stroke="#000" stroke-width="1"/>
+<text x="329" y="200" text-anchor="middle">Transition</text>
+<line x1="246" y1="215" x2="412" y2="215" stroke="#000"/>
+<text x="256" y="225">+ fromState: string</text>
+<text x="256" y="245">+ toState: string</text>
+<text x="256" y="265">+ guard: string</text>
+<text x="256" y="285">+ actions: string</text>
+<rect x="442" y="180" width="130" height="80" fill="#fff" stroke="#000" stroke-width="1"/>
+<text x="507" y="200" text-anchor="middle">Region</text>
+<line x1="442" y1="215" x2="572" y2="215" stroke="#000"/>
+<text x="452" y="225">+ name: string</text>
+<rect x="602" y="180" width="188" height="160" stroke="#000" stroke-width="1" fill="#fff"/>
+<text x="696" y="200" text-anchor="middle">State</text>
+<line x1="602" y1="215" x2="790" y2="215" stroke="#000"/>
+<text x="612" y="225">+ id: string</text>
+<text x="612" y="245">+ name: string</text>
+<text x="612" y="265">+ stateType: StateType</text>
+<text x="612" y="285">+ entryActions: string</text>
+<text x="612" y="305">+ exitActions: string</text>
+<rect x="50" y="370" width="209" height="100" fill="#fff" stroke="#000" stroke-width="1"/>
+<text x="154" y="390" text-anchor="middle">Diagram</text>
+<line x1="50" y1="405" x2="259" y2="405" stroke="#000"/>
+<text x="60" y="415">+ statesBlocks: State</text>
+<text x="60" y="435">+ transitions: Transition</text>
 </svg>

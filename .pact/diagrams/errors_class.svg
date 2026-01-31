@@ -1,51 +1,51 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 850 700" width="850" height="700">
-<rect x="50" y="50" width="200" height="200" fill="#fff" stroke="#000" stroke-width="1"/>
-<text x="150" y="70" text-anchor="middle">&lt;&lt;component&gt;&gt;</text>
-<text x="150" y="90" text-anchor="middle">Errors</text>
-<line x1="50" y1="105" x2="250" y2="105" stroke="#000"/>
-<text x="60" y="115">+ FormatParseError()</text>
-<text x="60" y="135">+ FormatSemanticError()</text>
-<text x="60" y="155">+ FormatImportError()</text>
-<text x="60" y="175">+ FormatCycleError()</text>
-<text x="60" y="195">+ FormatTransformError()</text>
-<text x="60" y="215">+ FormatConfigError()</text>
-<text x="60" y="235">+ UnwrapImportError()</text>
-<rect x="300" y="50" width="200" height="120" fill="#fff" stroke="#000" stroke-width="1"/>
-<text x="400" y="70" text-anchor="middle">Position</text>
-<line x1="300" y1="85" x2="500" y2="85" stroke="#000"/>
-<text x="310" y="95">+ line: int</text>
-<text x="310" y="115">+ column: int</text>
-<text x="310" y="135">+ fileName: string</text>
-<rect x="550" y="50" width="200" height="100" fill="#fff" stroke="#000" stroke-width="1"/>
-<text x="650" y="70" text-anchor="middle">ParseError</text>
-<line x1="550" y1="85" x2="750" y2="85" stroke="#000"/>
-<text x="560" y="95">+ pos: Position</text>
-<text x="560" y="115">+ message: string</text>
-<rect x="50" y="250" width="200" height="100" fill="#fff" stroke="#000" stroke-width="1"/>
-<text x="150" y="270" text-anchor="middle">SemanticError</text>
-<line x1="50" y1="285" x2="250" y2="285" stroke="#000"/>
-<text x="60" y="295">+ pos: Position</text>
-<text x="60" y="315">+ message: string</text>
-<rect x="300" y="250" width="200" height="140" fill="#fff" stroke="#000" stroke-width="1"/>
-<text x="400" y="270" text-anchor="middle">ImportError</text>
-<line x1="300" y1="285" x2="500" y2="285" stroke="#000"/>
-<text x="310" y="295">+ pos: Position</text>
-<text x="310" y="315">+ importPath: string</text>
-<text x="310" y="335">+ message: string</text>
-<text x="310" y="355">+ cause: error</text>
-<rect x="550" y="250" width="200" height="80" fill="#fff" stroke="#000" stroke-width="1"/>
-<text x="650" y="270" text-anchor="middle">CycleError</text>
-<line x1="550" y1="285" x2="750" y2="285" stroke="#000"/>
-<text x="560" y="295">+ cyclePath: string</text>
-<rect x="50" y="450" width="200" height="120" fill="#fff" stroke="#000" stroke-width="1"/>
-<text x="150" y="470" text-anchor="middle">TransformError</text>
-<line x1="50" y1="485" x2="250" y2="485" stroke="#000"/>
-<text x="60" y="495">+ sourceType: string</text>
-<text x="60" y="515">+ targetType: string</text>
-<text x="60" y="535">+ message: string</text>
-<rect x="300" y="450" width="200" height="100" fill="#fff" stroke="#000" stroke-width="1"/>
-<text x="400" y="470" text-anchor="middle">ConfigError</text>
-<line x1="300" y1="485" x2="500" y2="485" stroke="#000"/>
-<text x="310" y="495">+ filePath: string</text>
-<text x="310" y="515">+ message: string</text>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 898 600" width="898" height="600">
+<rect x="50" y="50" width="397" height="200" stroke="#000" stroke-width="1" fill="#fff"/>
+<text x="248" y="70" text-anchor="middle">&lt;&lt;component&gt;&gt;</text>
+<text x="248" y="90" text-anchor="middle">Errors</text>
+<line x1="50" y1="105" x2="447" y2="105" stroke="#000"/>
+<text x="60" y="115">+ FormatParseError(err: ParseError): string</text>
+<text x="60" y="135">+ FormatSemanticError(err: SemanticError): string</text>
+<text x="60" y="155">+ FormatImportError(err: ImportError): string</text>
+<text x="60" y="175">+ FormatCycleError(err: CycleError): string</text>
+<text x="60" y="195">+ FormatTransformError(err: TransformError): string</text>
+<text x="60" y="215">+ FormatConfigError(err: ConfigError): string</text>
+<text x="60" y="235">+ UnwrapImportError(err: ImportError): error</text>
+<rect x="477" y="50" width="159" height="120" fill="#fff" stroke="#000" stroke-width="1"/>
+<text x="556" y="70" text-anchor="middle">Position</text>
+<line x1="477" y1="85" x2="636" y2="85" stroke="#000"/>
+<text x="487" y="95">+ line: int</text>
+<text x="487" y="115">+ column: int</text>
+<text x="487" y="135">+ fileName: string</text>
+<rect x="666" y="50" width="152" height="100" stroke="#000" stroke-width="1" fill="#fff"/>
+<text x="742" y="70" text-anchor="middle">ParseError</text>
+<line x1="666" y1="85" x2="818" y2="85" stroke="#000"/>
+<text x="676" y="95">+ pos: Position</text>
+<text x="676" y="115">+ message: string</text>
+<rect x="50" y="280" width="152" height="100" fill="#fff" stroke="#000" stroke-width="1"/>
+<text x="126" y="300" text-anchor="middle">SemanticError</text>
+<line x1="50" y1="315" x2="202" y2="315" stroke="#000"/>
+<text x="60" y="325">+ pos: Position</text>
+<text x="60" y="345">+ message: string</text>
+<rect x="232" y="280" width="174" height="140" fill="#fff" stroke="#000" stroke-width="1"/>
+<text x="319" y="300" text-anchor="middle">ImportError</text>
+<line x1="232" y1="315" x2="406" y2="315" stroke="#000"/>
+<text x="242" y="325">+ pos: Position</text>
+<text x="242" y="345">+ importPath: string</text>
+<text x="242" y="365">+ message: string</text>
+<text x="242" y="385">+ cause: error</text>
+<rect x="436" y="280" width="166" height="80" fill="#fff" stroke="#000" stroke-width="1"/>
+<text x="519" y="300" text-anchor="middle">CycleError</text>
+<line x1="436" y1="315" x2="602" y2="315" stroke="#000"/>
+<text x="446" y="325">+ cyclePath: string</text>
+<rect x="632" y="280" width="174" height="120" fill="#fff" stroke="#000" stroke-width="1"/>
+<text x="719" y="300" text-anchor="middle">TransformError</text>
+<line x1="632" y1="315" x2="806" y2="315" stroke="#000"/>
+<text x="642" y="325">+ sourceType: string</text>
+<text x="642" y="345">+ targetType: string</text>
+<text x="642" y="365">+ message: string</text>
+<rect x="50" y="450" width="159" height="100" stroke="#000" stroke-width="1" fill="#fff"/>
+<text x="129" y="470" text-anchor="middle">ConfigError</text>
+<line x1="50" y1="485" x2="209" y2="485" stroke="#000"/>
+<text x="60" y="495">+ filePath: string</text>
+<text x="60" y="515">+ message: string</text>
 </svg>

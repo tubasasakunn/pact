@@ -1,70 +1,18 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 850 900" width="850" height="900">
-<rect x="50" y="50" width="200" height="60" fill="#fff" stroke="#000" stroke-width="1"/>
-<text x="150" y="70" text-anchor="middle">&lt;&lt;component&gt;&gt;</text>
-<text x="150" y="90" text-anchor="middle">ASTTypes</text>
-<rect x="300" y="50" width="200" height="180" stroke-width="1" fill="#fff" stroke="#000"/>
-<text x="400" y="70" text-anchor="middle">TypeDecl</text>
-<line x1="300" y1="85" x2="500" y2="85" stroke="#000"/>
-<text x="310" y="95">+ pos: Position</text>
-<text x="310" y="115">+ name: String</text>
-<text x="310" y="135">+ kind: TypeKind</text>
-<text x="310" y="155">+ annotations: AnnotationDecl</text>
-<text x="310" y="175">+ fields: FieldDecl</text>
-<text x="310" y="195">+ values: String</text>
-<rect x="550" y="50" width="200" height="60" fill="#fff" stroke="#000" stroke-width="1"/>
-<text x="650" y="70" text-anchor="middle">&lt;&lt;enum&gt;&gt;</text>
-<text x="650" y="90" text-anchor="middle">TypeKind</text>
-<rect x="50" y="250" width="200" height="160" fill="#fff" stroke="#000" stroke-width="1"/>
-<text x="150" y="270" text-anchor="middle">FieldDecl</text>
-<line x1="50" y1="285" x2="250" y2="285" stroke="#000"/>
-<text x="60" y="295">+ pos: Position</text>
-<text x="60" y="315">+ name: String</text>
-<text x="60" y="335">+ fieldType: TypeExpr</text>
-<text x="60" y="355">+ visibility: Visibility</text>
-<text x="60" y="375">+ annotations: AnnotationDecl</text>
-<rect x="300" y="250" width="200" height="60" stroke-width="1" fill="#fff" stroke="#000"/>
-<text x="400" y="270" text-anchor="middle">&lt;&lt;enum&gt;&gt;</text>
-<text x="400" y="290" text-anchor="middle">Visibility</text>
-<rect x="550" y="250" width="200" height="140" fill="#fff" stroke="#000" stroke-width="1"/>
-<text x="650" y="270" text-anchor="middle">TypeExpr</text>
-<line x1="550" y1="285" x2="750" y2="285" stroke="#000"/>
-<text x="560" y="295">+ pos: Position</text>
-<text x="560" y="315">+ name: String</text>
-<text x="560" y="335">+ nullable: Boolean</text>
-<text x="560" y="355">+ array: Boolean</text>
-<rect x="50" y="450" width="200" height="180" fill="#fff" stroke="#000" stroke-width="1"/>
-<text x="150" y="470" text-anchor="middle">RelationDecl</text>
-<line x1="50" y1="485" x2="250" y2="485" stroke="#000"/>
-<text x="60" y="495">+ pos: Position</text>
-<text x="60" y="515">+ kind: RelationKind</text>
-<text x="60" y="535">+ target: String</text>
-<text x="60" y="555">+ targetType: String</text>
-<text x="60" y="575">+ alias: String</text>
-<text x="60" y="595">+ annotations: AnnotationDecl</text>
-<rect x="300" y="450" width="200" height="60" fill="#fff" stroke="#000" stroke-width="1"/>
-<text x="400" y="470" text-anchor="middle">&lt;&lt;enum&gt;&gt;</text>
-<text x="400" y="490" text-anchor="middle">RelationKind</text>
-<rect x="550" y="450" width="200" height="140" fill="#fff" stroke="#000" stroke-width="1"/>
-<text x="650" y="470" text-anchor="middle">InterfaceDecl</text>
-<line x1="550" y1="485" x2="750" y2="485" stroke="#000"/>
-<text x="560" y="495">+ pos: Position</text>
-<text x="560" y="515">+ name: String</text>
-<text x="560" y="535">+ annotations: AnnotationDecl</text>
-<text x="560" y="555">+ methods: MethodDecl</text>
-<rect x="50" y="650" width="200" height="200" fill="#fff" stroke="#000" stroke-width="1"/>
-<text x="150" y="670" text-anchor="middle">MethodDecl</text>
-<line x1="50" y1="685" x2="250" y2="685" stroke="#000"/>
-<text x="60" y="695">+ pos: Position</text>
-<text x="60" y="715">+ name: String</text>
-<text x="60" y="735">+ params: ParamDecl</text>
-<text x="60" y="755">+ returnType: TypeExpr</text>
-<text x="60" y="775">+ throwsList: String</text>
-<text x="60" y="795">+ isAsync: Boolean</text>
-<text x="60" y="815">+ annotations: AnnotationDecl</text>
-<rect x="300" y="650" width="200" height="120" fill="#fff" stroke="#000" stroke-width="1"/>
-<text x="400" y="670" text-anchor="middle">ParamDecl</text>
-<line x1="300" y1="685" x2="500" y2="685" stroke="#000"/>
-<text x="310" y="695">+ pos: Position</text>
-<text x="310" y="715">+ name: String</text>
-<text x="310" y="735">+ paramType: TypeExpr</text>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 850 600" width="850" height="600">
+<rect x="50" y="50" width="123" height="60" fill="#fff" stroke="#000" stroke-width="1"/>
+<text x="111" y="70" text-anchor="middle">&lt;&lt;component&gt;&gt;</text>
+<text x="111" y="90" text-anchor="middle">DiagramCommon</text>
+<rect x="203" y="50" width="120" height="60" fill="#fff" stroke="#000" stroke-width="1"/>
+<text x="263" y="70" text-anchor="middle">&lt;&lt;enum&gt;&gt;</text>
+<text x="263" y="90" text-anchor="middle">DiagramType</text>
+<rect x="353" y="50" width="217" height="100" fill="#fff" stroke="#000" stroke-width="1"/>
+<text x="461" y="70" text-anchor="middle">Annotation</text>
+<line x1="353" y1="85" x2="570" y2="85" stroke="#000"/>
+<text x="363" y="95">+ name: string</text>
+<text x="363" y="115">+ arguments: AnnotationArg</text>
+<rect x="600" y="50" width="137" height="100" fill="#fff" stroke="#000" stroke-width="1"/>
+<text x="668" y="70" text-anchor="middle">AnnotationArg</text>
+<line x1="600" y1="85" x2="737" y2="85" stroke="#000"/>
+<text x="610" y="95">+ key: string</text>
+<text x="610" y="115">+ value: string</text>
 </svg>

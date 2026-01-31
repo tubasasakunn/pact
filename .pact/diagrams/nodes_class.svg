@@ -1,48 +1,48 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 850 700" width="850" height="700">
-<rect x="50" y="50" width="200" height="60" stroke="#000" stroke-width="1" fill="#fff"/>
-<text x="150" y="70" text-anchor="middle">&lt;&lt;component&gt;&gt;</text>
-<text x="150" y="90" text-anchor="middle">ASTNodes</text>
-<rect x="300" y="50" width="200" height="200" fill="#fff" stroke="#000" stroke-width="1"/>
-<text x="400" y="70" text-anchor="middle">SpecFile</text>
-<line x1="300" y1="85" x2="500" y2="85" stroke="#000"/>
-<text x="310" y="95">+ path: String</text>
-<text x="310" y="115">+ imports: ImportDecl</text>
-<text x="310" y="135">+ mainComponent: ComponentDecl</text>
-<text x="310" y="155">+ components: ComponentDecl</text>
-<text x="310" y="175">+ interfaces: InterfaceDecl</text>
-<text x="310" y="195">+ types: TypeDecl</text>
-<text x="310" y="215">+ annotations: AnnotationDecl</text>
-<rect x="550" y="50" width="200" height="120" stroke="#000" stroke-width="1" fill="#fff"/>
-<text x="650" y="70" text-anchor="middle">ImportDecl</text>
-<line x1="550" y1="85" x2="750" y2="85" stroke="#000"/>
-<text x="560" y="95">+ pos: Position</text>
-<text x="560" y="115">+ path: String</text>
-<text x="560" y="135">+ alias: String</text>
-<rect x="50" y="250" width="200" height="140" fill="#fff" stroke="#000" stroke-width="1"/>
-<text x="150" y="270" text-anchor="middle">ComponentDecl</text>
-<line x1="50" y1="285" x2="250" y2="285" stroke="#000"/>
-<text x="60" y="295">+ pos: Position</text>
-<text x="60" y="315">+ name: String</text>
-<text x="60" y="335">+ annotations: AnnotationDecl</text>
-<text x="60" y="355">+ body: ComponentBody</text>
-<rect x="300" y="250" width="200" height="180" fill="#fff" stroke="#000" stroke-width="1"/>
-<text x="400" y="270" text-anchor="middle">ComponentBody</text>
-<line x1="300" y1="285" x2="500" y2="285" stroke="#000"/>
-<text x="310" y="295">+ types: TypeDecl</text>
-<text x="310" y="315">+ relations: RelationDecl</text>
-<text x="310" y="335">+ providesInterfaces: InterfaceDecl</text>
-<text x="310" y="355">+ requiresInterfaces: InterfaceDecl</text>
-<text x="310" y="375">+ flows: FlowDecl</text>
-<text x="310" y="395">+ statesBlocks: StatesDecl</text>
-<rect x="550" y="250" width="200" height="120" fill="#fff" stroke="#000" stroke-width="1"/>
-<text x="650" y="270" text-anchor="middle">AnnotationDecl</text>
-<line x1="550" y1="285" x2="750" y2="285" stroke="#000"/>
-<text x="560" y="295">+ pos: Position</text>
-<text x="560" y="315">+ name: String</text>
-<text x="560" y="335">+ args: AnnotationArg</text>
-<rect x="50" y="450" width="200" height="100" stroke-width="1" fill="#fff" stroke="#000"/>
-<text x="150" y="470" text-anchor="middle">AnnotationArg</text>
-<line x1="50" y1="485" x2="250" y2="485" stroke="#000"/>
-<text x="60" y="495">+ key: String</text>
-<text x="60" y="515">+ value: String</text>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 890 640" width="890" height="640">
+<rect x="50" y="50" width="123" height="60" fill="#fff" stroke="#000" stroke-width="1"/>
+<text x="111" y="70" text-anchor="middle">&lt;&lt;component&gt;&gt;</text>
+<text x="111" y="90" text-anchor="middle">ASTNodes</text>
+<rect x="203" y="50" width="245" height="200" fill="#fff" stroke="#000" stroke-width="1"/>
+<text x="325" y="70" text-anchor="middle">SpecFile</text>
+<line x1="203" y1="85" x2="448" y2="85" stroke="#000"/>
+<text x="213" y="95">+ path: String</text>
+<text x="213" y="115">+ imports: ImportDecl</text>
+<text x="213" y="135">+ mainComponent: ComponentDecl</text>
+<text x="213" y="155">+ components: ComponentDecl</text>
+<text x="213" y="175">+ interfaces: InterfaceDecl</text>
+<text x="213" y="195">+ types: TypeDecl</text>
+<text x="213" y="215">+ annotations: AnnotationDecl</text>
+<rect x="478" y="50" width="137" height="120" fill="#fff" stroke="#000" stroke-width="1"/>
+<text x="546" y="70" text-anchor="middle">ImportDecl</text>
+<line x1="478" y1="85" x2="615" y2="85" stroke="#000"/>
+<text x="488" y="95">+ pos: Position</text>
+<text x="488" y="115">+ path: String</text>
+<text x="488" y="135">+ alias: String</text>
+<rect x="50" y="280" width="238" height="140" stroke="#000" stroke-width="1" fill="#fff"/>
+<text x="169" y="300" text-anchor="middle">ComponentDecl</text>
+<line x1="50" y1="315" x2="288" y2="315" stroke="#000"/>
+<text x="60" y="325">+ pos: Position</text>
+<text x="60" y="345">+ name: String</text>
+<text x="60" y="365">+ annotations: AnnotationDecl</text>
+<text x="60" y="385">+ body: ComponentBody</text>
+<rect x="318" y="280" width="281" height="180" fill="#fff" stroke="#000" stroke-width="1"/>
+<text x="458" y="300" text-anchor="middle">ComponentBody</text>
+<line x1="318" y1="315" x2="599" y2="315" stroke="#000"/>
+<text x="328" y="325">+ types: TypeDecl</text>
+<text x="328" y="345">+ relations: RelationDecl</text>
+<text x="328" y="365">+ providesInterfaces: InterfaceDecl</text>
+<text x="328" y="385">+ requiresInterfaces: InterfaceDecl</text>
+<text x="328" y="405">+ flows: FlowDecl</text>
+<text x="328" y="425">+ statesBlocks: StatesDecl</text>
+<rect x="629" y="280" width="181" height="120" fill="#fff" stroke="#000" stroke-width="1"/>
+<text x="719" y="300" text-anchor="middle">AnnotationDecl</text>
+<line x1="629" y1="315" x2="810" y2="315" stroke="#000"/>
+<text x="639" y="325">+ pos: Position</text>
+<text x="639" y="345">+ name: String</text>
+<text x="639" y="365">+ args: AnnotationArg</text>
+<rect x="50" y="490" width="137" height="100" fill="#fff" stroke="#000" stroke-width="1"/>
+<text x="118" y="510" text-anchor="middle">AnnotationArg</text>
+<line x1="50" y1="525" x2="187" y2="525" stroke="#000"/>
+<text x="60" y="535">+ key: String</text>
+<text x="60" y="555">+ value: String</text>
 </svg>
