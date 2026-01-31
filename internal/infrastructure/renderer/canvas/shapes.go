@@ -81,3 +81,33 @@ func (c *Canvas) Parallelogram(x, y, width, height, skew int, opts ...Option) {
 	)
 	c.Polygon(points, opts...)
 }
+
+// Note はノート形状（右上が折れた矩形）を描画する
+func (c *Canvas) Note(x, y, width, height int, opts ...Option) {
+	foldSize := 10
+	if foldSize > width/4 {
+		foldSize = width / 4
+	}
+	if foldSize > height/4 {
+		foldSize = height / 4
+	}
+
+	// 本体のパス（右上が折れた形）
+	path := fmt.Sprintf("M%d,%d L%d,%d L%d,%d L%d,%d L%d,%d L%d,%d Z",
+		x, y,
+		x+width-foldSize, y,
+		x+width, y+foldSize,
+		x+width, y+height,
+		x, y+height,
+		x, y,
+	)
+	c.Path(path, opts...)
+
+	// 折り返し部分
+	foldPath := fmt.Sprintf("M%d,%d L%d,%d L%d,%d",
+		x+width-foldSize, y,
+		x+width-foldSize, y+foldSize,
+		x+width, y+foldSize,
+	)
+	c.Path(foldPath, Stroke("#000"), Fill("none"))
+}

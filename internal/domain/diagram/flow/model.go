@@ -7,6 +7,7 @@ type Diagram struct {
 	Nodes     []Node
 	Edges     []Edge
 	Swimlanes []Swimlane
+	Notes     []common.Note
 }
 
 func (d *Diagram) Type() common.DiagramType {

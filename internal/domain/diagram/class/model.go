@@ -6,6 +6,7 @@ import "pact/internal/domain/diagram/common"
 type Diagram struct {
 	Nodes []Node
 	Edges []Edge
+	Notes []common.Note
 }
 
 func (d *Diagram) Type() common.DiagramType {
