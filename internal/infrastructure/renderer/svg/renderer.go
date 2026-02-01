@@ -1107,6 +1107,36 @@ func (r *SequenceRenderer) renderEvents(c *canvas.Canvas, events []sequence.Even
 					delete(activations, e.Participant)
 				}
 			}
+
+		case *sequence.NoteEvent:
+			// 注釈（return/throw）の描画
+			x, ok := participantX[e.Participant]
+			if !ok {
+				x = 100 // デフォルト位置
+			}
+
+			noteWidth, _ := canvas.MeasureText(e.Text, 12)
+			noteWidth += 20 // パディング
+			noteHeight := 25
+
+			// 注釈の種類によって色を変える
+			fillColor := "#ffffcc" // デフォルト（黄色）
+			strokeColor := "#000"
+			if e.NoteType == sequence.NoteTypeThrow {
+				fillColor = "#ffcccc" // throw は赤系
+				strokeColor = "#cc0000"
+			} else if e.NoteType == sequence.NoteTypeReturn {
+				fillColor = "#ccffcc" // return は緑系
+				strokeColor = "#006600"
+			}
+
+			// 注釈ボックスを描画
+			noteX := x + 20
+			noteY := *y - 10
+			c.Rect(noteX, noteY, noteWidth, noteHeight, canvas.Fill(fillColor), canvas.Stroke(strokeColor))
+			c.Text(noteX+10, *y+5, e.Text)
+
+			*y += 30
 		}
 	}
 

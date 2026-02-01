@@ -1,6 +1,8 @@
 package transformer
 
 import (
+	"fmt"
+
 	"pact/internal/domain/ast"
 	"pact/internal/domain/diagram/sequence"
 	"pact/internal/domain/errors"
@@ -183,6 +185,26 @@ func (t *SequenceTransformer) transformSteps(steps []ast.Step, from string, incl
 				Events: bodyEvents,
 			}
 			events = append(events, fragment)
+
+		case *ast.ReturnStep:
+			// return文をNoteEventとして追加
+			text := "return"
+			if s.Value != nil {
+				text = "return " + t.formatExpr(s.Value)
+			}
+			events = append(events, &sequence.NoteEvent{
+				Participant: from,
+				Text:        text,
+				NoteType:    sequence.NoteTypeReturn,
+			})
+
+		case *ast.ThrowStep:
+			// throw文をNoteEventとして追加
+			events = append(events, &sequence.NoteEvent{
+				Participant: from,
+				Text:        "throw " + s.Error,
+				NoteType:    sequence.NoteTypeThrow,
+			})
 		}
 	}
 
@@ -194,4 +216,36 @@ func (t *SequenceTransformer) getCallTarget(call *ast.CallExpr) string {
 		return v.Name
 	}
 	return "Unknown"
+}
+
+// formatExpr は式を文字列に整形する
+func (t *SequenceTransformer) formatExpr(expr ast.Expr) string {
+	if expr == nil {
+		return ""
+	}
+
+	switch e := expr.(type) {
+	case *ast.LiteralExpr:
+		return fmt.Sprintf("%v", e.Value)
+	case *ast.VariableExpr:
+		return e.Name
+	case *ast.FieldExpr:
+		return t.formatExpr(e.Object) + "." + e.Field
+	case *ast.CallExpr:
+		obj := t.formatExpr(e.Object)
+		args := ""
+		for i, arg := range e.Args {
+			if i > 0 {
+				args += ", "
+			}
+			args += t.formatExpr(arg)
+		}
+		return obj + "." + e.Method + "(" + args + ")"
+	case *ast.BinaryExpr:
+		return t.formatExpr(e.Left) + " " + e.Op + " " + t.formatExpr(e.Right)
+	case *ast.UnaryExpr:
+		return e.Op + t.formatExpr(e.Operand)
+	default:
+		return "..."
+	}
 }

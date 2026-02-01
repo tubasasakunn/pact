@@ -82,3 +82,21 @@ type ActivationEvent struct {
 }
 
 func (e *ActivationEvent) eventNode() {}
+
+// NoteEvent はシーケンス図内の注釈イベント
+type NoteEvent struct {
+	Participant string   // 注釈を付ける参加者（空の場合は全体）
+	Text        string   // 注釈テキスト
+	NoteType    NoteType // 注釈の種類
+}
+
+func (e *NoteEvent) eventNode() {}
+
+// NoteType は注釈の種類
+type NoteType string
+
+const (
+	NoteTypeNote   NoteType = "note"   // 通常の注釈
+	NoteTypeReturn NoteType = "return" // return文
+	NoteTypeThrow  NoteType = "throw"  // throw文
+)
