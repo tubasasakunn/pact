@@ -245,6 +245,13 @@ func (t *SequenceTransformer) formatExpr(expr ast.Expr) string {
 		return t.formatExpr(e.Left) + " " + e.Op + " " + t.formatExpr(e.Right)
 	case *ast.UnaryExpr:
 		return e.Op + t.formatExpr(e.Operand)
+	case *ast.TernaryExpr:
+		return t.formatExpr(e.Condition) + " ? " + t.formatExpr(e.Then) + " : " + t.formatExpr(e.Else)
+	case *ast.NullishExpr:
+		if e.ThrowErr != nil {
+			return t.formatExpr(e.Left) + " ?? throw " + *e.ThrowErr
+		}
+		return t.formatExpr(e.Left) + " ?? " + t.formatExpr(e.Right)
 	default:
 		return "..."
 	}
