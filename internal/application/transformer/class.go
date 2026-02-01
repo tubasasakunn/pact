@@ -1,6 +1,8 @@
 package transformer
 
 import (
+	"fmt"
+
 	"pact/internal/domain/ast"
 	"pact/internal/domain/diagram/class"
 	"pact/internal/domain/diagram/common"
@@ -24,7 +26,10 @@ func (t *ClassTransformer) Transform(files []*ast.SpecFile, opts *TransformOptio
 	diagram := &class.Diagram{
 		Nodes: []class.Node{},
 		Edges: []class.Edge{},
+		Notes: []common.Note{},
 	}
+
+	noteCounter := 0
 
 	for _, file := range files {
 		// ファイル内の全コンポーネントを収集
@@ -41,10 +46,24 @@ func (t *ClassTransformer) Transform(files []*ast.SpecFile, opts *TransformOptio
 			node := t.transformComponent(comp)
 			diagram.Nodes = append(diagram.Nodes, node)
 
+			// コンポーネントのアノテーションからNotesを抽出
+			for _, ann := range comp.Annotations {
+				if note := t.extractNote(&ann, comp.Name, &noteCounter); note != nil {
+					diagram.Notes = append(diagram.Notes, *note)
+				}
+			}
+
 			// 型をノードに変換
 			for _, typ := range comp.Body.Types {
 				typeNode := t.transformType(&typ)
 				diagram.Nodes = append(diagram.Nodes, typeNode)
+
+				// 型のアノテーションからNotesを抽出
+				for _, ann := range typ.Annotations {
+					if note := t.extractNote(&ann, typ.Name, &noteCounter); note != nil {
+						diagram.Notes = append(diagram.Notes, *note)
+					}
+				}
 			}
 
 			// 関係をエッジに変換
@@ -234,4 +253,48 @@ func contains(slice []string, item string) bool {
 		}
 	}
 	return false
+}
+
+// extractNote は@noteまたは@descriptionアノテーションからNoteを抽出する
+func (t *ClassTransformer) extractNote(ann *ast.AnnotationDecl, attachTo string, counter *int) *common.Note {
+	// @note または @description アノテーションを処理
+	if ann.Name != "note" && ann.Name != "description" {
+		return nil
+	}
+
+	// 最初の引数をテキストとして使用
+	text := ""
+	position := common.NotePositionRight // デフォルト位置
+
+	for _, arg := range ann.Args {
+		if arg.Key == nil {
+			// 位置指定なしの引数はテキスト
+			text = arg.Value
+		} else if *arg.Key == "position" {
+			switch arg.Value {
+			case "left":
+				position = common.NotePositionLeft
+			case "right":
+				position = common.NotePositionRight
+			case "top":
+				position = common.NotePositionTop
+			case "bottom":
+				position = common.NotePositionBottom
+			}
+		} else if *arg.Key == "text" {
+			text = arg.Value
+		}
+	}
+
+	if text == "" {
+		return nil
+	}
+
+	*counter++
+	return &common.Note{
+		ID:       fmt.Sprintf("note_%d", *counter),
+		Text:     text,
+		Position: position,
+		AttachTo: attachTo,
+	}
 }
