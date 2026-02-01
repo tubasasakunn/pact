@@ -178,6 +178,11 @@ func (t *ClassTransformer) transformRelation(fromName string, rel *ast.RelationD
 		To:   rel.Target,
 	}
 
+	// Aliasがある場合はラベルとして使用
+	if rel.Alias != nil {
+		edge.Label = *rel.Alias
+	}
+
 	switch rel.Kind {
 	case ast.RelationDependsOn:
 		edge.Type = class.EdgeTypeDependency
