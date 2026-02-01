@@ -50,7 +50,17 @@ func Walk(v Visitor, node *SpecFile) error {
 		}
 	}
 
-	if node.Component != nil {
+	// 全コンポーネントを走査
+	// 注: node.Component は node.Components の最後の要素を指すため、
+	// Components のみを走査すれば全コンポーネントをカバーできる
+	for i := range node.Components {
+		if err := walkComponent(v, &node.Components[i]); err != nil {
+			return err
+		}
+	}
+
+	// Components が空で Component のみ設定されている場合（後方互換性）
+	if len(node.Components) == 0 && node.Component != nil {
 		if err := walkComponent(v, node.Component); err != nil {
 			return err
 		}

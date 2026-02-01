@@ -35,13 +35,29 @@ func (t *FlowTransformer) Transform(files []*ast.SpecFile, opts *FlowOptions) (*
 	var targetFlow *ast.FlowDecl
 
 	for _, file := range files {
-		if file.Component == nil {
-			continue
+		// 単一コンポーネント
+		if file.Component != nil {
+			for i := range file.Component.Body.Flows {
+				if file.Component.Body.Flows[i].Name == opts.FlowName {
+					targetFlow = &file.Component.Body.Flows[i]
+					break
+				}
+			}
 		}
-		for i := range file.Component.Body.Flows {
-			if file.Component.Body.Flows[i].Name == opts.FlowName {
-				targetFlow = &file.Component.Body.Flows[i]
-				break
+
+		// 複数コンポーネント
+		if targetFlow == nil {
+			for j := range file.Components {
+				comp := &file.Components[j]
+				for i := range comp.Body.Flows {
+					if comp.Body.Flows[i].Name == opts.FlowName {
+						targetFlow = &comp.Body.Flows[i]
+						break
+					}
+				}
+				if targetFlow != nil {
+					break
+				}
 			}
 		}
 	}

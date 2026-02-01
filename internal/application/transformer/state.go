@@ -28,13 +28,29 @@ func (t *StateTransformer) Transform(files []*ast.SpecFile, opts *StateOptions) 
 	var targetStates *ast.StatesDecl
 
 	for _, file := range files {
-		if file.Component == nil {
-			continue
+		// 単一コンポーネント
+		if file.Component != nil {
+			for i := range file.Component.Body.States {
+				if file.Component.Body.States[i].Name == opts.StatesName {
+					targetStates = &file.Component.Body.States[i]
+					break
+				}
+			}
 		}
-		for i := range file.Component.Body.States {
-			if file.Component.Body.States[i].Name == opts.StatesName {
-				targetStates = &file.Component.Body.States[i]
-				break
+
+		// 複数コンポーネント
+		if targetStates == nil {
+			for j := range file.Components {
+				comp := &file.Components[j]
+				for i := range comp.Body.States {
+					if comp.Body.States[i].Name == opts.StatesName {
+						targetStates = &comp.Body.States[i]
+						break
+					}
+				}
+				if targetStates != nil {
+					break
+				}
 			}
 		}
 	}
