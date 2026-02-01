@@ -1065,10 +1065,32 @@ func (r *SequenceRenderer) renderEvents(c *canvas.Canvas, events []sequence.Even
 		case *sequence.FragmentEvent:
 			// フラグメント（alt, loop, opt）の枠を描画
 			startY := *y
+
+			// メイン(then)部分のイベントをレンダリング
 			r.renderEvents(c, e.Events, participantX, y)
+
+			// alt フラグメントで AltEvents がある場合
+			altSeparatorY := 0
+			if e.Type == sequence.FragmentTypeAlt && len(e.AltEvents) > 0 {
+				altSeparatorY = *y
+				// 区切り線用に少しスペースを空ける
+				*y += 20
+				// else ラベル
+				if e.AltLabel != "" {
+					c.Text(60, *y-5, "["+e.AltLabel+"]")
+				}
+				// else 部分のイベントをレンダリング
+				r.renderEvents(c, e.AltEvents, participantX, y)
+			}
+
 			// 枠を描画
 			c.Rect(50, startY-10, 700, *y-startY+20, canvas.Stroke("#000"), canvas.Fill("none"))
 			c.Text(60, startY, "["+string(e.Type)+"] "+e.Label)
+
+			// alt の区切り線を描画
+			if altSeparatorY > 0 {
+				c.Line(50, altSeparatorY+5, 750, altSeparatorY+5, canvas.Stroke("#000"), canvas.Dashed())
+			}
 
 		case *sequence.ActivationEvent:
 			x, ok := participantX[e.Participant]

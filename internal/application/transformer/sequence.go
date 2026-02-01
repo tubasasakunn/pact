@@ -30,14 +30,31 @@ func (t *SequenceTransformer) Transform(files []*ast.SpecFile, opts *SequenceOpt
 	var targetComponent *ast.ComponentDecl
 
 	for _, file := range files {
-		if file.Component == nil {
-			continue
+		// 単一コンポーネント
+		if file.Component != nil {
+			for i := range file.Component.Body.Flows {
+				if file.Component.Body.Flows[i].Name == opts.FlowName {
+					targetFlow = &file.Component.Body.Flows[i]
+					targetComponent = file.Component
+					break
+				}
+			}
 		}
-		for i := range file.Component.Body.Flows {
-			if file.Component.Body.Flows[i].Name == opts.FlowName {
-				targetFlow = &file.Component.Body.Flows[i]
-				targetComponent = file.Component
-				break
+
+		// 複数コンポーネント
+		if targetFlow == nil {
+			for j := range file.Components {
+				comp := &file.Components[j]
+				for i := range comp.Body.Flows {
+					if comp.Body.Flows[i].Name == opts.FlowName {
+						targetFlow = &comp.Body.Flows[i]
+						targetComponent = comp
+						break
+					}
+				}
+				if targetFlow != nil {
+					break
+				}
 			}
 		}
 	}
@@ -87,12 +104,14 @@ func (t *SequenceTransformer) Transform(files []*ast.SpecFile, opts *SequenceOpt
 	}
 
 	// ステップをイベントに変換
-	t.transformSteps(targetFlow.Steps, diagram, targetComponent.Name, opts.IncludeReturn)
+	diagram.Events = t.transformSteps(targetFlow.Steps, targetComponent.Name, opts.IncludeReturn)
 
 	return diagram, nil
 }
 
-func (t *SequenceTransformer) transformSteps(steps []ast.Step, diagram *sequence.Diagram, from string, includeReturn bool) {
+func (t *SequenceTransformer) transformSteps(steps []ast.Step, from string, includeReturn bool) []sequence.Event {
+	var events []sequence.Event
+
 	for _, step := range steps {
 		switch s := step.(type) {
 		case *ast.CallStep:
@@ -102,7 +121,7 @@ func (t *SequenceTransformer) transformSteps(steps []ast.Step, diagram *sequence
 				if s.Await {
 					msgType = sequence.MessageTypeAsync
 				}
-				diagram.Events = append(diagram.Events, &sequence.MessageEvent{
+				events = append(events, &sequence.MessageEvent{
 					From:        from,
 					To:          to,
 					Label:       call.Method,
@@ -113,14 +132,14 @@ func (t *SequenceTransformer) transformSteps(steps []ast.Step, diagram *sequence
 		case *ast.AssignStep:
 			if call, ok := s.Value.(*ast.CallExpr); ok {
 				to := t.getCallTarget(call)
-				diagram.Events = append(diagram.Events, &sequence.MessageEvent{
+				events = append(events, &sequence.MessageEvent{
 					From:        from,
 					To:          to,
 					Label:       call.Method,
 					MessageType: sequence.MessageTypeSync,
 				})
 				if includeReturn {
-					diagram.Events = append(diagram.Events, &sequence.MessageEvent{
+					events = append(events, &sequence.MessageEvent{
 						From:        to,
 						To:          from,
 						Label:       s.Variable,
@@ -130,37 +149,44 @@ func (t *SequenceTransformer) transformSteps(steps []ast.Step, diagram *sequence
 			}
 
 		case *ast.IfStep:
+			// Then節のイベントを収集
+			thenEvents := t.transformSteps(s.Then, from, includeReturn)
+
 			fragment := &sequence.FragmentEvent{
 				Type:   sequence.FragmentTypeAlt,
 				Label:  "condition",
-				Events: []sequence.Event{},
+				Events: thenEvents,
 			}
-			t.transformSteps(s.Then, diagram, from, includeReturn)
+
+			// Else節がある場合
 			if s.Else != nil {
+				elseEvents := t.transformSteps(s.Else, from, includeReturn)
 				fragment.AltLabel = "else"
-				t.transformSteps(s.Else, diagram, from, includeReturn)
+				fragment.AltEvents = elseEvents
 			}
-			diagram.Events = append(diagram.Events, fragment)
+			events = append(events, fragment)
 
 		case *ast.ForStep:
+			bodyEvents := t.transformSteps(s.Body, from, includeReturn)
 			fragment := &sequence.FragmentEvent{
 				Type:   sequence.FragmentTypeLoop,
 				Label:  "for " + s.Variable,
-				Events: []sequence.Event{},
+				Events: bodyEvents,
 			}
-			t.transformSteps(s.Body, diagram, from, includeReturn)
-			diagram.Events = append(diagram.Events, fragment)
+			events = append(events, fragment)
 
 		case *ast.WhileStep:
+			bodyEvents := t.transformSteps(s.Body, from, includeReturn)
 			fragment := &sequence.FragmentEvent{
 				Type:   sequence.FragmentTypeLoop,
 				Label:  "while",
-				Events: []sequence.Event{},
+				Events: bodyEvents,
 			}
-			t.transformSteps(s.Body, diagram, from, includeReturn)
-			diagram.Events = append(diagram.Events, fragment)
+			events = append(events, fragment)
 		}
 	}
+
+	return events
 }
 
 func (t *SequenceTransformer) getCallTarget(call *ast.CallExpr) string {
