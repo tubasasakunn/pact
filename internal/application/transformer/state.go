@@ -4,6 +4,7 @@ import (
 	"fmt"
 
 	"pact/internal/domain/ast"
+	"pact/internal/domain/diagram/common"
 	"pact/internal/domain/diagram/state"
 	"pact/internal/domain/errors"
 )
@@ -150,6 +151,11 @@ func (t *StateTransformer) transformState(s *ast.StateDecl) state.State {
 		Exit:  s.Exit,
 	}
 
+	// アノテーションを変換
+	for _, ann := range s.Annotations {
+		st.Annotations = append(st.Annotations, t.transformAnnotation(&ann))
+	}
+
 	if len(s.States) > 0 {
 		st.Type = state.StateTypeCompound
 		for _, child := range s.States {
@@ -252,4 +258,18 @@ func (t *StateTransformer) formatExpr(expr ast.Expr) string {
 	default:
 		return "..."
 	}
+}
+
+// transformAnnotation はアノテーションを変換する
+func (t *StateTransformer) transformAnnotation(ann *ast.AnnotationDecl) common.Annotation {
+	result := common.Annotation{
+		Name: ann.Name,
+		Args: make(map[string]string),
+	}
+	for _, arg := range ann.Args {
+		if arg.Key != nil {
+			result.Args[*arg.Key] = arg.Value
+		}
+	}
+	return result
 }
