@@ -155,6 +155,7 @@ func (t *ClassTransformer) transformMethod(method *ast.MethodDecl) class.Method 
 		Name:       method.Name,
 		Visibility: class.VisibilityPublic,
 		Async:      method.Async,
+		Throws:     method.Throws,
 	}
 
 	if method.ReturnType != nil {

@@ -37,6 +37,7 @@ type Method struct {
 	ReturnType string
 	Visibility Visibility
 	Async      bool
+	Throws     []string // 例外リスト
 }
 
 // Param はメソッドのパラメータ

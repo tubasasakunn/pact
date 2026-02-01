@@ -855,7 +855,19 @@ func (r *ClassRenderer) formatMethod(method class.Method) string {
 		returnType = ": " + method.ReturnType
 	}
 
-	return prefix + method.Name + "(" + params + ")" + returnType
+	// throws句
+	throws := ""
+	if len(method.Throws) > 0 {
+		throws = " throws "
+		for i, t := range method.Throws {
+			if i > 0 {
+				throws += ", "
+			}
+			throws += t
+		}
+	}
+
+	return prefix + method.Name + "(" + params + ")" + returnType + throws
 }
 
 func (r *ClassRenderer) renderEdge(c *canvas.Canvas, edge class.Edge, x1, y1, x2, y2 int) {
