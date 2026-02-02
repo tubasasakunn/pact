@@ -336,8 +336,9 @@ func TestFlowTransformer_Swimlane_Infer(t *testing.T) {
 	transformer := NewFlowTransformer()
 	diagram, _ := transformer.Transform(files, &FlowOptions{FlowName: "Process", IncludeSwimlanes: true})
 
-	if len(diagram.Swimlanes) != 2 {
-		t.Errorf("expected 2 swimlanes, got %d", len(diagram.Swimlanes))
+	// 3 swimlanes: TestService (default for Start/End), ServiceA, ServiceB
+	if len(diagram.Swimlanes) != 3 {
+		t.Errorf("expected 3 swimlanes, got %d", len(diagram.Swimlanes))
 	}
 }
 
@@ -362,10 +363,10 @@ func TestFlowTransformer_OptionSwimlanes(t *testing.T) {
 		t.Errorf("expected 0 swimlanes without option, got %d", len(diagram1.Swimlanes))
 	}
 
-	// スイムレーンあり
+	// スイムレーンあり: TestService (default for Start/End) + ServiceA
 	diagram2, _ := transformer.Transform(files, &FlowOptions{FlowName: "Process", IncludeSwimlanes: true})
-	if len(diagram2.Swimlanes) != 1 {
-		t.Errorf("expected 1 swimlane with option, got %d", len(diagram2.Swimlanes))
+	if len(diagram2.Swimlanes) != 2 {
+		t.Errorf("expected 2 swimlanes with option, got %d", len(diagram2.Swimlanes))
 	}
 }
 

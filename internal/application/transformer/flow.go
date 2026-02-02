@@ -33,6 +33,7 @@ func (t *FlowTransformer) Transform(files []*ast.SpecFile, opts *FlowOptions) (*
 	}
 
 	var targetFlow *ast.FlowDecl
+	var componentName string
 
 	for _, file := range files {
 		// 単一コンポーネント
@@ -40,6 +41,7 @@ func (t *FlowTransformer) Transform(files []*ast.SpecFile, opts *FlowOptions) (*
 			for i := range file.Component.Body.Flows {
 				if file.Component.Body.Flows[i].Name == opts.FlowName {
 					targetFlow = &file.Component.Body.Flows[i]
+					componentName = file.Component.Name
 					break
 				}
 			}
@@ -52,6 +54,7 @@ func (t *FlowTransformer) Transform(files []*ast.SpecFile, opts *FlowOptions) (*
 				for i := range comp.Body.Flows {
 					if comp.Body.Flows[i].Name == opts.FlowName {
 						targetFlow = &comp.Body.Flows[i]
+						componentName = comp.Name
 						break
 					}
 				}
@@ -99,6 +102,15 @@ func (t *FlowTransformer) Transform(files []*ast.SpecFile, opts *FlowOptions) (*
 	// スイムレーンを収集
 	if opts.IncludeSwimlanes {
 		swimlaneMap := make(map[string]bool)
+
+		// 明示的なスイムレーンがないノードにはデフォルト（コンポーネント名）を割り当て
+		for i := range diagram.Nodes {
+			if diagram.Nodes[i].Swimlane == "" {
+				diagram.Nodes[i].Swimlane = componentName
+			}
+		}
+
+		// スイムレーンを収集
 		for _, node := range diagram.Nodes {
 			if node.Swimlane != "" && !swimlaneMap[node.Swimlane] {
 				diagram.Swimlanes = append(diagram.Swimlanes, flow.Swimlane{
