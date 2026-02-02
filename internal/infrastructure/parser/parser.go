@@ -1083,12 +1083,18 @@ func (p *Parser) parsePrimaryExpr() (ast.Expr, error) {
 
 	switch p.curToken.Type {
 	case TOKEN_INT:
-		val, _ := strconv.ParseInt(p.curToken.Literal, 10, 64)
+		val, err := strconv.ParseInt(p.curToken.Literal, 10, 64)
+		if err != nil {
+			return nil, p.newError("invalid integer literal: %s", p.curToken.Literal)
+		}
 		p.nextToken()
 		return &ast.LiteralExpr{Pos: pos, Value: val}, nil
 
 	case TOKEN_FLOAT:
-		val, _ := strconv.ParseFloat(p.curToken.Literal, 64)
+		val, err := strconv.ParseFloat(p.curToken.Literal, 64)
+		if err != nil {
+			return nil, p.newError("invalid float literal: %s", p.curToken.Literal)
+		}
 		p.nextToken()
 		return &ast.LiteralExpr{Pos: pos, Value: val}, nil
 
@@ -1564,7 +1570,11 @@ func (p *Parser) parseDuration(literal string) (ast.Duration, error) {
 		if c >= '0' && c <= '9' {
 			continue
 		}
-		value, _ = strconv.Atoi(literal[:i])
+		var err error
+		value, err = strconv.Atoi(literal[:i])
+		if err != nil {
+			return ast.Duration{}, p.newError("invalid duration value: %s", literal)
+		}
 		unit = literal[i:]
 		break
 	}
