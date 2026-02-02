@@ -4,25 +4,28 @@ This document tracks known issues and areas for improvement in the Pact DSL proj
 
 ## Critical Priority
 
-### C-001: Parser Error Recovery
+### ~~C-001: Parser Error Recovery~~ (FIXED)
 - **Location**: `internal/infrastructure/parser/parser.go`
-- **Description**: Parser stops on first error without recovering or collecting multiple errors
-- **Impact**: Poor developer experience - only see one error at a time
-- **Suggestion**: Implement error recovery to collect all errors and report at end
+- **Description**: ~~Parser stops on first error without recovering or collecting multiple errors~~
+- **Status**: Fixed - Parser now collects multiple errors and continues parsing with error recovery
+- **Fixed in**: `internal/infrastructure/parser/parser.go` - Added `addError()`, `synchronize()`, and `getErrors()` methods
 
-### C-002: Duplicate Validation Missing
-- **Location**: Multiple transformers
-- **Description**: No validation for duplicate:
+### ~~C-002: Duplicate Validation Missing~~ (FIXED)
+- **Location**: `internal/application/validator/validator.go` (NEW)
+- **Description**: ~~No validation for duplicate field names, method names, parameter names, etc.~~
+- **Status**: Fixed - Added comprehensive duplicate validation
+- **Fixed in**: New validator package with `Validate()` method checking duplicates for:
   - Field names in types
   - Method names in interfaces
   - Parameter names in methods
+  - Type names, flow names, states names
   - Relation declarations
-- **Impact**: Invalid diagrams with duplicate elements
 
-### C-003: Circular Dependency Detection
+### ~~C-003: Circular Dependency Detection~~ (ALREADY IMPLEMENTED)
 - **Location**: `internal/infrastructure/resolver/resolver.go`
-- **Description**: No cycle detection for import dependencies
-- **Impact**: Potential infinite loops during resolution
+- **Description**: ~~No cycle detection for import dependencies~~
+- **Status**: Already implemented - `CycleError` is returned when circular imports are detected
+- **Note**: The resolver already had cycle detection via `inProgress` map tracking
 
 ## High Priority
 
@@ -39,49 +42,55 @@ This document tracks known issues and areas for improvement in the Pact DSL proj
   - Participant name overlaps in sequence diagrams
 - **Impact**: Visual overlapping in complex diagrams
 
-### H-003: Undefined Reference Validation
-- **Location**: All transformers
-- **Description**: References to undefined types/components/states accepted without validation
-- **Impact**: Silent failures or unexpected implicit creation
+### ~~H-003: Undefined Reference Validation~~ (FIXED)
+- **Location**: `internal/application/validator/validator.go` (NEW)
+- **Description**: ~~References to undefined types/components/states accepted without validation~~
+- **Status**: Fixed - Added `ValidateReferences()` method
+- **Fixed in**: Validator now checks:
+  - Relation targets reference defined components/types
+  - Field types are defined or builtin
+  - Method parameter and return types are defined
+  - State transitions reference defined states
 
-### H-004: Expression Nesting Limit
-- **Location**: `internal/application/transformer/*.go`
-- **Description**: No limit on expression nesting depth (e.g., `a.b().c().d()...` with 100+ levels)
-- **Impact**: Potential stack overflow or performance issues
+### ~~H-004: Expression Nesting Limit~~ (FIXED)
+- **Location**: `internal/application/validator/validator.go` (NEW)
+- **Description**: ~~No limit on expression nesting depth~~
+- **Status**: Fixed - Added `ValidateExpressionDepth()` method with `MaxNestingDepth = 50`
+- **Fixed in**: Validator now checks nesting depth for expressions and control flow statements
 
-### H-005: Dead Code Detection
-- **Location**: `internal/application/transformer/flow.go`
-- **Description**: Steps after unconditional return/throw not flagged as dead code
-- **Impact**: Misleading diagrams with unreachable nodes
+### ~~H-005: Dead Code Detection~~ (FIXED)
+- **Location**: `internal/application/validator/validator.go` (NEW)
+- **Description**: ~~Steps after unconditional return/throw not flagged as dead code~~
+- **Status**: Fixed - Added `ValidateDeadCode()` method
+- **Fixed in**: Validator detects unreachable code after return/throw statements
 
 ## Medium Priority
 
-### M-001: String Escape Sequences Limited
+### ~~M-001: String Escape Sequences Limited~~ (FIXED)
 - **Location**: `internal/infrastructure/parser/lexer.go`
-- **Description**: Only supports `\n, \t, \r, ", \\`. Missing:
-  - `\u` Unicode escapes
-  - `\x` hex escapes
-- **Impact**: Cannot use international characters via escapes
+- **Description**: ~~Only supports `\n, \t, \r, ", \\`. Missing `\u` Unicode and `\x` hex escapes~~
+- **Status**: Fixed - Added `\uXXXX` Unicode escapes and `\xXX` hex escapes
 
-### M-002: Scientific Notation Not Supported
+### ~~M-002: Scientific Notation Not Supported~~ (FIXED)
 - **Location**: `internal/infrastructure/parser/lexer.go`
-- **Description**: Cannot parse `1.5e-10` or `2E+5`
-- **Impact**: Limited numeric literal support
+- **Description**: ~~Cannot parse `1.5e-10` or `2E+5`~~
+- **Status**: Fixed - Lexer now supports scientific notation (e.g., `1.5e-10`, `2E+5`)
 
 ### M-003: Duration Unit Validation
 - **Location**: `internal/infrastructure/parser/lexer.go`
 - **Description**: Invalid duration units (e.g., `100xyz`) not rejected
 - **Impact**: Silent acceptance of invalid durations
+- **Note**: Partially improved - only valid units (ms, s, m, h, d) are now recognized
 
-### M-004: Unclosed Block Comment
+### ~~M-004: Unclosed Block Comment~~ (FIXED)
 - **Location**: `internal/infrastructure/parser/lexer.go`
-- **Description**: Unclosed `/* comment` at EOF doesn't error
-- **Impact**: Silently consumes rest of file
+- **Description**: ~~Unclosed `/* comment` at EOF doesn't error~~
+- **Status**: Fixed - Lexer now reports error for unclosed block comments
 
-### M-005: Type Modifier Chaining
+### ~~M-005: Type Modifier Chaining~~ (FIXED)
 - **Location**: `internal/infrastructure/parser/parser.go`
-- **Description**: `Type??[]?` parses successfully but is logically invalid
-- **Impact**: Invalid type expressions accepted
+- **Description**: ~~`Type??[]?` parses successfully but is logically invalid~~
+- **Status**: Fixed - Parser now validates type modifier combinations and rejects invalid chains
 
 ### M-006: Barycenter Iteration Limit
 - **Location**: `internal/infrastructure/renderer/svg/renderer.go`
@@ -194,14 +203,33 @@ This document tracks known issues and areas for improvement in the Pact DSL proj
 
 ## Issue Count Summary
 
-| Priority | Count |
-|----------|-------|
-| Critical | 3 |
-| High | 5 |
-| Medium | 10 |
-| Low | 10 |
-| Enhancement | 5 |
-| **Total** | **33** |
+| Priority | Total | Fixed | Remaining |
+|----------|-------|-------|-----------|
+| Critical | 3 | 3 | 0 |
+| High | 5 | 3 | 2 |
+| Medium | 10 | 5 | 5 |
+| Low | 10 | 0 | 10 |
+| Enhancement | 5 | 0 | 5 |
+| **Total** | **33** | **11** | **22** |
+
+---
+
+## New Components Added
+
+### Validator Package
+- **Location**: `internal/application/validator/validator.go`
+- **Features**:
+  - `Validate()` - Duplicate validation
+  - `ValidateReferences()` - Undefined reference validation
+  - `ValidateExpressionDepth()` - Nesting depth validation
+  - `ValidateDeadCode()` - Dead code detection
+  - `ValidateAll()` - Run all validations
+
+### Error Types Added
+- **Location**: `internal/domain/errors/errors.go`
+- **New Types**:
+  - `MultiError` - Collects multiple errors
+  - `ValidationError` - For validation errors (duplicate, undefined, invalid)
 
 ---
 

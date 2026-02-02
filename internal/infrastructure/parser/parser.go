@@ -13,14 +13,52 @@ type Parser struct {
 	curToken  Token
 	peekToken Token
 	errors    []error
+	maxErrors int // 最大エラー数（デフォルト10）
 }
 
 // NewParser は新しいParserを作成する
 func NewParser(l *Lexer) *Parser {
-	p := &Parser{l: l}
+	p := &Parser{l: l, maxErrors: 10}
 	p.nextToken()
 	p.nextToken()
 	return p
+}
+
+// addError はエラーを追加し、最大エラー数を超えたかを返す
+func (p *Parser) addError(err error) bool {
+	p.errors = append(p.errors, err)
+	return len(p.errors) >= p.maxErrors
+}
+
+// synchronize はエラー回復のため、次の同期ポイントまで進む
+func (p *Parser) synchronize() {
+	for p.curToken.Type != TOKEN_EOF {
+		// 宣言の開始トークンに到達したら停止
+		switch p.curToken.Type {
+		case TOKEN_COMPONENT, TOKEN_IMPORT, TOKEN_TYPE, TOKEN_ENUM,
+			TOKEN_FLOW, TOKEN_STATES, TOKEN_PROVIDES, TOKEN_REQUIRES,
+			TOKEN_DEPENDS, TOKEN_EXTENDS, TOKEN_IMPLEMENTS, TOKEN_CONTAINS, TOKEN_AGGREGATES:
+			return
+		}
+		// ブロック終端に到達したら次に進む
+		if p.curToken.Type == TOKEN_RBRACE {
+			p.nextToken()
+			return
+		}
+		p.nextToken()
+	}
+}
+
+// getErrors は収集したエラーを返す
+func (p *Parser) getErrors() error {
+	if len(p.errors) == 0 {
+		return nil
+	}
+	multiErr := &errors.MultiError{}
+	for _, err := range p.errors {
+		multiErr.Add(err)
+	}
+	return multiErr
 }
 
 func (p *Parser) nextToken() {
@@ -42,7 +80,11 @@ func (p *Parser) ParseFile() (*ast.SpecFile, error) {
 		case TOKEN_IMPORT:
 			imp, err := p.parseImport()
 			if err != nil {
-				return nil, err
+				if p.addError(err) {
+					return spec, p.getErrors()
+				}
+				p.synchronize()
+				continue
 			}
 			spec.Imports = append(spec.Imports, *imp)
 
@@ -50,23 +92,43 @@ func (p *Parser) ParseFile() (*ast.SpecFile, error) {
 			// アノテーション付きの宣言
 			annotations, err := p.parseAnnotations()
 			if err != nil {
-				return nil, err
+				if p.addError(err) {
+					return spec, p.getErrors()
+				}
+				p.synchronize()
+				continue
 			}
 			if err := p.parseDeclarationWithAnnotations(spec, annotations); err != nil {
-				return nil, err
+				if p.addError(err) {
+					return spec, p.getErrors()
+				}
+				p.synchronize()
+				continue
 			}
 
 		case TOKEN_COMPONENT:
 			comp, err := p.parseComponent(nil)
 			if err != nil {
-				return nil, err
+				if p.addError(err) {
+					return spec, p.getErrors()
+				}
+				p.synchronize()
+				continue
 			}
 			spec.Component = comp
 			spec.Components = append(spec.Components, *comp)
 
 		default:
-			return nil, p.newError("unexpected token: %v", p.curToken.Literal)
+			if p.addError(p.newError("unexpected token: %v", p.curToken.Literal)) {
+				return spec, p.getErrors()
+			}
+			p.synchronize()
 		}
+	}
+
+	// エラーがあれば返す
+	if err := p.getErrors(); err != nil {
+		return spec, err
 	}
 
 	return spec, nil
@@ -394,10 +456,19 @@ func (p *Parser) parseTypeExpr() (*ast.TypeExpr, error) {
 	typeExpr.Name = p.curToken.Literal
 	p.nextToken()
 
+	// 型修飾子のパース（無効なチェーンを検出）
+	// 有効: Type?, Type[], Type?[], Type[]?
+	// 無効: Type??, Type[][], Type?[]?, etc.
+
 	// nullable?
 	if p.curToken.Type == TOKEN_QUESTION {
 		typeExpr.Nullable = true
 		p.nextToken()
+
+		// 連続した?は無効
+		if p.curToken.Type == TOKEN_QUESTION {
+			return nil, p.newError("invalid type modifier: multiple '?' not allowed")
+		}
 	}
 
 	// array[]
@@ -408,6 +479,26 @@ func (p *Parser) parseTypeExpr() (*ast.TypeExpr, error) {
 		}
 		typeExpr.Array = true
 		p.nextToken()
+
+		// 連続した[]は無効
+		if p.curToken.Type == TOKEN_LBRACKET {
+			return nil, p.newError("invalid type modifier: nested arrays not allowed")
+		}
+	}
+
+	// 配列の後のnullable
+	if p.curToken.Type == TOKEN_QUESTION {
+		if typeExpr.Nullable {
+			// Type?[]? のような形式は許可しない
+			return nil, p.newError("invalid type modifier: '?' already specified before array")
+		}
+		typeExpr.Nullable = true
+		p.nextToken()
+
+		// さらに続く修飾子は無効
+		if p.curToken.Type == TOKEN_QUESTION || p.curToken.Type == TOKEN_LBRACKET {
+			return nil, p.newError("invalid type modifier chain")
+		}
 	}
 
 	return typeExpr, nil

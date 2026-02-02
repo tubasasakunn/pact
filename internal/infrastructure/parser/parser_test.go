@@ -7,6 +7,36 @@ import (
 	"pact/internal/domain/errors"
 )
 
+// isParseError はエラーがParseErrorまたはParseErrorを含むMultiErrorかどうかを確認する
+func isParseError(err error) bool {
+	if _, ok := err.(*errors.ParseError); ok {
+		return true
+	}
+	if me, ok := err.(*errors.MultiError); ok {
+		for _, e := range me.Errors {
+			if _, ok := e.(*errors.ParseError); ok {
+				return true
+			}
+		}
+	}
+	return false
+}
+
+// getFirstParseError はエラーからParseErrorを取得する
+func getFirstParseError(err error) *errors.ParseError {
+	if pe, ok := err.(*errors.ParseError); ok {
+		return pe
+	}
+	if me, ok := err.(*errors.MultiError); ok {
+		for _, e := range me.Errors {
+			if pe, ok := e.(*errors.ParseError); ok {
+				return pe
+			}
+		}
+	}
+	return nil
+}
+
 // =============================================================================
 // 1.2.1 インポート文
 // =============================================================================
@@ -67,8 +97,8 @@ func TestParser_Import_MissingPath(t *testing.T) {
 	if err == nil {
 		t.Fatal("expected error, got nil")
 	}
-	if _, ok := err.(*errors.ParseError); !ok {
-		t.Errorf("expected ParseError, got %T", err)
+	if !isParseError(err) {
+		t.Errorf("expected ParseError or MultiError containing ParseError, got %T", err)
 	}
 }
 
@@ -1813,12 +1843,11 @@ func TestParser_Error_UnexpectedToken(t *testing.T) {
 	if err == nil {
 		t.Fatal("expected error, got nil")
 	}
-	pe, ok := err.(*errors.ParseError)
-	if !ok {
-		t.Fatalf("expected ParseError, got %T", err)
+	if !isParseError(err) {
+		t.Fatalf("expected ParseError or MultiError containing ParseError, got %T", err)
 	}
 	// エラーメッセージに "identifier" が含まれることを期待
-	_ = pe // 実装時にメッセージを確認
+	_ = getFirstParseError(err) // 実装時にメッセージを確認
 }
 
 // P201: 括弧閉じ忘れ
@@ -1846,9 +1875,9 @@ func TestParser_Error_Position(t *testing.T) {
 	if err == nil {
 		t.Fatal("expected error, got nil")
 	}
-	pe, ok := err.(*errors.ParseError)
-	if !ok {
-		t.Fatalf("expected ParseError, got %T", err)
+	pe := getFirstParseError(err)
+	if pe == nil {
+		t.Fatalf("expected ParseError or MultiError containing ParseError, got %T", err)
 	}
 	if !pe.Pos.IsValid() {
 		t.Errorf("expected valid error position")
@@ -1862,8 +1891,7 @@ func TestParser_Error_Type(t *testing.T) {
 	if err == nil {
 		t.Fatal("expected error, got nil")
 	}
-	_, ok := err.(*errors.ParseError)
-	if !ok {
-		t.Errorf("expected *errors.ParseError, got %T", err)
+	if !isParseError(err) {
+		t.Errorf("expected ParseError or MultiError containing ParseError, got %T", err)
 	}
 }
