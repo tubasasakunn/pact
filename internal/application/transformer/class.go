@@ -138,7 +138,7 @@ func (t *ClassTransformer) transformType(typ *ast.TypeDecl) class.Node {
 	for _, field := range typ.Fields {
 		node.Attributes = append(node.Attributes, class.Attribute{
 			Name:       field.Name,
-			Type:       field.Type.Name,
+			Type:       formatTypeExpr(field.Type),
 			Visibility: convertVisibility(field.Visibility),
 		})
 	}
@@ -159,13 +159,13 @@ func (t *ClassTransformer) transformMethod(method *ast.MethodDecl) class.Method 
 	}
 
 	if method.ReturnType != nil {
-		m.ReturnType = method.ReturnType.Name
+		m.ReturnType = formatTypeExpr(*method.ReturnType)
 	}
 
 	for _, param := range method.Params {
 		m.Params = append(m.Params, class.Param{
 			Name: param.Name,
-			Type: param.Type.Name,
+			Type: formatTypeExpr(param.Type),
 		})
 	}
 
@@ -259,6 +259,18 @@ func contains(slice []string, item string) bool {
 		}
 	}
 	return false
+}
+
+// formatTypeExpr は型を修飾子付きで文字列に変換する
+func formatTypeExpr(t ast.TypeExpr) string {
+	result := t.Name
+	if t.Array {
+		result = result + "[]"
+	}
+	if t.Nullable {
+		result = result + "?"
+	}
+	return result
 }
 
 // extractNote は@noteまたは@descriptionアノテーションからNoteを抽出する
