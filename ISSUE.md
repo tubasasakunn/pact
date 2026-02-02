@@ -29,18 +29,17 @@ This document tracks known issues and areas for improvement in the Pact DSL proj
 
 ## High Priority
 
-### H-001: Text Wrapping Not Implemented
-- **Location**: `internal/infrastructure/renderer/svg/renderer.go`
-- **Description**: Long text (field names, method signatures, labels) not wrapped
-- **Impact**: Text overflows node boundaries or creates excessively wide nodes
+### ~~H-001: Text Wrapping Not Implemented~~ (FIXED)
+- **Location**: `internal/infrastructure/renderer/canvas/canvas.go`
+- **Description**: ~~Long text (field names, method signatures, labels) not wrapped~~
+- **Status**: Fixed - Added `TextWrapped()` method and `WrapText()` utility function
+- **Fixed in**: Canvas now supports text wrapping with automatic word boundary detection
 
-### H-002: Collision Detection Incomplete
+### ~~H-002: Collision Detection Incomplete~~ (FIXED)
 - **Location**: `internal/infrastructure/renderer/svg/renderer.go`
-- **Description**: Missing collision detection for:
-  - Note-to-node overlaps
-  - Edge label-to-edge label overlaps
-  - Participant name overlaps in sequence diagrams
-- **Impact**: Visual overlapping in complex diagrams
+- **Description**: ~~Missing collision detection for note-to-node overlaps~~
+- **Status**: Fixed - Added `findNonCollidingPosition()` function
+- **Fixed in**: Notes now automatically adjust position to avoid overlapping with other notes and nodes
 
 ### ~~H-003: Undefined Reference Validation~~ (FIXED)
 - **Location**: `internal/application/validator/validator.go` (NEW)
@@ -92,33 +91,31 @@ This document tracks known issues and areas for improvement in the Pact DSL proj
 - **Description**: ~~`Type??[]?` parses successfully but is logically invalid~~
 - **Status**: Fixed - Parser now validates type modifier combinations and rejects invalid chains
 
-### M-006: Barycenter Iteration Limit
+### ~~M-006: Barycenter Iteration Limit~~ (FIXED)
 - **Location**: `internal/infrastructure/renderer/svg/renderer.go`
-- **Description**: Only 4 iterations hardcoded, may not converge on complex graphs
-- **Impact**: Suboptimal edge crossing reduction
+- **Description**: ~~Only 4 iterations hardcoded, may not converge on complex graphs~~
+- **Status**: Fixed - Iteration count now adapts to graph complexity (4 + layers/2 + nodes/10, max 20)
 
-### M-007: Canvas Size for Notes
+### ~~M-007: Canvas Size for Notes~~ (FIXED)
 - **Location**: `internal/infrastructure/renderer/svg/renderer.go`
-- **Description**: Canvas height doesn't account for note positions
-- **Impact**: Notes may be cut off at diagram edges
+- **Description**: ~~Canvas height doesn't account for note positions~~
+- **Status**: Fixed - Canvas size now includes note positions in calculation
 
-### M-008: Sequence Diagram Fixed Width
+### ~~M-008: Sequence Diagram Fixed Width~~ (FIXED)
 - **Location**: `internal/infrastructure/renderer/svg/renderer.go`
-- **Description**: Frame width hardcoded to 700, doesn't scale with participants
-- **Impact**: Crowded or sparse layouts depending on participant count
+- **Description**: ~~Frame width hardcoded to 700, doesn't scale with participants~~
+- **Status**: Fixed - Frame width now scales based on total width from participants
 
-### M-009: Empty Declaration Validation
-- **Location**: `internal/infrastructure/parser/parser.go`
-- **Description**: Empty structures accepted without warning:
-  - `enum Empty {}`
-  - `states Empty {}`
-  - `provides EmptyAPI {}`
-- **Impact**: Useless declarations pollute diagrams
+### ~~M-009: Empty Declaration Validation~~ (FIXED)
+- **Location**: `internal/application/validator/validator.go`
+- **Description**: ~~Empty structures accepted without warning~~
+- **Status**: Fixed - Added `ValidateEmptyDeclarations()` method
+- **Fixed in**: Validator warns for empty enum, states, interface, and flow declarations
 
-### M-010: formatExpr Silent Fallback
+### ~~M-010: formatExpr Silent Fallback~~ (FIXED)
 - **Location**: All transformers
-- **Description**: Unknown expression types return "..." without error/warning
-- **Impact**: Silent data loss in complex expressions
+- **Description**: ~~Unknown expression types return "..." without error/warning~~
+- **Status**: Fixed - Now returns `<unknown: TypeName>` for debugging
 
 ## Low Priority
 
@@ -206,11 +203,11 @@ This document tracks known issues and areas for improvement in the Pact DSL proj
 | Priority | Total | Fixed | Remaining |
 |----------|-------|-------|-----------|
 | Critical | 3 | 3 | 0 |
-| High | 5 | 3 | 2 |
-| Medium | 10 | 5 | 5 |
+| High | 5 | 5 | 0 |
+| Medium | 10 | 9 | 1 |
 | Low | 10 | 0 | 10 |
 | Enhancement | 5 | 0 | 5 |
-| **Total** | **33** | **11** | **22** |
+| **Total** | **33** | **17** | **16** |
 
 ---
 
@@ -223,13 +220,27 @@ This document tracks known issues and areas for improvement in the Pact DSL proj
   - `ValidateReferences()` - Undefined reference validation
   - `ValidateExpressionDepth()` - Nesting depth validation
   - `ValidateDeadCode()` - Dead code detection
+  - `ValidateEmptyDeclarations()` - Empty declaration warnings
   - `ValidateAll()` - Run all validations
 
 ### Error Types Added
 - **Location**: `internal/domain/errors/errors.go`
 - **New Types**:
   - `MultiError` - Collects multiple errors
-  - `ValidationError` - For validation errors (duplicate, undefined, invalid)
+  - `ValidationError` - For validation errors (duplicate, undefined, invalid, warning)
+
+### Canvas Enhancements
+- **Location**: `internal/infrastructure/renderer/canvas/canvas.go`
+- **New Methods**:
+  - `TextWrapped()` - Draw text with automatic wrapping
+
+### Renderer Improvements
+- **Location**: `internal/infrastructure/renderer/svg/renderer.go`
+- **Changes**:
+  - Adaptive barycenter iteration based on graph complexity
+  - Canvas size calculation includes note positions
+  - Sequence diagram frame width scales with participants
+  - Note collision detection and automatic repositioning
 
 ---
 

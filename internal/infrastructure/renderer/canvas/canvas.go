@@ -175,6 +175,26 @@ func (c *Canvas) Text(x, y int, text string, opts ...Option) {
 	))
 }
 
+// TextWrapped は最大幅で折り返したテキストを描画する
+// maxWidth: 最大幅（ピクセル）、lineHeight: 行の高さ
+// 戻り値: 描画に使用した行数
+func (c *Canvas) TextWrapped(x, y int, text string, maxWidth, lineHeight int, opts ...Option) int {
+	fontSize := 12 // デフォルトフォントサイズ
+	lines := WrapText(text, maxWidth, fontSize)
+
+	attrs := map[string]string{}
+	applyOptions(attrs, opts)
+
+	for i, line := range lines {
+		c.elements = append(c.elements, fmt.Sprintf(
+			`<text x="%d" y="%d"%s>%s</text>`,
+			x, y+i*lineHeight, attrsToString(attrs), html.EscapeString(line),
+		))
+	}
+
+	return len(lines)
+}
+
 // AddDef は定義を追加する
 func (c *Canvas) AddDef(def string) {
 	c.defs = append(c.defs, def)

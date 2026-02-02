@@ -514,6 +514,73 @@ func (v *Validator) isTerminalStep(step ast.Step) bool {
 	return false
 }
 
+// ValidateEmptyDeclarations は空の宣言を検出する
+func (v *Validator) ValidateEmptyDeclarations(spec *ast.SpecFile) error {
+	v.errors = &errors.MultiError{}
+
+	for _, comp := range spec.Components {
+		// 空のenum
+		for _, typ := range comp.Body.Types {
+			if typ.Kind == "enum" && len(typ.Values) == 0 {
+				v.errors.Add(&errors.ValidationError{
+					Pos:     typ.Pos,
+					Type:    "warning",
+					Name:    typ.Name,
+					Message: "empty enum declaration",
+				})
+			}
+		}
+
+		// 空のstates
+		for _, states := range comp.Body.States {
+			if len(states.States) == 0 {
+				v.errors.Add(&errors.ValidationError{
+					Pos:     states.Pos,
+					Type:    "warning",
+					Name:    states.Name,
+					Message: "empty states declaration",
+				})
+			}
+		}
+
+		// 空のprovides/requires
+		for _, iface := range comp.Body.Provides {
+			if len(iface.Methods) == 0 {
+				v.errors.Add(&errors.ValidationError{
+					Pos:     iface.Pos,
+					Type:    "warning",
+					Name:    iface.Name,
+					Message: "empty interface declaration in provides",
+				})
+			}
+		}
+		for _, iface := range comp.Body.Requires {
+			if len(iface.Methods) == 0 {
+				v.errors.Add(&errors.ValidationError{
+					Pos:     iface.Pos,
+					Type:    "warning",
+					Name:    iface.Name,
+					Message: "empty interface declaration in requires",
+				})
+			}
+		}
+
+		// 空のflow
+		for _, flow := range comp.Body.Flows {
+			if len(flow.Steps) == 0 {
+				v.errors.Add(&errors.ValidationError{
+					Pos:     flow.Pos,
+					Type:    "warning",
+					Name:    flow.Name,
+					Message: "empty flow declaration",
+				})
+			}
+		}
+	}
+
+	return v.errors.ErrorOrNil()
+}
+
 // ValidateAll は全ての検証を実行する
 func (v *Validator) ValidateAll(spec *ast.SpecFile) error {
 	multiErr := &errors.MultiError{}
@@ -549,6 +616,16 @@ func (v *Validator) ValidateAll(spec *ast.SpecFile) error {
 	}
 
 	if err := v.ValidateDeadCode(spec); err != nil {
+		if me, ok := err.(*errors.MultiError); ok {
+			for _, e := range me.Errors {
+				multiErr.Add(e)
+			}
+		} else {
+			multiErr.Add(err)
+		}
+	}
+
+	if err := v.ValidateEmptyDeclarations(spec); err != nil {
 		if me, ok := err.(*errors.MultiError); ok {
 			for _, e := range me.Errors {
 				multiErr.Add(e)
