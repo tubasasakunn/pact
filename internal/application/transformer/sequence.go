@@ -82,6 +82,9 @@ func (t *SequenceTransformer) Transform(files []*ast.SpecFile, opts *SequenceOpt
 	})
 
 	// 依存関係から参加者を収集
+	participantMap := make(map[string]sequence.ParticipantType)
+	participantMap[targetComponent.Name] = sequence.ParticipantTypeDefault
+
 	for _, rel := range targetComponent.Body.Relations {
 		if rel.Kind == ast.RelationDependsOn {
 			pType := sequence.ParticipantTypeDefault
@@ -97,6 +100,7 @@ func (t *SequenceTransformer) Transform(files []*ast.SpecFile, opts *SequenceOpt
 					pType = sequence.ParticipantTypeActor
 				}
 			}
+			participantMap[rel.Target] = pType
 			diagram.Participants = append(diagram.Participants, sequence.Participant{
 				ID:   rel.Target,
 				Name: rel.Target,
@@ -107,6 +111,9 @@ func (t *SequenceTransformer) Transform(files []*ast.SpecFile, opts *SequenceOpt
 
 	// ステップをイベントに変換
 	diagram.Events = t.transformSteps(targetFlow.Steps, targetComponent.Name, opts.IncludeReturn)
+
+	// ステップから参照される参加者を自動追加（依存関係に未定義のもの）
+	t.collectUndeclaredParticipants(targetFlow.Steps, participantMap, diagram)
 
 	return diagram, nil
 }
@@ -254,5 +261,46 @@ func (t *SequenceTransformer) formatExpr(expr ast.Expr) string {
 		return t.formatExpr(e.Left) + " ?? " + t.formatExpr(e.Right)
 	default:
 		return "..."
+	}
+}
+
+// collectUndeclaredParticipants はステップから参照される参加者を自動追加する
+func (t *SequenceTransformer) collectUndeclaredParticipants(steps []ast.Step, participantMap map[string]sequence.ParticipantType, diagram *sequence.Diagram) {
+	for _, step := range steps {
+		switch s := step.(type) {
+		case *ast.CallStep:
+			if call, ok := s.Expr.(*ast.CallExpr); ok {
+				target := t.getCallTarget(call)
+				if _, exists := participantMap[target]; !exists && target != "Unknown" {
+					participantMap[target] = sequence.ParticipantTypeDefault
+					diagram.Participants = append(diagram.Participants, sequence.Participant{
+						ID:   target,
+						Name: target,
+						Type: sequence.ParticipantTypeDefault,
+					})
+				}
+			}
+		case *ast.AssignStep:
+			if call, ok := s.Value.(*ast.CallExpr); ok {
+				target := t.getCallTarget(call)
+				if _, exists := participantMap[target]; !exists && target != "Unknown" {
+					participantMap[target] = sequence.ParticipantTypeDefault
+					diagram.Participants = append(diagram.Participants, sequence.Participant{
+						ID:   target,
+						Name: target,
+						Type: sequence.ParticipantTypeDefault,
+					})
+				}
+			}
+		case *ast.IfStep:
+			t.collectUndeclaredParticipants(s.Then, participantMap, diagram)
+			if s.Else != nil {
+				t.collectUndeclaredParticipants(s.Else, participantMap, diagram)
+			}
+		case *ast.ForStep:
+			t.collectUndeclaredParticipants(s.Body, participantMap, diagram)
+		case *ast.WhileStep:
+			t.collectUndeclaredParticipants(s.Body, participantMap, diagram)
+		}
 	}
 }
