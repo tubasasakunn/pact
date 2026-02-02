@@ -66,6 +66,16 @@ func (t *StateTransformer) Transform(files []*ast.SpecFile, opts *StateOptions) 
 		}
 	}
 
+	// 検証: 状態または遷移がある場合、Initial が必要
+	hasContent := len(targetStates.States) > 0 || len(targetStates.Transitions) > 0
+	if hasContent && targetStates.Initial == "" {
+		return nil, &errors.TransformError{
+			Source:  "AST",
+			Target:  "StateDiagram",
+			Message: "initial state is required when states or transitions are defined",
+		}
+	}
+
 	diagram := &state.Diagram{
 		States:      []state.State{},
 		Transitions: []state.Transition{},
@@ -127,6 +137,16 @@ func (t *StateTransformer) Transform(files []*ast.SpecFile, opts *StateOptions) 
 			})
 			stateNames[trans.To] = true
 		}
+	}
+
+	// Initial状態が未定義の場合は暗黙的に作成
+	if targetStates.Initial != "" && !stateNames[targetStates.Initial] {
+		diagram.States = append(diagram.States, state.State{
+			ID:   targetStates.Initial,
+			Name: targetStates.Initial,
+			Type: state.StateTypeAtomic,
+		})
+		stateNames[targetStates.Initial] = true
 	}
 
 	// 遷移
