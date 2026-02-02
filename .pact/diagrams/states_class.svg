@@ -1,0 +1,71 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 2287 600" width="2287" height="600">
+<rect x="50" y="50" width="123" height="60" fill="#fff" stroke="#000" stroke-width="1"/>
+<text x="111" y="70" text-anchor="middle">&lt;&lt;component&gt;&gt;</text>
+<text x="111" y="90" text-anchor="middle">ASTStates</text>
+<rect x="213" y="50" width="238" height="220" fill="#fff" stroke="#000" stroke-width="1"/>
+<text x="332" y="70" text-anchor="middle">StatesDecl</text>
+<line x1="213" y1="85" x2="451" y2="85" stroke="#000"/>
+<text x="223" y="95">+ pos: Position</text>
+<text x="223" y="115">+ name: String</text>
+<text x="223" y="135">+ annotations: AnnotationDecl</text>
+<text x="223" y="155">+ initialState: String</text>
+<text x="223" y="175">+ finals: String</text>
+<text x="223" y="195">+ statesBlocks: StateDecl</text>
+<text x="223" y="215">+ transitions: TransitionDecl</text>
+<text x="223" y="235">+ parallels: ParallelDecl</text>
+<rect x="491" y="50" width="238" height="220" fill="#fff" stroke="#000" stroke-width="1"/>
+<text x="610" y="70" text-anchor="middle">StateDecl</text>
+<line x1="491" y1="85" x2="729" y2="85" stroke="#000"/>
+<text x="501" y="95">+ pos: Position</text>
+<text x="501" y="115">+ name: String</text>
+<text x="501" y="135">+ annotations: AnnotationDecl</text>
+<text x="501" y="155">+ entryActions: String</text>
+<text x="501" y="175">+ exitActions: String</text>
+<text x="501" y="195">+ initialState: String</text>
+<text x="501" y="215">+ statesBlocks: StateDecl</text>
+<text x="501" y="235">+ transitions: TransitionDecl</text>
+<rect x="769" y="50" width="159" height="180" stroke="#000" stroke-width="1" fill="#fff"/>
+<text x="848" y="70" text-anchor="middle">TransitionDecl</text>
+<line x1="769" y1="85" x2="928" y2="85" stroke="#000"/>
+<text x="779" y="95">+ pos: Position</text>
+<text x="779" y="115">+ from: String</text>
+<text x="779" y="135">+ to: String</text>
+<text x="779" y="155">+ trigger: Trigger</text>
+<text x="779" y="175">+ guard: Expr</text>
+<text x="779" y="195">+ actions: String</text>
+<rect x="968" y="50" width="137" height="100" fill="#fff" stroke="#000" stroke-width="1"/>
+<text x="1036" y="70" text-anchor="middle">EventTrigger</text>
+<line x1="968" y1="85" x2="1105" y2="85" stroke="#000"/>
+<text x="978" y="95">+ pos: Position</text>
+<text x="978" y="115">+ event: String</text>
+<rect x="1145" y="50" width="174" height="100" fill="#fff" stroke="#000" stroke-width="1"/>
+<text x="1232" y="70" text-anchor="middle">AfterTrigger</text>
+<line x1="1145" y1="85" x2="1319" y2="85" stroke="#000"/>
+<text x="1155" y="95">+ pos: Position</text>
+<text x="1155" y="115">+ duration: Duration</text>
+<rect x="1359" y="50" width="130" height="100" stroke-width="1" fill="#fff" stroke="#000"/>
+<text x="1424" y="70" text-anchor="middle">Duration</text>
+<line x1="1359" y1="85" x2="1489" y2="85" stroke="#000"/>
+<text x="1369" y="95">+ value: Int</text>
+<text x="1369" y="115">+ unit: String</text>
+<rect x="1529" y="50" width="152" height="100" stroke="#000" stroke-width="1" fill="#fff"/>
+<text x="1605" y="70" text-anchor="middle">WhenTrigger</text>
+<line x1="1529" y1="85" x2="1681" y2="85" stroke="#000"/>
+<text x="1539" y="95">+ pos: Position</text>
+<text x="1539" y="115">+ condition: Expr</text>
+<rect x="1721" y="50" width="238" height="140" fill="#fff" stroke="#000" stroke-width="1"/>
+<text x="1840" y="70" text-anchor="middle">ParallelDecl</text>
+<line x1="1721" y1="85" x2="1959" y2="85" stroke="#000"/>
+<text x="1731" y="95">+ pos: Position</text>
+<text x="1731" y="115">+ name: String</text>
+<text x="1731" y="135">+ annotations: AnnotationDecl</text>
+<text x="1731" y="155">+ regions: RegionDecl</text>
+<rect x="1999" y="50" width="238" height="160" stroke-width="1" fill="#fff" stroke="#000"/>
+<text x="2118" y="70" text-anchor="middle">RegionDecl</text>
+<line x1="1999" y1="85" x2="2237" y2="85" stroke="#000"/>
+<text x="2009" y="95">+ pos: Position</text>
+<text x="2009" y="115">+ name: String</text>
+<text x="2009" y="135">+ initialState: String</text>
+<text x="2009" y="155">+ statesBlocks: StateDecl</text>
+<text x="2009" y="175">+ transitions: TransitionDecl</text>
+</svg>

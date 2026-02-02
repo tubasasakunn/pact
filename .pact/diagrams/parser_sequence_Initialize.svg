@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 600" width="900" height="600">
+<rect x="60" y="50" width="80" height="40" fill="#fff" stroke="#000"/>
+<text x="100" y="75" text-anchor="middle">Parser</text>
+<line x1="100" y1="100" x2="100" y2="500" stroke="#000" stroke-dasharray="5,5"/>
+<rect x="210" y="50" width="80" height="40" stroke="#000" fill="#fff"/>
+<text x="250" y="75" text-anchor="middle">Lexer</text>
+<line x1="250" y1="100" x2="250" y2="500" stroke="#000" stroke-dasharray="5,5"/>
+<rect x="360" y="50" width="80" height="40" fill="#fff" stroke="#000"/>
+<text x="400" y="75" text-anchor="middle">Token</text>
+<line x1="400" y1="100" x2="400" y2="500" stroke="#000" stroke-dasharray="5,5"/>
+<rect x="510" y="50" width="80" height="40" fill="#fff" stroke="#000"/>
+<text x="550" y="75" text-anchor="middle">ast</text>
+<line x1="550" y1="100" x2="550" y2="500" stroke-dasharray="5,5" stroke="#000"/>
+<rect x="660" y="50" width="80" height="40" fill="#fff" stroke="#000"/>
+<text x="700" y="75" text-anchor="middle">errors</text>
+<line x1="700" y1="100" x2="700" y2="500" stroke-dasharray="5,5" stroke="#000"/>
+</svg>

@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" width="800" height="600">
+<rect x="106" y="50" width="339" height="120" fill="#fff" stroke="#000" stroke-width="1"/>
+<text x="275" y="70" text-anchor="middle">&lt;&lt;component&gt;&gt;</text>
+<text x="275" y="90" text-anchor="middle">Config</text>
+<line x1="106" y1="105" x2="445" y2="105" stroke="#000"/>
+<text x="116" y="115">+ Default(): ConfigData</text>
+<text x="116" y="135">+ DiagramEnabled(diagramKind: string): bool</text>
+<text x="116" y="155">+ IsExcluded(filePath: string): bool</text>
+<rect x="485" y="50" width="209" height="180" fill="#fff" stroke="#000" stroke-width="1"/>
+<text x="589" y="70" text-anchor="middle">ConfigData</text>
+<line x1="485" y1="85" x2="694" y2="85" stroke="#000"/>
+<text x="495" y="95">+ sourceRoot: string</text>
+<text x="495" y="115">+ pactRoot: string</text>
+<text x="495" y="135">+ outputDir: string</text>
+<text x="495" y="155">+ language: string</text>
+<text x="495" y="175">+ diagramList: string</text>
+<text x="495" y="195">+ excludePatterns: string</text>
+</svg>

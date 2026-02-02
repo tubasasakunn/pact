@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" width="800" height="600">
+<circle cx="100" cy="50" r="10" fill="#000"/>
+<circle cx="300" cy="50" r="12" stroke="#000" stroke-width="2"/>
+<circle cx="300" cy="50" r="8" fill="#000"/>
+<rect x="460" y="30" width="80" height="40" rx="10" ry="10" fill="#fff" stroke="#000"/>
+<text x="500" y="55">Created</text>
+<rect x="60" y="180" width="80" height="40" rx="10" ry="10" fill="#fff" stroke="#000"/>
+<text x="100" y="205">Running</text>
+<rect x="260" y="180" width="80" height="40" rx="10" ry="10" fill="#fff" stroke="#000"/>
+<text x="300" y="205">Terminated</text>
+<line x1="500" y1="50" x2="100" y2="200" stroke="#000"/>
+<polygon points="100,200 105,193 108,200" fill="#000"/>
+<text x="300" y="120">start</text>
+<line x1="100" y1="200" x2="300" y2="200" stroke="#000"/>
+<polygon points="300,200 292,203 292,196" fill="#000"/>
+<text x="200" y="195">finish</text>
+</svg>

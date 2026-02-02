@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 932 600" width="932" height="600">
+<rect x="50" y="50" width="598" height="280" stroke-width="1" fill="#fff" stroke="#000"/>
+<text x="349" y="70" text-anchor="middle">&lt;&lt;component&gt;&gt;</text>
+<text x="349" y="90" text-anchor="middle">TestHelper</text>
+<line x1="50" y1="105" x2="648" y2="105" stroke="#000"/>
+<text x="60" y="115">+ TempDir(t: TestContext): string</text>
+<text x="60" y="135">+ WriteFile(t: TestContext, dir: string, name: string, content: string): string</text>
+<text x="60" y="155">+ MustParse(t: TestContext, content: string): SpecFile</text>
+<text x="60" y="175">+ AssertContains(t: TestContext, str: string, substr: string)</text>
+<text x="60" y="195">+ AssertNotContains(t: TestContext, str: string, substr: string)</text>
+<text x="60" y="215">+ AssertNoError(t: TestContext, err: error)</text>
+<text x="60" y="235">+ AssertError(t: TestContext, err: error)</text>
+<text x="60" y="255">+ AssertEqual(t: TestContext, got: any, want: any)</text>
+<text x="60" y="275">+ Truncate(str: string, maxLen: int): string</text>
+<text x="60" y="295">+ Golden(t: TestContext, name: string): string</text>
+<text x="60" y="315">+ LoadGolden(t: TestContext, name: string): string</text>
+<rect x="678" y="50" width="174" height="120" fill="#fff" stroke="#000" stroke-width="1"/>
+<text x="765" y="70" text-anchor="middle">TestContext</text>
+<line x1="678" y1="85" x2="852" y2="85" stroke="#000"/>
+<text x="688" y="95">+ testName: string</text>
+<text x="688" y="115">+ failed: bool</text>
+<text x="688" y="135">+ cleanupFuncs: func</text>
+</svg>

@@ -1,0 +1,43 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" width="800" height="600">
+<rect x="50" y="50" width="200" height="100" fill="#fff" stroke="#000" stroke-width="1"/>
+<text x="150" y="70">&lt;&lt;component&gt;&gt;</text>
+<text x="150" y="90">VisibilityDemo</text>
+<line x1="50" y1="105" x2="250" y2="105" stroke="#000"/>
+<text x="60" y="115">+ GetPublic()</text>
+<text x="60" y="135">+ GetMixed()</text>
+<rect x="300" y="50" width="200" height="120" fill="#fff" stroke="#000" stroke-width="1"/>
+<text x="400" y="70">PublicEntity</text>
+<line x1="300" y1="85" x2="500" y2="85" stroke="#000"/>
+<text x="310" y="95">+ id: string</text>
+<text x="310" y="115">+ name: string</text>
+<text x="310" y="135">+ description: string</text>
+<rect x="550" y="50" width="200" height="120" fill="#fff" stroke="#000" stroke-width="1"/>
+<text x="650" y="70">PrivateEntity</text>
+<line x1="550" y1="85" x2="750" y2="85" stroke="#000"/>
+<text x="560" y="95">- internalId: string</text>
+<text x="560" y="115">- secretKey: string</text>
+<text x="560" y="135">- hashedPassword: string</text>
+<rect x="50" y="250" width="200" height="120" fill="#fff" stroke="#000" stroke-width="1"/>
+<text x="150" y="270">ProtectedEntity</text>
+<line x1="50" y1="285" x2="250" y2="285" stroke="#000"/>
+<text x="60" y="295"># baseId: string</text>
+<text x="60" y="315"># inheritedField: string</text>
+<text x="60" y="335"># overridable: bool</text>
+<rect x="300" y="250" width="200" height="120" fill="#fff" stroke="#000" stroke-width="1"/>
+<text x="400" y="270">PackageEntity</text>
+<line x1="300" y1="285" x2="500" y2="285" stroke="#000"/>
+<text x="310" y="295">~ packageId: string</text>
+<text x="310" y="315">~ internalStatus: string</text>
+<text x="310" y="335">~ moduleConfig: string</text>
+<rect x="550" y="250" width="200" height="220" fill="#fff" stroke="#000" stroke-width="1"/>
+<text x="650" y="270">MixedVisibility</text>
+<line x1="550" y1="285" x2="750" y2="285" stroke="#000"/>
+<text x="560" y="295">+ publicId: string</text>
+<text x="560" y="315">+ publicName: string</text>
+<text x="560" y="335">- privateSecret: string</text>
+<text x="560" y="355">- privateKey: string</text>
+<text x="560" y="375"># protectedBase: string</text>
+<text x="560" y="395"># protectedConfig: string</text>
+<text x="560" y="415">~ packageInternal: string</text>
+<text x="560" y="435">~ packageModule: string</text>
+</svg>

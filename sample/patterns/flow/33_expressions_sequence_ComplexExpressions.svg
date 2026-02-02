@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" width="800" height="600">
+<rect x="60" y="50" width="80" height="40" fill="#fff" stroke="#000"/>
+<text x="100" y="75">ExpressionDemo</text>
+<line x1="100" y1="100" x2="100" y2="500" stroke="#000" class="dashed"/>
+<rect x="210" y="50" width="80" height="40" stroke="#000" fill="#fff"/>
+<text x="250" y="75">Calculator</text>
+<line x1="250" y1="100" x2="250" y2="500" stroke="#000" class="dashed"/>
+<rect x="360" y="50" width="80" height="40" fill="#fff" stroke="#000"/>
+<text x="400" y="75">DataService</text>
+<line x1="400" y1="100" x2="400" y2="500" stroke="#000" class="dashed"/>
+</svg>

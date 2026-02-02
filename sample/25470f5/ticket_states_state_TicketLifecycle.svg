@@ -1,0 +1,56 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" width="800" height="600">
+<circle cx="153" cy="50" r="10" fill="#000"/>
+<rect x="50" y="100" width="207" height="75" rx="10" ry="10" fill="#fff" stroke="#000"/>
+<text x="153" y="125" text-anchor="middle">Open</text>
+<line x1="50" y1="135" x2="256" y2="135" stroke="#000"/>
+<text x="55" y="150">entry/ notify_support_team</text>
+<rect x="297" y="100" width="178" height="75" rx="10" ry="10" fill="#fff" stroke="#000"/>
+<text x="386" y="125" text-anchor="middle">Assigned</text>
+<line x1="297" y1="135" x2="475" y2="135" stroke="#000"/>
+<text x="302" y="150">entry/ notify_assignee</text>
+<rect x="515" y="100" width="149" height="90" rx="10" ry="10" fill="#fff" stroke="#000"/>
+<text x="589" y="125" text-anchor="middle">InProgress</text>
+<line x1="515" y1="135" x2="663" y2="135" stroke="#000"/>
+<text x="520" y="150">entry/ start_timer</text>
+<text x="520" y="165">exit/ stop_timer</text>
+<rect x="86" y="220" width="135" height="90" rx="10" ry="10" fill="#fff" stroke="#000"/>
+<text x="153" y="245" text-anchor="middle">OnHold</text>
+<line x1="86" y1="255" x2="220" y2="255" stroke="#000"/>
+<text x="91" y="270">entry/ pause_sla</text>
+<text x="91" y="285">exit/ resume_sla</text>
+<circle cx="153" cy="400" r="12" stroke="#000" stroke-width="2"/>
+<circle cx="153" cy="400" r="8" fill="#000"/>
+<circle cx="303" cy="400" r="12" stroke="#000" stroke-width="2"/>
+<circle cx="303" cy="400" r="8" fill="#000"/>
+<line x1="153" y1="60" x2="153" y2="83" stroke="#000"/>
+<polygon points="153,83 149,75 157,75" fill="#000"/>
+<line x1="256" y1="120" x2="297" y2="120" stroke="#000"/>
+<polygon points="297,120 289,124 289,116" fill="#000"/>
+<text x="276" y="115" text-anchor="middle">assign</text>
+<line x1="475" y1="120" x2="515" y2="120" stroke="#000"/>
+<polygon points="515,120 507,124 507,116" fill="#000"/>
+<text x="495" y="115" text-anchor="middle">start_work</text>
+<line x1="515" y1="120" x2="367" y2="120" stroke="#000"/>
+<line x1="367" y1="120" x2="367" y2="240" stroke="#000"/>
+<line x1="367" y1="240" x2="220" y2="240" stroke="#000"/>
+<polygon points="220,240 227,236 227,243" fill="#000"/>
+<text x="367" y="175" text-anchor="middle">hold</text>
+<line x1="220" y1="240" x2="367" y2="240" stroke="#000"/>
+<line x1="367" y1="240" x2="367" y2="120" stroke="#000"/>
+<line x1="367" y1="120" x2="515" y2="120" stroke="#000"/>
+<polygon points="515,120 507,123 507,116" fill="#000"/>
+<text x="367" y="175" text-anchor="middle">resume</text>
+<line x1="515" y1="120" x2="415" y2="120" stroke="#000"/>
+<line x1="415" y1="120" x2="415" y2="400" stroke="#000"/>
+<line x1="415" y1="400" x2="315" y2="400" stroke="#000"/>
+<polygon points="315,400 322,396 322,403" fill="#000"/>
+<text x="415" y="255" text-anchor="middle">resolve</text>
+<line x1="291" y1="400" x2="165" y2="400" stroke="#000"/>
+<polygon points="165,400 172,396 172,403" fill="#000"/>
+<text x="228" y="395" text-anchor="middle">close</text>
+<line x1="315" y1="400" x2="415" y2="400" stroke="#000"/>
+<line x1="415" y1="400" x2="415" y2="120" stroke="#000"/>
+<line x1="415" y1="120" x2="515" y2="120" stroke="#000"/>
+<polygon points="515,120 507,123 507,116" fill="#000"/>
+<text x="415" y="255" text-anchor="middle">reopen</text>
+</svg>

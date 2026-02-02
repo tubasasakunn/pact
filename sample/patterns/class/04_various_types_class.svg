@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" width="800" height="600">
+<rect x="50" y="50" width="200" height="60" stroke-width="1" fill="#fff" stroke="#000"/>
+<text x="150" y="70">&lt;&lt;component&gt;&gt;</text>
+<text x="150" y="90">VariousTypes</text>
+<rect x="300" y="50" width="200" height="140" stroke-width="1" fill="#fff" stroke="#000"/>
+<text x="400" y="70">MixedData</text>
+<line x1="300" y1="85" x2="500" y2="85" stroke="#000"/>
+<text x="310" y="95">+ name: string</text>
+<text x="310" y="115">+ count: int</text>
+<text x="310" y="135">+ price: float</text>
+<text x="310" y="155">+ isActive: bool</text>
+</svg>

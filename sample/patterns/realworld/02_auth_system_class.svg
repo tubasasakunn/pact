@@ -1,0 +1,129 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" width="800" height="600">
+<rect x="50" y="50" width="200" height="180" fill="#fff" stroke="#000" stroke-width="1"/>
+<text x="150" y="70">&lt;&lt;component&gt;&gt;</text>
+<text x="150" y="90">User</text>
+<line x1="50" y1="105" x2="250" y2="105" stroke="#000"/>
+<text x="60" y="115">+ FindByUsername()</text>
+<text x="60" y="135">+ FindById()</text>
+<text x="60" y="155">+ UpdateLastLogin()</text>
+<text x="60" y="175">+ IncrementFailedAttempts()</text>
+<text x="60" y="195">+ ResetFailedAttempts()</text>
+<text x="60" y="215">+ LockAccount()</text>
+<rect x="300" y="50" width="200" height="100" fill="#fff" stroke="#000" stroke-width="1"/>
+<text x="400" y="70">Credentials</text>
+<line x1="300" y1="85" x2="500" y2="85" stroke="#000"/>
+<text x="310" y="95">+ username: string</text>
+<text x="310" y="115">+ password: string</text>
+<rect x="550" y="50" width="200" height="240" stroke="#000" stroke-width="1" fill="#fff"/>
+<text x="650" y="70">UserAccount</text>
+<line x1="550" y1="85" x2="750" y2="85" stroke="#000"/>
+<text x="560" y="95">+ id: string</text>
+<text x="560" y="115">+ username: string</text>
+<text x="560" y="135">+ email: string</text>
+<text x="560" y="155">+ passwordHash: string</text>
+<text x="560" y="175">+ roles: string</text>
+<text x="560" y="195">+ isActive: bool</text>
+<text x="560" y="215">+ lastLogin: string</text>
+<text x="560" y="235">+ failedAttempts: int</text>
+<text x="560" y="255">+ lockedUntil: string</text>
+<rect x="50" y="250" width="200" height="200" fill="#fff" stroke="#000" stroke-width="1"/>
+<text x="150" y="270">&lt;&lt;component&gt;&gt;</text>
+<text x="150" y="290">Token</text>
+<line x1="50" y1="305" x2="250" y2="305" stroke="#000"/>
+<text x="60" y="315">+ GenerateAccessToken()</text>
+<text x="60" y="335">+ GenerateRefreshToken()</text>
+<text x="60" y="355">+ GenerateTokenPair()</text>
+<text x="60" y="375">+ ValidateAccessToken()</text>
+<text x="60" y="395">+ ValidateRefreshToken()</text>
+<text x="60" y="415">+ RevokeToken()</text>
+<text x="60" y="435">+ GetTokenInfo()</text>
+<rect x="300" y="250" width="200" height="160" fill="#fff" stroke="#000" stroke-width="1"/>
+<text x="400" y="270">AccessToken</text>
+<line x1="300" y1="285" x2="500" y2="285" stroke="#000"/>
+<text x="310" y="295">+ token: string</text>
+<text x="310" y="315">+ userId: string</text>
+<text x="310" y="335">+ issuedAt: string</text>
+<text x="310" y="355">+ expiresAt: string</text>
+<text x="310" y="375">+ scopes: string</text>
+<rect x="550" y="250" width="200" height="160" fill="#fff" stroke="#000" stroke-width="1"/>
+<text x="650" y="270">RefreshToken</text>
+<line x1="550" y1="285" x2="750" y2="285" stroke="#000"/>
+<text x="560" y="295">+ token: string</text>
+<text x="560" y="315">+ userId: string</text>
+<text x="560" y="335">+ issuedAt: string</text>
+<text x="560" y="355">+ expiresAt: string</text>
+<text x="560" y="375">+ deviceId: string</text>
+<rect x="50" y="450" width="200" height="100" fill="#fff" stroke="#000" stroke-width="1"/>
+<text x="150" y="470">TokenPair</text>
+<line x1="50" y1="485" x2="250" y2="485" stroke="#000"/>
+<text x="60" y="495">+ accessToken: AccessToken</text>
+<text x="60" y="515">+ refreshToken: RefreshToken</text>
+<rect x="300" y="450" width="200" height="120" fill="#fff" stroke="#000" stroke-width="1"/>
+<text x="400" y="470">&lt;&lt;interface&gt;&gt;</text>
+<text x="400" y="490">CryptoService</text>
+<line x1="300" y1="505" x2="500" y2="505" stroke="#000"/>
+<text x="310" y="515">+ Sign()</text>
+<text x="310" y="535">+ Verify()</text>
+<text x="310" y="555">+ Hash()</text>
+<rect x="550" y="450" width="200" height="180" fill="#fff" stroke="#000" stroke-width="1"/>
+<text x="650" y="470">&lt;&lt;component&gt;&gt;</text>
+<text x="650" y="490">Session</text>
+<line x1="550" y1="505" x2="750" y2="505" stroke="#000"/>
+<text x="560" y="515">+ CreateSession()</text>
+<text x="560" y="535">+ GetSession()</text>
+<text x="560" y="555">+ GetUserSessions()</text>
+<text x="560" y="575">+ UpdateActivity()</text>
+<text x="560" y="595">+ InvalidateSession()</text>
+<text x="560" y="615">+ InvalidateAllSessions()</text>
+<rect x="50" y="650" width="200" height="240" fill="#fff" stroke="#000" stroke-width="1"/>
+<text x="150" y="670">SessionData</text>
+<line x1="50" y1="685" x2="250" y2="685" stroke="#000"/>
+<text x="60" y="695">+ id: string</text>
+<text x="60" y="715">+ userId: string</text>
+<text x="60" y="735">+ deviceInfo: string</text>
+<text x="60" y="755">+ ipAddress: string</text>
+<text x="60" y="775">+ userAgent: string</text>
+<text x="60" y="795">+ createdAt: string</text>
+<text x="60" y="815">+ lastActivityAt: string</text>
+<text x="60" y="835">+ expiresAt: string</text>
+<text x="60" y="855">+ status: string</text>
+<rect x="300" y="650" width="200" height="160" fill="#fff" stroke="#000" stroke-width="1"/>
+<text x="400" y="670">&lt;&lt;component&gt;&gt;</text>
+<text x="400" y="690">AuthController</text>
+<line x1="300" y1="705" x2="500" y2="705" stroke="#000"/>
+<text x="310" y="715">+ Login()</text>
+<text x="310" y="735">+ Logout()</text>
+<text x="310" y="755">+ RefreshToken()</text>
+<text x="310" y="775">+ ValidateToken()</text>
+<text x="310" y="795">+ GetCurrentUser()</text>
+<rect x="550" y="650" width="200" height="240" fill="#fff" stroke="#000" stroke-width="1"/>
+<text x="650" y="670">&lt;&lt;component&gt;&gt;</text>
+<text x="650" y="690">AuditLogger</text>
+<line x1="550" y1="705" x2="750" y2="705" stroke="#000"/>
+<text x="560" y="715">+ LogSuccessfulLogin()</text>
+<text x="560" y="735">+ LogFailedLogin()</text>
+<text x="560" y="755">+ LogBlockedAttempt()</text>
+<text x="560" y="775">+ LogAccountLocked()</text>
+<text x="560" y="795">+ LogLogout()</text>
+<text x="560" y="815">+ LogTokenRefresh()</text>
+<text x="560" y="835">+ LogRefreshDenied()</text>
+<text x="560" y="855">+ LogInvalidRefreshToken()</text>
+<text x="560" y="875">+ LogSecurityEvent()</text>
+<rect x="50" y="850" width="200" height="200" fill="#fff" stroke="#000" stroke-width="1"/>
+<text x="150" y="870">AuditEntry</text>
+<line x1="50" y1="885" x2="250" y2="885" stroke="#000"/>
+<text x="60" y="895">+ id: string</text>
+<text x="60" y="915">+ timestamp: string</text>
+<text x="60" y="935">+ action: string</text>
+<text x="60" y="955">+ userId: string</text>
+<text x="60" y="975">+ ipAddress: string</text>
+<text x="60" y="995">+ details: string</text>
+<text x="60" y="1015">+ severity: string</text>
+<line x1="150" y1="300" x2="50" y2="100" stroke="#000" class="dashed"/>
+<line x1="650" y1="500" x2="50" y2="100" stroke="#000" class="dashed"/>
+<line x1="650" y1="500" x2="50" y2="300" stroke="#000" class="dashed"/>
+<line x1="400" y1="700" x2="50" y2="100" stroke="#000" class="dashed"/>
+<line x1="400" y1="700" x2="50" y2="300" stroke="#000" class="dashed"/>
+<line x1="400" y1="700" x2="550" y2="500" stroke="#000" class="dashed"/>
+<line x1="400" y1="700" x2="550" y2="700" stroke="#000" class="dashed"/>
+</svg>

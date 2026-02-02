@@ -1,0 +1,5 @@
+# Binary output
+/pact
+
+# Don't ignore .pact directory
+!.pact/

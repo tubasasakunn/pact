@@ -1,0 +1,207 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 4020" width="800" height="4020">
+<rect x="350" y="50" width="100" height="40" rx="20" ry="20" fill="#fff" stroke="#000"/>
+<text x="400" y="75">Start</text>
+<rect x="350" y="130" width="100" height="40" fill="#fff" stroke="#000"/>
+<text x="400" y="155">cart = ...</text>
+<polygon points="400,210 440,230 400,250 360,230" fill="#fff" stroke="#000"/>
+<text x="400" y="235">condition?</text>
+<rect x="350" y="290" width="100" height="40" rx="20" ry="20" fill="#fff" stroke="#000"/>
+<text x="400" y="315">throw EmptyCartError</text>
+<rect x="350" y="370" width="100" height="40" fill="#fff" stroke="#000"/>
+<text x="400" y="395">cartValidation = ...</text>
+<polygon points="400,450 440,470 400,490 360,470" fill="#fff" stroke="#000"/>
+<text x="400" y="475">condition?</text>
+<rect x="350" y="530" width="100" height="40" fill="#fff" stroke="#000"/>
+<text x="400" y="555">errors = ...</text>
+<rect x="350" y="610" width="100" height="40" rx="20" ry="20" fill="#fff" stroke="#000"/>
+<text x="400" y="635">throw CartValidationError</text>
+<polygon points="400,690 440,710 400,730 360,710" fill="#fff" stroke="#000"/>
+<text x="400" y="715">for item</text>
+<rect x="350" y="770" width="100" height="40" fill="#fff" stroke="#000"/>
+<text x="400" y="795">availability = ...</text>
+<polygon points="400,850 440,870 400,890 360,870" fill="#fff" stroke="#000"/>
+<text x="400" y="875">condition?</text>
+<rect x="350" y="930" width="100" height="40" fill="#fff" stroke="#000"/>
+<text x="400" y="955">sendOutOfStockAlert()</text>
+<rect x="350" y="1010" width="100" height="40" rx="20" ry="20" fill="#fff" stroke="#000"/>
+<text x="400" y="1035">throw InsufficientStockError</text>
+<rect x="350" y="1090" width="100" height="40" fill="#fff" stroke="#000"/>
+<text x="400" y="1115">subtotal = ...</text>
+<rect x="350" y="1170" width="100" height="40" fill="#fff" stroke="#000"/>
+<text x="400" y="1195">discounts = ...</text>
+<rect x="350" y="1250" width="100" height="40" fill="#fff" stroke="#000"/>
+<text x="400" y="1275">taxes = ...</text>
+<rect x="350" y="1330" width="100" height="40" fill="#fff" stroke="#000"/>
+<text x="400" y="1355">shippingCost = ...</text>
+<rect x="350" y="1410" width="100" height="40" fill="#fff" stroke="#000"/>
+<text x="400" y="1435">total = ...</text>
+<rect x="350" y="1490" width="100" height="40" fill="#fff" stroke="#000"/>
+<text x="400" y="1515">fraudScore = ...</text>
+<polygon points="400,1570 440,1590 400,1610 360,1590" fill="#fff" stroke="#000"/>
+<text x="400" y="1595">condition?</text>
+<rect x="350" y="1650" width="100" height="40" fill="#fff" stroke="#000"/>
+<text x="400" y="1675">flagTransaction()</text>
+<rect x="350" y="1730" width="100" height="40" fill="#fff" stroke="#000"/>
+<text x="400" y="1755">sendFraudAlert()</text>
+<rect x="350" y="1810" width="100" height="40" rx="20" ry="20" fill="#fff" stroke="#000"/>
+<text x="400" y="1835">throw FraudDetectedError</text>
+<polygon points="400,1890 440,1910 400,1930 360,1910" fill="#fff" stroke="#000"/>
+<text x="400" y="1915">for item</text>
+<rect x="350" y="1970" width="100" height="40" fill="#fff" stroke="#000"/>
+<text x="400" y="1995">reservation = ...</text>
+<polygon points="400,2050 440,2070 400,2090 360,2070" stroke="#000" fill="#fff"/>
+<text x="400" y="2075">condition?</text>
+<rect x="350" y="2130" width="100" height="40" stroke="#000" fill="#fff"/>
+<text x="400" y="2155">releaseAllReservations()</text>
+<rect x="350" y="2210" width="100" height="40" rx="20" ry="20" fill="#fff" stroke="#000"/>
+<text x="400" y="2235">throw InventoryReservationError</text>
+<rect x="350" y="2290" width="100" height="40" fill="#fff" stroke="#000"/>
+<text x="400" y="2315">paymentAuth = ...</text>
+<polygon points="400,2370 440,2390 400,2410 360,2390" fill="#fff" stroke="#000"/>
+<text x="400" y="2395">condition?</text>
+<rect x="350" y="2450" width="100" height="40" stroke="#000" fill="#fff"/>
+<text x="400" y="2475">releaseAllReservations()</text>
+<rect x="350" y="2530" width="100" height="40" rx="20" ry="20" fill="#fff" stroke="#000"/>
+<text x="400" y="2555">throw PaymentAuthorizationError</text>
+<rect x="350" y="2610" width="100" height="40" fill="#fff" stroke="#000"/>
+<text x="400" y="2635">paymentCapture = ...</text>
+<polygon points="400,2690 440,2710 400,2730 360,2710" fill="#fff" stroke="#000"/>
+<text x="400" y="2715">condition?</text>
+<rect x="350" y="2770" width="100" height="40" stroke="#000" fill="#fff"/>
+<text x="400" y="2795">voidAuthorization()</text>
+<rect x="350" y="2850" width="100" height="40" fill="#fff" stroke="#000"/>
+<text x="400" y="2875">releaseAllReservations()</text>
+<rect x="350" y="2930" width="100" height="40" rx="20" ry="20" fill="#fff" stroke="#000"/>
+<text x="400" y="2955">throw PaymentCaptureError</text>
+<rect x="350" y="3010" width="100" height="40" fill="#fff" stroke="#000"/>
+<text x="400" y="3035">order = ...</text>
+<polygon points="400,3090 440,3110 400,3130 360,3110" fill="#fff" stroke="#000"/>
+<text x="400" y="3115">condition?</text>
+<rect x="350" y="3170" width="100" height="40" fill="#fff" stroke="#000"/>
+<text x="400" y="3195">refund()</text>
+<rect x="350" y="3250" width="100" height="40" stroke="#000" fill="#fff"/>
+<text x="400" y="3275">releaseAllReservations()</text>
+<rect x="350" y="3330" width="100" height="40" rx="20" ry="20" fill="#fff" stroke="#000"/>
+<text x="400" y="3355">throw OrderCreationError</text>
+<polygon points="400,3410 440,3430 400,3450 360,3430" fill="#fff" stroke="#000"/>
+<text x="400" y="3435">for item</text>
+<rect x="350" y="3490" width="100" height="40" fill="#fff" stroke="#000"/>
+<text x="400" y="3515">commitReservation()</text>
+<rect x="350" y="3570" width="100" height="40" fill="#fff" stroke="#000"/>
+<text x="400" y="3595">clear()</text>
+<rect x="350" y="3650" width="100" height="40" fill="#fff" stroke="#000"/>
+<text x="400" y="3675">sendOrderConfirmation()</text>
+<rect x="350" y="3730" width="100" height="40" fill="#fff" stroke="#000"/>
+<text x="400" y="3755">sendReceipt()</text>
+<rect x="350" y="3810" width="100" height="40" rx="20" ry="20" fill="#fff" stroke="#000"/>
+<text x="400" y="3835">return</text>
+<rect x="350" y="3890" width="100" height="40" rx="20" ry="20" stroke="#000" fill="#fff"/>
+<text x="400" y="3915">End</text>
+<line x1="400" y1="90" x2="400" y2="130" stroke="#000"/>
+<polygon points="400,130 396,122 404,122" fill="#000"/>
+<line x1="400" y1="170" x2="400" y2="210" stroke="#000"/>
+<polygon points="400,210 396,202 404,202" fill="#000"/>
+<line x1="400" y1="250" x2="400" y2="290" stroke="#000"/>
+<polygon points="400,290 396,282 404,282" fill="#000"/>
+<line x1="400" y1="250" x2="400" y2="370" stroke="#000"/>
+<polygon points="400,370 396,362 403,362" fill="#000"/>
+<line x1="400" y1="410" x2="400" y2="450" stroke="#000"/>
+<polygon points="400,450 396,442 404,442" fill="#000"/>
+<line x1="400" y1="490" x2="400" y2="530" stroke="#000"/>
+<polygon points="400,530 396,522 404,522" fill="#000"/>
+<text x="410" y="510">Yes</text>
+<line x1="400" y1="570" x2="400" y2="610" stroke="#000"/>
+<polygon points="400,610 396,602 404,602" fill="#000"/>
+<line x1="400" y1="490" x2="400" y2="690" stroke="#000"/>
+<polygon points="400,690 396,682 403,682" fill="#000"/>
+<line x1="400" y1="730" x2="400" y2="770" stroke="#000"/>
+<polygon points="400,770 396,762 404,762" fill="#000"/>
+<line x1="400" y1="810" x2="400" y2="850" stroke="#000"/>
+<polygon points="400,850 396,842 404,842" fill="#000"/>
+<line x1="400" y1="890" x2="400" y2="930" stroke="#000"/>
+<polygon points="400,930 396,922 404,922" fill="#000"/>
+<text x="410" y="910">Yes</text>
+<line x1="400" y1="970" x2="400" y2="1010" stroke="#000"/>
+<polygon points="400,1010 396,1002 404,1002" fill="#000"/>
+<line x1="400" y1="890" x2="400" y2="690" stroke="#000"/>
+<polygon points="400,690 403,697 396,697" fill="#000"/>
+<line x1="400" y1="730" x2="400" y2="1090" stroke="#000"/>
+<polygon points="400,1090 396,1082 403,1082" fill="#000"/>
+<line x1="400" y1="1130" x2="400" y2="1170" stroke="#000"/>
+<polygon points="400,1170 396,1162 404,1162" fill="#000"/>
+<line x1="400" y1="1210" x2="400" y2="1250" stroke="#000"/>
+<polygon points="400,1250 396,1242 404,1242" fill="#000"/>
+<line x1="400" y1="1290" x2="400" y2="1330" stroke="#000"/>
+<polygon points="400,1330 396,1322 404,1322" fill="#000"/>
+<line x1="400" y1="1370" x2="400" y2="1410" stroke="#000"/>
+<polygon points="400,1410 396,1402 404,1402" fill="#000"/>
+<line x1="400" y1="1450" x2="400" y2="1490" stroke="#000"/>
+<polygon points="400,1490 396,1482 404,1482" fill="#000"/>
+<line x1="400" y1="1530" x2="400" y2="1570" stroke="#000"/>
+<polygon points="400,1570 396,1562 404,1562" fill="#000"/>
+<line x1="400" y1="1610" x2="400" y2="1650" stroke="#000"/>
+<polygon points="400,1650 396,1642 404,1642" fill="#000"/>
+<text x="410" y="1630">Yes</text>
+<line x1="400" y1="1690" x2="400" y2="1730" stroke="#000"/>
+<polygon points="400,1730 396,1722 404,1722" fill="#000"/>
+<line x1="400" y1="1770" x2="400" y2="1810" stroke="#000"/>
+<polygon points="400,1810 396,1802 404,1802" fill="#000"/>
+<line x1="400" y1="1610" x2="400" y2="1890" stroke="#000"/>
+<polygon points="400,1890 396,1882 403,1882" fill="#000"/>
+<line x1="400" y1="1930" x2="400" y2="1970" stroke="#000"/>
+<polygon points="400,1970 396,1962 404,1962" fill="#000"/>
+<line x1="400" y1="2010" x2="400" y2="2050" stroke="#000"/>
+<polygon points="400,2050 396,2042 404,2042" fill="#000"/>
+<line x1="400" y1="2090" x2="400" y2="2130" stroke="#000"/>
+<polygon points="400,2130 396,2122 404,2122" fill="#000"/>
+<text x="410" y="2110">Yes</text>
+<line x1="400" y1="2170" x2="400" y2="2210" stroke="#000"/>
+<polygon points="400,2210 396,2202 404,2202" fill="#000"/>
+<line x1="400" y1="2090" x2="400" y2="1890" stroke="#000"/>
+<polygon points="400,1890 403,1897 396,1897" fill="#000"/>
+<line x1="400" y1="1930" x2="400" y2="2290" stroke="#000"/>
+<polygon points="400,2290 396,2282 403,2282" fill="#000"/>
+<line x1="400" y1="2330" x2="400" y2="2370" stroke="#000"/>
+<polygon points="400,2370 396,2362 404,2362" fill="#000"/>
+<line x1="400" y1="2410" x2="400" y2="2450" stroke="#000"/>
+<polygon points="400,2450 396,2442 404,2442" fill="#000"/>
+<text x="410" y="2430">Yes</text>
+<line x1="400" y1="2490" x2="400" y2="2530" stroke="#000"/>
+<polygon points="400,2530 396,2522 404,2522" fill="#000"/>
+<line x1="400" y1="2410" x2="400" y2="2610" stroke="#000"/>
+<polygon points="400,2610 396,2602 403,2602" fill="#000"/>
+<line x1="400" y1="2650" x2="400" y2="2690" stroke="#000"/>
+<polygon points="400,2690 396,2682 404,2682" fill="#000"/>
+<line x1="400" y1="2730" x2="400" y2="2770" stroke="#000"/>
+<polygon points="400,2770 396,2762 404,2762" fill="#000"/>
+<text x="410" y="2750">Yes</text>
+<line x1="400" y1="2810" x2="400" y2="2850" stroke="#000"/>
+<polygon points="400,2850 396,2842 404,2842" fill="#000"/>
+<line x1="400" y1="2890" x2="400" y2="2930" stroke="#000"/>
+<polygon points="400,2930 396,2922 404,2922" fill="#000"/>
+<line x1="400" y1="2730" x2="400" y2="3010" stroke="#000"/>
+<polygon points="400,3010 396,3002 403,3002" fill="#000"/>
+<line x1="400" y1="3050" x2="400" y2="3090" stroke="#000"/>
+<polygon points="400,3090 396,3082 404,3082" fill="#000"/>
+<line x1="400" y1="3130" x2="400" y2="3170" stroke="#000"/>
+<polygon points="400,3170 396,3162 404,3162" fill="#000"/>
+<text x="410" y="3150">Yes</text>
+<line x1="400" y1="3210" x2="400" y2="3250" stroke="#000"/>
+<polygon points="400,3250 396,3242 404,3242" fill="#000"/>
+<line x1="400" y1="3290" x2="400" y2="3330" stroke="#000"/>
+<polygon points="400,3330 396,3322 404,3322" fill="#000"/>
+<line x1="400" y1="3130" x2="400" y2="3410" stroke="#000"/>
+<polygon points="400,3410 396,3402 403,3402" fill="#000"/>
+<line x1="400" y1="3450" x2="400" y2="3490" stroke="#000"/>
+<polygon points="400,3490 396,3482 404,3482" fill="#000"/>
+<line x1="400" y1="3530" x2="400" y2="3410" stroke="#000"/>
+<polygon points="400,3410 403,3417 396,3417" fill="#000"/>
+<line x1="400" y1="3450" x2="400" y2="3570" stroke="#000"/>
+<polygon points="400,3570 396,3562 403,3562" fill="#000"/>
+<line x1="400" y1="3610" x2="400" y2="3650" stroke="#000"/>
+<polygon points="400,3650 396,3642 404,3642" fill="#000"/>
+<line x1="400" y1="3690" x2="400" y2="3730" stroke="#000"/>
+<polygon points="400,3730 396,3722 404,3722" fill="#000"/>
+<line x1="400" y1="3770" x2="400" y2="3810" stroke="#000"/>
+<polygon points="400,3810 396,3802 404,3802" fill="#000"/>
+</svg>

@@ -1,0 +1,37 @@
+version: 1
+
+source:
+  directory: ./specs
+  extensions:
+    - .pact
+    - .spec
+  exclude:
+    - "*_test.pact"
+    - "internal/*"
+
+output:
+  directory: ./output/diagrams
+  formats:
+    - svg
+    - png
+  types:
+    - class
+    - sequence
+  naming:
+    pattern: "{name}_{type}"
+    lowercase: true
+
+options:
+  watch: true
+  verbose: true
+  parallel: 4
+  strict: true
+
+style:
+  theme: dark
+  fontSize: 14
+  fontFamily: "Fira Code"
+  colors:
+    background: "#1e1e1e"
+    foreground: "#d4d4d4"
+    accent: "#569cd6"

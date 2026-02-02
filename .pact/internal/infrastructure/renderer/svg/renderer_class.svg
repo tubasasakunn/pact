@@ -1,0 +1,49 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" width="800" height="600">
+<rect x="50" y="50" width="200" height="200" fill="#fff" stroke="#000" stroke-width="1"/>
+<text x="150" y="70">&lt;&lt;component&gt;&gt;</text>
+<text x="150" y="90">ClassRenderer</text>
+<line x1="50" y1="105" x2="250" y2="105" stroke="#000"/>
+<text x="60" y="115">+ NewClassRenderer()</text>
+<text x="60" y="135">+ Render()</text>
+<text x="60" y="155">+ renderNode()</text>
+<text x="60" y="175">+ renderEdge()</text>
+<text x="60" y="195">+ visibilitySymbol()</text>
+<text x="60" y="215">+ trianglePoints()</text>
+<text x="60" y="235">+ diamondPoints()</text>
+<rect x="300" y="50" width="200" height="60" fill="#fff" stroke="#000" stroke-width="1"/>
+<text x="400" y="70">ClassRenderer</text>
+<rect x="550" y="50" width="200" height="140" fill="#fff" stroke="#000" stroke-width="1"/>
+<text x="650" y="70">&lt;&lt;component&gt;&gt;</text>
+<text x="650" y="90">SequenceRenderer</text>
+<line x1="550" y1="105" x2="750" y2="105" stroke="#000"/>
+<text x="560" y="115">+ NewSequenceRenderer()</text>
+<text x="560" y="135">+ Render()</text>
+<text x="560" y="155">+ renderEvents()</text>
+<text x="560" y="175">+ renderParticipant()</text>
+<rect x="50" y="250" width="200" height="60" fill="#fff" stroke="#000" stroke-width="1"/>
+<text x="150" y="270">SequenceRenderer</text>
+<rect x="300" y="250" width="200" height="140" stroke-width="1" fill="#fff" stroke="#000"/>
+<text x="400" y="270">&lt;&lt;component&gt;&gt;</text>
+<text x="400" y="290">StateRenderer</text>
+<line x1="300" y1="305" x2="500" y2="305" stroke="#000"/>
+<text x="310" y="315">+ NewStateRenderer()</text>
+<text x="310" y="335">+ Render()</text>
+<text x="310" y="355">+ renderState()</text>
+<text x="310" y="375">+ renderTransition()</text>
+<rect x="550" y="250" width="200" height="60" fill="#fff" stroke="#000" stroke-width="1"/>
+<text x="650" y="270">StateRenderer</text>
+<rect x="50" y="450" width="200" height="140" fill="#fff" stroke="#000" stroke-width="1"/>
+<text x="150" y="470">&lt;&lt;component&gt;&gt;</text>
+<text x="150" y="490">FlowRenderer</text>
+<line x1="50" y1="505" x2="250" y2="505" stroke="#000"/>
+<text x="60" y="515">+ NewFlowRenderer()</text>
+<text x="60" y="535">+ Render()</text>
+<text x="60" y="555">+ renderFlowNode()</text>
+<text x="60" y="575">+ renderFlowEdge()</text>
+<rect x="300" y="450" width="200" height="60" fill="#fff" stroke="#000" stroke-width="1"/>
+<text x="400" y="470">FlowRenderer</text>
+<line x1="400" y1="100" x2="0" y2="50" stroke="#000" class="dashed"/>
+<line x1="150" y1="300" x2="0" y2="50" stroke="#000" class="dashed"/>
+<line x1="650" y1="300" x2="0" y2="50" class="dashed" stroke="#000"/>
+<line x1="400" y1="500" x2="0" y2="50" stroke="#000" class="dashed"/>
+</svg>

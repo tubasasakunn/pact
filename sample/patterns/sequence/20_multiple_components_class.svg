@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" width="800" height="600">
+<rect x="50" y="50" width="200" height="60" stroke="#000" stroke-width="1" fill="#fff"/>
+<text x="150" y="70">&lt;&lt;component&gt;&gt;</text>
+<text x="150" y="90">Frontend</text>
+<rect x="300" y="50" width="200" height="60" fill="#fff" stroke="#000" stroke-width="1"/>
+<text x="400" y="70">&lt;&lt;component&gt;&gt;</text>
+<text x="400" y="90">APIGateway</text>
+<rect x="550" y="50" width="200" height="60" fill="#fff" stroke="#000" stroke-width="1"/>
+<text x="650" y="70">&lt;&lt;component&gt;&gt;</text>
+<text x="650" y="90">UserService</text>
+<rect x="50" y="250" width="200" height="60" fill="#fff" stroke="#000" stroke-width="1"/>
+<text x="150" y="270">&lt;&lt;component&gt;&gt;</text>
+<text x="150" y="290">OrderService</text>
+<rect x="300" y="250" width="200" height="60" fill="#fff" stroke="#000" stroke-width="1"/>
+<text x="400" y="270">&lt;&lt;component&gt;&gt;</text>
+<text x="400" y="290">AnalyticsService</text>
+<line x1="150" y1="100" x2="300" y2="100" stroke="#000" class="dashed"/>
+<line x1="400" y1="100" x2="550" y2="100" stroke="#000" class="dashed"/>
+<line x1="400" y1="100" x2="50" y2="300" stroke="#000" class="dashed"/>
+<line x1="400" y1="100" x2="300" y2="300" stroke="#000" class="dashed"/>
+</svg>

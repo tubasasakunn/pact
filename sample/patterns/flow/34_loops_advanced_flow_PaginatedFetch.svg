@@ -1,0 +1,50 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 1060" width="800" height="1060">
+<rect x="350" y="50" width="100" height="40" rx="20" ry="20" fill="#fff" stroke="#000"/>
+<text x="400" y="75">Start</text>
+<rect x="350" y="130" width="100" height="40" fill="#fff" stroke="#000"/>
+<text x="400" y="155">page = ...</text>
+<rect x="350" y="210" width="100" height="40" fill="#fff" stroke="#000"/>
+<text x="400" y="235">initResults()</text>
+<polygon points="400,290 440,310 400,330 360,310" fill="#fff" stroke="#000"/>
+<text x="400" y="315">while?</text>
+<rect x="350" y="370" width="100" height="40" fill="#fff" stroke="#000"/>
+<text x="400" y="395">results = ...</text>
+<polygon points="400,450 440,470 400,490 360,470" stroke="#000" fill="#fff"/>
+<text x="400" y="475">for result</text>
+<rect x="350" y="530" width="100" height="40" fill="#fff" stroke="#000"/>
+<text x="400" y="555">appendResult()</text>
+<rect x="350" y="610" width="100" height="40" fill="#fff" stroke="#000"/>
+<text x="400" y="635">page = ...</text>
+<rect x="350" y="690" width="100" height="40" fill="#fff" stroke="#000"/>
+<text x="400" y="715">hasMorePages = ...</text>
+<rect x="350" y="770" width="100" height="40" fill="#fff" stroke="#000"/>
+<text x="400" y="795">allResults = ...</text>
+<rect x="350" y="850" width="100" height="40" rx="20" ry="20" fill="#fff" stroke="#000"/>
+<text x="400" y="875">return</text>
+<rect x="350" y="930" width="100" height="40" rx="20" ry="20" fill="#fff" stroke="#000"/>
+<text x="400" y="955">End</text>
+<line x1="400" y1="90" x2="400" y2="130" stroke="#000"/>
+<polygon points="400,130 396,122 404,122" fill="#000"/>
+<line x1="400" y1="170" x2="400" y2="210" stroke="#000"/>
+<polygon points="400,210 396,202 404,202" fill="#000"/>
+<line x1="400" y1="250" x2="400" y2="290" stroke="#000"/>
+<polygon points="400,290 396,282 404,282" fill="#000"/>
+<line x1="400" y1="330" x2="400" y2="370" stroke="#000"/>
+<polygon points="400,370 396,362 404,362" fill="#000"/>
+<line x1="400" y1="410" x2="400" y2="450" stroke="#000"/>
+<polygon points="400,450 396,442 404,442" fill="#000"/>
+<line x1="400" y1="490" x2="400" y2="530" stroke="#000"/>
+<polygon points="400,530 396,522 404,522" fill="#000"/>
+<line x1="400" y1="570" x2="400" y2="450" stroke="#000"/>
+<polygon points="400,450 403,457 396,457" fill="#000"/>
+<line x1="400" y1="490" x2="400" y2="610" stroke="#000"/>
+<polygon points="400,610 396,602 403,602" fill="#000"/>
+<line x1="400" y1="650" x2="400" y2="690" stroke="#000"/>
+<polygon points="400,690 396,682 404,682" fill="#000"/>
+<line x1="400" y1="730" x2="400" y2="290" stroke="#000"/>
+<polygon points="400,290 403,297 396,297" fill="#000"/>
+<line x1="400" y1="330" x2="400" y2="770" stroke="#000"/>
+<polygon points="400,770 396,762 403,762" fill="#000"/>
+<line x1="400" y1="810" x2="400" y2="850" stroke="#000"/>
+<polygon points="400,850 396,842 404,842" fill="#000"/>
+</svg>

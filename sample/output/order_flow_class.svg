@@ -1,0 +1,50 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" width="800" height="600">
+<rect x="50" y="50" width="200" height="60" fill="#fff" stroke="#000" stroke-width="1"/>
+<text x="150" y="70">&lt;&lt;component&gt;&gt;</text>
+<text x="150" y="90">OrderProcessor</text>
+<rect x="300" y="50" width="200" height="160" fill="#fff" stroke="#000" stroke-width="1"/>
+<text x="400" y="70">Order</text>
+<line x1="300" y1="85" x2="500" y2="85" stroke="#000"/>
+<text x="310" y="95">+ id: string</text>
+<text x="310" y="115">+ customerId: string</text>
+<text x="310" y="135">+ items: string</text>
+<text x="310" y="155">+ total: float</text>
+<text x="310" y="175">+ status: string</text>
+<rect x="550" y="50" width="200" height="100" stroke="#000" stroke-width="1" fill="#fff"/>
+<text x="650" y="70">PaymentResult</text>
+<line x1="550" y1="85" x2="750" y2="85" stroke="#000"/>
+<text x="560" y="95">+ success: bool</text>
+<text x="560" y="115">+ transactionId: string</text>
+<rect x="50" y="250" width="200" height="100" fill="#fff" stroke="#000" stroke-width="1"/>
+<text x="150" y="270">&lt;&lt;component&gt;&gt;</text>
+<text x="150" y="290">PaymentGateway</text>
+<line x1="50" y1="305" x2="250" y2="305" stroke="#000"/>
+<text x="60" y="315">+ Charge()</text>
+<text x="60" y="335">+ Refund()</text>
+<rect x="300" y="250" width="200" height="100" fill="#fff" stroke="#000" stroke-width="1"/>
+<text x="400" y="270">ChargeRequest</text>
+<line x1="300" y1="285" x2="500" y2="285" stroke="#000"/>
+<text x="310" y="295">+ amount: float</text>
+<text x="310" y="315">+ currency: string</text>
+<rect x="550" y="250" width="200" height="120" fill="#fff" stroke="#000" stroke-width="1"/>
+<text x="650" y="270">&lt;&lt;component&gt;&gt;</text>
+<text x="650" y="290">InventoryService</text>
+<line x1="550" y1="305" x2="750" y2="305" stroke="#000"/>
+<text x="560" y="315">+ CheckStock()</text>
+<text x="560" y="335">+ Reserve()</text>
+<text x="560" y="355">+ Release()</text>
+<rect x="50" y="450" width="200" height="100" fill="#fff" stroke="#000" stroke-width="1"/>
+<text x="150" y="470">StockItem</text>
+<line x1="50" y1="485" x2="250" y2="485" stroke="#000"/>
+<text x="60" y="495">+ productId: string</text>
+<text x="60" y="515">+ quantity: int</text>
+<rect x="300" y="450" width="200" height="100" fill="#fff" stroke="#000" stroke-width="1"/>
+<text x="400" y="470">&lt;&lt;component&gt;&gt;</text>
+<text x="400" y="490">NotificationService</text>
+<line x1="300" y1="505" x2="500" y2="505" stroke="#000"/>
+<text x="310" y="515">+ SendConfirmation()</text>
+<text x="310" y="535">+ SendCancellation()</text>
+<line x1="150" y1="100" x2="50" y2="300" stroke="#000" class="dashed"/>
+<line x1="150" y1="100" x2="550" y2="300" stroke="#000" class="dashed"/>
+<line x1="150" y1="100" x2="300" y2="500" stroke="#000" class="dashed"/>
+</svg>
