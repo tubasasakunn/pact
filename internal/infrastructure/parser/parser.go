@@ -119,7 +119,8 @@ func (p *Parser) ParseFile() (*ast.SpecFile, error) {
 			spec.Components = append(spec.Components, *comp)
 
 		default:
-			if p.addError(p.newError("unexpected token: %v", p.curToken.Literal)) {
+			if p.addError(p.newErrorWithSuggestion("unexpected token: %v", p.curToken.Literal,
+				"import", "component", "@annotation")) {
 				return spec, p.getErrors()
 			}
 			p.synchronize()
@@ -199,11 +200,11 @@ func (p *Parser) parseComponent(annotations []ast.AnnotationDecl) (*ast.Componen
 
 	p.nextToken() // consume 'component'
 
-	if p.curToken.Type != TOKEN_IDENT {
-		return nil, p.newError("expected identifier after 'component'")
+	name, err := p.expectIdentifier("component name")
+	if err != nil {
+		return nil, err
 	}
-	comp.Name = p.curToken.Literal
-	p.nextToken()
+	comp.Name = name
 
 	if p.curToken.Type != TOKEN_LBRACE {
 		return nil, p.newError("expected '{' after component name")
@@ -315,7 +316,8 @@ func (p *Parser) parseComponentBodyItem(body *ast.ComponentBody) error {
 		body.States = append(body.States, *states)
 
 	default:
-		return p.newError("unexpected token in component body: %v", p.curToken.Literal)
+		return p.newErrorWithSuggestion("unexpected token in component body: %v", p.curToken.Literal,
+			"type", "enum", "provides", "requires", "depends", "flow", "states")
 	}
 
 	return nil
@@ -334,11 +336,11 @@ func (p *Parser) parseTypeDecl(annotations []ast.AnnotationDecl) (*ast.TypeDecl,
 
 	p.nextToken() // consume 'type'
 
-	if p.curToken.Type != TOKEN_IDENT {
-		return nil, p.newError("expected identifier after 'type'")
+	name, err := p.expectIdentifier("type name")
+	if err != nil {
+		return nil, err
 	}
-	typ.Name = p.curToken.Literal
-	p.nextToken()
+	typ.Name = name
 
 	if p.curToken.Type != TOKEN_LBRACE {
 		return nil, p.newError("expected '{' after type name")
@@ -370,11 +372,11 @@ func (p *Parser) parseEnumDecl(annotations []ast.AnnotationDecl) (*ast.TypeDecl,
 
 	p.nextToken() // consume 'enum'
 
-	if p.curToken.Type != TOKEN_IDENT {
-		return nil, p.newError("expected identifier after 'enum'")
+	name, err := p.expectIdentifier("enum name")
+	if err != nil {
+		return nil, err
 	}
-	typ.Name = p.curToken.Literal
-	p.nextToken()
+	typ.Name = name
 
 	if p.curToken.Type != TOKEN_LBRACE {
 		return nil, p.newError("expected '{' after enum name")
@@ -424,12 +426,12 @@ func (p *Parser) parseField() (*ast.FieldDecl, error) {
 		p.nextToken()
 	}
 
-	if p.curToken.Type != TOKEN_IDENT {
-		return nil, p.newError("expected field name")
-	}
-	field.Name = p.curToken.Literal
 	field.Pos = p.curPos()
-	p.nextToken()
+	name, err := p.expectIdentifier("field name")
+	if err != nil {
+		return nil, err
+	}
+	field.Name = name
 
 	if p.curToken.Type != TOKEN_COLON {
 		return nil, p.newError("expected ':' after field name")
@@ -583,11 +585,11 @@ func (p *Parser) parseInterface(annotations []ast.AnnotationDecl) (*ast.Interfac
 
 	p.nextToken() // consume 'provides' or 'requires'
 
-	if p.curToken.Type != TOKEN_IDENT {
-		return nil, p.newError("expected interface name")
+	name, err := p.expectIdentifier("interface name")
+	if err != nil {
+		return nil, err
 	}
-	iface.Name = p.curToken.Literal
-	p.nextToken()
+	iface.Name = name
 
 	if p.curToken.Type != TOKEN_LBRACE {
 		return nil, p.newError("expected '{' after interface name")
@@ -630,12 +632,12 @@ func (p *Parser) parseMethod() (*ast.MethodDecl, error) {
 		p.nextToken()
 	}
 
-	if p.curToken.Type != TOKEN_IDENT {
-		return nil, p.newError("expected method name")
-	}
-	method.Name = p.curToken.Literal
 	method.Pos = p.curPos()
-	p.nextToken()
+	name, err := p.expectIdentifier("method name")
+	if err != nil {
+		return nil, err
+	}
+	method.Name = name
 
 	// パラメータ
 	if p.curToken.Type != TOKEN_LPAREN {
@@ -695,11 +697,11 @@ func (p *Parser) parseParam() (*ast.ParamDecl, error) {
 		Pos: p.curPos(),
 	}
 
-	if p.curToken.Type != TOKEN_IDENT {
-		return nil, p.newError("expected parameter name")
+	name, err := p.expectIdentifier("parameter name")
+	if err != nil {
+		return nil, err
 	}
-	param.Name = p.curToken.Literal
-	p.nextToken()
+	param.Name = name
 
 	if p.curToken.Type != TOKEN_COLON {
 		return nil, p.newError("expected ':' after parameter name")
@@ -727,11 +729,11 @@ func (p *Parser) parseFlow(annotations []ast.AnnotationDecl) (*ast.FlowDecl, err
 
 	p.nextToken() // consume 'flow'
 
-	if p.curToken.Type != TOKEN_IDENT {
-		return nil, p.newError("expected flow name")
+	name, err := p.expectIdentifier("flow name")
+	if err != nil {
+		return nil, err
 	}
-	flow.Name = p.curToken.Literal
-	p.nextToken()
+	flow.Name = name
 
 	if p.curToken.Type != TOKEN_LBRACE {
 		return nil, p.newError("expected '{' after flow name")
@@ -795,7 +797,8 @@ func (p *Parser) parseStep() (ast.Step, error) {
 	case TOKEN_IDENT:
 		return p.parseAssignOrCallStep(pos, annotations)
 	default:
-		return nil, p.newError("unexpected token in flow: %v", p.curToken.Literal)
+		return nil, p.newErrorWithSuggestion("unexpected token in flow: %v", p.curToken.Literal,
+			"return", "throw", "if", "for", "while", "await", "identifier")
 	}
 }
 
@@ -1221,6 +1224,23 @@ func (p *Parser) parsePrimaryExpr() (ast.Expr, error) {
 
 	case TOKEN_MINUS:
 		p.nextToken()
+		// 負の数値リテラルの最適化: -5 は単一のLiteralExprとして扱う
+		if p.curToken.Type == TOKEN_INT {
+			val, err := strconv.ParseInt("-"+p.curToken.Literal, 10, 64)
+			if err != nil {
+				return nil, p.newError("invalid integer literal: -%s", p.curToken.Literal)
+			}
+			p.nextToken()
+			return &ast.LiteralExpr{Pos: pos, Value: val}, nil
+		}
+		if p.curToken.Type == TOKEN_FLOAT {
+			val, err := strconv.ParseFloat("-"+p.curToken.Literal, 64)
+			if err != nil {
+				return nil, p.newError("invalid float literal: -%s", p.curToken.Literal)
+			}
+			p.nextToken()
+			return &ast.LiteralExpr{Pos: pos, Value: val}, nil
+		}
 		operand, err := p.parsePrimaryExpr()
 		if err != nil {
 			return nil, err
@@ -1240,7 +1260,8 @@ func (p *Parser) parsePrimaryExpr() (ast.Expr, error) {
 		return expr, nil
 
 	default:
-		return nil, p.newError("unexpected token in expression: %v", p.curToken.Literal)
+		return nil, p.newErrorWithSuggestion("unexpected token in expression: %v", p.curToken.Literal,
+			"identifier", "number", "string", "true", "false", "null", "(", "!", "-")
 	}
 }
 
@@ -1306,11 +1327,11 @@ func (p *Parser) parseStates(annotations []ast.AnnotationDecl) (*ast.StatesDecl,
 
 	p.nextToken() // consume 'states'
 
-	if p.curToken.Type != TOKEN_IDENT {
-		return nil, p.newError("expected states name")
+	name, err := p.expectIdentifier("states name")
+	if err != nil {
+		return nil, err
 	}
-	states.Name = p.curToken.Literal
-	p.nextToken()
+	states.Name = name
 
 	if p.curToken.Type != TOKEN_LBRACE {
 		return nil, p.newError("expected '{' after states name")
@@ -1372,7 +1393,8 @@ func (p *Parser) parseStatesItem(states *ast.StatesDecl) error {
 		states.Transitions = append(states.Transitions, *trans)
 
 	default:
-		return p.newError("unexpected token in states: %v", p.curToken.Literal)
+		return p.newErrorWithSuggestion("unexpected token in states: %v", p.curToken.Literal,
+			"initial", "final", "state", "parallel", "transition (From -> To)")
 	}
 
 	return nil
@@ -1385,11 +1407,11 @@ func (p *Parser) parseStateDecl() (*ast.StateDecl, error) {
 
 	p.nextToken() // consume 'state'
 
-	if p.curToken.Type != TOKEN_IDENT {
-		return nil, p.newError("expected state name")
+	name, err := p.expectIdentifier("state name")
+	if err != nil {
+		return nil, err
 	}
-	state.Name = p.curToken.Literal
-	p.nextToken()
+	state.Name = name
 
 	if p.curToken.Type != TOKEN_LBRACE {
 		return nil, p.newError("expected '{' after state name")
@@ -1438,7 +1460,8 @@ func (p *Parser) parseStateDecl() (*ast.StateDecl, error) {
 			state.Transitions = append(state.Transitions, *trans)
 
 		default:
-			return nil, p.newError("unexpected token in state: %v", p.curToken.Literal)
+			return nil, p.newErrorWithSuggestion("unexpected token in state: %v", p.curToken.Literal,
+				"entry", "exit", "initial", "state", "transition (From -> To)")
 		}
 	}
 
@@ -1542,11 +1565,11 @@ func (p *Parser) parseParallel() (*ast.ParallelDecl, error) {
 
 	p.nextToken() // consume 'parallel'
 
-	if p.curToken.Type != TOKEN_IDENT {
-		return nil, p.newError("expected parallel name")
+	name, err := p.expectIdentifier("parallel state name")
+	if err != nil {
+		return nil, err
 	}
-	parallel.Name = p.curToken.Literal
-	p.nextToken()
+	parallel.Name = name
 
 	if p.curToken.Type != TOKEN_LBRACE {
 		return nil, p.newError("expected '{' after parallel name")
@@ -1576,11 +1599,11 @@ func (p *Parser) parseRegion() (*ast.RegionDecl, error) {
 
 	p.nextToken() // consume 'region'
 
-	if p.curToken.Type != TOKEN_IDENT {
-		return nil, p.newError("expected region name")
+	name, err := p.expectIdentifier("region name")
+	if err != nil {
+		return nil, err
 	}
-	region.Name = p.curToken.Literal
-	p.nextToken()
+	region.Name = name
 
 	if p.curToken.Type != TOKEN_LBRACE {
 		return nil, p.newError("expected '{' after region name")
@@ -1612,7 +1635,8 @@ func (p *Parser) parseRegion() (*ast.RegionDecl, error) {
 			region.Transitions = append(region.Transitions, *trans)
 
 		default:
-			return nil, p.newError("unexpected token in region: %v", p.curToken.Literal)
+			return nil, p.newErrorWithSuggestion("unexpected token in region: %v", p.curToken.Literal,
+				"initial", "state", "transition (From -> To)")
 		}
 	}
 
@@ -1754,6 +1778,36 @@ func (p *Parser) parseAnnotationArg() (*ast.AnnotationArg, error) {
 // Helpers
 // =============================================================================
 
+// isReservedKeyword は現在のトークンが予約語かどうかを返す
+func (p *Parser) isReservedKeyword() bool {
+	switch p.curToken.Type {
+	case TOKEN_COMPONENT, TOKEN_IMPORT, TOKEN_TYPE, TOKEN_ENUM,
+		TOKEN_DEPENDS, TOKEN_ON, TOKEN_EXTENDS, TOKEN_IMPLEMENTS,
+		TOKEN_CONTAINS, TOKEN_AGGREGATES, TOKEN_PROVIDES, TOKEN_REQUIRES,
+		TOKEN_FLOW, TOKEN_STATES, TOKEN_STATE, TOKEN_PARALLEL, TOKEN_REGION,
+		TOKEN_INITIAL, TOKEN_FINAL, TOKEN_ENTRY, TOKEN_EXIT,
+		TOKEN_IF, TOKEN_ELSE, TOKEN_FOR, TOKEN_IN, TOKEN_WHILE,
+		TOKEN_RETURN, TOKEN_THROW, TOKEN_AWAIT, TOKEN_ASYNC, TOKEN_THROWS,
+		TOKEN_WHEN, TOKEN_AFTER, TOKEN_DO, TOKEN_TRUE, TOKEN_FALSE, TOKEN_NULL, TOKEN_AS:
+		return true
+	default:
+		return false
+	}
+}
+
+// expectIdentifier は識別子を期待し、予約語の場合はエラーを返す
+func (p *Parser) expectIdentifier(context string) (string, error) {
+	if p.curToken.Type != TOKEN_IDENT {
+		if p.isReservedKeyword() {
+			return "", p.newError("'%s' is a reserved keyword and cannot be used as %s", p.curToken.Literal, context)
+		}
+		return "", p.newError("expected %s", context)
+	}
+	name := p.curToken.Literal
+	p.nextToken()
+	return name, nil
+}
+
 // isIdentLike はトークンが識別子またはキーワード（識別子として使用可能なもの）かどうかを返す
 func (p *Parser) isIdentLike() bool {
 	switch p.curToken.Type {
@@ -1783,6 +1837,25 @@ func (p *Parser) newError(format string, args ...interface{}) error {
 	return &errors.ParseError{
 		Pos:     p.curPos(),
 		Message: sprintf(format, args...),
+	}
+}
+
+// newErrorWithSuggestion は期待されるトークンの候補を含むエラーを生成する
+func (p *Parser) newErrorWithSuggestion(format string, got interface{}, suggestions ...string) error {
+	msg := sprintf(format, got)
+	if len(suggestions) > 0 {
+		msg += " (expected one of: "
+		for i, s := range suggestions {
+			if i > 0 {
+				msg += ", "
+			}
+			msg += "'" + s + "'"
+		}
+		msg += ")"
+	}
+	return &errors.ParseError{
+		Pos:     p.curPos(),
+		Message: msg,
 	}
 }
 

@@ -146,10 +146,11 @@ This document tracks known issues and areas for improvement in the Pact DSL proj
   - `@override`
 - **Impact**: Limited metadata expressiveness
 
-### L-006: Generic Error Messages
+### ~~L-006: Generic Error Messages~~ (FIXED)
 - **Location**: `internal/infrastructure/parser/parser.go`
-- **Description**: "unexpected token" doesn't suggest what's expected
-- **Impact**: Poor developer experience
+- **Description**: ~~"unexpected token" doesn't suggest what's expected~~
+- **Status**: Fixed - Added `newErrorWithSuggestion()` function
+- **Fixed in**: Parser now provides context-aware error messages with expected token suggestions
 
 ### L-007: No Warning System
 - **Location**: Multiple locations
@@ -164,15 +165,17 @@ This document tracks known issues and areas for improvement in the Pact DSL proj
 - **Description**: Barycenter optimization and waypoint calculation have quadratic complexity
 - **Impact**: Slow rendering for large diagrams
 
-### L-009: Negative Number Handling
-- **Location**: `internal/infrastructure/parser/lexer.go`
-- **Description**: Negative numbers parsed as unary expression, not single token
-- **Impact**: Inconsistent AST for negative literals
-
-### L-010: Reserved Keyword Validation
+### ~~L-009: Negative Number Handling~~ (FIXED)
 - **Location**: `internal/infrastructure/parser/parser.go`
-- **Description**: Keywords allowed as identifiers in some contexts
-- **Impact**: Potential parsing ambiguity
+- **Description**: ~~Negative numbers parsed as unary expression, not single token~~
+- **Status**: Fixed - Parser now folds negative literals into single `LiteralExpr`
+- **Fixed in**: `-5` and `-3.14` are parsed as single literals, not unary expressions
+
+### ~~L-010: Reserved Keyword Validation~~ (FIXED)
+- **Location**: `internal/infrastructure/parser/parser.go`
+- **Description**: ~~Keywords allowed as identifiers in some contexts~~
+- **Status**: Fixed - Added `isReservedKeyword()` and `expectIdentifier()` functions
+- **Fixed in**: Parser now rejects keywords as identifiers in type, field, method, parameter, and other names
 
 ## Enhancement Requests
 
@@ -205,9 +208,9 @@ This document tracks known issues and areas for improvement in the Pact DSL proj
 | Critical | 3 | 3 | 0 |
 | High | 5 | 5 | 0 |
 | Medium | 10 | 9 | 1 |
-| Low | 10 | 0 | 10 |
+| Low | 10 | 3 | 7 |
 | Enhancement | 5 | 0 | 5 |
-| **Total** | **33** | **17** | **16** |
+| **Total** | **33** | **20** | **13** |
 
 ---
 
@@ -242,6 +245,16 @@ This document tracks known issues and areas for improvement in the Pact DSL proj
   - Sequence diagram frame width scales with participants
   - Note collision detection and automatic repositioning
 
+### Parser Improvements
+- **Location**: `internal/infrastructure/parser/parser.go`
+- **New Methods**:
+  - `newErrorWithSuggestion()` - Context-aware error messages with expected token suggestions
+  - `isReservedKeyword()` - Check if current token is a reserved keyword
+  - `expectIdentifier()` - Validate identifier with reserved keyword rejection
+- **Changes**:
+  - Negative number literals (`-5`, `-3.14`) folded into single `LiteralExpr`
+  - Reserved keywords rejected as identifiers in appropriate contexts
+
 ---
 
-Last updated: 2026-02-02
+Last updated: 2026-02-03
