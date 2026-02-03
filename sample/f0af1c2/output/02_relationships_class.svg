@@ -1,0 +1,73 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1492 600" width="1492" height="600">
+<rect x="50" y="230" width="123" height="70" fill="#fff" stroke="#000" stroke-width="1"/>
+<text x="111" y="257" text-anchor="middle">&lt;&lt;component&gt;&gt;</text>
+<text x="111" y="277" text-anchor="middle">BaseEntity</text>
+<rect x="404" y="50" width="166" height="120" fill="#fff" stroke="#000" stroke-width="1"/>
+<text x="487" y="77" text-anchor="middle">Entity</text>
+<line x1="404" y1="92" x2="570" y2="92" stroke="#000"/>
+<text x="414" y="107">+ id: string</text>
+<text x="414" y="127">+ createdAt: string</text>
+<text x="414" y="147">+ updatedAt: string</text>
+<rect x="213" y="230" width="209" height="100" fill="#fff" stroke="#000" stroke-width="1"/>
+<text x="317" y="257" text-anchor="middle">&lt;&lt;component&gt;&gt;</text>
+<text x="317" y="277" text-anchor="middle">Auditable</text>
+<line x1="213" y1="292" x2="422" y2="292" stroke="#000"/>
+<text x="223" y="307">+ GetAuditLog(): string[]</text>
+<rect x="462" y="230" width="310" height="120" fill="#fff" stroke="#000" stroke-width="1"/>
+<text x="617" y="257" text-anchor="middle">&lt;&lt;component&gt;&gt;</text>
+<text x="617" y="277" text-anchor="middle">Cache</text>
+<line x1="462" y1="292" x2="772" y2="292" stroke="#000"/>
+<text x="472" y="307">+ Get(key: string): string</text>
+<text x="472" y="327">+ Set(key: string, value: string): bool</text>
+<rect x="610" y="50" width="137" height="120" fill="#fff" stroke="#000" stroke-width="1"/>
+<text x="678" y="77" text-anchor="middle">CacheEntry</text>
+<line x1="610" y1="92" x2="747" y2="92" stroke="#000"/>
+<text x="620" y="107">+ key: string</text>
+<text x="620" y="127">+ value: string</text>
+<text x="620" y="147">+ ttl: int</text>
+<rect x="812" y="230" width="231" height="120" fill="#fff" stroke="#000" stroke-width="1"/>
+<text x="927" y="257" text-anchor="middle">&lt;&lt;component&gt;&gt;</text>
+<text x="927" y="277" text-anchor="middle">Database</text>
+<line x1="812" y1="292" x2="1043" y2="292" stroke="#000"/>
+<text x="822" y="307">+ Query(sql: string): string</text>
+<text x="822" y="327">+ Execute(sql: string): bool</text>
+<rect x="787" y="50" width="130" height="100" fill="#fff" stroke="#000" stroke-width="1"/>
+<text x="852" y="77" text-anchor="middle">Connection</text>
+<line x1="787" y1="92" x2="917" y2="92" stroke="#000"/>
+<text x="797" y="107">+ host: string</text>
+<text x="797" y="127">+ port: int</text>
+<rect x="1083" y="230" width="174" height="120" stroke="#000" stroke-width="1" fill="#fff"/>
+<text x="1170" y="257" text-anchor="middle">&lt;&lt;component&gt;&gt;</text>
+<text x="1170" y="277" text-anchor="middle">Logger</text>
+<line x1="1083" y1="292" x2="1257" y2="292" stroke="#000"/>
+<text x="1093" y="307">+ Info(msg: string)</text>
+<text x="1093" y="327">+ Error(msg: string)</text>
+<rect x="957" y="50" width="130" height="70" stroke-width="1" fill="#fff" stroke="#000"/>
+<text x="1022" y="77" text-anchor="middle">&lt;&lt;component&gt;&gt;</text>
+<text x="1022" y="97" text-anchor="middle">OrderProcessor</text>
+<rect x="1297" y="230" width="145" height="100" fill="#fff" stroke="#000" stroke-width="1"/>
+<text x="1369" y="257" text-anchor="middle">InternalWorker</text>
+<line x1="1297" y1="272" x2="1442" y2="272" stroke="#000"/>
+<text x="1307" y="287">+ id: string</text>
+<text x="1307" y="307">+ status: string</text>
+<line x1="957" y1="61" x2="173" y2="61" stroke="#000"/>
+<line x1="173" y1="61" x2="173" y2="265" stroke="#000"/>
+<polygon points="173,265 168,255 177,255" fill="#fff" stroke="#000"/>
+<line x1="957" y1="69" x2="957" y2="370" stroke="#000" stroke-dasharray="5,5"/>
+<line x1="957" y1="370" x2="422" y2="370" stroke="#000" stroke-dasharray="5,5"/>
+<line x1="422" y1="370" x2="422" y2="280" stroke="#000" stroke-dasharray="5,5"/>
+<polygon points="422,280 426,289 417,289" fill="#fff" stroke="#000"/>
+<line x1="1002" y1="120" x2="1002" y2="230" stroke="#000" stroke-dasharray="5,5"/>
+<line x1="1002" y1="230" x2="927" y2="230" stroke-dasharray="5,5" stroke="#000"/>
+<polygon points="927,230 936,225 936,234" fill="#000"/>
+<line x1="1022" y1="120" x2="1022" y2="230" stroke="#000" stroke-dasharray="5,5"/>
+<line x1="1022" y1="230" x2="1170" y2="230" stroke="#000" stroke-dasharray="5,5"/>
+<polygon points="1170,230 1160,234 1160,225" fill="#000"/>
+<line x1="1087" y1="93" x2="1297" y2="93" stroke="#000"/>
+<line x1="1297" y1="93" x2="1297" y2="280" stroke="#000"/>
+<polygon points="1297,93 1292,103 1297,113 1302,103" fill="#000"/>
+<line x1="957" y1="101" x2="957" y2="195" stroke="#000"/>
+<line x1="957" y1="195" x2="772" y2="195" stroke="#000"/>
+<line x1="772" y1="195" x2="772" y2="290" stroke="#000"/>
+<polygon points="772,195 767,205 772,215 777,205" stroke="#000" fill="#fff"/>
+</svg>

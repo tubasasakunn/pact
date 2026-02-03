@@ -1,0 +1,42 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" width="800" height="600">
+<circle cx="124" cy="50" r="10" fill="#000"/>
+<rect x="50" y="100" width="149" height="75" rx="10" ry="10" fill="#fff" stroke="#000"/>
+<text x="124" y="125" text-anchor="middle">Draft</text>
+<line x1="50" y1="135" x2="198" y2="135" stroke="#000"/>
+<text x="55" y="150">entry/ createDraft</text>
+<rect x="239" y="100" width="178" height="90" rx="10" ry="10" fill="#fff" stroke="#000"/>
+<text x="328" y="125" text-anchor="middle">Review</text>
+<line x1="239" y1="135" x2="417" y2="135" stroke="#000"/>
+<text x="244" y="150">entry/ notifyReviewers</text>
+<text x="244" y="165">exit/ clearReviewQueue</text>
+<rect x="457" y="100" width="192" height="75" rx="10" ry="10" fill="#fff" stroke="#000"/>
+<text x="553" y="125" text-anchor="middle">Approved</text>
+<line x1="457" y1="135" x2="649" y2="135" stroke="#000"/>
+<text x="462" y="150">entry/ prepareForPublish</text>
+<circle cx="124" cy="280" r="12" stroke="#000" stroke-width="2"/>
+<circle cx="124" cy="280" r="8" fill="#000"/>
+<circle cx="274" cy="280" r="12" stroke-width="2" stroke="#000"/>
+<circle cx="274" cy="280" r="8" fill="#000"/>
+<line x1="124" y1="60" x2="124" y2="83" stroke="#000"/>
+<polygon points="124,83 120,75 128,75" fill="#000"/>
+<line x1="198" y1="120" x2="239" y2="120" stroke="#000"/>
+<polygon points="239,120 231,124 231,116" fill="#000"/>
+<text x="218" y="85" text-anchor="middle">submitForReview</text>
+<line x1="239" y1="120" x2="198" y2="120" stroke="#000"/>
+<polygon points="198,120 206,116 206,124" fill="#000"/>
+<text x="218" y="85" text-anchor="middle">requestChanges</text>
+<line x1="417" y1="120" x2="457" y2="120" stroke="#000"/>
+<polygon points="457,120 449,124 449,116" fill="#000"/>
+<text x="437" y="85" text-anchor="middle">approve</text>
+<line x1="457" y1="120" x2="457" y2="200" stroke="#000"/>
+<line x1="457" y1="200" x2="136" y2="200" stroke="#000"/>
+<line x1="136" y1="200" x2="136" y2="280" stroke="#000"/>
+<polygon points="136,280 132,272 139,272" fill="#000"/>
+<text x="296" y="195" text-anchor="middle">publish</text>
+<line x1="136" y1="280" x2="262" y2="280" stroke="#000"/>
+<polygon points="262,280 254,283 254,276" fill="#000"/>
+<text x="199" y="275" text-anchor="middle">archive</text>
+<line x1="124" y1="268" x2="124" y2="157" stroke="#000"/>
+<polygon points="124,157 127,164 120,164" fill="#000"/>
+<text x="124" y="207" text-anchor="middle">unpublish</text>
+</svg>

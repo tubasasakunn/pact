@@ -1,0 +1,39 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 811 600" width="811" height="600">
+<circle cx="146" cy="50" r="10" fill="#000"/>
+<rect x="50" y="100" width="192" height="75" rx="10" ry="10" fill="#fff" stroke="#000"/>
+<text x="146" y="125" text-anchor="middle">Draft</text>
+<line x1="50" y1="135" x2="242" y2="135" stroke="#000"/>
+<text x="55" y="150">entry/ initializeRequest</text>
+<rect x="282" y="100" width="207" height="75" rx="10" ry="10" fill="#fff" stroke="#000"/>
+<text x="385" y="125" text-anchor="middle">Submitted</text>
+<line x1="282" y1="135" x2="488" y2="135" stroke="#000"/>
+<text x="287" y="150">entry/ notifyFirstApprover</text>
+<rect x="529" y="100" width="192" height="75" rx="10" ry="10" fill="#fff" stroke="#000"/>
+<text x="625" y="125" text-anchor="middle">UnderReview</text>
+<line x1="529" y1="135" x2="721" y2="135" stroke="#000"/>
+<text x="534" y="150">entry/ setReviewDeadline</text>
+<circle cx="146" cy="280" r="12" stroke="#000" stroke-width="2"/>
+<circle cx="146" cy="280" r="8" fill="#000"/>
+<circle cx="296" cy="280" r="12" stroke="#000" stroke-width="2"/>
+<circle cx="296" cy="280" r="8" fill="#000"/>
+<line x1="146" y1="60" x2="146" y2="83" stroke="#000"/>
+<polygon points="146,83 142,75 150,75" fill="#000"/>
+<line x1="242" y1="120" x2="282" y2="120" stroke="#000"/>
+<polygon points="282,120 274,124 274,116" fill="#000"/>
+<text x="262" y="85" text-anchor="middle">submit</text>
+<line x1="488" y1="120" x2="529" y2="120" stroke="#000"/>
+<polygon points="529,120 521,124 521,116" fill="#000"/>
+<text x="508" y="85" text-anchor="middle">startReview</text>
+<line x1="529" y1="120" x2="529" y2="200" stroke="#000"/>
+<line x1="529" y1="200" x2="158" y2="200" stroke="#000"/>
+<line x1="158" y1="200" x2="158" y2="280" stroke="#000"/>
+<polygon points="158,280 154,272 161,272" fill="#000"/>
+<text x="343" y="195" text-anchor="middle">finalApproval [allApproved]</text>
+<line x1="529" y1="120" x2="529" y2="280" stroke="#000"/>
+<line x1="529" y1="280" x2="308" y2="280" stroke="#000"/>
+<polygon points="308,280 315,276 315,283" fill="#000"/>
+<text x="529" y="195" text-anchor="middle">reject</text>
+<line x1="529" y1="120" x2="488" y2="120" stroke="#000"/>
+<polygon points="488,120 496,116 496,124" fill="#000"/>
+<text x="508" y="85" text-anchor="middle">requestChanges</text>
+</svg>

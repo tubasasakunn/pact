@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" width="800" height="600">
+<rect x="235" y="50" width="145" height="70" stroke-width="1" fill="#fff" stroke="#000"/>
+<text x="307" y="77" text-anchor="middle">&lt;&lt;component&gt;&gt;</text>
+<text x="307" y="97" text-anchor="middle">OrderFulfillment</text>
+<rect x="420" y="50" width="145" height="120" fill="#fff" stroke="#000" stroke-width="1"/>
+<text x="492" y="77" text-anchor="middle">Order</text>
+<line x1="420" y1="92" x2="565" y2="92" stroke="#000"/>
+<text x="430" y="107">+ id: string</text>
+<text x="430" y="127">+ total: float</text>
+<text x="430" y="147">+ status: string</text>
+</svg>
