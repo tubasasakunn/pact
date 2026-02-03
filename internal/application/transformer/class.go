@@ -16,11 +16,6 @@ func NewClassTransformer() *ClassTransformer {
 	return &ClassTransformer{}
 }
 
-// TransformOptions は変換オプション
-type TransformOptions struct {
-	FilterComponents []string
-}
-
 // Transform はASTをクラス図に変換する
 func (t *ClassTransformer) Transform(files []*ast.SpecFile, opts *TransformOptions) (*class.Diagram, error) {
 	diagram := &class.Diagram{

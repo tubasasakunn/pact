@@ -17,11 +17,6 @@ func NewStateTransformer() *StateTransformer {
 	return &StateTransformer{}
 }
 
-// StateOptions は状態図変換オプション
-type StateOptions struct {
-	StatesName string
-}
-
 // Transform はASTを状態図に変換する
 func (t *StateTransformer) Transform(files []*ast.SpecFile, opts *StateOptions) (*state.Diagram, error) {
 	if opts == nil || opts.StatesName == "" {
