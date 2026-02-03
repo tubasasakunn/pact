@@ -1,0 +1,39 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" width="800" height="600">
+<circle cx="128" cy="50" r="10" fill="#000"/>
+<rect x="50" y="100" width="156" height="75" rx="10" ry="10" fill="#fff" stroke="#000"/>
+<text x="128" y="125" text-anchor="middle">Unauthenticated</text>
+<line x1="50" y1="135" x2="206" y2="135" stroke="#000"/>
+<text x="55" y="150">entry/ clearSession</text>
+<rect x="246" y="100" width="185" height="75" rx="10" ry="10" fill="#fff" stroke="#000"/>
+<text x="338" y="125" text-anchor="middle">Authenticated</text>
+<line x1="246" y1="135" x2="430" y2="135" stroke="#000"/>
+<text x="251" y="150">entry/ setSessionCookie</text>
+<rect x="471" y="100" width="214" height="75" rx="10" ry="10" fill="#fff" stroke="#000"/>
+<text x="578" y="125" text-anchor="middle">Refreshing</text>
+<line x1="471" y1="135" x2="685" y2="135" stroke="#000"/>
+<text x="476" y="150">entry/ validateRefreshToken</text>
+<circle cx="128" cy="280" r="12" stroke-width="2" stroke="#000"/>
+<circle cx="128" cy="280" r="8" fill="#000"/>
+<line x1="128" y1="60" x2="128" y2="83" stroke="#000"/>
+<polygon points="128,83 124,75 132,75" fill="#000"/>
+<line x1="206" y1="120" x2="246" y2="120" stroke="#000"/>
+<polygon points="246,120 238,124 238,116" fill="#000"/>
+<text x="226" y="85" text-anchor="middle">loginSuccess</text>
+<line x1="430" y1="120" x2="471" y2="120" stroke="#000"/>
+<polygon points="471,120 463,124 463,116" fill="#000"/>
+<text x="450" y="85" text-anchor="middle">tokenExpiring</text>
+<line x1="471" y1="120" x2="430" y2="120" stroke="#000"/>
+<polygon points="430,120 438,116 438,124" fill="#000"/>
+<text x="450" y="85" text-anchor="middle">refreshSuccess</text>
+<line x1="471" y1="120" x2="471" y2="280" stroke="#000"/>
+<line x1="471" y1="280" x2="140" y2="280" stroke="#000"/>
+<polygon points="140,280 147,276 147,283" fill="#000"/>
+<text x="471" y="195" text-anchor="middle">refreshFailed</text>
+<line x1="246" y1="120" x2="206" y2="120" stroke="#000"/>
+<polygon points="206,120 214,116 214,124" fill="#000"/>
+<text x="226" y="85" text-anchor="middle">logout</text>
+<line x1="246" y1="120" x2="246" y2="280" stroke="#000"/>
+<line x1="246" y1="280" x2="140" y2="280" stroke="#000"/>
+<polygon points="140,280 147,276 147,283" fill="#000"/>
+<text x="246" y="195" text-anchor="middle">after 24h</text>
+</svg>

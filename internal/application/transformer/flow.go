@@ -376,6 +376,7 @@ func (t *FlowTransformer) formatExpr(expr ast.Expr) string {
 		}
 		return t.formatExpr(e.Left) + " ?? " + t.formatExpr(e.Right)
 	default:
-		return "..."
+		// 未知の式型は型名を含むプレースホルダを返す
+		return fmt.Sprintf("<unknown: %T>", expr)
 	}
 }

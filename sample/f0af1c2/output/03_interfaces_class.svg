@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 2186 600" width="2186" height="600">
+<rect x="50" y="50" width="433" height="180" stroke="#000" stroke-width="1" fill="#fff"/>
+<text x="266" y="77" text-anchor="middle">&lt;&lt;component&gt;&gt;</text>
+<text x="266" y="97" text-anchor="middle">ShoppingService</text>
+<line x1="50" y1="112" x2="483" y2="112" stroke="#000"/>
+<text x="60" y="127">+ AddItem(userId: string, item: CartItem): Cart</text>
+<text x="60" y="147">+ RemoveItem(userId: string, productId: string): Cart</text>
+<text x="60" y="167">+ GetCart(userId: string): Cart</text>
+<text x="60" y="187">+ Checkout(userId: string): string throws EmptyCartError</text>
+<text x="60" y="207">+ async CalculateShipping(cart: Cart): float</text>
+<rect x="523" y="50" width="166" height="120" fill="#fff" stroke="#000" stroke-width="1"/>
+<text x="606" y="77" text-anchor="middle">CartItem</text>
+<line x1="523" y1="92" x2="689" y2="92" stroke="#000"/>
+<text x="533" y="107">+ productId: string</text>
+<text x="533" y="127">+ quantity: int</text>
+<text x="533" y="147">+ price: float</text>
+<rect x="729" y="50" width="166" height="120" stroke-width="1" fill="#fff" stroke="#000"/>
+<text x="812" y="77" text-anchor="middle">Cart</text>
+<line x1="729" y1="92" x2="895" y2="92" stroke="#000"/>
+<text x="739" y="107">+ userId: string</text>
+<text x="739" y="127">+ items: CartItem[]</text>
+<text x="739" y="147">+ total: float</text>
+<rect x="935" y="50" width="548" height="120" fill="#fff" stroke="#000" stroke-width="1"/>
+<text x="1209" y="77" text-anchor="middle">&lt;&lt;interface&gt;&gt;</text>
+<text x="1209" y="97" text-anchor="middle">InventoryService</text>
+<line x1="935" y1="112" x2="1483" y2="112" stroke="#000"/>
+<text x="945" y="127">+ CheckStock(productId: string): int</text>
+<text x="945" y="147">+ ReserveStock(productId: string, qty: int): bool throws OutOfStockError</text>
+<rect x="1523" y="50" width="613" height="120" fill="#fff" stroke="#000" stroke-width="1"/>
+<text x="1829" y="77" text-anchor="middle">&lt;&lt;interface&gt;&gt;</text>
+<text x="1829" y="97" text-anchor="middle">PaymentService</text>
+<line x1="1523" y1="112" x2="2136" y2="112" stroke="#000"/>
+<text x="1533" y="127">+ async ProcessPayment(amount: float, method: string): string throws PaymentError</text>
+<text x="1533" y="147">+ RefundPayment(transactionId: string): bool</text>
+</svg>

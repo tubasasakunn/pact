@@ -1,0 +1,90 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 1620" width="800" height="1620">
+<rect x="350" y="50" width="100" height="40" rx="20" ry="20" stroke="#000" fill="#fff"/>
+<text x="400" y="75" text-anchor="middle">Start</text>
+<rect x="234" y="130" width="332" height="40" fill="#fff" stroke="#000"/>
+<text x="400" y="155" text-anchor="middle">records = DataSource.fetchBatch(batchSize)</text>
+<rect x="328" y="210" width="145" height="40" fill="#fff" stroke="#000"/>
+<text x="400" y="235" text-anchor="middle">successCount = 0</text>
+<rect x="339" y="290" width="123" height="40" fill="#fff" stroke="#000"/>
+<text x="400" y="315" text-anchor="middle">failCount = 0</text>
+<polygon points="400,370 451,390 400,410 349,390" fill="#fff" stroke="#000"/>
+<text x="400" y="395" text-anchor="middle">for record</text>
+<polygon points="400,450 451,470 400,490 349,470" fill="#fff" stroke="#000"/>
+<text x="400" y="475" text-anchor="middle">condition?</text>
+<rect x="231" y="530" width="339" height="40" fill="#fff" stroke="#000"/>
+<text x="400" y="555" text-anchor="middle">transformed = Transformer.transform(record)</text>
+<polygon points="400,610 451,630 400,650 349,630" fill="#fff" stroke="#000"/>
+<text x="400" y="635" text-anchor="middle">condition?</text>
+<rect x="350" y="690" width="100" height="40" fill="#fff" stroke="#000"/>
+<text x="400" y="715" text-anchor="middle">write()</text>
+<rect x="274" y="770" width="253" height="40" fill="#fff" stroke="#000"/>
+<text x="400" y="795" text-anchor="middle">successCount = successCount + 1</text>
+<rect x="482" y="850" width="137" height="40" fill="#fff" stroke="#000"/>
+<text x="550" y="875" text-anchor="middle">reportInvalid()</text>
+<rect x="296" y="930" width="209" height="40" fill="#fff" stroke="#000"/>
+<text x="400" y="955" text-anchor="middle">failCount = failCount + 1</text>
+<rect x="350" y="1010" width="100" height="40" fill="#fff" stroke="#000"/>
+<rect x="446" y="1090" width="209" height="40" fill="#fff" stroke="#000"/>
+<text x="550" y="1115" text-anchor="middle">failCount = failCount + 1</text>
+<rect x="350" y="1170" width="100" height="40" fill="#fff" stroke="#000"/>
+<rect x="202" y="1250" width="397" height="40" fill="#fff" stroke="#000"/>
+<text x="400" y="1275" text-anchor="middle">result = self.createResult(successCount, failCount)</text>
+<rect x="339" y="1330" width="123" height="40" fill="#fff" stroke="#000"/>
+<text x="400" y="1355" text-anchor="middle">reportBatch()</text>
+<rect x="350" y="1410" width="100" height="40" rx="20" ry="20" fill="#fff" stroke="#000"/>
+<text x="400" y="1435" text-anchor="middle">return</text>
+<rect x="350" y="1490" width="100" height="40" rx="20" ry="20" fill="#fff" stroke="#000"/>
+<text x="400" y="1515" text-anchor="middle">End</text>
+<line x1="400" y1="90" x2="400" y2="130" stroke="#000"/>
+<polygon points="400,130 396,122 404,122" fill="#000"/>
+<line x1="400" y1="170" x2="400" y2="210" stroke="#000"/>
+<polygon points="400,210 396,202 404,202" fill="#000"/>
+<line x1="400" y1="250" x2="400" y2="290" stroke="#000"/>
+<polygon points="400,290 396,282 404,282" fill="#000"/>
+<line x1="400" y1="330" x2="400" y2="370" stroke="#000"/>
+<polygon points="400,370 396,362 404,362" fill="#000"/>
+<line x1="400" y1="410" x2="400" y2="450" stroke="#000"/>
+<polygon points="400,450 396,442 404,442" fill="#000"/>
+<line x1="400" y1="490" x2="400" y2="530" stroke="#000"/>
+<polygon points="400,530 396,522 404,522" fill="#000"/>
+<text x="410" y="510">Yes</text>
+<line x1="400" y1="570" x2="400" y2="610" stroke="#000"/>
+<polygon points="400,610 396,602 404,602" fill="#000"/>
+<line x1="400" y1="650" x2="400" y2="690" stroke="#000"/>
+<polygon points="400,690 396,682 404,682" fill="#000"/>
+<text x="410" y="670">Yes</text>
+<line x1="400" y1="730" x2="400" y2="770" stroke="#000"/>
+<polygon points="400,770 396,762 404,762" fill="#000"/>
+<line x1="440" y1="630" x2="550" y2="630" stroke="#000"/>
+<line x1="550" y1="630" x2="550" y2="850" stroke="#000"/>
+<polygon points="550,850 546,842 553,842" fill="#000"/>
+<text x="460" y="625">No</text>
+<line x1="550" y1="890" x2="550" y2="910" stroke="#000"/>
+<line x1="550" y1="910" x2="400" y2="910" stroke="#000"/>
+<line x1="400" y1="910" x2="400" y2="930" stroke="#000"/>
+<polygon points="400,930 396,922 404,922" fill="#000"/>
+<line x1="400" y1="810" x2="400" y2="1010" stroke="#000"/>
+<polygon points="400,1010 396,1002 403,1002" fill="#000"/>
+<line x1="400" y1="970" x2="400" y2="1010" stroke="#000"/>
+<polygon points="400,1010 396,1002 404,1002" fill="#000"/>
+<line x1="440" y1="470" x2="550" y2="470" stroke="#000"/>
+<line x1="550" y1="470" x2="550" y2="1090" stroke="#000"/>
+<polygon points="550,1090 546,1082 553,1082" fill="#000"/>
+<text x="460" y="465">No</text>
+<line x1="400" y1="1050" x2="400" y2="1170" stroke="#000"/>
+<polygon points="400,1170 396,1162 403,1162" fill="#000"/>
+<line x1="550" y1="1130" x2="550" y2="1150" stroke="#000"/>
+<line x1="550" y1="1150" x2="400" y2="1150" stroke="#000"/>
+<line x1="400" y1="1150" x2="400" y2="1170" stroke="#000"/>
+<polygon points="400,1170 396,1162 404,1162" fill="#000"/>
+<line x1="400" y1="1210" x2="400" y2="370" stroke="#000"/>
+<polygon points="400,370 403,376 396,376" fill="#000"/>
+<line x1="400" y1="410" x2="400" y2="1250" stroke="#000"/>
+<polygon points="400,1250 396,1243 403,1243" fill="#000"/>
+<line x1="400" y1="1290" x2="400" y2="1330" stroke="#000"/>
+<polygon points="400,1330 396,1322 404,1322" fill="#000"/>
+<line x1="400" y1="1370" x2="400" y2="1410" stroke="#000"/>
+<polygon points="400,1410 396,1402 404,1402" fill="#000"/>
+<line x1="400" y1="1450" x2="400" y2="1490" stroke="#000"/>
+<polygon points="400,1490 396,1482 404,1482" fill="#000"/>
+</svg>

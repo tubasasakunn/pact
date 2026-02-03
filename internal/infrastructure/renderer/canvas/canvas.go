@@ -9,10 +9,11 @@ import (
 
 // Canvas はSVGを生成するためのキャンバス
 type Canvas struct {
-	width    int
-	height   int
-	elements []string
-	defs     []string
+	width         int
+	height        int
+	elements      []string
+	defs          []string
+	maxPageHeight int // ページネーション用の最大ページ高さ（0で無効）
 }
 
 // New は新しいCanvasを作成する
@@ -175,6 +176,26 @@ func (c *Canvas) Text(x, y int, text string, opts ...Option) {
 	))
 }
 
+// TextWrapped は最大幅で折り返したテキストを描画する
+// maxWidth: 最大幅（ピクセル）、lineHeight: 行の高さ
+// 戻り値: 描画に使用した行数
+func (c *Canvas) TextWrapped(x, y int, text string, maxWidth, lineHeight int, opts ...Option) int {
+	fontSize := 12 // デフォルトフォントサイズ
+	lines := WrapText(text, maxWidth, fontSize)
+
+	attrs := map[string]string{}
+	applyOptions(attrs, opts)
+
+	for i, line := range lines {
+		c.elements = append(c.elements, fmt.Sprintf(
+			`<text x="%d" y="%d"%s>%s</text>`,
+			x, y+i*lineHeight, attrsToString(attrs), html.EscapeString(line),
+		))
+	}
+
+	return len(lines)
+}
+
 // AddDef は定義を追加する
 func (c *Canvas) AddDef(def string) {
 	c.defs = append(c.defs, def)
@@ -215,4 +236,76 @@ func (c *Canvas) String() string {
 	var buf bytes.Buffer
 	c.WriteTo(&buf)
 	return buf.String()
+}
+
+// SetPagination はページネーションを設定する（L-001）
+// maxPageHeight: 1ページあたりの最大高さ（ピクセル）
+func (c *Canvas) SetPagination(maxPageHeight int) {
+	c.maxPageHeight = maxPageHeight
+}
+
+// PageCount はページ数を返す
+func (c *Canvas) PageCount() int {
+	if c.maxPageHeight <= 0 {
+		return 1
+	}
+	pages := c.height / c.maxPageHeight
+	if c.height%c.maxPageHeight > 0 {
+		pages++
+	}
+	if pages < 1 {
+		pages = 1
+	}
+	return pages
+}
+
+// WritePageTo は指定ページのSVGを書き出す（0-indexed）
+// ページネーション有効時、viewBox を使って指定範囲のみ表示する
+func (c *Canvas) WritePageTo(w io.Writer, pageIndex int) (int64, error) {
+	var buf bytes.Buffer
+
+	if c.maxPageHeight <= 0 || pageIndex <= 0 {
+		// ページネーション無効の場合は全体を出力
+		return c.WriteTo(w)
+	}
+
+	pageHeight := c.maxPageHeight
+	yOffset := pageIndex * pageHeight
+	if yOffset >= c.height {
+		yOffset = c.height - pageHeight
+		if yOffset < 0 {
+			yOffset = 0
+		}
+	}
+
+	// 残りの高さ
+	remainingHeight := c.height - yOffset
+	if remainingHeight > pageHeight {
+		remainingHeight = pageHeight
+	}
+
+	buf.WriteString(fmt.Sprintf(
+		`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 %d %d %d" width="%d" height="%d">`,
+		yOffset, c.width, remainingHeight, c.width, remainingHeight,
+	))
+	buf.WriteString("\n")
+
+	if len(c.defs) > 0 {
+		buf.WriteString("<defs>\n")
+		for _, def := range c.defs {
+			buf.WriteString(def)
+			buf.WriteString("\n")
+		}
+		buf.WriteString("</defs>\n")
+	}
+
+	for _, elem := range c.elements {
+		buf.WriteString(elem)
+		buf.WriteString("\n")
+	}
+
+	buf.WriteString("</svg>")
+
+	n, err := w.Write(buf.Bytes())
+	return int64(n), err
 }

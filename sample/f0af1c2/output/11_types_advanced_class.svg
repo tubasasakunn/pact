@@ -1,0 +1,50 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1700 600" width="1700" height="600">
+<rect x="50" y="50" width="123" height="70" fill="#fff" stroke="#000" stroke-width="1"/>
+<text x="111" y="77" text-anchor="middle">&lt;&lt;component&gt;&gt;</text>
+<text x="111" y="97" text-anchor="middle">DataModel</text>
+<rect x="213" y="50" width="224" height="160" stroke-width="1" fill="#fff" stroke="#000"/>
+<text x="325" y="77" text-anchor="middle">Organization</text>
+<line x1="213" y1="92" x2="437" y2="92" stroke="#000"/>
+<text x="223" y="107">+ id: string</text>
+<text x="223" y="127">+ name: string</text>
+<text x="223" y="147">+ departments: Department[]</text>
+<text x="223" y="167">+ owner: User?</text>
+<text x="223" y="187">+ metadata: string[]</text>
+<rect x="477" y="50" width="152" height="160" stroke="#000" stroke-width="1" fill="#fff"/>
+<text x="553" y="77" text-anchor="middle">Department</text>
+<line x1="477" y1="92" x2="629" y2="92" stroke="#000"/>
+<text x="487" y="107">+ id: string</text>
+<text x="487" y="127">+ name: string</text>
+<text x="487" y="147">+ manager: User?</text>
+<text x="487" y="167">+ members: User[]</text>
+<text x="487" y="187">+ budget: float</text>
+<rect x="669" y="50" width="224" height="180" fill="#fff" stroke="#000" stroke-width="1"/>
+<text x="781" y="77" text-anchor="middle">User</text>
+<line x1="669" y1="92" x2="893" y2="92" stroke="#000"/>
+<text x="679" y="107">+ id: string</text>
+<text x="679" y="127">+ name: string</text>
+<text x="679" y="147">+ email: string</text>
+<text x="679" y="167">- passwordHash: string</text>
+<text x="679" y="187"># permissions: Permission[]</text>
+<text x="679" y="207">~ lastLogin: string?</text>
+<rect x="933" y="50" width="159" height="120" fill="#fff" stroke="#000" stroke-width="1"/>
+<text x="1012" y="77" text-anchor="middle">Permission</text>
+<line x1="933" y1="92" x2="1092" y2="92" stroke="#000"/>
+<text x="943" y="107">+ resource: string</text>
+<text x="943" y="127">+ action: string</text>
+<text x="943" y="147">+ granted: bool</text>
+<rect x="1132" y="50" width="166" height="160" fill="#fff" stroke="#000" stroke-width="1"/>
+<text x="1215" y="77" text-anchor="middle">AuditEntry</text>
+<line x1="1132" y1="92" x2="1298" y2="92" stroke="#000"/>
+<text x="1142" y="107">+ timestamp: string</text>
+<text x="1142" y="127">+ actor: User</text>
+<text x="1142" y="147">+ action: string</text>
+<text x="1142" y="167">+ target: string?</text>
+<text x="1142" y="187">+ details: string?</text>
+<rect x="1338" y="50" width="120" height="70" fill="#fff" stroke="#000" stroke-width="1"/>
+<text x="1398" y="77" text-anchor="middle">&lt;&lt;enum&gt;&gt;</text>
+<text x="1398" y="97" text-anchor="middle">AccessLevel</text>
+<rect x="1498" y="50" width="152" height="70" stroke-width="1" fill="#fff" stroke="#000"/>
+<text x="1574" y="77" text-anchor="middle">&lt;&lt;enum&gt;&gt;</text>
+<text x="1574" y="97" text-anchor="middle">Department_Status</text>
+</svg>

@@ -112,12 +112,37 @@ func (r *ClassRenderer) Render(diagram *class.Diagram, w io.Writer) error {
 		r.renderNode(c, node, pos.x, pos.y, pos.width)
 	}
 
-	// キャンバスサイズを設定
+	// ノートの位置を考慮してキャンバスサイズを計算
 	totalHeight := y + 50
+	totalWidth := canvasWidth
+
+	// ノートが存在する場合、その位置を考慮
+	if len(diagram.Notes) > 0 {
+		noteWidth := 100
+		noteHeight := 40
+		simplePositions := make(map[string]struct{ x, y int })
+		for id, pos := range nodePositions {
+			simplePositions[id] = struct{ x, y int }{pos.x, pos.y}
+		}
+		for _, note := range diagram.Notes {
+			noteX, noteY := calculateNotePosition(note, simplePositions, noteWidth, noteHeight)
+			// 右端と下端を更新
+			if noteX+noteWidth+50 > totalWidth {
+				totalWidth = noteX + noteWidth + 50
+			}
+			if noteY+noteHeight+50 > totalHeight {
+				totalHeight = noteY + noteHeight + 50
+			}
+		}
+	}
+
 	if totalHeight < 600 {
 		totalHeight = 600
 	}
-	c.SetSize(canvasWidth, totalHeight)
+	if totalWidth < 800 {
+		totalWidth = 800
+	}
+	c.SetSize(totalWidth, totalHeight)
 
 	// エッジをレンダリング（改良版：接続点の分散配置）
 	// 各ノードからの出力エッジ数と入力エッジ数をカウント
@@ -214,8 +239,20 @@ func (r *ClassRenderer) optimizeLayerOrder(layers [][]string, incoming, outgoing
 		}
 	}
 
-	// 複数回の反復で最適化（上下両方向からスイープ）
-	iterations := 4
+	// 反復回数をグラフの複雑さに応じて調整
+	// 基本4回 + レイヤー数に応じて追加（最大20回）
+	totalNodes := 0
+	for _, layer := range layers {
+		totalNodes += len(layer)
+	}
+	iterations := 4 + len(layers)/2
+	if totalNodes > 20 {
+		iterations += totalNodes / 10
+	}
+	if iterations > 20 {
+		iterations = 20
+	}
+
 	for iter := 0; iter < iterations; iter++ {
 		// 下向きスイープ（レイヤー1から最後まで）
 		for i := 1; i < len(layers); i++ {
@@ -290,17 +327,46 @@ func (r *ClassRenderer) reorderLayerByBarycenter(layer, adjacentLayer []string, 
 	return result
 }
 
-// stableSortByBarycenter はバリセンター値で安定ソートする
+// stableSortByBarycenter はバリセンター値で安定ソートする（マージソート: O(n log n)）
 func (r *ClassRenderer) stableSortByBarycenter(nodes []nodeWithBarycenter) {
-	// 挿入ソート（安定性を保証）
-	for i := 1; i < len(nodes); i++ {
-		key := nodes[i]
-		j := i - 1
-		for j >= 0 && nodes[j].barycenter > key.barycenter {
-			nodes[j+1] = nodes[j]
-			j--
+	if len(nodes) <= 1 {
+		return
+	}
+	mergeSortBarycenter(nodes, make([]nodeWithBarycenter, len(nodes)))
+}
+
+// mergeSortBarycenter はマージソートの実装
+func mergeSortBarycenter(nodes, buf []nodeWithBarycenter) {
+	n := len(nodes)
+	if n <= 1 {
+		return
+	}
+	mid := n / 2
+	mergeSortBarycenter(nodes[:mid], buf[:mid])
+	mergeSortBarycenter(nodes[mid:], buf[mid:])
+
+	// マージ
+	copy(buf, nodes)
+	i, j, k := 0, mid, 0
+	for i < mid && j < n {
+		if buf[i].barycenter <= buf[j].barycenter {
+			nodes[k] = buf[i]
+			i++
+		} else {
+			nodes[k] = buf[j]
+			j++
 		}
-		nodes[j+1] = key
+		k++
+	}
+	for i < mid {
+		nodes[k] = buf[i]
+		i++
+		k++
+	}
+	for j < n {
+		nodes[k] = buf[j]
+		j++
+		k++
 	}
 }
 
@@ -870,6 +936,60 @@ func (r *ClassRenderer) formatMethod(method class.Method) string {
 	return prefix + method.Name + "(" + params + ")" + returnType + throws
 }
 
+// formatMethodMultiline は複数行のメソッドシグネチャを返す（E-001）
+// パラメータが多い場合やシグネチャが長い場合に使用
+func (r *ClassRenderer) formatMethodMultiline(method class.Method, maxWidth int) []string {
+	singleLine := r.formatMethod(method)
+	charWidth := 7 // 概算1文字幅
+
+	// 1行に収まる場合はそのまま
+	if len(singleLine)*charWidth <= maxWidth {
+		return []string{singleLine}
+	}
+
+	// 複数行フォーマット
+	var lines []string
+
+	prefix := ""
+	if method.Async {
+		prefix = "async "
+	}
+
+	returnType := ""
+	if method.ReturnType != "" {
+		returnType = ": " + method.ReturnType
+	}
+
+	if len(method.Params) == 0 {
+		lines = append(lines, prefix+method.Name+"()"+returnType)
+		return lines
+	}
+
+	// 最初の行: メソッド名と開き括弧
+	lines = append(lines, prefix+method.Name+"(")
+
+	// パラメータを各行に
+	for i, p := range method.Params {
+		paramStr := "  "
+		if p.Name != "" && p.Type != "" {
+			paramStr += p.Name + ": " + p.Type
+		} else if p.Type != "" {
+			paramStr += p.Type
+		} else if p.Name != "" {
+			paramStr += p.Name
+		}
+		if i < len(method.Params)-1 {
+			paramStr += ","
+		}
+		lines = append(lines, paramStr)
+	}
+
+	// 閉じ括弧と戻り値型
+	lines = append(lines, ")"+returnType)
+
+	return lines
+}
+
 func (r *ClassRenderer) renderEdge(c *canvas.Canvas, edge class.Edge, x1, y1, x2, y2 int) {
 	opts := []canvas.Option{canvas.Stroke("#000")}
 	if edge.LineStyle == class.LineStyleDashed {
@@ -1019,7 +1139,11 @@ func (r *SequenceRenderer) Render(diagram *sequence.Diagram, w io.Writer) error 
 
 	// メッセージをレンダリング
 	messageY := 120
-	r.renderEvents(c, diagram.Events, participantX, &messageY)
+	frameWidth := totalWidth - 100 // 左右マージンを引いた幅
+	if frameWidth < 700 {
+		frameWidth = 700
+	}
+	r.renderEvents(c, diagram.Events, participantX, &messageY, frameWidth)
 
 	// ノートをレンダリング
 	if len(diagram.Notes) > 0 {
@@ -1034,7 +1158,7 @@ func (r *SequenceRenderer) Render(diagram *sequence.Diagram, w io.Writer) error 
 	return err
 }
 
-func (r *SequenceRenderer) renderEvents(c *canvas.Canvas, events []sequence.Event, participantX map[string]int, y *int) {
+func (r *SequenceRenderer) renderEvents(c *canvas.Canvas, events []sequence.Event, participantX map[string]int, y *int, frameWidth int) {
 	// アクティベーション状態を追跡
 	activations := make(map[string]int) // participant -> activation start Y
 
@@ -1079,7 +1203,7 @@ func (r *SequenceRenderer) renderEvents(c *canvas.Canvas, events []sequence.Even
 			startY := *y
 
 			// メイン(then)部分のイベントをレンダリング
-			r.renderEvents(c, e.Events, participantX, y)
+			r.renderEvents(c, e.Events, participantX, y, frameWidth)
 
 			// alt フラグメントで AltEvents がある場合
 			altSeparatorY := 0
@@ -1092,16 +1216,16 @@ func (r *SequenceRenderer) renderEvents(c *canvas.Canvas, events []sequence.Even
 					c.Text(60, *y-5, "["+e.AltLabel+"]")
 				}
 				// else 部分のイベントをレンダリング
-				r.renderEvents(c, e.AltEvents, participantX, y)
+				r.renderEvents(c, e.AltEvents, participantX, y, frameWidth)
 			}
 
-			// 枠を描画
-			c.Rect(50, startY-10, 700, *y-startY+20, canvas.Stroke("#000"), canvas.Fill("none"))
+			// 枠を描画（参加者数に応じた幅）
+			c.Rect(50, startY-10, frameWidth, *y-startY+20, canvas.Stroke("#000"), canvas.Fill("none"))
 			c.Text(60, startY, "["+string(e.Type)+"] "+e.Label)
 
 			// alt の区切り線を描画
 			if altSeparatorY > 0 {
-				c.Line(50, altSeparatorY+5, 750, altSeparatorY+5, canvas.Stroke("#000"), canvas.Dashed())
+				c.Line(50, altSeparatorY+5, 50+frameWidth, altSeparatorY+5, canvas.Stroke("#000"), canvas.Dashed())
 			}
 
 		case *sequence.ActivationEvent:
@@ -2149,46 +2273,129 @@ func (r *FlowRenderer) renderBranchEdge(c *canvas.Canvas, edge flow.Edge, x1, y1
 	}
 }
 
-// renderNotes はノートを描画する共通関数
+// calculateNotePosition はノートの位置を計算する
+func calculateNotePosition(note common.Note, elementPositions map[string]struct{ x, y int }, noteWidth, noteHeight int) (int, int) {
+	if note.AttachTo != "" {
+		if pos, ok := elementPositions[note.AttachTo]; ok {
+			switch note.Position {
+			case common.NotePositionLeft:
+				return pos.x - noteWidth - 30, pos.y
+			case common.NotePositionRight:
+				return pos.x + 120, pos.y
+			case common.NotePositionTop:
+				return pos.x, pos.y - noteHeight - 20
+			case common.NotePositionBottom:
+				return pos.x, pos.y + 60
+			default:
+				return pos.x + 120, pos.y
+			}
+		}
+	}
+	return 600, 50
+}
+
+// noteRect はノートの矩形を表す
+type noteRect struct {
+	x, y, w, h int
+}
+
+// rectsCollide は2つの矩形が衝突するかチェックする
+func rectsCollide(a, b noteRect) bool {
+	return a.x < b.x+b.w && a.x+a.w > b.x && a.y < b.y+b.h && a.y+a.h > b.y
+}
+
+// findNonCollidingPosition は衝突しない位置を探す
+func findNonCollidingPosition(x, y, w, h int, occupiedRects []noteRect, elementPositions map[string]struct{ x, y int }) (int, int) {
+	testRect := noteRect{x, y, w, h}
+
+	// ノード位置もチェック
+	nodeRects := make([]noteRect, 0, len(elementPositions))
+	for _, pos := range elementPositions {
+		nodeRects = append(nodeRects, noteRect{pos.x, pos.y, 120, 60}) // 概算のノードサイズ
+	}
+
+	// 衝突がなければそのまま返す
+	hasCollision := false
+	for _, rect := range occupiedRects {
+		if rectsCollide(testRect, rect) {
+			hasCollision = true
+			break
+		}
+	}
+	if !hasCollision {
+		for _, rect := range nodeRects {
+			if rectsCollide(testRect, rect) {
+				hasCollision = true
+				break
+			}
+		}
+	}
+
+	if !hasCollision {
+		return x, y
+	}
+
+	// 衝突がある場合、下方向にずらして再試行
+	offsets := []struct{ dx, dy int }{
+		{0, 50},    // 下
+		{0, -50},   // 上
+		{100, 0},   // 右
+		{-100, 0},  // 左
+		{100, 50},  // 右下
+		{-100, 50}, // 左下
+		{0, 100},   // 更に下
+	}
+
+	for _, off := range offsets {
+		testRect.x = x + off.dx
+		testRect.y = y + off.dy
+
+		collision := false
+		for _, rect := range occupiedRects {
+			if rectsCollide(testRect, rect) {
+				collision = true
+				break
+			}
+		}
+		if collision {
+			continue
+		}
+		for _, rect := range nodeRects {
+			if rectsCollide(testRect, rect) {
+				collision = true
+				break
+			}
+		}
+
+		if !collision {
+			return testRect.x, testRect.y
+		}
+	}
+
+	// 全てのオフセットで衝突する場合は元の位置を返す
+	return x, y
+}
+
+// renderNotes はノートを描画する共通関数（衝突検出付き）
 func renderNotes(c *canvas.Canvas, notes []common.Note, elementPositions map[string]struct{ x, y int }) {
 	noteWidth := 100
 	noteHeight := 40
+	occupiedRects := make([]noteRect, 0, len(notes))
 
 	for _, note := range notes {
-		var x, y int
+		x, y := calculateNotePosition(note, elementPositions, noteWidth, noteHeight)
 
-		// 関連付け要素がある場合はその近くに配置
+		// 衝突検出：他のノートやノードと重ならない位置を探す
+		x, y = findNonCollidingPosition(x, y, noteWidth, noteHeight, occupiedRects, elementPositions)
+
+		// この位置を占有済みとして記録
+		occupiedRects = append(occupiedRects, noteRect{x, y, noteWidth, noteHeight})
+
+		// 関連付け要素がある場合は接続線を描画
 		if note.AttachTo != "" {
 			if pos, ok := elementPositions[note.AttachTo]; ok {
-				switch note.Position {
-				case common.NotePositionLeft:
-					x = pos.x - noteWidth - 30
-					y = pos.y
-				case common.NotePositionRight:
-					x = pos.x + 120
-					y = pos.y
-				case common.NotePositionTop:
-					x = pos.x
-					y = pos.y - noteHeight - 20
-				case common.NotePositionBottom:
-					x = pos.x
-					y = pos.y + 60
-				default:
-					x = pos.x + 120
-					y = pos.y
-				}
-
-				// 接続線を描画
 				c.Line(pos.x+60, pos.y+20, x, y+noteHeight/2, canvas.Stroke("#000"), canvas.Dashed())
-			} else {
-				// 要素が見つからない場合はデフォルト位置
-				x = 600
-				y = 50
 			}
-		} else {
-			// 関連付けがない場合は右上に配置
-			x = 600
-			y = 50
 		}
 
 		// ノートを描画

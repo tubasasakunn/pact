@@ -1,0 +1,41 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" width="800" height="600">
+<rect x="50" y="50" width="92" height="40" fill="#fff" stroke="#000"/>
+<text x="96" y="75" text-anchor="middle">Calculator</text>
+<line x1="96" y1="100" x2="96" y2="500" stroke="#000" stroke-dasharray="5,5"/>
+<rect x="172" y="50" width="92" height="40" fill="#fff" stroke="#000"/>
+<text x="218" y="75" text-anchor="middle">MathEngine</text>
+<line x1="218" y1="100" x2="218" y2="500" stroke="#000" stroke-dasharray="5,5"/>
+<rect x="294" y="50" width="80" height="40" fill="#fff" stroke="#000"/>
+<text x="334" y="75" text-anchor="middle">Logger</text>
+<line x1="334" y1="100" x2="334" y2="500" stroke="#000" stroke-dasharray="5,5"/>
+<line x1="96" y1="120" x2="218" y2="120" stroke="#000"/>
+<polygon points="218,120 210,123 210,116" fill="#000"/>
+<text x="157" y="115" text-anchor="middle">fetchData</text>
+<line x1="96" y1="160" x2="218" y2="160" stroke="#000"/>
+<polygon points="218,160 210,163 210,156" fill="#000"/>
+<text x="157" y="155" text-anchor="middle">processLarge</text>
+<rect x="213" y="160" width="10" height="40" fill="#fff" stroke="#000"/>
+<text x="60" y="215">[else]</text>
+<line x1="96" y1="220" x2="218" y2="220" stroke="#000"/>
+<polygon points="218,220 210,223 210,216" fill="#000"/>
+<text x="157" y="215" text-anchor="middle">processSmall</text>
+<rect x="213" y="220" width="10" height="40" fill="#fff" stroke="#000"/>
+<text x="60" y="275">[else]</text>
+<line x1="96" y1="280" x2="218" y2="280" stroke="#000"/>
+<polygon points="218,280 210,283 210,276" fill="#000"/>
+<text x="157" y="275" text-anchor="middle">processZero</text>
+<rect x="213" y="280" width="10" height="40" fill="#fff" stroke="#000"/>
+<rect x="50" y="210" width="700" height="120" stroke="#000" fill="none"/>
+<text x="60" y="220">[alt] condition</text>
+<line x1="50" y1="265" x2="750" y2="265" stroke="#000" stroke-dasharray="5,5"/>
+<rect x="50" y="150" width="700" height="180" stroke="#000" fill="none"/>
+<text x="60" y="160">[alt] condition</text>
+<line x1="50" y1="205" x2="750" y2="205" stroke="#000" stroke-dasharray="5,5"/>
+<line x1="96" y1="320" x2="334" y2="320" stroke="#000"/>
+<polygon points="334,320 326,323 326,316" fill="#000"/>
+<text x="215" y="315" text-anchor="middle">Info</text>
+<rect x="116" y="350" width="113" height="25" fill="#ccffcc" stroke="#006600"/>
+<text x="126" y="365">return result</text>
+<rect x="329" y="320" width="10" height="70" fill="#fff" stroke="#000"/>
+<rect x="213" y="120" width="10" height="270" fill="#fff" stroke="#000"/>
+</svg>

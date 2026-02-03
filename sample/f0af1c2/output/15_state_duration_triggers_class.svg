@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" width="800" height="600">
+<rect x="239" y="50" width="123" height="70" fill="#fff" stroke="#000" stroke-width="1"/>
+<text x="300" y="77" text-anchor="middle">&lt;&lt;component&gt;&gt;</text>
+<text x="300" y="97" text-anchor="middle">TaskScheduler</text>
+<rect x="402" y="50" width="159" height="140" fill="#fff" stroke="#000" stroke-width="1"/>
+<text x="481" y="77" text-anchor="middle">Task</text>
+<line x1="402" y1="92" x2="561" y2="92" stroke="#000"/>
+<text x="412" y="107">+ id: string</text>
+<text x="412" y="127">+ name: string</text>
+<text x="412" y="147">+ priority: int</text>
+<text x="412" y="167">+ deadline: string</text>
+</svg>
