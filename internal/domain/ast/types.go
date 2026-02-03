@@ -8,6 +8,7 @@ type TypeDecl struct {
 	Annotations []AnnotationDecl
 	Fields      []FieldDecl // struct の場合
 	Values      []string    // enum の場合
+	BaseType    *TypeExpr   // alias の場合
 }
 
 type TypeKind string
@@ -15,6 +16,7 @@ type TypeKind string
 const (
 	TypeKindStruct TypeKind = "struct"
 	TypeKindEnum   TypeKind = "enum"
+	TypeKindAlias  TypeKind = "alias"
 )
 
 // FieldDecl はフィールド定義を表す
@@ -37,10 +39,11 @@ const (
 
 // TypeExpr は型の参照を表す
 type TypeExpr struct {
-	Pos      Position
-	Name     string
-	Nullable bool
-	Array    bool
+	Pos        Position
+	Name       string
+	Nullable   bool
+	Array      bool
+	TypeParams []TypeExpr // ジェネリクス型パラメータ（例: List<T>）
 }
 
 // RelationDecl は関係定義を表す

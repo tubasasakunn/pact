@@ -342,8 +342,20 @@ func (p *Parser) parseTypeDecl(annotations []ast.AnnotationDecl) (*ast.TypeDecl,
 	}
 	typ.Name = name
 
+	// 型エイリアス: type UserId = string
+	if p.curToken.Type == TOKEN_ASSIGN {
+		p.nextToken()
+		typ.Kind = ast.TypeKindAlias
+		baseType, err := p.parseTypeExpr()
+		if err != nil {
+			return nil, err
+		}
+		typ.BaseType = baseType
+		return typ, nil
+	}
+
 	if p.curToken.Type != TOKEN_LBRACE {
-		return nil, p.newError("expected '{' after type name")
+		return nil, p.newError("expected '{' or '=' after type name")
 	}
 	p.nextToken()
 
@@ -457,6 +469,27 @@ func (p *Parser) parseTypeExpr() (*ast.TypeExpr, error) {
 	}
 	typeExpr.Name = p.curToken.Literal
 	p.nextToken()
+
+	// ジェネリクス型パラメータ: Type<T, U>
+	if p.curToken.Type == TOKEN_LT {
+		p.nextToken()
+		for {
+			param, err := p.parseTypeExpr()
+			if err != nil {
+				return nil, err
+			}
+			typeExpr.TypeParams = append(typeExpr.TypeParams, *param)
+			if p.curToken.Type == TOKEN_COMMA {
+				p.nextToken()
+				continue
+			}
+			break
+		}
+		if p.curToken.Type != TOKEN_GT {
+			return nil, p.newError("expected '>' after type parameters")
+		}
+		p.nextToken()
+	}
 
 	// 型修飾子のパース（無効なチェーンを検出）
 	// 有効: Type?, Type[], Type?[], Type[]?

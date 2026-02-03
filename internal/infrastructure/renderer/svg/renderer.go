@@ -327,17 +327,46 @@ func (r *ClassRenderer) reorderLayerByBarycenter(layer, adjacentLayer []string, 
 	return result
 }
 
-// stableSortByBarycenter はバリセンター値で安定ソートする
+// stableSortByBarycenter はバリセンター値で安定ソートする（マージソート: O(n log n)）
 func (r *ClassRenderer) stableSortByBarycenter(nodes []nodeWithBarycenter) {
-	// 挿入ソート（安定性を保証）
-	for i := 1; i < len(nodes); i++ {
-		key := nodes[i]
-		j := i - 1
-		for j >= 0 && nodes[j].barycenter > key.barycenter {
-			nodes[j+1] = nodes[j]
-			j--
+	if len(nodes) <= 1 {
+		return
+	}
+	mergeSortBarycenter(nodes, make([]nodeWithBarycenter, len(nodes)))
+}
+
+// mergeSortBarycenter はマージソートの実装
+func mergeSortBarycenter(nodes, buf []nodeWithBarycenter) {
+	n := len(nodes)
+	if n <= 1 {
+		return
+	}
+	mid := n / 2
+	mergeSortBarycenter(nodes[:mid], buf[:mid])
+	mergeSortBarycenter(nodes[mid:], buf[mid:])
+
+	// マージ
+	copy(buf, nodes)
+	i, j, k := 0, mid, 0
+	for i < mid && j < n {
+		if buf[i].barycenter <= buf[j].barycenter {
+			nodes[k] = buf[i]
+			i++
+		} else {
+			nodes[k] = buf[j]
+			j++
 		}
-		nodes[j+1] = key
+		k++
+	}
+	for i < mid {
+		nodes[k] = buf[i]
+		i++
+		k++
+	}
+	for j < n {
+		nodes[k] = buf[j]
+		j++
+		k++
 	}
 }
 
@@ -905,6 +934,60 @@ func (r *ClassRenderer) formatMethod(method class.Method) string {
 	}
 
 	return prefix + method.Name + "(" + params + ")" + returnType + throws
+}
+
+// formatMethodMultiline は複数行のメソッドシグネチャを返す（E-001）
+// パラメータが多い場合やシグネチャが長い場合に使用
+func (r *ClassRenderer) formatMethodMultiline(method class.Method, maxWidth int) []string {
+	singleLine := r.formatMethod(method)
+	charWidth := 7 // 概算1文字幅
+
+	// 1行に収まる場合はそのまま
+	if len(singleLine)*charWidth <= maxWidth {
+		return []string{singleLine}
+	}
+
+	// 複数行フォーマット
+	var lines []string
+
+	prefix := ""
+	if method.Async {
+		prefix = "async "
+	}
+
+	returnType := ""
+	if method.ReturnType != "" {
+		returnType = ": " + method.ReturnType
+	}
+
+	if len(method.Params) == 0 {
+		lines = append(lines, prefix+method.Name+"()"+returnType)
+		return lines
+	}
+
+	// 最初の行: メソッド名と開き括弧
+	lines = append(lines, prefix+method.Name+"(")
+
+	// パラメータを各行に
+	for i, p := range method.Params {
+		paramStr := "  "
+		if p.Name != "" && p.Type != "" {
+			paramStr += p.Name + ": " + p.Type
+		} else if p.Type != "" {
+			paramStr += p.Type
+		} else if p.Name != "" {
+			paramStr += p.Name
+		}
+		if i < len(method.Params)-1 {
+			paramStr += ","
+		}
+		lines = append(lines, paramStr)
+	}
+
+	// 閉じ括弧と戻り値型
+	lines = append(lines, ")"+returnType)
+
+	return lines
 }
 
 func (r *ClassRenderer) renderEdge(c *canvas.Canvas, edge class.Edge, x1, y1, x2, y2 int) {

@@ -7,14 +7,26 @@ import (
 
 // Validator はASTの検証を行う
 type Validator struct {
-	errors *errors.MultiError
+	errors   *errors.MultiError
+	warnings *errors.WarningList
+}
+
+// validDurationUnits は有効な期間単位
+var validDurationUnits = map[string]bool{
+	"ms": true, "s": true, "m": true, "h": true, "d": true,
 }
 
 // NewValidator は新しいValidatorを作成する
 func NewValidator() *Validator {
 	return &Validator{
-		errors: &errors.MultiError{},
+		errors:   &errors.MultiError{},
+		warnings: &errors.WarningList{},
 	}
+}
+
+// GetWarnings は収集した警告を返す
+func (v *Validator) GetWarnings() *errors.WarningList {
+	return v.warnings
 }
 
 // Validate はSpecFileを検証する
@@ -635,5 +647,223 @@ func (v *Validator) ValidateAll(spec *ast.SpecFile) error {
 		}
 	}
 
+	// 追加のバリデーション
+	if err := v.ValidateDurationUnits(spec); err != nil {
+		if me, ok := err.(*errors.MultiError); ok {
+			for _, e := range me.Errors {
+				multiErr.Add(e)
+			}
+		} else {
+			multiErr.Add(err)
+		}
+	}
+
+	// 警告を収集
+	v.CollectWarnings(spec)
+
 	return multiErr.ErrorOrNil()
+}
+
+// ValidateDurationUnits は状態遷移のduration単位を検証する（M-003）
+func (v *Validator) ValidateDurationUnits(spec *ast.SpecFile) error {
+	v.errors = &errors.MultiError{}
+
+	for _, comp := range spec.Components {
+		for _, states := range comp.Body.States {
+			v.validateTransitionDurations(states.Transitions)
+			for _, state := range states.States {
+				v.validateTransitionDurations(state.Transitions)
+			}
+			for _, parallel := range states.Parallels {
+				for _, region := range parallel.Regions {
+					v.validateTransitionDurations(region.Transitions)
+				}
+			}
+		}
+	}
+
+	return v.errors.ErrorOrNil()
+}
+
+// validateTransitionDurations は遷移のduration単位を検証する
+func (v *Validator) validateTransitionDurations(transitions []ast.TransitionDecl) {
+	for _, trans := range transitions {
+		if trigger, ok := trans.Trigger.(*ast.AfterTrigger); ok {
+			if !validDurationUnits[trigger.Duration.Unit] {
+				v.errors.Add(&errors.ValidationError{
+					Pos:     trans.Pos,
+					Type:    "invalid",
+					Name:    trigger.Duration.Unit,
+					Message: "invalid duration unit (valid units: ms, s, m, h, d)",
+				})
+			}
+		}
+	}
+}
+
+// CollectWarnings は警告を収集する（L-005, L-007）
+func (v *Validator) CollectWarnings(spec *ast.SpecFile) {
+	v.warnings = &errors.WarningList{}
+
+	// 未使用のimportを検出
+	v.checkUnusedImports(spec)
+
+	// 未使用の型を検出
+	v.checkUnusedTypes(spec)
+
+	// @deprecated アノテーションの使用チェック
+	v.checkDeprecatedUsage(spec)
+}
+
+// checkUnusedImports は未使用のimportを検出する
+func (v *Validator) checkUnusedImports(spec *ast.SpecFile) {
+	if len(spec.Imports) == 0 {
+		return
+	}
+
+	// importされたパスを収集
+	for _, imp := range spec.Imports {
+		// エイリアスがある場合はエイリアス名で参照されるべき
+		// 簡易チェック: importが存在するが、対応するコンポーネントがない場合
+		alias := imp.Path
+		if imp.Alias != nil {
+			alias = *imp.Alias
+		}
+		used := false
+
+		// コンポーネント内の関係で使用されているか
+		for _, comp := range spec.Components {
+			for _, rel := range comp.Body.Relations {
+				if rel.Target == alias {
+					used = true
+					break
+				}
+			}
+			if used {
+				break
+			}
+		}
+
+		if !used {
+			v.warnings.Add(&errors.Warning{
+				Pos:     imp.Pos,
+				Code:    "unused-import",
+				Message: "import '" + imp.Path + "' is not referenced",
+			})
+		}
+	}
+}
+
+// checkUnusedTypes は未使用の型を検出する
+func (v *Validator) checkUnusedTypes(spec *ast.SpecFile) {
+	// 定義された型と使用された型を追跡
+	for _, comp := range spec.Components {
+		definedTypes := make(map[string]ast.Position)
+		usedTypes := make(map[string]bool)
+
+		// 定義を収集
+		for _, typ := range comp.Body.Types {
+			definedTypes[typ.Name] = typ.Pos
+		}
+
+		// フィールド型の使用を収集
+		for _, typ := range comp.Body.Types {
+			for _, field := range typ.Fields {
+				usedTypes[field.Type.Name] = true
+				for _, tp := range field.Type.TypeParams {
+					usedTypes[tp.Name] = true
+				}
+			}
+			// エイリアスの基底型
+			if typ.BaseType != nil {
+				usedTypes[typ.BaseType.Name] = true
+			}
+		}
+
+		// メソッドのパラメータ・戻り値型の使用を収集
+		for _, iface := range comp.Body.Provides {
+			for _, method := range iface.Methods {
+				for _, param := range method.Params {
+					usedTypes[param.Type.Name] = true
+				}
+				if method.ReturnType != nil {
+					usedTypes[method.ReturnType.Name] = true
+				}
+			}
+		}
+		for _, iface := range comp.Body.Requires {
+			for _, method := range iface.Methods {
+				for _, param := range method.Params {
+					usedTypes[param.Type.Name] = true
+				}
+				if method.ReturnType != nil {
+					usedTypes[method.ReturnType.Name] = true
+				}
+			}
+		}
+
+		// 関係ターゲットの使用を収集
+		for _, rel := range comp.Body.Relations {
+			usedTypes[rel.Target] = true
+		}
+
+		// 未使用の型を警告
+		for name, pos := range definedTypes {
+			if !usedTypes[name] {
+				v.warnings.Add(&errors.Warning{
+					Pos:     pos,
+					Code:    "unused-type",
+					Message: "type '" + name + "' is defined but not referenced",
+				})
+			}
+		}
+	}
+}
+
+// checkDeprecatedUsage は @deprecated アノテーションの付いた要素の使用を検出する（L-005）
+func (v *Validator) checkDeprecatedUsage(spec *ast.SpecFile) {
+	// 非推奨の型・メソッドを収集
+	deprecatedTypes := make(map[string]bool)
+	deprecatedMethods := make(map[string]bool) // "InterfaceName.MethodName"
+
+	for _, comp := range spec.Components {
+		for _, typ := range comp.Body.Types {
+			if hasAnnotation(typ.Annotations, "deprecated") {
+				deprecatedTypes[typ.Name] = true
+			}
+		}
+
+		for _, iface := range comp.Body.Provides {
+			for _, method := range iface.Methods {
+				if hasAnnotation(method.Annotations, "deprecated") {
+					deprecatedMethods[iface.Name+"."+method.Name] = true
+				}
+			}
+		}
+	}
+
+	// 非推奨の型が参照されている場合は警告
+	for _, comp := range spec.Components {
+		for _, typ := range comp.Body.Types {
+			for _, field := range typ.Fields {
+				if deprecatedTypes[field.Type.Name] {
+					v.warnings.Add(&errors.Warning{
+						Pos:     field.Pos,
+						Code:    "deprecated",
+						Message: "type '" + field.Type.Name + "' is deprecated",
+					})
+				}
+			}
+		}
+	}
+}
+
+// hasAnnotation はアノテーションリストに指定のアノテーションがあるかを返す
+func hasAnnotation(annotations []ast.AnnotationDecl, name string) bool {
+	for _, ann := range annotations {
+		if ann.Name == name {
+			return true
+		}
+	}
+	return false
 }

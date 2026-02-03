@@ -128,3 +128,43 @@ type ValidationError struct {
 func (e *ValidationError) Error() string {
 	return fmt.Sprintf("%s: %s '%s': %s", e.Pos.String(), e.Type, e.Name, e.Message)
 }
+
+// Warning は警告を表す（エラーではないが注意が必要な事項）
+type Warning struct {
+	Pos     ast.Position
+	Code    string // "unused-import", "unused-type", "deprecated", etc.
+	Message string
+}
+
+func (w *Warning) Error() string {
+	return fmt.Sprintf("%s: warning[%s]: %s", w.Pos.String(), w.Code, w.Message)
+}
+
+// WarningList は警告のリスト
+type WarningList struct {
+	Warnings []*Warning
+}
+
+// Add は警告を追加する
+func (wl *WarningList) Add(w *Warning) {
+	if w != nil {
+		wl.Warnings = append(wl.Warnings, w)
+	}
+}
+
+// HasWarnings は警告があるかどうかを返す
+func (wl *WarningList) HasWarnings() bool {
+	return len(wl.Warnings) > 0
+}
+
+// String は警告リストの文字列表現を返す
+func (wl *WarningList) String() string {
+	if len(wl.Warnings) == 0 {
+		return ""
+	}
+	msg := fmt.Sprintf("%d warning(s):\n", len(wl.Warnings))
+	for i, w := range wl.Warnings {
+		msg += fmt.Sprintf("  %d. %s\n", i+1, w.Error())
+	}
+	return msg
+}
