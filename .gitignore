@@ -1,5 +1,6 @@
 # Binary output
 /pact
+/bin/
 
 # Don't ignore .pact directory
 !.pact/
