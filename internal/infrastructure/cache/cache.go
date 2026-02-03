@@ -1,4 +1,4 @@
-package renderer
+package cache
 
 import (
 	"crypto/sha256"

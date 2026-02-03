@@ -20,12 +20,6 @@ func NewFlowTransformer() *FlowTransformer {
 	return &FlowTransformer{}
 }
 
-// FlowOptions はフローチャート変換オプション
-type FlowOptions struct {
-	FlowName         string
-	IncludeSwimlanes bool
-}
-
 // Transform はASTをフローチャートに変換する
 func (t *FlowTransformer) Transform(files []*ast.SpecFile, opts *FlowOptions) (*flow.Diagram, error) {
 	if opts == nil || opts.FlowName == "" {

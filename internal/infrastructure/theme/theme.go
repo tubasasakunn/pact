@@ -1,4 +1,4 @@
-package renderer
+package theme
 
 // Theme はダイアグラムのテーマ設定
 type Theme struct {

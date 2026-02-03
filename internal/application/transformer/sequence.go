@@ -16,12 +16,6 @@ func NewSequenceTransformer() *SequenceTransformer {
 	return &SequenceTransformer{}
 }
 
-// SequenceOptions はシーケンス図変換オプション
-type SequenceOptions struct {
-	FlowName       string
-	IncludeReturn  bool
-}
-
 // Transform はASTをシーケンス図に変換する
 func (t *SequenceTransformer) Transform(files []*ast.SpecFile, opts *SequenceOptions) (*sequence.Diagram, error) {
 	if opts == nil || opts.FlowName == "" {

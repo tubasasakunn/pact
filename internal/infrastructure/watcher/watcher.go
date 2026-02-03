@@ -1,4 +1,4 @@
-package renderer
+package watcher
 
 // WatchMode はファイル監視モードの設定
 type WatchMode struct {
