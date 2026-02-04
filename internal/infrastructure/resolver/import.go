@@ -246,4 +246,3 @@ func normalizePath(base, path string) string {
 	}
 	return filepath.Clean(filepath.Join(base, path))
 }
-

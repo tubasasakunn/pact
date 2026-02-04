@@ -47,7 +47,7 @@ type EventTrigger struct {
 	Event string
 }
 
-func (t *EventTrigger) triggerNode()    {}
+func (t *EventTrigger) triggerNode()     {}
 func (t *EventTrigger) GetPos() Position { return t.Pos }
 
 // AfterTrigger は時間トリガーを表す
@@ -56,7 +56,7 @@ type AfterTrigger struct {
 	Duration Duration
 }
 
-func (t *AfterTrigger) triggerNode()    {}
+func (t *AfterTrigger) triggerNode()     {}
 func (t *AfterTrigger) GetPos() Position { return t.Pos }
 
 // Duration は期間を表す
@@ -71,7 +71,7 @@ type WhenTrigger struct {
 	Condition Expr
 }
 
-func (t *WhenTrigger) triggerNode()    {}
+func (t *WhenTrigger) triggerNode()     {}
 func (t *WhenTrigger) GetPos() Position { return t.Pos }
 
 // ParallelDecl は並行状態を表す

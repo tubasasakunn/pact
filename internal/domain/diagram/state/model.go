@@ -20,8 +20,8 @@ type State struct {
 	Type        StateType
 	Entry       []string
 	Exit        []string
-	Children    []State      // 階層状態の場合
-	Regions     []Region     // 並行状態の場合
+	Children    []State  // 階層状態の場合
+	Regions     []Region // 並行状態の場合
 	Annotations []common.Annotation
 }
 
