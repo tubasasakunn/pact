@@ -25,6 +25,10 @@ func NewStateRenderer() *StateRenderer {
 func (r *StateRenderer) Render(diagram *state.Diagram, w io.Writer) error {
 	c := canvas.New()
 
+	// テンプレートレジストリを適用
+	registry := canvas.NewBuiltinRegistry()
+	registry.ApplyTo(c)
+
 	// 状態をタイプ別に分類
 	var initialState *state.State
 	var finalStates []*state.State
@@ -61,8 +65,8 @@ func (r *StateRenderer) Render(diagram *state.Diagram, w io.Writer) error {
 	}
 
 	// 列の開始X座標を計算（動的間隔）
-	margin := 50   // 左マージン
-	colGap := 40   // 列間のギャップ
+	margin := 50 // 左マージン
+	colGap := 40 // 列間のギャップ
 	colCenters := make([]int, cols)
 	x := margin
 	for col := 0; col < cols; col++ {
@@ -92,13 +96,13 @@ func (r *StateRenderer) Render(diagram *state.Diagram, w io.Writer) error {
 	statePositions := make(map[string]struct{ x, y int })
 	stateSizes := make(map[string]struct{ w, h int })
 
-	// 初期状態を描画
+	// 初期状態を描画（テンプレート使用）
 	if initialState != nil {
 		ix := colCenters[0]
 		iy := 50
 		statePositions[initialState.ID] = struct{ x, y int }{ix, iy}
 		stateSizes[initialState.ID] = struct{ w, h int }{20, 20}
-		c.Circle(ix, iy, 10, canvas.Fill("#000"))
+		c.UseTemplate("initial-state", ix-10, iy-10, 20, 20)
 	}
 
 	// 通常状態を描画
@@ -115,14 +119,13 @@ func (r *StateRenderer) Render(diagram *state.Diagram, w io.Writer) error {
 		r.renderState(c, *s, sx, sy)
 	}
 
-	// 終了状態を描画
+	// 終了状態を描画（テンプレート使用）
 	finalY := startY + rows*120 + 40
 	for i, s := range finalStates {
 		fx := colCenters[0] + i*150
 		statePositions[s.ID] = struct{ x, y int }{fx, finalY}
 		stateSizes[s.ID] = struct{ w, h int }{24, 24}
-		c.Circle(fx, finalY, 12, canvas.Stroke("#000"), canvas.StrokeWidth(2))
-		c.Circle(fx, finalY, 8, canvas.Fill("#000"))
+		c.UseTemplate("final-state", fx-12, finalY-12, 24, 24)
 	}
 
 	// 遷移を描画（直交ルーティング）
@@ -227,19 +230,28 @@ func (r *StateRenderer) renderState(c *canvas.Canvas, s state.State, x, y int) {
 		height = 60 + len(s.Entry)*15 + len(s.Exit)*15
 	}
 
-	c.RoundRect(x-width/2, y-20, width, height, 10, 10, canvas.Fill("#fff"), canvas.Stroke("#000"))
-	c.Text(x, y+5, s.Name, canvas.TextAnchor("middle"))
+	c.RoundRect(x-width/2, y-20, width, height, 10, 10,
+		canvas.Fill(canvas.ColorNodeFill),
+		canvas.Stroke(canvas.ColorNodeStroke),
+		canvas.StrokeWidth(2),
+		canvas.Filter("drop-shadow"),
+	)
+	c.Text(x, y+5, s.Name,
+		canvas.TextAnchor("middle"),
+		canvas.Fill(canvas.ColorNodeText),
+		canvas.FontWeight("bold"),
+	)
 
 	// Entry/Exitアクションを描画
 	if hasActions {
-		c.Line(x-width/2, y+15, x+width/2, y+15, canvas.Stroke("#000"))
+		c.Line(x-width/2, y+15, x+width/2, y+15, canvas.Stroke(canvas.ColorSectionLine))
 		actionY := y + 30
 		for _, entry := range s.Entry {
-			c.Text(x-width/2+5, actionY, "entry/ "+entry)
+			c.Text(x-width/2+5, actionY, "entry/ "+entry, canvas.Fill(canvas.ColorNodeText))
 			actionY += 15
 		}
 		for _, exit := range s.Exit {
-			c.Text(x-width/2+5, actionY, "exit/ "+exit)
+			c.Text(x-width/2+5, actionY, "exit/ "+exit, canvas.Fill(canvas.ColorNodeText))
 			actionY += 15
 		}
 	}
@@ -259,11 +271,20 @@ func (r *StateRenderer) renderCompoundState(c *canvas.Canvas, s state.State, x, 
 	height := 30 + rows*50 + 20 // ヘッダー + 子状態 + マージン
 
 	// 複合状態の外枠
-	c.RoundRect(x-width/2, y-20, width, height, 10, 10, canvas.Fill("#f8f8f8"), canvas.Stroke("#000"))
+	c.RoundRect(x-width/2, y-20, width, height, 10, 10,
+		canvas.Fill(canvas.ColorHeaderFill),
+		canvas.Stroke(canvas.ColorNodeStroke),
+		canvas.StrokeWidth(2),
+		canvas.Filter("drop-shadow"),
+	)
 
 	// 状態名（上部）
-	c.Text(x, y, s.Name, canvas.TextAnchor("middle"))
-	c.Line(x-width/2, y+10, x+width/2, y+10, canvas.Stroke("#000"))
+	c.Text(x, y, s.Name,
+		canvas.TextAnchor("middle"),
+		canvas.Fill(canvas.ColorNodeText),
+		canvas.FontWeight("bold"),
+	)
+	c.Line(x-width/2, y+10, x+width/2, y+10, canvas.Stroke(canvas.ColorSectionLine))
 
 	// 子状態を描画
 	childX := x - width/2 + 50
@@ -275,8 +296,14 @@ func (r *StateRenderer) renderCompoundState(c *canvas.Canvas, s state.State, x, 
 		cy := childY + row*50
 
 		// 子状態を通常の状態として描画
-		c.RoundRect(cx-35, cy-15, 70, 30, 8, 8, canvas.Fill("#fff"), canvas.Stroke("#000"))
-		c.Text(cx, cy+5, child.Name, canvas.TextAnchor("middle"))
+		c.RoundRect(cx-35, cy-15, 70, 30, 8, 8,
+			canvas.Fill(canvas.ColorNodeFill),
+			canvas.Stroke(canvas.ColorNodeStroke),
+		)
+		c.Text(cx, cy+5, child.Name,
+			canvas.TextAnchor("middle"),
+			canvas.Fill(canvas.ColorNodeText),
+		)
 	}
 }
 
@@ -292,11 +319,20 @@ func (r *StateRenderer) renderParallelState(c *canvas.Canvas, s state.State, x, 
 	height := 100
 
 	// 並行状態の外枠
-	c.RoundRect(x-width/2, y-20, width, height, 10, 10, canvas.Fill("#f8f8f8"), canvas.Stroke("#000"))
+	c.RoundRect(x-width/2, y-20, width, height, 10, 10,
+		canvas.Fill(canvas.ColorHeaderFill),
+		canvas.Stroke(canvas.ColorNodeStroke),
+		canvas.StrokeWidth(2),
+		canvas.Filter("drop-shadow"),
+	)
 
 	// 状態名（上部）
-	c.Text(x, y, s.Name, canvas.TextAnchor("middle"))
-	c.Line(x-width/2, y+10, x+width/2, y+10, canvas.Stroke("#000"))
+	c.Text(x, y, s.Name,
+		canvas.TextAnchor("middle"),
+		canvas.Fill(canvas.ColorNodeText),
+		canvas.FontWeight("bold"),
+	)
+	c.Line(x-width/2, y+10, x+width/2, y+10, canvas.Stroke(canvas.ColorSectionLine))
 
 	// 各リージョンを描画
 	for i, region := range s.Regions {
@@ -304,31 +340,40 @@ func (r *StateRenderer) renderParallelState(c *canvas.Canvas, s state.State, x, 
 		ry := y + 30
 
 		// リージョン名
-		c.Text(rx, ry, region.Name, canvas.TextAnchor("middle"))
+		c.Text(rx, ry, region.Name,
+			canvas.TextAnchor("middle"),
+			canvas.Fill(canvas.ColorEdgeLabel),
+		)
 
 		// リージョン内の状態を簡略表示
 		stateY := ry + 25
 		for j, child := range region.States {
 			if j >= 2 { // 最大2つまで表示
-				c.Text(rx, stateY, "...", canvas.TextAnchor("middle"))
+				c.Text(rx, stateY, "...", canvas.TextAnchor("middle"), canvas.Fill(canvas.ColorEdgeLabel))
 				break
 			}
-			c.RoundRect(rx-30, stateY-10, 60, 20, 5, 5, canvas.Fill("#fff"), canvas.Stroke("#000"))
-			c.Text(rx, stateY+5, child.Name, canvas.TextAnchor("middle"))
+			c.RoundRect(rx-30, stateY-10, 60, 20, 5, 5,
+				canvas.Fill(canvas.ColorNodeFill),
+				canvas.Stroke(canvas.ColorNodeStroke),
+			)
+			c.Text(rx, stateY+5, child.Name,
+				canvas.TextAnchor("middle"),
+				canvas.Fill(canvas.ColorNodeText),
+			)
 			stateY += 25
 		}
 
 		// リージョン間の区切り線
 		if i < regionCount-1 {
 			lineX := x - width/2 + 10 + (i+1)*regionWidth
-			c.Line(lineX, y+10, lineX, y-20+height, canvas.Stroke("#000"), canvas.Dashed())
+			c.Line(lineX, y+10, lineX, y-20+height, canvas.Stroke(canvas.ColorNodeStroke), canvas.Dashed())
 		}
 	}
 }
 
 func (r *StateRenderer) renderTransition(c *canvas.Canvas, t state.Transition, x1, y1, x2, y2 int, labelOffset int) {
 	// 矢印を描画
-	c.Arrow(x1, y1, x2, y2, canvas.Stroke("#000"))
+	c.Arrow(x1, y1, x2, y2, canvas.Stroke(canvas.ColorEdge))
 
 	// ラベルを構築: トリガー [ガード] / アクション
 	midX := (x1 + x2) / 2
@@ -403,10 +448,10 @@ func (r *StateRenderer) renderOrthogonalTransition(c *canvas.Canvas, t state.Tra
 		startY = y1
 		endX = x1
 		endY = y1 - h1/2 - 10
-		c.Line(startX, startY, startX+30, startY, canvas.Stroke("#000"))
-		c.Line(startX+30, startY, startX+30, startY-30, canvas.Stroke("#000"))
-		c.Line(startX+30, startY-30, endX, startY-30, canvas.Stroke("#000"))
-		c.Line(endX, startY-30, endX, endY, canvas.Stroke("#000"))
+		c.Line(startX, startY, startX+30, startY, canvas.Stroke(canvas.ColorEdge))
+		c.Line(startX+30, startY, startX+30, startY-30, canvas.Stroke(canvas.ColorEdge))
+		c.Line(startX+30, startY-30, endX, startY-30, canvas.Stroke(canvas.ColorEdge))
+		c.Line(endX, startY-30, endX, endY, canvas.Stroke(canvas.ColorEdge))
 		c.DrawArrowHead(endX, endY, endX, startY-30)
 		midX = startX + 15
 		midY = startY - 15
@@ -450,7 +495,10 @@ func (r *StateRenderer) renderOrthogonalTransition(c *canvas.Canvas, t state.Tra
 	label := r.buildTransitionLabel(t)
 	if label != "" {
 		labelX, labelY := r.findSafeLabelPosition(midX, midY-5-labelOffset, label, nodeBounds)
-		c.Text(labelX, labelY, label, canvas.TextAnchor("middle"))
+		c.Text(labelX, labelY, label,
+			canvas.TextAnchor("middle"),
+			canvas.Fill(canvas.ColorEdgeLabel),
+		)
 	}
 }
 
@@ -577,7 +625,7 @@ func (r *StateRenderer) drawWaypointsAndGetMid(c *canvas.Canvas, waypoints []str
 
 	// パスを描画
 	for i := 0; i < len(waypoints)-1; i++ {
-		c.Line(waypoints[i].x, waypoints[i].y, waypoints[i+1].x, waypoints[i+1].y, canvas.Stroke("#000"))
+		c.Line(waypoints[i].x, waypoints[i].y, waypoints[i+1].x, waypoints[i+1].y, canvas.Stroke(canvas.ColorEdge))
 	}
 
 	// 矢印を描画
@@ -603,13 +651,13 @@ func (r *StateRenderer) findSafeLabelPosition(x, y int, label string, nodeBounds
 
 	// 候補位置のリスト（元の位置、上、下、右にオフセット）
 	offsets := []struct{ dx, dy int }{
-		{0, 0},      // 元の位置
-		{0, -20},    // 上にずらす
-		{0, 20},     // 下にずらす
-		{30, 0},     // 右にずらす
-		{-30, 0},    // 左にずらす
-		{30, -15},   // 右上
-		{-30, -15},  // 左上
+		{0, 0},     // 元の位置
+		{0, -20},   // 上にずらす
+		{0, 20},    // 下にずらす
+		{30, 0},    // 右にずらす
+		{-30, 0},   // 左にずらす
+		{30, -15},  // 右上
+		{-30, -15}, // 左上
 	}
 
 	for _, off := range offsets {

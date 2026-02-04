@@ -19,6 +19,10 @@ func NewFlowRenderer() *FlowRenderer {
 func (r *FlowRenderer) Render(diagram *flow.Diagram, w io.Writer) error {
 	c := canvas.New()
 
+	// テンプレートレジストリを適用
+	registry := canvas.NewBuiltinRegistry()
+	registry.ApplyTo(c)
+
 	// ノードの位置を計算
 	nodePositions := make(map[string]struct{ x, y int })
 	nodeInfo := make(map[string]flow.Node)
@@ -143,17 +147,24 @@ func (r *FlowRenderer) renderWithSwimlanes(c *canvas.Canvas, diagram *flow.Diagr
 		x := 50 + i*swimlaneWidth
 
 		// ヘッダー背景
-		c.Rect(x, 0, swimlaneWidth, headerHeight, canvas.Fill("#e0e0e0"), canvas.Stroke("#000"))
+		c.Rect(x, 0, swimlaneWidth, headerHeight,
+			canvas.Fill(canvas.ColorHeaderFill),
+			canvas.Stroke(canvas.ColorNodeStroke),
+		)
 		// ヘッダーテキスト
-		c.Text(x+swimlaneWidth/2, headerHeight/2+5, sl.Name, canvas.TextAnchor("middle"))
+		c.Text(x+swimlaneWidth/2, headerHeight/2+5, sl.Name,
+			canvas.TextAnchor("middle"),
+			canvas.Fill(canvas.ColorNodeText),
+			canvas.FontWeight("bold"),
+		)
 
 		// スイムレーンの縦線
-		c.Line(x, 0, x, height, canvas.Stroke("#000"))
+		c.Line(x, 0, x, height, canvas.Stroke(canvas.ColorSectionLine))
 	}
 	// 最後の縦線
-	c.Line(50+len(diagram.Swimlanes)*swimlaneWidth, 0, 50+len(diagram.Swimlanes)*swimlaneWidth, height, canvas.Stroke("#000"))
+	c.Line(50+len(diagram.Swimlanes)*swimlaneWidth, 0, 50+len(diagram.Swimlanes)*swimlaneWidth, height, canvas.Stroke(canvas.ColorSectionLine))
 	// ヘッダーの下線
-	c.Line(50, headerHeight, 50+len(diagram.Swimlanes)*swimlaneWidth, headerHeight, canvas.Stroke("#000"))
+	c.Line(50, headerHeight, 50+len(diagram.Swimlanes)*swimlaneWidth, headerHeight, canvas.Stroke(canvas.ColorNodeStroke))
 }
 
 // renderWithoutSwimlanes はスイムレーンなしでレンダリングする
@@ -209,26 +220,57 @@ func (r *FlowRenderer) renderFlowNode(c *canvas.Canvas, node flow.Node, x, y int
 func (r *FlowRenderer) renderFlowNodeWithWidth(c *canvas.Canvas, node flow.Node, x, y, width int) {
 	switch node.Shape {
 	case flow.NodeShapeTerminal:
-		c.Stadium(x-width/2, y, width, 40, canvas.Fill("#fff"), canvas.Stroke("#000"))
+		c.Stadium(x-width/2, y, width, 40,
+			canvas.Fill(canvas.ColorNodeFill),
+			canvas.Stroke(canvas.ColorNodeStroke),
+			canvas.StrokeWidth(2),
+			canvas.Filter("drop-shadow"),
+		)
 	case flow.NodeShapeProcess:
-		c.Rect(x-width/2, y, width, 40, canvas.Fill("#fff"), canvas.Stroke("#000"))
+		c.Rect(x-width/2, y, width, 40,
+			canvas.Fill(canvas.ColorNodeFill),
+			canvas.Stroke(canvas.ColorNodeStroke),
+			canvas.StrokeWidth(2),
+			canvas.Filter("drop-shadow"),
+		)
 	case flow.NodeShapeDecision:
 		// 判断ノードは幅を少し大きめに
 		diamondWidth := width
 		if diamondWidth < 80 {
 			diamondWidth = 80
 		}
-		c.Diamond(x, y+20, diamondWidth, 40, canvas.Fill("#fff"), canvas.Stroke("#000"))
+		c.Diamond(x, y+20, diamondWidth, 40,
+			canvas.Fill(canvas.ColorNodeFill),
+			canvas.Stroke(canvas.ColorNodeStroke),
+			canvas.StrokeWidth(2),
+			canvas.Filter("drop-shadow"),
+		)
 	case flow.NodeShapeDatabase:
-		c.Cylinder(x-width/2, y, width, 50)
+		c.Cylinder(x-width/2, y, width, 50,
+			canvas.Fill(canvas.ColorNodeFill),
+			canvas.Stroke(canvas.ColorNodeStroke),
+		)
 	case flow.NodeShapeIO:
-		c.Parallelogram(x-width/2, y, width, 40, 15, canvas.Fill("#fff"), canvas.Stroke("#000"))
+		c.Parallelogram(x-width/2, y, width, 40, 15,
+			canvas.Fill(canvas.ColorNodeFill),
+			canvas.Stroke(canvas.ColorNodeStroke),
+			canvas.StrokeWidth(2),
+			canvas.Filter("drop-shadow"),
+		)
 	default:
-		c.Rect(x-width/2, y, width, 40, canvas.Fill("#fff"), canvas.Stroke("#000"))
+		c.Rect(x-width/2, y, width, 40,
+			canvas.Fill(canvas.ColorNodeFill),
+			canvas.Stroke(canvas.ColorNodeStroke),
+			canvas.StrokeWidth(2),
+			canvas.Filter("drop-shadow"),
+		)
 	}
 
 	if node.Label != "" {
-		c.Text(x, y+25, node.Label, canvas.TextAnchor("middle"))
+		c.Text(x, y+25, node.Label,
+			canvas.TextAnchor("middle"),
+			canvas.Fill(canvas.ColorNodeText),
+		)
 	}
 }
 
@@ -236,18 +278,18 @@ func (r *FlowRenderer) renderFlowEdge(c *canvas.Canvas, edge flow.Edge, x1, y1, 
 	// 直交ルーティングで矢印を描画
 	if x1 == x2 {
 		// 垂直方向のみ
-		c.Line(x1, y1, x2, y2, canvas.Stroke("#000"))
+		c.Line(x1, y1, x2, y2, canvas.Stroke(canvas.ColorEdge))
 		c.DrawArrowHead(x2, y2, x1, y1)
 	} else if y1 == y2 {
 		// 水平方向のみ
-		c.Line(x1, y1, x2, y2, canvas.Stroke("#000"))
+		c.Line(x1, y1, x2, y2, canvas.Stroke(canvas.ColorEdge))
 		c.DrawArrowHead(x2, y2, x1, y1)
 	} else {
 		// L字型ルーティング
 		midY := (y1 + y2) / 2
-		c.Line(x1, y1, x1, midY, canvas.Stroke("#000"))
-		c.Line(x1, midY, x2, midY, canvas.Stroke("#000"))
-		c.Line(x2, midY, x2, y2, canvas.Stroke("#000"))
+		c.Line(x1, y1, x1, midY, canvas.Stroke(canvas.ColorEdge))
+		c.Line(x1, midY, x2, midY, canvas.Stroke(canvas.ColorEdge))
+		c.Line(x2, midY, x2, y2, canvas.Stroke(canvas.ColorEdge))
 		c.DrawArrowHead(x2, y2, x2, midY)
 	}
 
@@ -261,18 +303,18 @@ func (r *FlowRenderer) renderFlowEdge(c *canvas.Canvas, edge flow.Edge, x1, y1, 
 			labelX = (x1 + x2) / 2
 			labelY = (y1 + y2) / 2
 		}
-		c.Text(labelX, labelY, edge.Label)
+		c.Text(labelX, labelY, edge.Label, canvas.Fill(canvas.ColorEdgeLabel))
 	}
 }
 
 func (r *FlowRenderer) renderBranchEdge(c *canvas.Canvas, edge flow.Edge, x1, y1, x2, y2 int) {
 	// L字型のパスを描画（右に出てから下に曲がる）
 	midX := x2
-	c.Line(x1, y1, midX, y1, canvas.Stroke("#000"))
-	c.Arrow(midX, y1, x2, y2, canvas.Stroke("#000"))
+	c.Line(x1, y1, midX, y1, canvas.Stroke(canvas.ColorEdge))
+	c.Arrow(midX, y1, x2, y2, canvas.Stroke(canvas.ColorEdge))
 
 	// ラベル
 	if edge.Label != "" {
-		c.Text(x1+20, y1-5, edge.Label)
+		c.Text(x1+20, y1-5, edge.Label, canvas.Fill(canvas.ColorEdgeLabel))
 	}
 }

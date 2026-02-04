@@ -20,6 +20,10 @@ func NewClassRenderer() *ClassRenderer {
 func (r *ClassRenderer) Render(diagram *class.Diagram, w io.Writer) error {
 	c := canvas.New()
 
+	// テンプレートレジストリを適用（シャドウ、フォント、カラーテーマ）
+	registry := canvas.NewBuiltinRegistry()
+	registry.ApplyTo(c)
+
 	// 各ノードのサイズを事前計算
 	nodeSizes := make(map[string]struct{ width, height int })
 	for _, node := range diagram.Nodes {
@@ -189,7 +193,7 @@ func (r *ClassRenderer) Render(diagram *class.Diagram, w io.Writer) error {
 
 func (r *ClassRenderer) calculateNodeHeight(node class.Node) int {
 	lineHeight := 20
-	padding := 15 // 上下のパディング
+	padding := 15    // 上下のパディング
 	sectionGap := 10 // セクション間のギャップ
 
 	height := padding // 上パディング
@@ -466,7 +470,7 @@ func (r *ClassRenderer) calculateDistributedEndpoints(
 
 // renderEdgeImproved は改良されたエッジ描画
 func (r *ClassRenderer) renderEdgeImproved(c *canvas.Canvas, edge class.Edge, x1, y1, x2, y2 int, nodePositions map[string]struct{ x, y, width, height int }) {
-	opts := []canvas.Option{canvas.Stroke("#000")}
+	opts := []canvas.Option{canvas.Stroke(canvas.ColorEdge)}
 	if edge.LineStyle == class.LineStyleDashed {
 		opts = append(opts, canvas.Dashed())
 	}
@@ -496,7 +500,10 @@ func (r *ClassRenderer) renderEdgeImproved(c *canvas.Canvas, edge class.Edge, x1
 	if edge.Label != "" {
 		midX := (x1 + x2) / 2
 		midY := (y1 + y2) / 2
-		c.Text(midX, midY-5, edge.Label, canvas.TextAnchor("middle"))
+		c.Text(midX, midY-5, edge.Label,
+			canvas.TextAnchor("middle"),
+			canvas.Fill(canvas.ColorEdgeLabel),
+		)
 	}
 }
 
@@ -679,7 +686,7 @@ func (r *ClassRenderer) renderEdgeWithOffset(c *canvas.Canvas, edge class.Edge, 
 		y2 += offset
 	}
 
-	opts := []canvas.Option{canvas.Stroke("#000")}
+	opts := []canvas.Option{canvas.Stroke(canvas.ColorEdge)}
 	if edge.LineStyle == class.LineStyleDashed {
 		opts = append(opts, canvas.Dashed())
 	}
@@ -705,13 +712,13 @@ func (r *ClassRenderer) renderEdgeWithOffset(c *canvas.Canvas, edge class.Edge, 
 func (r *ClassRenderer) drawArrowHead(c *canvas.Canvas, edge class.Edge, fromX, fromY, toX, toY int) {
 	switch edge.Decoration {
 	case class.DecorationTriangle:
-		c.Polygon(trianglePoints(toX, toY, fromX, fromY), canvas.Fill("#fff"), canvas.Stroke("#000"))
+		c.Polygon(trianglePoints(toX, toY, fromX, fromY), canvas.Fill(canvas.ColorNodeFill), canvas.Stroke(canvas.ColorEdge))
 	case class.DecorationFilledDiamond:
-		c.Polygon(diamondPoints(fromX, fromY, toX, toY), canvas.Fill("#000"))
+		c.Polygon(diamondPoints(fromX, fromY, toX, toY), canvas.Fill(canvas.ColorEdge))
 	case class.DecorationEmptyDiamond:
-		c.Polygon(diamondPoints(fromX, fromY, toX, toY), canvas.Fill("#fff"), canvas.Stroke("#000"))
+		c.Polygon(diamondPoints(fromX, fromY, toX, toY), canvas.Fill(canvas.ColorNodeFill), canvas.Stroke(canvas.ColorEdge))
 	default:
-		c.Polygon(trianglePoints(toX, toY, fromX, fromY), canvas.Fill("#000"))
+		c.Polygon(trianglePoints(toX, toY, fromX, fromY), canvas.Fill(canvas.ColorEdge))
 	}
 }
 
@@ -768,32 +775,47 @@ func (r *ClassRenderer) renderNode(c *canvas.Canvas, node class.Node, x, y, widt
 	padding := 15
 	sectionGap := 10
 
-	// ノード本体
-	c.Rect(x, y, width, height, canvas.Fill("#fff"), canvas.Stroke("#000"), canvas.StrokeWidth(1))
+	// ノード本体（テーマカラー＋ドロップシャドウ）
+	c.Rect(x, y, width, height,
+		canvas.Fill(canvas.ColorNodeFill),
+		canvas.Stroke(canvas.ColorNodeStroke),
+		canvas.StrokeWidth(2),
+		canvas.Filter("drop-shadow"),
+	)
 
 	centerX := x + width/2
 	textY := y + padding + 12 // ベースライン調整
 
 	// ステレオタイプ
 	if node.Stereotype != "" {
-		c.Text(centerX, textY, "<<"+node.Stereotype+">>", canvas.TextAnchor("middle"))
+		c.Text(centerX, textY, "<<"+node.Stereotype+">>",
+			canvas.TextAnchor("middle"),
+			canvas.Fill(canvas.ColorEdgeLabel),
+			canvas.FontStyle("italic"),
+		)
 		textY += lineHeight
 	}
 
 	// 名前
-	c.Text(centerX, textY, node.Name, canvas.TextAnchor("middle"))
+	c.Text(centerX, textY, node.Name,
+		canvas.TextAnchor("middle"),
+		canvas.Fill(canvas.ColorNodeText),
+		canvas.FontWeight("bold"),
+	)
 	textY += lineHeight
 
 	// 属性セクション
 	if len(node.Attributes) > 0 {
-		// 区切り線（テキストの上に十分なマージンを取る）
+		// 区切り線
 		lineY := textY - lineHeight/2 + sectionGap/2
-		c.Line(x, lineY, x+width, lineY, canvas.Stroke("#000"))
+		c.Line(x, lineY, x+width, lineY, canvas.Stroke(canvas.ColorSectionLine))
 		textY += sectionGap
 
 		for _, attr := range node.Attributes {
 			vis := visibilitySymbol(attr.Visibility)
-			c.Text(x+10, textY, vis+attr.Name+": "+attr.Type)
+			c.Text(x+10, textY, vis+attr.Name+": "+attr.Type,
+				canvas.Fill(canvas.ColorNodeText),
+			)
 			textY += lineHeight
 		}
 	}
@@ -802,13 +824,15 @@ func (r *ClassRenderer) renderNode(c *canvas.Canvas, node class.Node, x, y, widt
 	if len(node.Methods) > 0 {
 		// 区切り線
 		lineY := textY - lineHeight/2 + sectionGap/2
-		c.Line(x, lineY, x+width, lineY, canvas.Stroke("#000"))
+		c.Line(x, lineY, x+width, lineY, canvas.Stroke(canvas.ColorSectionLine))
 		textY += sectionGap
 
 		for _, method := range node.Methods {
 			vis := visibilitySymbol(class.Visibility(method.Visibility))
 			methodStr := r.formatMethod(method)
-			c.Text(x+10, textY, vis+methodStr)
+			c.Text(x+10, textY, vis+methodStr,
+				canvas.Fill(canvas.ColorNodeText),
+			)
 			textY += lineHeight
 		}
 	}
@@ -913,23 +937,23 @@ func (r *ClassRenderer) formatMethodMultiline(method class.Method, maxWidth int)
 }
 
 func (r *ClassRenderer) renderEdge(c *canvas.Canvas, edge class.Edge, x1, y1, x2, y2 int) {
-	opts := []canvas.Option{canvas.Stroke("#000")}
+	opts := []canvas.Option{canvas.Stroke(canvas.ColorEdge)}
 	if edge.LineStyle == class.LineStyleDashed {
 		opts = append(opts, canvas.Dashed())
 	}
 	c.Line(x1, y1, x2, y2, opts...)
 
 	// 矢印の先端を描画
-	c.Polygon(trianglePoints(x2, y2, x1, y1), canvas.Fill("#000"))
+	c.Polygon(trianglePoints(x2, y2, x1, y1), canvas.Fill(canvas.ColorEdge))
 
 	// 装飾
 	switch edge.Decoration {
 	case class.DecorationTriangle:
-		c.Polygon(trianglePoints(x2, y2, x1, y1), canvas.Fill("#fff"), canvas.Stroke("#000"))
+		c.Polygon(trianglePoints(x2, y2, x1, y1), canvas.Fill(canvas.ColorNodeFill), canvas.Stroke(canvas.ColorEdge))
 	case class.DecorationFilledDiamond:
-		c.Polygon(diamondPoints(x1, y1, x2, y2), canvas.Fill("#000"))
+		c.Polygon(diamondPoints(x1, y1, x2, y2), canvas.Fill(canvas.ColorEdge))
 	case class.DecorationEmptyDiamond:
-		c.Polygon(diamondPoints(x1, y1, x2, y2), canvas.Fill("#fff"), canvas.Stroke("#000"))
+		c.Polygon(diamondPoints(x1, y1, x2, y2), canvas.Fill(canvas.ColorNodeFill), canvas.Stroke(canvas.ColorEdge))
 	}
 }
 
