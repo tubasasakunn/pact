@@ -199,3 +199,26 @@ SVG 生成には以下のパターンテンプレートが使用される（`int
 go run ./cmd/pattern-preview
 # → pattern-preview/index.html をブラウザで開く
 ```
+
+### GitHub Pages ギャラリー
+
+サンプル SVG を GitHub Pages で閲覧可能：
+
+- **URL**: `https://<username>.github.io/pact/sample/`
+- **commit 一覧**: `/sample/index.html`
+- **各 commit の SVG**: `/sample/commit/<commit-id>/index.html`
+
+#### ギャラリー生成
+
+SVG 生成後、以下のスクリプトで index.html を更新：
+
+```bash
+./scripts/generate-gallery.sh
+```
+
+#### GitHub Pages 設定
+
+1. リポジトリの Settings → Pages
+2. Source: "Deploy from a branch"
+3. Branch: `main` (または `master`)、フォルダ: `/ (root)`
+4. Save
