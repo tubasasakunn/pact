@@ -138,10 +138,11 @@ sample/
     flow/               → フローチャートパターン
     sequence/           → シーケンス図パターン
   commit/               → 生成された SVG ファイル（コミット対象）
-    class/
-    state/
-    flow/
-    sequence/
+    <commit-id>/        → コミットID単位でグループ化
+      class/
+      state/
+      flow/
+      sequence/
 ```
 
 ### サンプル生成コマンド
@@ -149,11 +150,17 @@ sample/
 コミット時に以下のコマンドで SVG を再生成する：
 
 ```bash
+# コミットIDを取得
+COMMIT_ID=$(git rev-parse --short HEAD)
+
+# 出力ディレクトリを作成
+mkdir -p sample/commit/${COMMIT_ID}/{class,state,flow,sequence}
+
 # 全サンプルの SVG 生成
-for f in sample/pact/class/*.pact; do ./bin/pact generate -o sample/commit/class/ -t class "$f"; done
-for f in sample/pact/state/*.pact; do ./bin/pact generate -o sample/commit/state/ -t state "$f"; done
-for f in sample/pact/flow/*.pact; do ./bin/pact generate -o sample/commit/flow/ -t flow "$f"; done
-for f in sample/pact/sequence/*.pact; do ./bin/pact generate -o sample/commit/sequence/ -t sequence "$f"; done
+for f in sample/pact/class/*.pact; do ./bin/pact generate -o sample/commit/${COMMIT_ID}/class/ -t class "$f"; done
+for f in sample/pact/state/*.pact; do ./bin/pact generate -o sample/commit/${COMMIT_ID}/state/ -t state "$f"; done
+for f in sample/pact/flow/*.pact; do ./bin/pact generate -o sample/commit/${COMMIT_ID}/flow/ -t flow "$f"; done
+for f in sample/pact/sequence/*.pact; do ./bin/pact generate -o sample/commit/${COMMIT_ID}/sequence/ -t sequence "$f"; done
 ```
 
 ### パターンテンプレート
