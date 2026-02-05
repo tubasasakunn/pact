@@ -8,6 +8,7 @@ on:
       - 'internal/**'
       - 'pkg/**'
       - 'cmd/pact/**'
+      - 'scripts/**'
 
 jobs:
   generate:
@@ -16,7 +17,10 @@ jobs:
       contents: write
 
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
       - name: Set up Go
         uses: actions/setup-go@v5
@@ -30,23 +34,11 @@ jobs:
         id: commit
         run: echo "id=$(git rev-parse --short HEAD)" >> $GITHUB_OUTPUT
 
-      - name: Generate SVGs
-        run: |
-          COMMIT_ID=${{ steps.commit.outputs.id }}
-          mkdir -p docs/sample/commit/${COMMIT_ID}/{class,state,flow,sequence}
+      - name: Make scripts executable
+        run: chmod +x ./scripts/*.sh ./scripts/lib/*.sh
 
-          for f in sample/pact/class/*.pact; do
-            [ -f "$f" ] && ./bin/pact generate -o docs/sample/commit/${COMMIT_ID}/class/ -t class "$f" || true
-          done
-          for f in sample/pact/state/*.pact; do
-            [ -f "$f" ] && ./bin/pact generate -o docs/sample/commit/${COMMIT_ID}/state/ -t state "$f" || true
-          done
-          for f in sample/pact/flow/*.pact; do
-            [ -f "$f" ] && ./bin/pact generate -o docs/sample/commit/${COMMIT_ID}/flow/ -t flow "$f" || true
-          done
-          for f in sample/pact/sequence/*.pact; do
-            [ -f "$f" ] && ./bin/pact generate -o docs/sample/commit/${COMMIT_ID}/sequence/ -t sequence "$f" || true
-          done
+      - name: Generate SVGs
+        run: ./scripts/generate-svgs.sh ${{ steps.commit.outputs.id }}
 
       - name: Generate gallery HTML
         run: ./scripts/generate-gallery.sh
@@ -59,6 +51,6 @@ jobs:
           if git diff --staged --quiet; then
             echo "No changes to commit"
           else
-            git commit -m "Generate sample SVGs for $(git rev-parse --short HEAD)"
+            git commit -m "Generate sample SVGs for ${{ steps.commit.outputs.id }}"
             git push
           fi

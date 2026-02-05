@@ -7,7 +7,7 @@
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; }
     body {
-      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
       background: #0d1117;
       color: #c9d1d9;
       min-height: 100vh;
@@ -33,16 +33,15 @@
       font-size: 1.5rem;
     }
     .back-link:hover { color: #58a6ff; }
-    h1 {
-      font-size: 1.25rem;
-      color: #c9d1d9;
-    }
+    h1 { font-size: 1.25rem; color: #c9d1d9; }
     h1 code {
       color: #58a6ff;
       background: #21262d;
       padding: 0.2em 0.5em;
       border-radius: 4px;
     }
+
+    /* Tab Navigation */
     .tabs {
       display: flex;
       gap: 0.5rem;
@@ -62,7 +61,10 @@
       white-space: nowrap;
       transition: all 0.2s;
     }
-    .tab:hover { border-color: #58a6ff; color: #c9d1d9; }
+    .tab:hover {
+      border-color: #58a6ff;
+      color: #c9d1d9;
+    }
     .tab.active {
       background: #58a6ff;
       border-color: #58a6ff;
@@ -76,6 +78,8 @@
       font-size: 0.75rem;
     }
     .tab.active .count { background: rgba(0,0,0,0.2); }
+
+    /* Content Area */
     .content { padding: 2rem; }
     .gallery {
       display: none;
@@ -88,6 +92,8 @@
       grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
       gap: 1.5rem;
     }
+
+    /* Cards */
     .card {
       background: #161b22;
       border: 1px solid #30363d;
@@ -128,6 +134,13 @@
       font-size: 0.875rem;
     }
     .card-footer a:hover { text-decoration: underline; }
+
+    /* Empty State */
+    .empty-state {
+      text-align: center;
+      padding: 3rem;
+      color: #8b949e;
+    }
   </style>
 </head>
 <body>
@@ -137,216 +150,210 @@
       <h1>Commit <code>036e5a4</code></h1>
     </div>
   </header>
-
   <nav class="tabs">
     <button class="tab active" data-target="class">Class <span class="count">12</span></button>
     <button class="tab" data-target="state">State <span class="count">6</span></button>
     <button class="tab" data-target="flow">Flow <span class="count">5</span></button>
     <button class="tab" data-target="sequence">Sequence <span class="count">13</span></button>
   </nav>
-
   <main class="content">
     <section id="class" class="gallery active">
       <div class="gallery-grid">
         <div class="card">
           <div class="card-header">01_inheritance_tree_2_class.svg</div>
-          <div class="card-body"><img src="class/01_inheritance_tree_2_class.svg" alt="inheritance_tree_2"></div>
+          <div class="card-body"><img src="class/01_inheritance_tree_2_class.svg" alt="01 inheritance tree 2 class" loading="lazy"></div>
           <div class="card-footer"><a href="class/01_inheritance_tree_2_class.svg" target="_blank">Open</a></div>
         </div>
         <div class="card">
           <div class="card-header">02_inheritance_tree_3_class.svg</div>
-          <div class="card-body"><img src="class/02_inheritance_tree_3_class.svg" alt="inheritance_tree_3"></div>
+          <div class="card-body"><img src="class/02_inheritance_tree_3_class.svg" alt="02 inheritance tree 3 class" loading="lazy"></div>
           <div class="card-footer"><a href="class/02_inheritance_tree_3_class.svg" target="_blank">Open</a></div>
         </div>
         <div class="card">
           <div class="card-header">03_inheritance_tree_4_class.svg</div>
-          <div class="card-body"><img src="class/03_inheritance_tree_4_class.svg" alt="inheritance_tree_4"></div>
+          <div class="card-body"><img src="class/03_inheritance_tree_4_class.svg" alt="03 inheritance tree 4 class" loading="lazy"></div>
           <div class="card-footer"><a href="class/03_inheritance_tree_4_class.svg" target="_blank">Open</a></div>
         </div>
         <div class="card">
           <div class="card-header">04_interface_impl_2_class.svg</div>
-          <div class="card-body"><img src="class/04_interface_impl_2_class.svg" alt="interface_impl_2"></div>
+          <div class="card-body"><img src="class/04_interface_impl_2_class.svg" alt="04 interface impl 2 class" loading="lazy"></div>
           <div class="card-footer"><a href="class/04_interface_impl_2_class.svg" target="_blank">Open</a></div>
         </div>
         <div class="card">
           <div class="card-header">05_interface_impl_3_class.svg</div>
-          <div class="card-body"><img src="class/05_interface_impl_3_class.svg" alt="interface_impl_3"></div>
+          <div class="card-body"><img src="class/05_interface_impl_3_class.svg" alt="05 interface impl 3 class" loading="lazy"></div>
           <div class="card-footer"><a href="class/05_interface_impl_3_class.svg" target="_blank">Open</a></div>
         </div>
         <div class="card">
           <div class="card-header">06_interface_impl_4_class.svg</div>
-          <div class="card-body"><img src="class/06_interface_impl_4_class.svg" alt="interface_impl_4"></div>
+          <div class="card-body"><img src="class/06_interface_impl_4_class.svg" alt="06 interface impl 4 class" loading="lazy"></div>
           <div class="card-footer"><a href="class/06_interface_impl_4_class.svg" target="_blank">Open</a></div>
         </div>
         <div class="card">
           <div class="card-header">07_composition_2_class.svg</div>
-          <div class="card-body"><img src="class/07_composition_2_class.svg" alt="composition_2"></div>
+          <div class="card-body"><img src="class/07_composition_2_class.svg" alt="07 composition 2 class" loading="lazy"></div>
           <div class="card-footer"><a href="class/07_composition_2_class.svg" target="_blank">Open</a></div>
         </div>
         <div class="card">
           <div class="card-header">08_composition_3_class.svg</div>
-          <div class="card-body"><img src="class/08_composition_3_class.svg" alt="composition_3"></div>
+          <div class="card-body"><img src="class/08_composition_3_class.svg" alt="08 composition 3 class" loading="lazy"></div>
           <div class="card-footer"><a href="class/08_composition_3_class.svg" target="_blank">Open</a></div>
         </div>
         <div class="card">
           <div class="card-header">09_composition_4_class.svg</div>
-          <div class="card-body"><img src="class/09_composition_4_class.svg" alt="composition_4"></div>
+          <div class="card-body"><img src="class/09_composition_4_class.svg" alt="09 composition 4 class" loading="lazy"></div>
           <div class="card-footer"><a href="class/09_composition_4_class.svg" target="_blank">Open</a></div>
         </div>
         <div class="card">
           <div class="card-header">10_diamond_class.svg</div>
-          <div class="card-body"><img src="class/10_diamond_class.svg" alt="diamond"></div>
+          <div class="card-body"><img src="class/10_diamond_class.svg" alt="10 diamond class" loading="lazy"></div>
           <div class="card-footer"><a href="class/10_diamond_class.svg" target="_blank">Open</a></div>
         </div>
         <div class="card">
           <div class="card-header">11_layered_3x2_class.svg</div>
-          <div class="card-body"><img src="class/11_layered_3x2_class.svg" alt="layered_3x2"></div>
+          <div class="card-body"><img src="class/11_layered_3x2_class.svg" alt="11 layered 3x2 class" loading="lazy"></div>
           <div class="card-footer"><a href="class/11_layered_3x2_class.svg" target="_blank">Open</a></div>
         </div>
         <div class="card">
           <div class="card-header">12_layered_3x3_class.svg</div>
-          <div class="card-body"><img src="class/12_layered_3x3_class.svg" alt="layered_3x3"></div>
+          <div class="card-body"><img src="class/12_layered_3x3_class.svg" alt="12 layered 3x3 class" loading="lazy"></div>
           <div class="card-footer"><a href="class/12_layered_3x3_class.svg" target="_blank">Open</a></div>
         </div>
       </div>
     </section>
-
     <section id="state" class="gallery">
       <div class="gallery-grid">
         <div class="card">
           <div class="card-header">01_linear_2_state_SwitchState.svg</div>
-          <div class="card-body"><img src="state/01_linear_2_state_SwitchState.svg" alt="linear_2_SwitchState"></div>
+          <div class="card-body"><img src="state/01_linear_2_state_SwitchState.svg" alt="01 linear 2 state SwitchState" loading="lazy"></div>
           <div class="card-footer"><a href="state/01_linear_2_state_SwitchState.svg" target="_blank">Open</a></div>
         </div>
         <div class="card">
           <div class="card-header">02_linear_3_state_LightState.svg</div>
-          <div class="card-body"><img src="state/02_linear_3_state_LightState.svg" alt="linear_3_LightState"></div>
+          <div class="card-body"><img src="state/02_linear_3_state_LightState.svg" alt="02 linear 3 state LightState" loading="lazy"></div>
           <div class="card-footer"><a href="state/02_linear_3_state_LightState.svg" target="_blank">Open</a></div>
         </div>
         <div class="card">
           <div class="card-header">03_linear_4_state_OrderState.svg</div>
-          <div class="card-body"><img src="state/03_linear_4_state_OrderState.svg" alt="linear_4_OrderState"></div>
+          <div class="card-body"><img src="state/03_linear_4_state_OrderState.svg" alt="03 linear 4 state OrderState" loading="lazy"></div>
           <div class="card-footer"><a href="state/03_linear_4_state_OrderState.svg" target="_blank">Open</a></div>
         </div>
         <div class="card">
           <div class="card-header">04_binary_choice_state_PaymentState.svg</div>
-          <div class="card-body"><img src="state/04_binary_choice_state_PaymentState.svg" alt="binary_choice_PaymentState"></div>
+          <div class="card-body"><img src="state/04_binary_choice_state_PaymentState.svg" alt="04 binary choice state PaymentState" loading="lazy"></div>
           <div class="card-footer"><a href="state/04_binary_choice_state_PaymentState.svg" target="_blank">Open</a></div>
         </div>
         <div class="card">
           <div class="card-header">05_state_loop_state_RetryState.svg</div>
-          <div class="card-body"><img src="state/05_state_loop_state_RetryState.svg" alt="state_loop_RetryState"></div>
+          <div class="card-body"><img src="state/05_state_loop_state_RetryState.svg" alt="05 state loop state RetryState" loading="lazy"></div>
           <div class="card-footer"><a href="state/05_state_loop_state_RetryState.svg" target="_blank">Open</a></div>
         </div>
         <div class="card">
           <div class="card-header">06_star_topology_state_PlayerState.svg</div>
-          <div class="card-body"><img src="state/06_star_topology_state_PlayerState.svg" alt="star_topology_PlayerState"></div>
+          <div class="card-body"><img src="state/06_star_topology_state_PlayerState.svg" alt="06 star topology state PlayerState" loading="lazy"></div>
           <div class="card-footer"><a href="state/06_star_topology_state_PlayerState.svg" target="_blank">Open</a></div>
         </div>
       </div>
     </section>
-
     <section id="flow" class="gallery">
       <div class="gallery-grid">
         <div class="card">
           <div class="card-header">01_if_else_flow_Authenticate.svg</div>
-          <div class="card-body"><img src="flow/01_if_else_flow_Authenticate.svg" alt="if_else_Authenticate"></div>
+          <div class="card-body"><img src="flow/01_if_else_flow_Authenticate.svg" alt="01 if else flow Authenticate" loading="lazy"></div>
           <div class="card-footer"><a href="flow/01_if_else_flow_Authenticate.svg" target="_blank">Open</a></div>
         </div>
         <div class="card">
           <div class="card-header">02_if_elseif_else_flow_CalculatePrice.svg</div>
-          <div class="card-body"><img src="flow/02_if_elseif_else_flow_CalculatePrice.svg" alt="if_elseif_else_CalculatePrice"></div>
+          <div class="card-body"><img src="flow/02_if_elseif_else_flow_CalculatePrice.svg" alt="02 if elseif else flow CalculatePrice" loading="lazy"></div>
           <div class="card-footer"><a href="flow/02_if_elseif_else_flow_CalculatePrice.svg" target="_blank">Open</a></div>
         </div>
         <div class="card">
           <div class="card-header">03_while_loop_flow_ProcessBatch.svg</div>
-          <div class="card-body"><img src="flow/03_while_loop_flow_ProcessBatch.svg" alt="while_loop_ProcessBatch"></div>
+          <div class="card-body"><img src="flow/03_while_loop_flow_ProcessBatch.svg" alt="03 while loop flow ProcessBatch" loading="lazy"></div>
           <div class="card-footer"><a href="flow/03_while_loop_flow_ProcessBatch.svg" target="_blank">Open</a></div>
         </div>
         <div class="card">
           <div class="card-header">04_sequential_3_flow_ProcessData.svg</div>
-          <div class="card-body"><img src="flow/04_sequential_3_flow_ProcessData.svg" alt="sequential_3_ProcessData"></div>
+          <div class="card-body"><img src="flow/04_sequential_3_flow_ProcessData.svg" alt="04 sequential 3 flow ProcessData" loading="lazy"></div>
           <div class="card-footer"><a href="flow/04_sequential_3_flow_ProcessData.svg" target="_blank">Open</a></div>
         </div>
         <div class="card">
           <div class="card-header">05_sequential_4_flow_Deploy.svg</div>
-          <div class="card-body"><img src="flow/05_sequential_4_flow_Deploy.svg" alt="sequential_4_Deploy"></div>
+          <div class="card-body"><img src="flow/05_sequential_4_flow_Deploy.svg" alt="05 sequential 4 flow Deploy" loading="lazy"></div>
           <div class="card-footer"><a href="flow/05_sequential_4_flow_Deploy.svg" target="_blank">Open</a></div>
         </div>
       </div>
     </section>
-
     <section id="sequence" class="gallery">
       <div class="gallery-grid">
         <div class="card">
-          <div class="card-header">01_request_response_sequence_SendRequest.svg</div>
-          <div class="card-body"><img src="sequence/01_request_response_sequence_SendRequest.svg" alt="request_response_SendRequest"></div>
-          <div class="card-footer"><a href="sequence/01_request_response_sequence_SendRequest.svg" target="_blank">Open</a></div>
-        </div>
-        <div class="card">
           <div class="card-header">01_request_response_sequence_HandleRequest.svg</div>
-          <div class="card-body"><img src="sequence/01_request_response_sequence_HandleRequest.svg" alt="request_response_HandleRequest"></div>
+          <div class="card-body"><img src="sequence/01_request_response_sequence_HandleRequest.svg" alt="01 request response sequence HandleRequest" loading="lazy"></div>
           <div class="card-footer"><a href="sequence/01_request_response_sequence_HandleRequest.svg" target="_blank">Open</a></div>
         </div>
         <div class="card">
+          <div class="card-header">01_request_response_sequence_SendRequest.svg</div>
+          <div class="card-body"><img src="sequence/01_request_response_sequence_SendRequest.svg" alt="01 request response sequence SendRequest" loading="lazy"></div>
+          <div class="card-footer"><a href="sequence/01_request_response_sequence_SendRequest.svg" target="_blank">Open</a></div>
+        </div>
+        <div class="card">
           <div class="card-header">02_callback_sequence_EmitEvent.svg</div>
-          <div class="card-body"><img src="sequence/02_callback_sequence_EmitEvent.svg" alt="callback_EmitEvent"></div>
+          <div class="card-body"><img src="sequence/02_callback_sequence_EmitEvent.svg" alt="02 callback sequence EmitEvent" loading="lazy"></div>
           <div class="card-footer"><a href="sequence/02_callback_sequence_EmitEvent.svg" target="_blank">Open</a></div>
         </div>
         <div class="card">
           <div class="card-header">02_callback_sequence_OnEvent.svg</div>
-          <div class="card-body"><img src="sequence/02_callback_sequence_OnEvent.svg" alt="callback_OnEvent"></div>
+          <div class="card-body"><img src="sequence/02_callback_sequence_OnEvent.svg" alt="02 callback sequence OnEvent" loading="lazy"></div>
           <div class="card-footer"><a href="sequence/02_callback_sequence_OnEvent.svg" target="_blank">Open</a></div>
         </div>
         <div class="card">
-          <div class="card-header">03_chain_3_sequence_ProcessRequest.svg</div>
-          <div class="card-body"><img src="sequence/03_chain_3_sequence_ProcessRequest.svg" alt="chain_3_ProcessRequest"></div>
-          <div class="card-footer"><a href="sequence/03_chain_3_sequence_ProcessRequest.svg" target="_blank">Open</a></div>
-        </div>
-        <div class="card">
           <div class="card-header">03_chain_3_sequence_Enrich.svg</div>
-          <div class="card-body"><img src="sequence/03_chain_3_sequence_Enrich.svg" alt="chain_3_Enrich"></div>
+          <div class="card-body"><img src="sequence/03_chain_3_sequence_Enrich.svg" alt="03 chain 3 sequence Enrich" loading="lazy"></div>
           <div class="card-footer"><a href="sequence/03_chain_3_sequence_Enrich.svg" target="_blank">Open</a></div>
         </div>
         <div class="card">
           <div class="card-header">03_chain_3_sequence_Execute.svg</div>
-          <div class="card-body"><img src="sequence/03_chain_3_sequence_Execute.svg" alt="chain_3_Execute"></div>
+          <div class="card-body"><img src="sequence/03_chain_3_sequence_Execute.svg" alt="03 chain 3 sequence Execute" loading="lazy"></div>
           <div class="card-footer"><a href="sequence/03_chain_3_sequence_Execute.svg" target="_blank">Open</a></div>
         </div>
         <div class="card">
-          <div class="card-header">04_chain_4_sequence_HandleAPIRequest.svg</div>
-          <div class="card-body"><img src="sequence/04_chain_4_sequence_HandleAPIRequest.svg" alt="chain_4_HandleAPIRequest"></div>
-          <div class="card-footer"><a href="sequence/04_chain_4_sequence_HandleAPIRequest.svg" target="_blank">Open</a></div>
+          <div class="card-header">03_chain_3_sequence_ProcessRequest.svg</div>
+          <div class="card-body"><img src="sequence/03_chain_3_sequence_ProcessRequest.svg" alt="03 chain 3 sequence ProcessRequest" loading="lazy"></div>
+          <div class="card-footer"><a href="sequence/03_chain_3_sequence_ProcessRequest.svg" target="_blank">Open</a></div>
         </div>
         <div class="card">
           <div class="card-header">04_chain_4_sequence_Authenticate.svg</div>
-          <div class="card-body"><img src="sequence/04_chain_4_sequence_Authenticate.svg" alt="chain_4_Authenticate"></div>
+          <div class="card-body"><img src="sequence/04_chain_4_sequence_Authenticate.svg" alt="04 chain 4 sequence Authenticate" loading="lazy"></div>
           <div class="card-footer"><a href="sequence/04_chain_4_sequence_Authenticate.svg" target="_blank">Open</a></div>
         </div>
         <div class="card">
           <div class="card-header">04_chain_4_sequence_CheckLimit.svg</div>
-          <div class="card-body"><img src="sequence/04_chain_4_sequence_CheckLimit.svg" alt="chain_4_CheckLimit"></div>
+          <div class="card-body"><img src="sequence/04_chain_4_sequence_CheckLimit.svg" alt="04 chain 4 sequence CheckLimit" loading="lazy"></div>
           <div class="card-footer"><a href="sequence/04_chain_4_sequence_CheckLimit.svg" target="_blank">Open</a></div>
         </div>
         <div class="card">
+          <div class="card-header">04_chain_4_sequence_HandleAPIRequest.svg</div>
+          <div class="card-body"><img src="sequence/04_chain_4_sequence_HandleAPIRequest.svg" alt="04 chain 4 sequence HandleAPIRequest" loading="lazy"></div>
+          <div class="card-footer"><a href="sequence/04_chain_4_sequence_HandleAPIRequest.svg" target="_blank">Open</a></div>
+        </div>
+        <div class="card">
           <div class="card-header">04_chain_4_sequence_Process.svg</div>
-          <div class="card-body"><img src="sequence/04_chain_4_sequence_Process.svg" alt="chain_4_Process"></div>
+          <div class="card-body"><img src="sequence/04_chain_4_sequence_Process.svg" alt="04 chain 4 sequence Process" loading="lazy"></div>
           <div class="card-footer"><a href="sequence/04_chain_4_sequence_Process.svg" target="_blank">Open</a></div>
         </div>
         <div class="card">
           <div class="card-header">05_fan_out_sequence_FanOutRequest.svg</div>
-          <div class="card-body"><img src="sequence/05_fan_out_sequence_FanOutRequest.svg" alt="fan_out_FanOutRequest"></div>
+          <div class="card-body"><img src="sequence/05_fan_out_sequence_FanOutRequest.svg" alt="05 fan out sequence FanOutRequest" loading="lazy"></div>
           <div class="card-footer"><a href="sequence/05_fan_out_sequence_FanOutRequest.svg" target="_blank">Open</a></div>
         </div>
         <div class="card">
           <div class="card-header">05_fan_out_sequence_Process.svg</div>
-          <div class="card-body"><img src="sequence/05_fan_out_sequence_Process.svg" alt="fan_out_Process"></div>
+          <div class="card-body"><img src="sequence/05_fan_out_sequence_Process.svg" alt="05 fan out sequence Process" loading="lazy"></div>
           <div class="card-footer"><a href="sequence/05_fan_out_sequence_Process.svg" target="_blank">Open</a></div>
         </div>
       </div>
     </section>
   </main>
-
   <script>
     document.querySelectorAll('.tab').forEach(tab => {
       tab.addEventListener('click', () => {

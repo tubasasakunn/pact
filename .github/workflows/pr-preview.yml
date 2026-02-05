@@ -1,0 +1,164 @@
+name: PR Preview
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+    paths:
+      - 'sample/pact/**'
+      - 'internal/**'
+      - 'pkg/**'
+      - 'cmd/pact/**'
+
+jobs:
+  generate-preview:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
+
+    steps:
+      - name: Checkout PR branch
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+          fetch-depth: 0
+
+      - name: Set up Go
+        uses: actions/setup-go@v5
+        with:
+          go-version: '1.21'
+
+      - name: Build pact
+        run: make build
+
+      - name: Get PR head commit ID
+        id: commit
+        run: echo "id=$(git rev-parse --short HEAD)" >> $GITHUB_OUTPUT
+
+      - name: Generate SVGs
+        run: |
+          chmod +x ./scripts/generate-svgs.sh
+          chmod +x ./scripts/lib/*.sh
+          ./scripts/generate-svgs.sh ${{ steps.commit.outputs.id }}
+
+      - name: Generate gallery HTML
+        run: |
+          chmod +x ./scripts/generate-gallery.sh
+          ./scripts/generate-gallery.sh
+
+      - name: Check for changes
+        id: changes
+        run: |
+          if [ -n "$(git status --porcelain docs/)" ]; then
+            echo "has_changes=true" >> $GITHUB_OUTPUT
+          else
+            echo "has_changes=false" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Commit generated files
+        if: steps.changes.outputs.has_changes == 'true'
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add docs/
+          git commit -m "Generate SVG preview for PR #${{ github.event.pull_request.number }}
+
+          Commit: ${{ steps.commit.outputs.id }}"
+
+      - name: Push changes
+        if: steps.changes.outputs.has_changes == 'true'
+        run: |
+          git push origin HEAD:${{ github.event.pull_request.head.ref }}
+
+      - name: Get SVG counts
+        id: counts
+        run: |
+          COMMIT_DIR="docs/sample/commit/${{ steps.commit.outputs.id }}"
+          echo "class=$(find $COMMIT_DIR/class -name '*.svg' 2>/dev/null | wc -l | tr -d ' ')" >> $GITHUB_OUTPUT
+          echo "state=$(find $COMMIT_DIR/state -name '*.svg' 2>/dev/null | wc -l | tr -d ' ')" >> $GITHUB_OUTPUT
+          echo "flow=$(find $COMMIT_DIR/flow -name '*.svg' 2>/dev/null | wc -l | tr -d ' ')" >> $GITHUB_OUTPUT
+          echo "sequence=$(find $COMMIT_DIR/sequence -name '*.svg' 2>/dev/null | wc -l | tr -d ' ')" >> $GITHUB_OUTPUT
+
+      - name: Comment on PR
+        if: steps.changes.outputs.has_changes == 'true'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const commitId = '${{ steps.commit.outputs.id }}';
+            const owner = context.repo.owner;
+            const repo = context.repo.repo;
+            const prNumber = context.payload.pull_request.number;
+
+            const counts = {
+              class: ${{ steps.counts.outputs.class }},
+              state: ${{ steps.counts.outputs.state }},
+              flow: ${{ steps.counts.outputs.flow }},
+              sequence: ${{ steps.counts.outputs.sequence }}
+            };
+            const total = counts.class + counts.state + counts.flow + counts.sequence;
+
+            const previewUrl = `https://${owner}.github.io/${repo}/sample/commit/${commitId}/`;
+
+            const body = `## 📊 SVG Preview Generated
+
+            | Category | Count |
+            |----------|-------|
+            | Class | ${counts.class} |
+            | State | ${counts.state} |
+            | Flow | ${counts.flow} |
+            | Sequence | ${counts.sequence} |
+            | **Total** | **${total}** |
+
+            🔗 **Preview**: [View Gallery](${previewUrl})
+
+            > Commit: \`${commitId}\`
+            `;
+
+            // Find existing comment
+            const comments = await github.rest.issues.listComments({
+              owner,
+              repo,
+              issue_number: prNumber
+            });
+
+            const botComment = comments.data.find(c =>
+              c.user.type === 'Bot' &&
+              c.body.includes('SVG Preview Generated')
+            );
+
+            if (botComment) {
+              // Update existing comment
+              await github.rest.issues.updateComment({
+                owner,
+                repo,
+                comment_id: botComment.id,
+                body
+              });
+            } else {
+              // Create new comment
+              await github.rest.issues.createComment({
+                owner,
+                repo,
+                issue_number: prNumber,
+                body
+              });
+            }
+
+      - name: Comment (no changes)
+        if: steps.changes.outputs.has_changes == 'false'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const prNumber = context.payload.pull_request.number;
+
+            const body = `## 📊 SVG Preview
+
+            No new SVG files were generated. The sample files may not have changed.
+            `;
+
+            await github.rest.issues.createComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: prNumber,
+              body
+            });
