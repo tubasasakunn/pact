@@ -208,9 +208,15 @@ go run ./cmd/pattern-preview
 - **commit 一覧**: `/sample/index.html`
 - **各 commit の SVG**: `/sample/commit/<commit-id>/index.html`
 
-#### ギャラリー生成
+#### 自動生成（GitHub Actions）
 
-SVG 生成後、以下のスクリプトで index.html を更新：
+`sample/pact/` や `internal/` の変更が main にマージされると、GitHub Actions が自動で：
+
+1. SVG を `sample/commit/<commit-id>/` に生成
+2. `index.html` を更新
+3. 変更をコミット＆プッシュ
+
+手動で生成する場合：
 
 ```bash
 ./scripts/generate-gallery.sh

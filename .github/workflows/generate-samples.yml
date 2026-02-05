@@ -1,0 +1,64 @@
+name: Generate Sample SVGs
+
+on:
+  push:
+    branches: [main, master]
+    paths:
+      - 'sample/pact/**'
+      - 'internal/**'
+      - 'pkg/**'
+      - 'cmd/pact/**'
+
+jobs:
+  generate:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Go
+        uses: actions/setup-go@v5
+        with:
+          go-version: '1.21'
+
+      - name: Build pact
+        run: make build
+
+      - name: Get commit ID
+        id: commit
+        run: echo "id=$(git rev-parse --short HEAD)" >> $GITHUB_OUTPUT
+
+      - name: Generate SVGs
+        run: |
+          COMMIT_ID=${{ steps.commit.outputs.id }}
+          mkdir -p sample/commit/${COMMIT_ID}/{class,state,flow,sequence}
+
+          for f in sample/pact/class/*.pact; do
+            [ -f "$f" ] && ./bin/pact generate -o sample/commit/${COMMIT_ID}/class/ -t class "$f" || true
+          done
+          for f in sample/pact/state/*.pact; do
+            [ -f "$f" ] && ./bin/pact generate -o sample/commit/${COMMIT_ID}/state/ -t state "$f" || true
+          done
+          for f in sample/pact/flow/*.pact; do
+            [ -f "$f" ] && ./bin/pact generate -o sample/commit/${COMMIT_ID}/flow/ -t flow "$f" || true
+          done
+          for f in sample/pact/sequence/*.pact; do
+            [ -f "$f" ] && ./bin/pact generate -o sample/commit/${COMMIT_ID}/sequence/ -t sequence "$f" || true
+          done
+
+      - name: Generate gallery HTML
+        run: ./scripts/generate-gallery.sh
+
+      - name: Commit and push
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add sample/
+          if git diff --staged --quiet; then
+            echo "No changes to commit"
+          else
+            git commit -m "Generate sample SVGs for $(git rev-parse --short HEAD)"
+            git push
+          fi
