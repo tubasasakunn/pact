@@ -3,7 +3,7 @@
 
 set -e
 
-SAMPLE_DIR="sample"
+SAMPLE_DIR="docs/sample"
 COMMIT_DIR="$SAMPLE_DIR/commit"
 
 # Generate main index.html with commit list
