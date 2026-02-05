@@ -138,10 +138,11 @@ sample/
     flow/               → フローチャートパターン
     sequence/           → シーケンス図パターン
   commit/               → 生成された SVG ファイル（コミット対象）
-    class/
-    state/
-    flow/
-    sequence/
+    <commit-id>/        → コミットID単位でグループ化
+      class/
+      state/
+      flow/
+      sequence/
 ```
 
 ### サンプル生成コマンド
@@ -149,11 +150,17 @@ sample/
 コミット時に以下のコマンドで SVG を再生成する：
 
 ```bash
+# コミットIDを取得
+COMMIT_ID=$(git rev-parse --short HEAD)
+
+# 出力ディレクトリを作成
+mkdir -p sample/commit/${COMMIT_ID}/{class,state,flow,sequence}
+
 # 全サンプルの SVG 生成
-for f in sample/pact/class/*.pact; do ./bin/pact generate -o sample/commit/class/ -t class "$f"; done
-for f in sample/pact/state/*.pact; do ./bin/pact generate -o sample/commit/state/ -t state "$f"; done
-for f in sample/pact/flow/*.pact; do ./bin/pact generate -o sample/commit/flow/ -t flow "$f"; done
-for f in sample/pact/sequence/*.pact; do ./bin/pact generate -o sample/commit/sequence/ -t sequence "$f"; done
+for f in sample/pact/class/*.pact; do ./bin/pact generate -o sample/commit/${COMMIT_ID}/class/ -t class "$f"; done
+for f in sample/pact/state/*.pact; do ./bin/pact generate -o sample/commit/${COMMIT_ID}/state/ -t state "$f"; done
+for f in sample/pact/flow/*.pact; do ./bin/pact generate -o sample/commit/${COMMIT_ID}/flow/ -t flow "$f"; done
+for f in sample/pact/sequence/*.pact; do ./bin/pact generate -o sample/commit/${COMMIT_ID}/sequence/ -t sequence "$f"; done
 ```
 
 ### パターンテンプレート
@@ -192,3 +199,32 @@ SVG 生成には以下のパターンテンプレートが使用される（`int
 go run ./cmd/pattern-preview
 # → pattern-preview/index.html をブラウザで開く
 ```
+
+### GitHub Pages ギャラリー
+
+サンプル SVG を GitHub Pages で閲覧可能：
+
+- **URL**: `https://<username>.github.io/pact/sample/`
+- **commit 一覧**: `/sample/index.html`
+- **各 commit の SVG**: `/sample/commit/<commit-id>/index.html`
+
+#### 自動生成（GitHub Actions）
+
+`sample/pact/` や `internal/` の変更が main にマージされると、GitHub Actions が自動で：
+
+1. SVG を `sample/commit/<commit-id>/` に生成
+2. `index.html` を更新
+3. 変更をコミット＆プッシュ
+
+手動で生成する場合：
+
+```bash
+./scripts/generate-gallery.sh
+```
+
+#### GitHub Pages 設定
+
+1. リポジトリの Settings → Pages
+2. Source: "Deploy from a branch"
+3. Branch: `main` (または `master`)、フォルダ: `/ (root)`
+4. Save
