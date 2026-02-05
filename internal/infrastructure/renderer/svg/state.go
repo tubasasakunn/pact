@@ -148,8 +148,15 @@ func (r *StateRenderer) Render(diagram *state.Diagram, w io.Writer) error {
 		if fromOk && toOk {
 			fromSize := stateSizes[t.From]
 			toSize := stateSizes[t.To]
+			// 正方向と逆方向のキーを作成
 			key := fmt.Sprintf("%d,%d-%d,%d", fromPos.x, fromPos.y, toPos.x, toPos.y)
+			reverseKey := fmt.Sprintf("%d,%d-%d,%d", toPos.x, toPos.y, fromPos.x, fromPos.y)
+			// 正方向または逆方向のオフセットを取得
 			offset := labelOffset[key]
+			if reverseOffset, exists := labelOffset[reverseKey]; exists && reverseOffset > offset {
+				// 逆方向の遷移が既にある場合、オフセットを大きくして重複を避ける
+				offset = reverseOffset + 20
+			}
 			labelOffset[key] = offset + 15
 			r.renderOrthogonalTransition(c, t, fromPos.x, fromPos.y, fromSize.w, fromSize.h,
 				toPos.x, toPos.y, toSize.w, toSize.h, offset, nodeBounds)

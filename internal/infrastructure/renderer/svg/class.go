@@ -32,12 +32,22 @@ func (r *ClassRenderer) Render(diagram *class.Diagram, w io.Writer) error {
 		nodeSizes[node.ID] = struct{ width, height int }{w, h}
 	}
 
-	// エッジ接続情報を構築
+	// エッジ接続情報を構築（レイヤー計算用）
+	// 継承・実装・依存エッジは方向を逆転させて、親クラス/インターフェースが上に配置されるようにする
 	outgoing := make(map[string][]string) // from -> []to
 	incoming := make(map[string][]string) // to -> []from
 	for _, edge := range diagram.Edges {
-		outgoing[edge.From] = append(outgoing[edge.From], edge.To)
-		incoming[edge.To] = append(incoming[edge.To], edge.From)
+		if edge.Type == class.EdgeTypeInheritance ||
+			edge.Type == class.EdgeTypeImplementation ||
+			edge.Type == class.EdgeTypeDependency {
+			// 継承・実装・依存: 親が上になるよう方向を逆転
+			outgoing[edge.To] = append(outgoing[edge.To], edge.From)
+			incoming[edge.From] = append(incoming[edge.From], edge.To)
+		} else {
+			// コンポジション・集約: 元の方向（親が部品を持つ）
+			outgoing[edge.From] = append(outgoing[edge.From], edge.To)
+			incoming[edge.To] = append(incoming[edge.To], edge.From)
+		}
 	}
 
 	// レイヤー割り当て（トポロジカルソート風）
@@ -465,6 +475,20 @@ func (r *ClassRenderer) calculateDistributedEndpoints(
 		toX = toPos.x + toPos.width
 		toY = toCenterY + toYOffset
 	}
+
+	// 座標が負にならないようにクランプ
+	if fromX < 0 {
+		fromX = 0
+	}
+	if fromY < 0 {
+		fromY = 0
+	}
+	if toX < 0 {
+		toX = 0
+	}
+	if toY < 0 {
+		toY = 0
+	}
 	return
 }
 
@@ -618,7 +642,22 @@ func (r *ClassRenderer) pathIntersectsAnyObstacle(p1, p2 point, obstacles []rect
 // renderPath はウェイポイントに沿ってパスを描画
 func (r *ClassRenderer) renderPath(c *canvas.Canvas, waypoints []point, opts []canvas.Option) {
 	for i := 0; i < len(waypoints)-1; i++ {
-		c.Line(waypoints[i].x, waypoints[i].y, waypoints[i+1].x, waypoints[i+1].y, opts...)
+		// 座標が負にならないようにクランプ
+		x1, y1 := waypoints[i].x, waypoints[i].y
+		x2, y2 := waypoints[i+1].x, waypoints[i+1].y
+		if x1 < 0 {
+			x1 = 0
+		}
+		if y1 < 0 {
+			y1 = 0
+		}
+		if x2 < 0 {
+			x2 = 0
+		}
+		if y2 < 0 {
+			y2 = 0
+		}
+		c.Line(x1, y1, x2, y2, opts...)
 	}
 }
 
@@ -973,12 +1012,20 @@ func visibilitySymbol(v class.Visibility) string {
 }
 
 func trianglePoints(x, y, fromX, fromY int) string {
+	// 座標が負にならないようにクランプ
+	clamp := func(v int) int {
+		if v < 0 {
+			return 0
+		}
+		return v
+	}
+
 	// 矢印の方向を計算
 	dx := float64(x - fromX)
 	dy := float64(y - fromY)
 	length := sqrt(dx*dx + dy*dy)
 	if length == 0 {
-		return fmt.Sprintf("%d,%d %d,%d %d,%d", x, y-5, x+10, y, x, y+5)
+		return fmt.Sprintf("%d,%d %d,%d %d,%d", clamp(x), clamp(y-5), clamp(x+10), clamp(y), clamp(x), clamp(y+5))
 	}
 	// 単位ベクトル
 	ux := dx / length
@@ -990,21 +1037,35 @@ func trianglePoints(x, y, fromX, fromY int) string {
 	size := 10.0
 	ax := float64(x) - ux*size
 	ay := float64(y) - uy*size
-	p1x := int(ax + px*size/2)
-	p1y := int(ay + py*size/2)
-	p2x := int(ax - px*size/2)
-	p2y := int(ay - py*size/2)
-	return fmt.Sprintf("%d,%d %d,%d %d,%d", x, y, p1x, p1y, p2x, p2y)
+	p1x := clamp(int(ax + px*size/2))
+	p1y := clamp(int(ay + py*size/2))
+	p2x := clamp(int(ax - px*size/2))
+	p2y := clamp(int(ay - py*size/2))
+	return fmt.Sprintf("%d,%d %d,%d %d,%d", clamp(x), clamp(y), p1x, p1y, p2x, p2y)
 }
 
 func diamondPoints(x, y, toX, toY int) string {
+	// 座標が負にならないようにクランプ
+	clamp := func(v float64) float64 {
+		if v < 0 {
+			return 0
+		}
+		return v
+	}
+	clampInt := func(v int) int {
+		if v < 0 {
+			return 0
+		}
+		return v
+	}
+
 	// ひし形を始点に描画
 	size := 10
 	dx := float64(toX - x)
 	dy := float64(toY - y)
 	length := sqrt(dx*dx + dy*dy)
 	if length == 0 {
-		return fmt.Sprintf("%d,%d %d,%d %d,%d %d,%d", x, y-size, x+size, y, x, y+size, x-size, y)
+		return fmt.Sprintf("%d,%d %d,%d %d,%d %d,%d", clampInt(x), clampInt(y-size), clampInt(x+size), clampInt(y), clampInt(x), clampInt(y+size), clampInt(x-size), clampInt(y))
 	}
 	ux := dx / length
 	uy := dy / length
@@ -1013,9 +1074,9 @@ func diamondPoints(x, y, toX, toY int) string {
 	// ひし形の4頂点
 	cx := float64(x) + ux*float64(size)
 	cy := float64(y) + uy*float64(size)
-	return fmt.Sprintf("%d,%d %.0f,%.0f %.0f,%.0f %.0f,%.0f",
-		x, y,
-		cx+px*float64(size)/2, cy+py*float64(size)/2,
-		float64(x)+ux*float64(size*2), float64(y)+uy*float64(size*2),
-		cx-px*float64(size)/2, cy-py*float64(size)/2)
+	return fmt.Sprintf("%.0f,%.0f %.0f,%.0f %.0f,%.0f %.0f,%.0f",
+		clamp(float64(x)), clamp(float64(y)),
+		clamp(cx+px*float64(size)/2), clamp(cy+py*float64(size)/2),
+		clamp(float64(x)+ux*float64(size*2)), clamp(float64(y)+uy*float64(size*2)),
+		clamp(cx-px*float64(size)/2), clamp(cy-py*float64(size)/2))
 }

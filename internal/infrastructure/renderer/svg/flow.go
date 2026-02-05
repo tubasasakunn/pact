@@ -257,6 +257,14 @@ func (r *FlowRenderer) renderFlowNodeWithWidth(c *canvas.Canvas, node flow.Node,
 			canvas.StrokeWidth(2),
 			canvas.Filter("drop-shadow"),
 		)
+	case flow.NodeShapeConnector:
+		// マージ/コネクタノードは小さな円として描画（ラベルなし）
+		c.Circle(x, y+20, 10,
+			canvas.Fill(canvas.ColorNodeFill),
+			canvas.Stroke(canvas.ColorNodeStroke),
+			canvas.StrokeWidth(2),
+		)
+		return // ラベルは描画しない
 	default:
 		c.Rect(x-width/2, y, width, 40,
 			canvas.Fill(canvas.ColorNodeFill),
