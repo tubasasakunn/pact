@@ -26,22 +26,45 @@ func TestPatternRegistry_Get(t *testing.T) {
 		patternType PatternType
 		wantNil     bool
 	}{
+		// Size variations
+		{"inheritance tree 2 exists", PatternInheritanceTree2, false},
+		{"inheritance tree 3 exists", PatternInheritanceTree3, false},
+		{"inheritance tree 4 exists", PatternInheritanceTree4, false},
+		{"interface impl 2 exists", PatternInterfaceImpl2, false},
+		{"interface impl 3 exists", PatternInterfaceImpl3, false},
+		{"interface impl 4 exists", PatternInterfaceImpl4, false},
+		{"composition 2 exists", PatternComposition2, false},
+		{"composition 3 exists", PatternComposition3, false},
+		{"composition 4 exists", PatternComposition4, false},
+		{"diamond exists", PatternDiamond, false},
+		{"layered 3x2 exists", PatternLayered3x2, false},
+		{"layered 3x3 exists", PatternLayered3x3, false},
+		// Legacy aliases
 		{"inheritance tree exists", PatternInheritanceTree, false},
 		{"interface impl exists", PatternInterfaceImpl, false},
 		{"composition exists", PatternComposition, false},
-		{"diamond exists", PatternDiamond, false},
 		{"layered exists", PatternLayered, false},
+		// Sequence patterns
 		{"request-response exists", PatternRequestResponse, false},
 		{"callback exists", PatternCallback, false},
+		{"chain 3 exists", PatternChain3, false},
+		{"chain 4 exists", PatternChain4, false},
 		{"chain exists", PatternChain, false},
 		{"fan-out exists", PatternFanOut, false},
+		// State patterns
+		{"linear states 2 exists", PatternLinearStates2, false},
+		{"linear states 3 exists", PatternLinearStates3, false},
+		{"linear states 4 exists", PatternLinearStates4, false},
 		{"linear states exists", PatternLinearStates, false},
 		{"binary choice exists", PatternBinaryChoice, false},
 		{"state loop exists", PatternStateLoop, false},
 		{"star topology exists", PatternStarTopology, false},
+		// Flow patterns
 		{"if-else exists", PatternIfElse, false},
 		{"if-elseif-else exists", PatternIfElseIfElse, false},
 		{"while loop exists", PatternWhileLoop, false},
+		{"sequential 3 exists", PatternSequential3, false},
+		{"sequential 4 exists", PatternSequential4, false},
 		{"sequential exists", PatternSequential, false},
 		{"unknown pattern returns nil", PatternType("unknown"), true},
 	}
@@ -184,23 +207,38 @@ func TestNewPatternMatcher(t *testing.T) {
 func TestPatternTypeConstants(t *testing.T) {
 	// Verify all pattern types are unique
 	patterns := []PatternType{
-		PatternInheritanceTree,
-		PatternInterfaceImpl,
-		PatternComposition,
+		// Class patterns (size variations)
+		PatternInheritanceTree2,
+		PatternInheritanceTree3,
+		PatternInheritanceTree4,
+		PatternInterfaceImpl2,
+		PatternInterfaceImpl3,
+		PatternInterfaceImpl4,
+		PatternComposition2,
+		PatternComposition3,
+		PatternComposition4,
 		PatternDiamond,
-		PatternLayered,
+		PatternLayered3x2,
+		PatternLayered3x3,
+		// Sequence patterns
 		PatternRequestResponse,
 		PatternCallback,
-		PatternChain,
+		PatternChain3,
+		PatternChain4,
 		PatternFanOut,
-		PatternLinearStates,
+		// State patterns
+		PatternLinearStates2,
+		PatternLinearStates3,
+		PatternLinearStates4,
 		PatternBinaryChoice,
 		PatternStateLoop,
 		PatternStarTopology,
+		// Flow patterns
 		PatternIfElse,
 		PatternIfElseIfElse,
 		PatternWhileLoop,
-		PatternSequential,
+		PatternSequential3,
+		PatternSequential4,
 	}
 
 	seen := make(map[PatternType]bool)
