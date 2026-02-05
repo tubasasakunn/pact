@@ -1,0 +1,83 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1319 600" width="1319" height="600">
+<defs>
+<style>text { font-family: -apple-system, "Segoe UI", "Helvetica Neue", Arial, sans-serif; }</style>
+<filter id="drop-shadow" x="-5%" y="-5%" width="115%" height="115%"><feGaussianBlur in="SourceAlpha" stdDeviation="2" result="blur"/><feOffset in="blur" dx="1" dy="2" result="offsetBlur"/><feComponentTransfer in="offsetBlur" result="shadow"><feFuncA type="linear" slope="0.12"/></feComponentTransfer><feMerge><feMergeNode in="shadow"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+<symbol id="actor" viewBox="0 0 40 70" preserveAspectRatio="none"><circle cx="20" cy="10" r="10" fill="#fafbfc" stroke="#2d3748" stroke-width="1.5"/><line x1="20" y1="20" x2="20" y2="45" stroke="#2d3748" stroke-width="1.5"/><line x1="5" y1="30" x2="35" y2="30" stroke="#2d3748" stroke-width="1.5"/><line x1="20" y1="45" x2="5" y2="65" stroke="#2d3748" stroke-width="1.5"/><line x1="20" y1="45" x2="35" y2="65" stroke="#2d3748" stroke-width="1.5"/></symbol>
+<symbol id="initial-state" viewBox="0 0 20 20" preserveAspectRatio="none"><circle cx="10" cy="10" r="10" fill="#1a202c"/></symbol>
+<symbol id="final-state" viewBox="0 0 24 24" preserveAspectRatio="none"><circle cx="12" cy="12" r="12" fill="none" stroke="#2d3748" stroke-width="2"/><circle cx="12" cy="12" r="8" fill="#1a202c"/></symbol>
+</defs>
+<rect x="256" y="50" width="202" height="140" fill="#fafbfc" stroke="#2d3748" stroke-width="2" filter="url(#drop-shadow)"/>
+<text x="357" y="77" text-anchor="middle" fill="#4a5568" font-style="italic">&lt;&lt;component&gt;&gt;</text>
+<text x="357" y="97" font-weight="bold" text-anchor="middle" fill="#1a202c">Smartphone</text>
+<line x1="256" y1="112" x2="458" y2="112" stroke="#cbd5e0"/>
+<text x="266" y="127" fill="#1a202c">+ PowerOn(): bool</text>
+<text x="266" y="147" fill="#1a202c">+ PowerOff(): bool</text>
+<text x="266" y="167" fill="#1a202c">+ GetBatteryLevel(): int</text>
+<rect x="50" y="50" width="166" height="120" fill="#fafbfc" stroke="#2d3748" stroke-width="2" filter="url(#drop-shadow)"/>
+<text x="133" y="77" font-weight="bold" text-anchor="middle" fill="#1a202c">SmartphoneData</text>
+<line x1="50" y1="92" x2="216" y2="92" stroke="#cbd5e0"/>
+<text x="60" y="107" fill="#1a202c">+ brand: string</text>
+<text x="60" y="127" fill="#1a202c">+ model: string</text>
+<text x="60" y="147" fill="#1a202c">+ osVersion: string</text>
+<rect x="184" y="250" width="267" height="120" fill="#fafbfc" stroke="#2d3748" stroke-width="2" filter="url(#drop-shadow)"/>
+<text x="317" y="277" text-anchor="middle" fill="#4a5568" font-style="italic">&lt;&lt;component&gt;&gt;</text>
+<text x="317" y="297" text-anchor="middle" fill="#1a202c" font-weight="bold">Display</text>
+<line x1="184" y1="312" x2="451" y2="312" stroke="#cbd5e0"/>
+<text x="194" y="327" fill="#1a202c">+ SetBrightness(level: int): bool</text>
+<text x="194" y="347" fill="#1a202c">+ GetResolution(): string</text>
+<rect x="498" y="50" width="181" height="120" fill="#fafbfc" stroke="#2d3748" stroke-width="2" filter="url(#drop-shadow)"/>
+<text x="588" y="77" text-anchor="middle" fill="#1a202c" font-weight="bold">DisplayData</text>
+<line x1="498" y1="92" x2="679" y2="92" stroke="#cbd5e0"/>
+<text x="508" y="107" fill="#1a202c">+ resolution: string</text>
+<text x="508" y="127" fill="#1a202c">+ size: float</text>
+<text x="508" y="147" fill="#1a202c">+ displayType: string</text>
+<rect x="491" y="250" width="174" height="120" fill="#fafbfc" stroke="#2d3748" stroke-width="2" filter="url(#drop-shadow)"/>
+<text x="578" y="277" text-anchor="middle" fill="#4a5568" font-style="italic">&lt;&lt;component&gt;&gt;</text>
+<text x="578" y="297" text-anchor="middle" fill="#1a202c" font-weight="bold">Battery</text>
+<line x1="491" y1="312" x2="665" y2="312" stroke="#cbd5e0"/>
+<text x="501" y="327" fill="#1a202c">+ GetCapacity(): int</text>
+<text x="501" y="347" fill="#1a202c">+ GetHealth(): int</text>
+<rect x="719" y="50" width="181" height="120" stroke-width="2" filter="url(#drop-shadow)" fill="#fafbfc" stroke="#2d3748"/>
+<text x="809" y="77" text-anchor="middle" fill="#1a202c" font-weight="bold">BatteryData</text>
+<line x1="719" y1="92" x2="900" y2="92" stroke="#cbd5e0"/>
+<text x="729" y="107" fill="#1a202c">+ capacity: int</text>
+<text x="729" y="127" fill="#1a202c">+ batteryType: string</text>
+<text x="729" y="147" fill="#1a202c">+ healthPercent: int</text>
+<rect x="705" y="250" width="181" height="120" filter="url(#drop-shadow)" fill="#fafbfc" stroke="#2d3748" stroke-width="2"/>
+<text x="795" y="277" text-anchor="middle" fill="#4a5568" font-style="italic">&lt;&lt;component&gt;&gt;</text>
+<text x="795" y="297" text-anchor="middle" fill="#1a202c" font-weight="bold">Camera</text>
+<line x1="705" y1="312" x2="886" y2="312" stroke="#cbd5e0"/>
+<text x="715" y="327" fill="#1a202c">+ TakePhoto(): string</text>
+<text x="715" y="347" fill="#1a202c">+ RecordVideo(): bool</text>
+<rect x="940" y="50" width="152" height="120" filter="url(#drop-shadow)" fill="#fafbfc" stroke="#2d3748" stroke-width="2"/>
+<text x="1016" y="77" text-anchor="middle" fill="#1a202c" font-weight="bold">CameraData</text>
+<line x1="940" y1="92" x2="1092" y2="92" stroke="#cbd5e0"/>
+<text x="950" y="107" fill="#1a202c">+ megapixels: int</text>
+<text x="950" y="127" fill="#1a202c">+ hasOIS: bool</text>
+<text x="950" y="147" fill="#1a202c">+ aperture: float</text>
+<rect x="926" y="250" width="209" height="120" filter="url(#drop-shadow)" fill="#fafbfc" stroke="#2d3748" stroke-width="2"/>
+<text x="1030" y="277" fill="#4a5568" font-style="italic" text-anchor="middle">&lt;&lt;component&gt;&gt;</text>
+<text x="1030" y="297" fill="#1a202c" font-weight="bold" text-anchor="middle">Processor</text>
+<line x1="926" y1="312" x2="1135" y2="312" stroke="#cbd5e0"/>
+<text x="936" y="327" fill="#1a202c">+ GetModel(): string</text>
+<text x="936" y="347" fill="#1a202c">+ GetPerformance(): float</text>
+<rect x="1132" y="50" width="137" height="120" fill="#fafbfc" stroke="#2d3748" stroke-width="2" filter="url(#drop-shadow)"/>
+<text x="1200" y="77" text-anchor="middle" fill="#1a202c" font-weight="bold">ProcessorData</text>
+<line x1="1132" y1="92" x2="1269" y2="92" stroke="#cbd5e0"/>
+<text x="1142" y="107" fill="#1a202c">+ model: string</text>
+<text x="1142" y="127" fill="#1a202c">+ cores: int</text>
+<text x="1142" y="147" fill="#1a202c">+ speed: float</text>
+<line x1="251" y1="190" x2="251" y2="250" stroke="#2d3748"/>
+<line x1="251" y1="250" x2="317" y2="250" stroke="#2d3748"/>
+<polygon points="251,250 261,255 271,250 261,245" fill="#2d3748"/>
+<line x1="458" y1="92" x2="458" y2="310" stroke="#2d3748"/>
+<line x1="458" y1="310" x2="491" y2="310" stroke="#2d3748"/>
+<polygon points="458,310 468,315 478,310 468,305" fill="#2d3748"/>
+<line x1="458" y1="120" x2="458" y2="390" stroke="#2d3748"/>
+<line x1="458" y1="390" x2="705" y2="390" stroke="#2d3748"/>
+<line x1="705" y1="390" x2="705" y2="310" stroke="#2d3748"/>
+<polygon points="705,390 710,380 705,370 700,380" fill="#2d3748"/>
+<line x1="458" y1="148" x2="458" y2="310" stroke="#2d3748"/>
+<line x1="458" y1="310" x2="926" y2="310" stroke="#2d3748"/>
+<polygon points="458,310 468,315 478,310 468,305" fill="#2d3748"/>
+</svg>

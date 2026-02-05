@@ -1,0 +1,80 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1866 600" width="1866" height="600">
+<defs>
+<style>text { font-family: -apple-system, "Segoe UI", "Helvetica Neue", Arial, sans-serif; }</style>
+<filter id="drop-shadow" x="-5%" y="-5%" width="115%" height="115%"><feGaussianBlur in="SourceAlpha" stdDeviation="2" result="blur"/><feOffset in="blur" dx="1" dy="2" result="offsetBlur"/><feComponentTransfer in="offsetBlur" result="shadow"><feFuncA type="linear" slope="0.12"/></feComponentTransfer><feMerge><feMergeNode in="shadow"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+<symbol id="actor" viewBox="0 0 40 70" preserveAspectRatio="none"><circle cx="20" cy="10" r="10" fill="#fafbfc" stroke="#2d3748" stroke-width="1.5"/><line x1="20" y1="20" x2="20" y2="45" stroke="#2d3748" stroke-width="1.5"/><line x1="5" y1="30" x2="35" y2="30" stroke="#2d3748" stroke-width="1.5"/><line x1="20" y1="45" x2="5" y2="65" stroke="#2d3748" stroke-width="1.5"/><line x1="20" y1="45" x2="35" y2="65" stroke="#2d3748" stroke-width="1.5"/></symbol>
+<symbol id="initial-state" viewBox="0 0 20 20" preserveAspectRatio="none"><circle cx="10" cy="10" r="10" fill="#1a202c"/></symbol>
+<symbol id="final-state" viewBox="0 0 24 24" preserveAspectRatio="none"><circle cx="12" cy="12" r="12" fill="none" stroke="#2d3748" stroke-width="2"/><circle cx="12" cy="12" r="8" fill="#1a202c"/></symbol>
+</defs>
+<rect x="835" y="230" width="195" height="140" fill="#fafbfc" stroke="#2d3748" stroke-width="2" filter="url(#drop-shadow)"/>
+<text x="932" y="257" font-style="italic" text-anchor="middle" fill="#4a5568">&lt;&lt;component&gt;&gt;</text>
+<text x="932" y="277" text-anchor="middle" fill="#1a202c" font-weight="bold">Shape</text>
+<line x1="835" y1="292" x2="1030" y2="292" stroke="#cbd5e0"/>
+<text x="845" y="307" fill="#1a202c">+ Draw(): bool</text>
+<text x="845" y="327" fill="#1a202c">+ GetArea(): float</text>
+<text x="845" y="347" fill="#1a202c">+ GetPerimeter(): float</text>
+<rect x="50" y="50" width="137" height="120" fill="#fafbfc" stroke="#2d3748" stroke-width="2" filter="url(#drop-shadow)"/>
+<text x="118" y="77" text-anchor="middle" fill="#1a202c" font-weight="bold">ShapeData</text>
+<line x1="50" y1="92" x2="187" y2="92" stroke="#cbd5e0"/>
+<text x="60" y="107" fill="#1a202c">+ id: string</text>
+<text x="60" y="127" fill="#1a202c">+ color: string</text>
+<text x="60" y="147" fill="#1a202c">+ filled: bool</text>
+<rect x="227" y="50" width="188" height="120" stroke-width="2" filter="url(#drop-shadow)" fill="#fafbfc" stroke="#2d3748"/>
+<text x="321" y="77" font-style="italic" text-anchor="middle" fill="#4a5568">&lt;&lt;component&gt;&gt;</text>
+<text x="321" y="97" text-anchor="middle" fill="#1a202c" font-weight="bold">Circle</text>
+<line x1="227" y1="112" x2="415" y2="112" stroke="#cbd5e0"/>
+<text x="237" y="127" fill="#1a202c">+ GetRadius(): float</text>
+<text x="237" y="147" fill="#1a202c">+ GetDiameter(): float</text>
+<rect x="1118" y="50" width="145" height="120" fill="#fafbfc" stroke="#2d3748" stroke-width="2" filter="url(#drop-shadow)"/>
+<text x="1190" y="77" text-anchor="middle" fill="#1a202c" font-weight="bold">CircleData</text>
+<line x1="1118" y1="92" x2="1263" y2="92" stroke="#cbd5e0"/>
+<text x="1128" y="107" fill="#1a202c">+ radius: float</text>
+<text x="1128" y="127" fill="#1a202c">+ centerX: float</text>
+<text x="1128" y="147" fill="#1a202c">+ centerY: float</text>
+<rect x="455" y="50" width="174" height="120" fill="#fafbfc" stroke="#2d3748" stroke-width="2" filter="url(#drop-shadow)"/>
+<text x="542" y="77" text-anchor="middle" fill="#4a5568" font-style="italic">&lt;&lt;component&gt;&gt;</text>
+<text x="542" y="97" text-anchor="middle" fill="#1a202c" font-weight="bold">Rectangle</text>
+<line x1="455" y1="112" x2="629" y2="112" stroke="#cbd5e0"/>
+<text x="465" y="127" fill="#1a202c">+ GetWidth(): float</text>
+<text x="465" y="147" fill="#1a202c">+ GetHeight(): float</text>
+<rect x="1303" y="50" width="137" height="100" fill="#fafbfc" stroke="#2d3748" stroke-width="2" filter="url(#drop-shadow)"/>
+<text x="1371" y="77" fill="#1a202c" font-weight="bold" text-anchor="middle">RectangleData</text>
+<line x1="1303" y1="92" x2="1440" y2="92" stroke="#cbd5e0"/>
+<text x="1313" y="107" fill="#1a202c">+ width: float</text>
+<text x="1313" y="127" fill="#1a202c">+ height: float</text>
+<rect x="669" y="50" width="195" height="120" fill="#fafbfc" stroke="#2d3748" stroke-width="2" filter="url(#drop-shadow)"/>
+<text x="766" y="77" text-anchor="middle" fill="#4a5568" font-style="italic">&lt;&lt;component&gt;&gt;</text>
+<text x="766" y="97" text-anchor="middle" fill="#1a202c" font-weight="bold">Triangle</text>
+<line x1="669" y1="112" x2="864" y2="112" stroke="#cbd5e0"/>
+<text x="679" y="127" fill="#1a202c">+ GetSides(): string</text>
+<text x="679" y="147" fill="#1a202c">+ IsEquilateral(): bool</text>
+<rect x="1480" y="50" width="130" height="120" stroke="#2d3748" stroke-width="2" filter="url(#drop-shadow)" fill="#fafbfc"/>
+<text x="1545" y="77" text-anchor="middle" fill="#1a202c" font-weight="bold">TriangleData</text>
+<line x1="1480" y1="92" x2="1610" y2="92" stroke="#cbd5e0"/>
+<text x="1490" y="107" fill="#1a202c">+ sideA: float</text>
+<text x="1490" y="127" fill="#1a202c">+ sideB: float</text>
+<text x="1490" y="147" fill="#1a202c">+ sideC: float</text>
+<rect x="904" y="50" width="174" height="120" filter="url(#drop-shadow)" fill="#fafbfc" stroke="#2d3748" stroke-width="2"/>
+<text x="991" y="77" text-anchor="middle" fill="#4a5568" font-style="italic">&lt;&lt;component&gt;&gt;</text>
+<text x="991" y="97" text-anchor="middle" fill="#1a202c" font-weight="bold">Polygon</text>
+<line x1="904" y1="112" x2="1078" y2="112" stroke="#cbd5e0"/>
+<text x="914" y="127" fill="#1a202c">+ GetNumSides(): int</text>
+<text x="914" y="147" fill="#1a202c">+ IsRegular(): bool</text>
+<rect x="1650" y="50" width="166" height="100" fill="#fafbfc" stroke="#2d3748" stroke-width="2" filter="url(#drop-shadow)"/>
+<text x="1733" y="77" text-anchor="middle" fill="#1a202c" font-weight="bold">PolygonData</text>
+<line x1="1650" y1="92" x2="1816" y2="92" stroke="#cbd5e0"/>
+<text x="1660" y="107" fill="#1a202c">+ numSides: int</text>
+<text x="1660" y="127" fill="#1a202c">+ sideLength: float</text>
+<line x1="415" y1="110" x2="415" y2="244" stroke="#2d3748"/>
+<line x1="415" y1="244" x2="835" y2="244" stroke="#2d3748"/>
+<polygon points="835,244 825,248 825,239" fill="#fafbfc" stroke="#2d3748"/>
+<line x1="629" y1="110" x2="629" y2="272" stroke="#2d3748"/>
+<line x1="629" y1="272" x2="835" y2="272" stroke="#2d3748"/>
+<polygon points="835,272 825,276 825,267" fill="#fafbfc" stroke="#2d3748"/>
+<line x1="766" y1="170" x2="766" y2="230" stroke="#2d3748"/>
+<line x1="766" y1="230" x2="932" y2="230" stroke="#2d3748"/>
+<polygon points="932,230 922,234 922,225" fill="#fafbfc" stroke="#2d3748"/>
+<line x1="991" y1="170" x2="991" y2="230" stroke="#2d3748"/>
+<line x1="991" y1="230" x2="984" y2="230" stroke="#2d3748"/>
+<polygon points="984,230 994,225 994,235" fill="#fafbfc" stroke="#2d3748"/>
+</svg>

@@ -1,0 +1,64 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1474 600" width="1474" height="600">
+<defs>
+<style>text { font-family: -apple-system, "Segoe UI", "Helvetica Neue", Arial, sans-serif; }</style>
+<filter id="drop-shadow" x="-5%" y="-5%" width="115%" height="115%"><feGaussianBlur in="SourceAlpha" stdDeviation="2" result="blur"/><feOffset in="blur" dx="1" dy="2" result="offsetBlur"/><feComponentTransfer in="offsetBlur" result="shadow"><feFuncA type="linear" slope="0.12"/></feComponentTransfer><feMerge><feMergeNode in="shadow"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+<symbol id="actor" viewBox="0 0 40 70" preserveAspectRatio="none"><circle cx="20" cy="10" r="10" fill="#fafbfc" stroke="#2d3748" stroke-width="1.5"/><line x1="20" y1="20" x2="20" y2="45" stroke="#2d3748" stroke-width="1.5"/><line x1="5" y1="30" x2="35" y2="30" stroke="#2d3748" stroke-width="1.5"/><line x1="20" y1="45" x2="5" y2="65" stroke="#2d3748" stroke-width="1.5"/><line x1="20" y1="45" x2="35" y2="65" stroke="#2d3748" stroke-width="1.5"/></symbol>
+<symbol id="initial-state" viewBox="0 0 20 20" preserveAspectRatio="none"><circle cx="10" cy="10" r="10" fill="#1a202c"/></symbol>
+<symbol id="final-state" viewBox="0 0 24 24" preserveAspectRatio="none"><circle cx="12" cy="12" r="12" fill="none" stroke="#2d3748" stroke-width="2"/><circle cx="12" cy="12" r="8" fill="#1a202c"/></symbol>
+</defs>
+<rect x="636" y="230" width="202" height="140" stroke="#2d3748" stroke-width="2" filter="url(#drop-shadow)" fill="#fafbfc"/>
+<text x="737" y="257" text-anchor="middle" fill="#4a5568" font-style="italic">&lt;&lt;component&gt;&gt;</text>
+<text x="737" y="277" text-anchor="middle" fill="#1a202c" font-weight="bold">Vehicle</text>
+<line x1="636" y1="292" x2="838" y2="292" stroke="#cbd5e0"/>
+<text x="646" y="307" fill="#1a202c">+ Start(): bool</text>
+<text x="646" y="327" fill="#1a202c">+ Stop(): bool</text>
+<text x="646" y="347" fill="#1a202c">+ GetInfo(): VehicleData</text>
+<rect x="50" y="50" width="188" height="120" fill="#fafbfc" stroke="#2d3748" stroke-width="2" filter="url(#drop-shadow)"/>
+<text x="144" y="77" fill="#1a202c" font-weight="bold" text-anchor="middle">VehicleData</text>
+<line x1="50" y1="92" x2="238" y2="92" stroke="#cbd5e0"/>
+<text x="60" y="107" fill="#1a202c">+ id: string</text>
+<text x="60" y="127" fill="#1a202c">+ manufacturer: string</text>
+<text x="60" y="147" fill="#1a202c">+ year: int</text>
+<rect x="278" y="50" width="137" height="120" stroke="#2d3748" stroke-width="2" filter="url(#drop-shadow)" fill="#fafbfc"/>
+<text x="346" y="77" text-anchor="middle" fill="#4a5568" font-style="italic">&lt;&lt;component&gt;&gt;</text>
+<text x="346" y="97" text-anchor="middle" fill="#1a202c" font-weight="bold">Car</text>
+<line x1="278" y1="112" x2="415" y2="112" stroke="#cbd5e0"/>
+<text x="288" y="127" fill="#1a202c">+ Drive(): bool</text>
+<text x="288" y="147" fill="#1a202c">+ Park(): bool</text>
+<rect x="860" y="50" width="159" height="100" fill="#fafbfc" stroke="#2d3748" stroke-width="2" filter="url(#drop-shadow)"/>
+<text x="939" y="77" text-anchor="middle" fill="#1a202c" font-weight="bold">CarData</text>
+<line x1="860" y1="92" x2="1019" y2="92" stroke="#cbd5e0"/>
+<text x="870" y="107" fill="#1a202c">+ numDoors: int</text>
+<text x="870" y="127" fill="#1a202c">+ fuelType: string</text>
+<rect x="455" y="50" width="159" height="120" fill="#fafbfc" stroke="#2d3748" stroke-width="2" filter="url(#drop-shadow)"/>
+<text x="534" y="77" text-anchor="middle" fill="#4a5568" font-style="italic">&lt;&lt;component&gt;&gt;</text>
+<text x="534" y="97" text-anchor="middle" fill="#1a202c" font-weight="bold">Motorcycle</text>
+<line x1="455" y1="112" x2="614" y2="112" stroke="#cbd5e0"/>
+<text x="465" y="127" fill="#1a202c">+ Wheelie(): bool</text>
+<text x="465" y="147" fill="#1a202c">+ LeanAngle(): int</text>
+<rect x="1059" y="50" width="137" height="100" fill="#fafbfc" stroke="#2d3748" stroke-width="2" filter="url(#drop-shadow)"/>
+<text x="1127" y="77" text-anchor="middle" fill="#1a202c" font-weight="bold">MotorcycleData</text>
+<line x1="1059" y1="92" x2="1196" y2="92" stroke="#cbd5e0"/>
+<text x="1069" y="107" fill="#1a202c">+ engineCC: int</text>
+<text x="1069" y="127" fill="#1a202c">+ hasABS: bool</text>
+<rect x="654" y="50" width="166" height="120" fill="#fafbfc" stroke="#2d3748" stroke-width="2" filter="url(#drop-shadow)"/>
+<text x="737" y="77" text-anchor="middle" fill="#4a5568" font-style="italic">&lt;&lt;component&gt;&gt;</text>
+<text x="737" y="97" text-anchor="middle" fill="#1a202c" font-weight="bold">Truck</text>
+<line x1="654" y1="112" x2="820" y2="112" stroke="#cbd5e0"/>
+<text x="664" y="127" fill="#1a202c">+ LoadCargo(): bool</text>
+<text x="664" y="147" fill="#1a202c">+ Haul(): bool</text>
+<rect x="1236" y="50" width="188" height="100" fill="#fafbfc" stroke="#2d3748" stroke-width="2" filter="url(#drop-shadow)"/>
+<text x="1330" y="77" text-anchor="middle" fill="#1a202c" font-weight="bold">TruckData</text>
+<line x1="1236" y1="92" x2="1424" y2="92" stroke="#cbd5e0"/>
+<text x="1246" y="107" fill="#1a202c">+ cargoCapacity: float</text>
+<text x="1246" y="127" fill="#1a202c">+ numAxles: int</text>
+<line x1="415" y1="110" x2="415" y2="258" stroke="#2d3748"/>
+<line x1="415" y1="258" x2="636" y2="258" stroke="#2d3748"/>
+<polygon points="636,258 626,262 626,253" fill="#fafbfc" stroke="#2d3748"/>
+<line x1="614" y1="110" x2="614" y2="300" stroke="#2d3748"/>
+<line x1="614" y1="300" x2="636" y2="300" stroke="#2d3748"/>
+<polygon points="636,300 626,305 626,295" fill="#fafbfc" stroke="#2d3748"/>
+<line x1="737" y1="170" x2="737" y2="230" stroke="#2d3748"/>
+<line x1="737" y1="230" x2="817" y2="230" stroke="#2d3748"/>
+<polygon points="817,230 807,234 807,225" fill="#fafbfc" stroke="#2d3748"/>
+</svg>
