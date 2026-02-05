@@ -160,6 +160,12 @@ go install github.com/example/pact@latest
 
 ---
 
+## ドキュメント
+
+- [サンプルギャラリー](https://tubasasakunn.github.io/pact/sample/) — 生成されたSVGダイアグラムの一覧
+
+---
+
 ## ライセンス
 
 MIT License

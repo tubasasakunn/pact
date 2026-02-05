@@ -137,30 +137,17 @@ sample/
     state/              → 状態遷移図パターン
     flow/               → フローチャートパターン
     sequence/           → シーケンス図パターン
-  commit/               → 生成された SVG ファイル（コミット対象）
-    <commit-id>/        → コミットID単位でグループ化
-      class/
-      state/
-      flow/
-      sequence/
-```
 
-### サンプル生成コマンド
-
-コミット時に以下のコマンドで SVG を再生成する：
-
-```bash
-# コミットIDを取得
-COMMIT_ID=$(git rev-parse --short HEAD)
-
-# 出力ディレクトリを作成
-mkdir -p sample/commit/${COMMIT_ID}/{class,state,flow,sequence}
-
-# 全サンプルの SVG 生成
-for f in sample/pact/class/*.pact; do ./bin/pact generate -o sample/commit/${COMMIT_ID}/class/ -t class "$f"; done
-for f in sample/pact/state/*.pact; do ./bin/pact generate -o sample/commit/${COMMIT_ID}/state/ -t state "$f"; done
-for f in sample/pact/flow/*.pact; do ./bin/pact generate -o sample/commit/${COMMIT_ID}/flow/ -t flow "$f"; done
-for f in sample/pact/sequence/*.pact; do ./bin/pact generate -o sample/commit/${COMMIT_ID}/sequence/ -t sequence "$f"; done
+docs/
+  sample/               → GitHub Pages 用（生成された SVG）
+    index.html          → commit 一覧ページ
+    commit/
+      <commit-id>/      → コミットID単位でグループ化
+        index.html      → SVG ギャラリーページ
+        class/
+        state/
+        flow/
+        sequence/
 ```
 
 ### パターンテンプレート
@@ -212,7 +199,7 @@ go run ./cmd/pattern-preview
 
 `sample/pact/` や `internal/` の変更が main にマージされると、GitHub Actions が自動で：
 
-1. SVG を `sample/commit/<commit-id>/` に生成
+1. SVG を `docs/sample/commit/<commit-id>/` に生成
 2. `index.html` を更新
 3. 変更をコミット＆プッシュ
 
@@ -226,5 +213,5 @@ go run ./cmd/pattern-preview
 
 1. リポジトリの Settings → Pages
 2. Source: "Deploy from a branch"
-3. Branch: `main` (または `master`)、フォルダ: `/ (root)`
+3. Branch: `main` (または `master`)、フォルダ: `/docs`
 4. Save
