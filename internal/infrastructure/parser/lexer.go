@@ -2,15 +2,15 @@ package parser
 
 // Lexer は字句解析器
 type Lexer struct {
-	input        string
-	pos          int
-	readPos      int
-	ch           byte
-	line         int
-	column       int
-	tokenLine    int
-	tokenColumn  int
-	err          error // レキシングエラー
+	input       string
+	pos         int
+	readPos     int
+	ch          byte
+	line        int
+	column      int
+	tokenLine   int
+	tokenColumn int
+	err         error // レキシングエラー
 }
 
 // キーワードマップ

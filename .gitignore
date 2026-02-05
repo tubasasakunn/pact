@@ -4,3 +4,4 @@
 
 # Don't ignore .pact directory
 !.pact/
+pattern-preview/

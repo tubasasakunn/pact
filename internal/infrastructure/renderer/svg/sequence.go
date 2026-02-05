@@ -19,6 +19,10 @@ func NewSequenceRenderer() *SequenceRenderer {
 func (r *SequenceRenderer) Render(diagram *sequence.Diagram, w io.Writer) error {
 	c := canvas.New()
 
+	// テンプレートレジストリを適用
+	registry := canvas.NewBuiltinRegistry()
+	registry.ApplyTo(c)
+
 	// 各参加者のボックス幅を計算
 	participantWidths := make(map[string]int)
 	minWidth := 80
@@ -96,10 +100,10 @@ func (r *SequenceRenderer) renderEvents(c *canvas.Canvas, events []sequence.Even
 			// メッセージの矢印を描画
 			switch e.MessageType {
 			case sequence.MessageTypeAsync:
-				c.Line(fromX, *y, toX, *y, canvas.Stroke("#000"), canvas.Dashed())
+				c.Line(fromX, *y, toX, *y, canvas.Stroke(canvas.ColorEdge), canvas.Dashed())
 				r.drawOpenArrow(c, fromX, toX, *y)
 			case sequence.MessageTypeReturn:
-				c.Line(fromX, *y, toX, *y, canvas.Stroke("#000"), canvas.Dashed())
+				c.Line(fromX, *y, toX, *y, canvas.Stroke(canvas.ColorEdge), canvas.Dashed())
 				r.drawOpenArrow(c, fromX, toX, *y)
 				// returnでアクティベーション終了
 				if startY, ok := activations[e.From]; ok {
@@ -107,7 +111,7 @@ func (r *SequenceRenderer) renderEvents(c *canvas.Canvas, events []sequence.Even
 					delete(activations, e.From)
 				}
 			default: // sync
-				c.Arrow(fromX, *y, toX, *y, canvas.Stroke("#000"))
+				c.Arrow(fromX, *y, toX, *y, canvas.Stroke(canvas.ColorEdge))
 				// syncでターゲットをアクティベート
 				if _, ok := activations[e.To]; !ok {
 					activations[e.To] = *y
@@ -116,7 +120,10 @@ func (r *SequenceRenderer) renderEvents(c *canvas.Canvas, events []sequence.Even
 
 			// ラベル
 			midX := (fromX + toX) / 2
-			c.Text(midX, *y-5, e.Label, canvas.TextAnchor("middle"))
+			c.Text(midX, *y-5, e.Label,
+				canvas.TextAnchor("middle"),
+				canvas.Fill(canvas.ColorNodeText),
+			)
 
 			*y += 40
 
@@ -135,19 +142,28 @@ func (r *SequenceRenderer) renderEvents(c *canvas.Canvas, events []sequence.Even
 				*y += 20
 				// else ラベル
 				if e.AltLabel != "" {
-					c.Text(60, *y-5, "["+e.AltLabel+"]")
+					c.Text(60, *y-5, "["+e.AltLabel+"]",
+						canvas.Fill(canvas.ColorEdgeLabel),
+					)
 				}
 				// else 部分のイベントをレンダリング
 				r.renderEvents(c, e.AltEvents, participantX, y, frameWidth)
 			}
 
 			// 枠を描画（参加者数に応じた幅）
-			c.Rect(50, startY-10, frameWidth, *y-startY+20, canvas.Stroke("#000"), canvas.Fill("none"))
-			c.Text(60, startY, "["+string(e.Type)+"] "+e.Label)
+			c.Rect(50, startY-10, frameWidth, *y-startY+20,
+				canvas.Stroke(canvas.ColorNodeStroke), canvas.Fill("none"),
+			)
+			c.Text(60, startY, "["+string(e.Type)+"] "+e.Label,
+				canvas.Fill(canvas.ColorEdgeLabel),
+				canvas.FontWeight("bold"),
+			)
 
 			// alt の区切り線を描画
 			if altSeparatorY > 0 {
-				c.Line(50, altSeparatorY+5, 50+frameWidth, altSeparatorY+5, canvas.Stroke("#000"), canvas.Dashed())
+				c.Line(50, altSeparatorY+5, 50+frameWidth, altSeparatorY+5,
+					canvas.Stroke(canvas.ColorNodeStroke), canvas.Dashed(),
+				)
 			}
 
 		case *sequence.ActivationEvent:
@@ -178,21 +194,23 @@ func (r *SequenceRenderer) renderEvents(c *canvas.Canvas, events []sequence.Even
 			noteHeight := 25
 
 			// 注釈の種類によって色を変える
-			fillColor := "#ffffcc" // デフォルト（黄色）
-			strokeColor := "#000"
+			fillColor := canvas.ColorDefaultNote
+			strokeColor := canvas.ColorNodeStroke
 			if e.NoteType == sequence.NoteTypeThrow {
-				fillColor = "#ffcccc" // throw は赤系
-				strokeColor = "#cc0000"
+				fillColor = canvas.ColorThrowFill
+				strokeColor = canvas.ColorThrowStroke
 			} else if e.NoteType == sequence.NoteTypeReturn {
-				fillColor = "#ccffcc" // return は緑系
-				strokeColor = "#006600"
+				fillColor = canvas.ColorReturnFill
+				strokeColor = canvas.ColorReturnStroke
 			}
 
 			// 注釈ボックスを描画
 			noteX := x + 20
 			noteY := *y - 10
-			c.Rect(noteX, noteY, noteWidth, noteHeight, canvas.Fill(fillColor), canvas.Stroke(strokeColor))
-			c.Text(noteX+10, *y+5, e.Text)
+			c.Rect(noteX, noteY, noteWidth, noteHeight,
+				canvas.Fill(fillColor), canvas.Stroke(strokeColor),
+			)
+			c.Text(noteX+10, *y+5, e.Text, canvas.Fill(canvas.ColorNodeText))
 
 			*y += 30
 		}
@@ -209,16 +227,19 @@ func (r *SequenceRenderer) renderEvents(c *canvas.Canvas, events []sequence.Even
 // drawActivationBar はアクティベーションバーを描画する
 func (r *SequenceRenderer) drawActivationBar(c *canvas.Canvas, x, startY, endY int) {
 	barWidth := 10
-	c.Rect(x-barWidth/2, startY, barWidth, endY-startY, canvas.Fill("#fff"), canvas.Stroke("#000"))
+	c.Rect(x-barWidth/2, startY, barWidth, endY-startY,
+		canvas.Fill(canvas.ColorActivationFill),
+		canvas.Stroke(canvas.ColorNodeStroke),
+	)
 }
 
 func (r *SequenceRenderer) drawOpenArrow(c *canvas.Canvas, fromX, toX, y int) {
 	if toX > fromX {
-		c.Line(toX-8, y-5, toX, y, canvas.Stroke("#000"))
-		c.Line(toX-8, y+5, toX, y, canvas.Stroke("#000"))
+		c.Line(toX-8, y-5, toX, y, canvas.Stroke(canvas.ColorEdge))
+		c.Line(toX-8, y+5, toX, y, canvas.Stroke(canvas.ColorEdge))
 	} else {
-		c.Line(toX+8, y-5, toX, y, canvas.Stroke("#000"))
-		c.Line(toX+8, y+5, toX, y, canvas.Stroke("#000"))
+		c.Line(toX+8, y-5, toX, y, canvas.Stroke(canvas.ColorEdge))
+		c.Line(toX+8, y+5, toX, y, canvas.Stroke(canvas.ColorEdge))
 	}
 }
 
@@ -229,21 +250,37 @@ func (r *SequenceRenderer) renderParticipant(c *canvas.Canvas, p sequence.Partic
 func (r *SequenceRenderer) renderParticipantWithWidth(c *canvas.Canvas, p sequence.Participant, x, y, width int) {
 	switch p.Type {
 	case sequence.ParticipantTypeActor:
-		// 人型を描画
-		c.Circle(x, y, 10, canvas.Stroke("#000"), canvas.Fill("#fff"))
-		c.Line(x, y+10, x, y+30, canvas.Stroke("#000"))
-		c.Line(x-10, y+15, x+10, y+15, canvas.Stroke("#000"))
-		c.Line(x, y+30, x-10, y+45, canvas.Stroke("#000"))
-		c.Line(x, y+30, x+10, y+45, canvas.Stroke("#000"))
-		c.Text(x, y+60, p.Name, canvas.TextAnchor("middle"))
+		// アクターテンプレートを使用（固定プロポーション）
+		c.UseTemplate("actor", x-20, y, 40, 55)
+		c.Text(x, y+60, p.Name,
+			canvas.TextAnchor("middle"),
+			canvas.Fill(canvas.ColorNodeText),
+			canvas.FontWeight("bold"),
+		)
 	case sequence.ParticipantTypeDatabase:
-		c.Cylinder(x-width/2, y, width, 50)
-		c.Text(x, y+60, p.Name, canvas.TextAnchor("middle"))
+		c.Cylinder(x-width/2, y, width, 50,
+			canvas.Fill(canvas.ColorNodeFill),
+			canvas.Stroke(canvas.ColorNodeStroke),
+		)
+		c.Text(x, y+60, p.Name,
+			canvas.TextAnchor("middle"),
+			canvas.Fill(canvas.ColorNodeText),
+			canvas.FontWeight("bold"),
+		)
 	default:
-		c.Rect(x-width/2, y, width, 40, canvas.Fill("#fff"), canvas.Stroke("#000"))
-		c.Text(x, y+25, p.Name, canvas.TextAnchor("middle"))
+		c.Rect(x-width/2, y, width, 40,
+			canvas.Fill(canvas.ColorNodeFill),
+			canvas.Stroke(canvas.ColorNodeStroke),
+			canvas.StrokeWidth(2),
+			canvas.Filter("drop-shadow"),
+		)
+		c.Text(x, y+25, p.Name,
+			canvas.TextAnchor("middle"),
+			canvas.Fill(canvas.ColorNodeText),
+			canvas.FontWeight("bold"),
+		)
 	}
 
 	// ライフライン（破線）
-	c.Line(x, y+50, x, 500, canvas.Stroke("#000"), canvas.Dashed())
+	c.Line(x, y+50, x, 500, canvas.Stroke(canvas.ColorNodeStroke), canvas.Dashed())
 }

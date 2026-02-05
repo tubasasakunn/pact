@@ -59,11 +59,11 @@ type RelationDecl struct {
 type RelationKind string
 
 const (
-	RelationDependsOn   RelationKind = "depends_on"
-	RelationExtends     RelationKind = "extends"
-	RelationImplements  RelationKind = "implements"
-	RelationContains    RelationKind = "contains"
-	RelationAggregates  RelationKind = "aggregates"
+	RelationDependsOn  RelationKind = "depends_on"
+	RelationExtends    RelationKind = "extends"
+	RelationImplements RelationKind = "implements"
+	RelationContains   RelationKind = "contains"
+	RelationAggregates RelationKind = "aggregates"
 )
 
 // InterfaceDecl はインターフェース定義を表す

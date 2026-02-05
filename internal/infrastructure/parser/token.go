@@ -55,36 +55,36 @@ const (
 	TOKEN_AS
 
 	// 記号・演算子
-	TOKEN_LBRACE    // {
-	TOKEN_RBRACE    // }
-	TOKEN_LPAREN    // (
-	TOKEN_RPAREN    // )
-	TOKEN_LBRACKET  // [
-	TOKEN_RBRACKET  // ]
-	TOKEN_COLON     // :
-	TOKEN_COMMA     // ,
-	TOKEN_DOT       // .
-	TOKEN_ARROW     // ->
-	TOKEN_AT        // @
-	TOKEN_QUESTION  // ?
-	TOKEN_PLUS      // +
-	TOKEN_MINUS     // -
-	TOKEN_STAR      // *
-	TOKEN_SLASH     // /
-	TOKEN_PERCENT   // %
-	TOKEN_EQ        // ==
-	TOKEN_NE        // !=
-	TOKEN_LT        // <
-	TOKEN_GT        // >
-	TOKEN_LE        // <=
-	TOKEN_GE        // >=
-	TOKEN_AND       // &&
-	TOKEN_OR        // ||
-	TOKEN_NOT       // !
-	TOKEN_ASSIGN    // =
-	TOKEN_NULLISH   // ??
-	TOKEN_HASH      // #
-	TOKEN_TILDE     // ~
+	TOKEN_LBRACE   // {
+	TOKEN_RBRACE   // }
+	TOKEN_LPAREN   // (
+	TOKEN_RPAREN   // )
+	TOKEN_LBRACKET // [
+	TOKEN_RBRACKET // ]
+	TOKEN_COLON    // :
+	TOKEN_COMMA    // ,
+	TOKEN_DOT      // .
+	TOKEN_ARROW    // ->
+	TOKEN_AT       // @
+	TOKEN_QUESTION // ?
+	TOKEN_PLUS     // +
+	TOKEN_MINUS    // -
+	TOKEN_STAR     // *
+	TOKEN_SLASH    // /
+	TOKEN_PERCENT  // %
+	TOKEN_EQ       // ==
+	TOKEN_NE       // !=
+	TOKEN_LT       // <
+	TOKEN_GT       // >
+	TOKEN_LE       // <=
+	TOKEN_GE       // >=
+	TOKEN_AND      // &&
+	TOKEN_OR       // ||
+	TOKEN_NOT      // !
+	TOKEN_ASSIGN   // =
+	TOKEN_NULLISH  // ??
+	TOKEN_HASH     // #
+	TOKEN_TILDE    // ~
 )
 
 // Token は字句解析の結果トークンを表す

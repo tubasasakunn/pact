@@ -22,20 +22,20 @@ type Visitor interface {
 // BaseVisitor はVisitorのデフォルト実装
 type BaseVisitor struct{}
 
-func (v *BaseVisitor) VisitSpecFile(node *SpecFile) error         { return nil }
-func (v *BaseVisitor) VisitImportDecl(node *ImportDecl) error     { return nil }
-func (v *BaseVisitor) VisitComponentDecl(node *ComponentDecl) error { return nil }
+func (v *BaseVisitor) VisitSpecFile(node *SpecFile) error             { return nil }
+func (v *BaseVisitor) VisitImportDecl(node *ImportDecl) error         { return nil }
+func (v *BaseVisitor) VisitComponentDecl(node *ComponentDecl) error   { return nil }
 func (v *BaseVisitor) VisitAnnotationDecl(node *AnnotationDecl) error { return nil }
-func (v *BaseVisitor) VisitTypeDecl(node *TypeDecl) error         { return nil }
-func (v *BaseVisitor) VisitFieldDecl(node *FieldDecl) error       { return nil }
-func (v *BaseVisitor) VisitRelationDecl(node *RelationDecl) error { return nil }
-func (v *BaseVisitor) VisitInterfaceDecl(node *InterfaceDecl) error { return nil }
-func (v *BaseVisitor) VisitMethodDecl(node *MethodDecl) error     { return nil }
-func (v *BaseVisitor) VisitFlowDecl(node *FlowDecl) error         { return nil }
-func (v *BaseVisitor) VisitStep(node Step) error                  { return nil }
-func (v *BaseVisitor) VisitExpr(node Expr) error                  { return nil }
-func (v *BaseVisitor) VisitStatesDecl(node *StatesDecl) error     { return nil }
-func (v *BaseVisitor) VisitStateDecl(node *StateDecl) error       { return nil }
+func (v *BaseVisitor) VisitTypeDecl(node *TypeDecl) error             { return nil }
+func (v *BaseVisitor) VisitFieldDecl(node *FieldDecl) error           { return nil }
+func (v *BaseVisitor) VisitRelationDecl(node *RelationDecl) error     { return nil }
+func (v *BaseVisitor) VisitInterfaceDecl(node *InterfaceDecl) error   { return nil }
+func (v *BaseVisitor) VisitMethodDecl(node *MethodDecl) error         { return nil }
+func (v *BaseVisitor) VisitFlowDecl(node *FlowDecl) error             { return nil }
+func (v *BaseVisitor) VisitStep(node Step) error                      { return nil }
+func (v *BaseVisitor) VisitExpr(node Expr) error                      { return nil }
+func (v *BaseVisitor) VisitStatesDecl(node *StatesDecl) error         { return nil }
+func (v *BaseVisitor) VisitStateDecl(node *StateDecl) error           { return nil }
 func (v *BaseVisitor) VisitTransitionDecl(node *TransitionDecl) error { return nil }
 
 // Walk はASTを走査する

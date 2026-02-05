@@ -42,9 +42,9 @@ func TestStateRenderer_InitialState(t *testing.T) {
 	renderer.Render(diagram, &buf)
 
 	svg := buf.String()
-	// 黒丸
-	if !strings.Contains(svg, `fill="#000"`) {
-		t.Error("expected filled circle for initial state")
+	// 初期状態のシンボルテンプレートが使用されている
+	if !strings.Contains(svg, `initial-state`) {
+		t.Error("expected initial-state template for initial state")
 	}
 }
 

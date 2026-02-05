@@ -125,3 +125,70 @@ cmd/ → pkg/ → application/ → domain/
 - 外部依存は最小限に保つ（現在は `gopkg.in/yaml.v3` のみ）
 - 新しい外部依存追加時はレビュー必須
 - 標準ライブラリで実現可能なら標準ライブラリを使う
+
+## Sample Files & SVG Generation
+
+### ディレクトリ構成
+
+```
+sample/
+  pact/                 → サンプル .pact ファイル（ソース）
+    class/              → クラス図パターン
+    state/              → 状態遷移図パターン
+    flow/               → フローチャートパターン
+    sequence/           → シーケンス図パターン
+  commit/               → 生成された SVG ファイル（コミット対象）
+    class/
+    state/
+    flow/
+    sequence/
+```
+
+### サンプル生成コマンド
+
+コミット時に以下のコマンドで SVG を再生成する：
+
+```bash
+# 全サンプルの SVG 生成
+for f in sample/pact/class/*.pact; do ./bin/pact generate -o sample/commit/class/ -t class "$f"; done
+for f in sample/pact/state/*.pact; do ./bin/pact generate -o sample/commit/state/ -t state "$f"; done
+for f in sample/pact/flow/*.pact; do ./bin/pact generate -o sample/commit/flow/ -t flow "$f"; done
+for f in sample/pact/sequence/*.pact; do ./bin/pact generate -o sample/commit/sequence/ -t sequence "$f"; done
+```
+
+### パターンテンプレート
+
+SVG 生成には以下のパターンテンプレートが使用される（`internal/infrastructure/renderer/canvas/pattern.go`）：
+
+**Class Patterns:**
+- InheritanceTree2/3/4 - 継承ツリー（2〜4子クラス）
+- InterfaceImpl2/3/4 - インターフェース実装（2〜4実装クラス）
+- Composition2/3/4 - コンポジション（2〜4パーツ）
+- Diamond - ダイヤモンド依存
+- Layered3x2/3x3 - レイヤードアーキテクチャ
+
+**State Patterns:**
+- LinearStates2/3/4 - 直線状態遷移（2〜4状態）
+- BinaryChoice - 二項選択
+- StateLoop - ループ状態
+- StarTopology - 星型トポロジー
+
+**Flow Patterns:**
+- IfElse, IfElseIfElse - 条件分岐
+- WhileLoop - ループ
+- Sequential3/4 - 順次処理（3〜4ステップ）
+
+**Sequence Patterns:**
+- RequestResponse - リクエスト/レスポンス
+- Callback - コールバック
+- Chain3/4 - チェーン（3〜4参加者）
+- FanOut - ファンアウト
+
+### パターンプレビューツール
+
+パターンテンプレートのプレビューを生成：
+
+```bash
+go run ./cmd/pattern-preview
+# → pattern-preview/index.html をブラウザで開く
+```

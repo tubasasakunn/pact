@@ -36,10 +36,10 @@ func (e *FieldExpr) GetPos() Position { return e.Pos }
 
 // CallExpr はメソッド呼び出しを表す
 type CallExpr struct {
-	Pos      Position
-	Object   Expr
-	Method   string
-	Args     []Expr
+	Pos    Position
+	Object Expr
+	Method string
+	Args   []Expr
 }
 
 func (e *CallExpr) exprNode()        {}

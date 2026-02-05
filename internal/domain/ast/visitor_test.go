@@ -8,21 +8,21 @@ import (
 // CountingVisitor は各ノードの訪問回数をカウントする
 type CountingVisitor struct {
 	BaseVisitor
-	SpecFileCount     int
-	ImportCount       int
-	ComponentCount    int
-	AnnotationCount   int
-	TypeCount         int
-	FieldCount        int
-	RelationCount     int
-	InterfaceCount    int
-	MethodCount       int
-	FlowCount         int
-	StepCount         int
-	ExprCount         int
-	StatesCount       int
-	StateCount        int
-	TransitionCount   int
+	SpecFileCount   int
+	ImportCount     int
+	ComponentCount  int
+	AnnotationCount int
+	TypeCount       int
+	FieldCount      int
+	RelationCount   int
+	InterfaceCount  int
+	MethodCount     int
+	FlowCount       int
+	StepCount       int
+	ExprCount       int
+	StatesCount     int
+	StateCount      int
+	TransitionCount int
 }
 
 func (v *CountingVisitor) VisitSpecFile(node *SpecFile) error {

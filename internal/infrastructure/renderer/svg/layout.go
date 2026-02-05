@@ -216,18 +216,23 @@ func renderNotes(c *canvas.Canvas, notes []common.Note, elementPositions map[str
 		// 関連付け要素がある場合は接続線を描画
 		if note.AttachTo != "" {
 			if pos, ok := elementPositions[note.AttachTo]; ok {
-				c.Line(pos.x+60, pos.y+20, x, y+noteHeight/2, canvas.Stroke("#000"), canvas.Dashed())
+				c.Line(pos.x+60, pos.y+20, x, y+noteHeight/2,
+					canvas.Stroke(canvas.ColorNoteStroke), canvas.Dashed(),
+				)
 			}
 		}
 
-		// ノートを描画
-		c.Note(x, y, noteWidth, noteHeight, canvas.Fill("#ffffcc"), canvas.Stroke("#000"))
+		// ノートを描画（テーマカラー）
+		c.Note(x, y, noteWidth, noteHeight,
+			canvas.Fill(canvas.ColorNoteFill),
+			canvas.Stroke(canvas.ColorNoteStroke),
+		)
 
 		// テキストを描画（複数行対応）
 		lines := strings.Split(note.Text, "\n")
 		textY := y + 15
 		for _, line := range lines {
-			c.Text(x+5, textY, line)
+			c.Text(x+5, textY, line, canvas.Fill(canvas.ColorNodeText))
 			textY += 15
 		}
 	}

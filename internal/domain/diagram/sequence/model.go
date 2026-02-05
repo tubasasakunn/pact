@@ -59,9 +59,9 @@ const (
 type FragmentEvent struct {
 	Type      FragmentType
 	Label     string
-	Events    []Event   // メイン(then)部分のイベント
-	AltLabel  string    // alt の else 部分用ラベル
-	AltEvents []Event   // alt の else 部分のイベント
+	Events    []Event // メイン(then)部分のイベント
+	AltLabel  string  // alt の else 部分用ラベル
+	AltEvents []Event // alt の else 部分のイベント
 }
 
 func (e *FragmentEvent) eventNode() {}

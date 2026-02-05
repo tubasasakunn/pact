@@ -1232,8 +1232,8 @@ func TestParser_Expr_Call(t *testing.T) {
 // P110-P122: 二項演算
 func TestParser_Expr_Binary_Operators(t *testing.T) {
 	tests := []struct {
-		op     string
-		input  string
+		op    string
+		input string
 	}{
 		{"+", "a + b"},
 		{"-", "a - b"},

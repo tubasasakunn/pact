@@ -1062,14 +1062,14 @@ func TestLexer_Sequence_TypeDecl(t *testing.T) {
 func TestLexer_Sequence_MethodDecl(t *testing.T) {
 	l := NewLexer("Login(email: string) -> Token")
 	expected := []TokenType{
-		TOKEN_IDENT,    // Login
-		TOKEN_LPAREN,   // (
-		TOKEN_IDENT,    // email
-		TOKEN_COLON,    // :
-		TOKEN_IDENT,    // string
-		TOKEN_RPAREN,   // )
-		TOKEN_ARROW,    // ->
-		TOKEN_IDENT,    // Token
+		TOKEN_IDENT,  // Login
+		TOKEN_LPAREN, // (
+		TOKEN_IDENT,  // email
+		TOKEN_COLON,  // :
+		TOKEN_IDENT,  // string
+		TOKEN_RPAREN, // )
+		TOKEN_ARROW,  // ->
+		TOKEN_IDENT,  // Token
 		TOKEN_EOF,
 	}
 	for _, exp := range expected {
