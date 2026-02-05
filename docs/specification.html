@@ -1,0 +1,540 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Specification - Pact DSL</title>
+  <link rel="stylesheet" href="assets/css/main.css">
+  <style>
+    /* Syntax Highlighting */
+    .hljs-keyword { color: #ff7b72; }
+    .hljs-string { color: #a5d6ff; }
+    .hljs-comment { color: #8b949e; }
+    .hljs-number { color: #79c0ff; }
+    .hljs-type { color: #ffa657; }
+    .hljs-attr { color: #79c0ff; }
+  </style>
+</head>
+<body>
+  <nav class="navbar">
+    <div class="nav-container">
+      <a href="./" class="nav-logo">
+        <span class="logo-icon">&#9670;</span>
+        <span class="logo-text">Pact</span>
+      </a>
+      <div class="nav-links">
+        <a href="specification.html" class="nav-link active">Specification</a>
+        <a href="sample/" class="nav-link">Gallery</a>
+        <a href="https://github.com/tubasasakunn/pact" class="nav-link nav-link-external" target="_blank">
+          GitHub
+          <svg width="12" height="12" viewBox="0 0 12 12" fill="currentColor">
+            <path d="M3.5 3a.5.5 0 0 0 0 1h3.793L2.146 9.146a.5.5 0 0 0 .708.708L8 4.707V8.5a.5.5 0 0 0 1 0v-5a.5.5 0 0 0-.5-.5h-5z"/>
+          </svg>
+        </a>
+      </div>
+    </div>
+  </nav>
+
+  <div class="doc-container">
+    <aside class="doc-sidebar">
+      <nav class="doc-nav">
+        <div class="doc-nav-title">Contents</div>
+        <ul class="doc-nav-list">
+          <li class="doc-nav-item"><a href="#overview" class="doc-nav-link">Overview</a></li>
+          <li class="doc-nav-item"><a href="#file-structure" class="doc-nav-link">File Structure</a></li>
+          <li class="doc-nav-item"><a href="#token-types" class="doc-nav-link">Token Types</a></li>
+          <li class="doc-nav-item"><a href="#grammar" class="doc-nav-link">Grammar</a></li>
+          <li class="doc-nav-item"><a href="#type-declarations" class="doc-nav-link">Type Declarations</a></li>
+          <li class="doc-nav-item"><a href="#relations" class="doc-nav-link">Relations</a></li>
+          <li class="doc-nav-item"><a href="#interfaces" class="doc-nav-link">Interfaces</a></li>
+          <li class="doc-nav-item"><a href="#flows" class="doc-nav-link">Flows</a></li>
+          <li class="doc-nav-item"><a href="#expressions" class="doc-nav-link">Expressions</a></li>
+          <li class="doc-nav-item"><a href="#state-machines" class="doc-nav-link">State Machines</a></li>
+          <li class="doc-nav-item"><a href="#annotations" class="doc-nav-link">Annotations</a></li>
+          <li class="doc-nav-item"><a href="#ast-structure" class="doc-nav-link">AST Structure</a></li>
+          <li class="doc-nav-item"><a href="#examples" class="doc-nav-link">Examples</a></li>
+        </ul>
+      </nav>
+    </aside>
+
+    <main class="doc-content">
+      <h1 id="overview">Pact DSL Specification</h1>
+      <p>Pact is a domain-specific language for defining software architecture and generating diagrams.</p>
+
+      <p>Pact supports four diagram types:</p>
+      <ul>
+        <li><strong>Class Diagrams</strong>: Component structure, types, and relationships</li>
+        <li><strong>Sequence Diagrams</strong>: Message flows between components</li>
+        <li><strong>Flow Diagrams</strong>: Flowcharts with control flow</li>
+        <li><strong>State Diagrams</strong>: State machines and transitions</li>
+      </ul>
+
+      <h2 id="file-structure">File Structure</h2>
+      <pre><code class="language-pact"><span class="hljs-comment">// Imports</span>
+<span class="hljs-keyword">import</span> <span class="hljs-string">"path/to/module"</span>
+<span class="hljs-keyword">import</span> <span class="hljs-string">"path/to/other"</span> <span class="hljs-keyword">as</span> alias
+
+<span class="hljs-comment">// Component definition</span>
+<span class="hljs-attr">@annotation</span>(<span class="hljs-string">"value"</span>)
+<span class="hljs-keyword">component</span> <span class="hljs-type">ComponentName</span> {
+    <span class="hljs-comment">// Types</span>
+    <span class="hljs-keyword">type</span> <span class="hljs-type">TypeName</span> { ... }
+    <span class="hljs-keyword">enum</span> <span class="hljs-type">EnumName</span> { ... }
+
+    <span class="hljs-comment">// Relations</span>
+    <span class="hljs-keyword">depends on</span> OtherComponent
+    <span class="hljs-keyword">extends</span> BaseComponent
+    <span class="hljs-keyword">implements</span> Interface
+    <span class="hljs-keyword">contains</span> ChildComponent
+    <span class="hljs-keyword">aggregates</span> Reference
+
+    <span class="hljs-comment">// Interfaces</span>
+    <span class="hljs-keyword">provides</span> API { ... }
+    <span class="hljs-keyword">requires</span> ExternalAPI { ... }
+
+    <span class="hljs-comment">// Flows</span>
+    <span class="hljs-keyword">flow</span> ProcessName { ... }
+
+    <span class="hljs-comment">// State machines</span>
+    <span class="hljs-keyword">states</span> StateMachineName { ... }
+}</code></pre>
+
+      <h2 id="token-types">Token Types</h2>
+
+      <h3>Keywords</h3>
+      <table>
+        <thead>
+          <tr><th>Category</th><th>Keywords</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Structure</td><td><code>component</code>, <code>import</code>, <code>as</code></td></tr>
+          <tr><td>Types</td><td><code>type</code>, <code>enum</code></td></tr>
+          <tr><td>Relations</td><td><code>depends</code>, <code>on</code>, <code>extends</code>, <code>implements</code>, <code>contains</code>, <code>aggregates</code></td></tr>
+          <tr><td>Interfaces</td><td><code>provides</code>, <code>requires</code>, <code>async</code>, <code>throws</code></td></tr>
+          <tr><td>Flows</td><td><code>flow</code>, <code>return</code>, <code>throw</code>, <code>if</code>, <code>else</code>, <code>for</code>, <code>in</code>, <code>while</code>, <code>await</code></td></tr>
+          <tr><td>States</td><td><code>states</code>, <code>state</code>, <code>parallel</code>, <code>region</code>, <code>initial</code>, <code>final</code>, <code>entry</code>, <code>exit</code>, <code>when</code>, <code>after</code>, <code>do</code></td></tr>
+          <tr><td>Literals</td><td><code>true</code>, <code>false</code>, <code>null</code></td></tr>
+        </tbody>
+      </table>
+
+      <h3>Operators</h3>
+      <table>
+        <thead>
+          <tr><th>Category</th><th>Operators</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Arithmetic</td><td><code>+</code>, <code>-</code>, <code>*</code>, <code>/</code>, <code>%</code></td></tr>
+          <tr><td>Comparison</td><td><code>==</code>, <code>!=</code>, <code>&lt;</code>, <code>&gt;</code>, <code>&lt;=</code>, <code>&gt;=</code></td></tr>
+          <tr><td>Logical</td><td><code>&&</code>, <code>||</code>, <code>!</code></td></tr>
+          <tr><td>Other</td><td><code>=</code>, <code>-&gt;</code>, <code>.</code>, <code>?</code>, <code>??</code>, <code>@</code></td></tr>
+        </tbody>
+      </table>
+
+      <h3>Visibility Modifiers</h3>
+      <table>
+        <thead>
+          <tr><th>Symbol</th><th>Visibility</th></tr>
+        </thead>
+        <tbody>
+          <tr><td><code>+</code></td><td>Public</td></tr>
+          <tr><td><code>-</code></td><td>Private</td></tr>
+          <tr><td><code>#</code></td><td>Protected</td></tr>
+          <tr><td><code>~</code></td><td>Package</td></tr>
+        </tbody>
+      </table>
+
+      <h2 id="grammar">Grammar</h2>
+
+      <h3 id="type-declarations">Type Declarations</h3>
+      <pre><code class="language-pact"><span class="hljs-comment">// Struct type</span>
+<span class="hljs-keyword">type</span> <span class="hljs-type">User</span> {
+    +id: <span class="hljs-type">string</span>           <span class="hljs-comment">// public</span>
+    -password: <span class="hljs-type">string</span>     <span class="hljs-comment">// private</span>
+    #email: <span class="hljs-type">string</span>        <span class="hljs-comment">// protected</span>
+    ~internal: <span class="hljs-type">int</span>        <span class="hljs-comment">// package</span>
+    roles: <span class="hljs-type">string[]</span>       <span class="hljs-comment">// array type</span>
+    manager: <span class="hljs-type">User?</span>        <span class="hljs-comment">// nullable type</span>
+}
+
+<span class="hljs-comment">// Enum type</span>
+<span class="hljs-keyword">enum</span> <span class="hljs-type">Status</span> {
+    Active
+    Inactive
+    Pending
+}</code></pre>
+
+      <h3>Type Expressions</h3>
+      <pre><code>TypeExpr = TypeName ('?' | '[]')?</code></pre>
+      <ul>
+        <li><code>Type</code> - Base type</li>
+        <li><code>Type?</code> - Nullable type</li>
+        <li><code>Type[]</code> - Array type</li>
+      </ul>
+
+      <h3 id="relations">Relations</h3>
+      <pre><code class="language-pact"><span class="hljs-comment">// Dependency with type qualifier</span>
+<span class="hljs-keyword">depends on</span> Database: database
+<span class="hljs-keyword">depends on</span> API: external <span class="hljs-keyword">as</span> apiClient
+
+<span class="hljs-comment">// Inheritance</span>
+<span class="hljs-keyword">extends</span> BaseComponent
+
+<span class="hljs-comment">// Interface implementation</span>
+<span class="hljs-keyword">implements</span> Serializable
+
+<span class="hljs-comment">// Composition (strong ownership)</span>
+<span class="hljs-keyword">contains</span> Engine
+
+<span class="hljs-comment">// Aggregation (weak reference)</span>
+<span class="hljs-keyword">aggregates</span> Logger</code></pre>
+
+      <h3 id="interfaces">Interfaces</h3>
+      <pre><code class="language-pact"><span class="hljs-keyword">provides</span> <span class="hljs-type">UserService</span> {
+    <span class="hljs-comment">// Sync method</span>
+    getUser(id: <span class="hljs-type">string</span>) -> <span class="hljs-type">User</span>
+
+    <span class="hljs-comment">// Async method</span>
+    <span class="hljs-keyword">async</span> fetchUsers() -> <span class="hljs-type">User[]</span>
+
+    <span class="hljs-comment">// Method with throws</span>
+    updateUser(user: <span class="hljs-type">User</span>) -> <span class="hljs-type">User</span> <span class="hljs-keyword">throws</span> ValidationError, NotFoundError
+}
+
+<span class="hljs-keyword">requires</span> <span class="hljs-type">ExternalAPI</span> {
+    fetch(url: <span class="hljs-type">string</span>) -> <span class="hljs-type">Response</span>
+}</code></pre>
+
+      <h3 id="flows">Flows</h3>
+      <pre><code class="language-pact"><span class="hljs-keyword">flow</span> <span class="hljs-type">ProcessOrder</span> {
+    <span class="hljs-comment">// Assignment</span>
+    order = orderService.getOrder(orderId)
+
+    <span class="hljs-comment">// Conditional</span>
+    <span class="hljs-keyword">if</span> order.isValid() {
+        result = paymentService.charge(order)
+    } <span class="hljs-keyword">else</span> {
+        <span class="hljs-keyword">throw</span> InvalidOrderError
+    }
+
+    <span class="hljs-comment">// Loop</span>
+    <span class="hljs-keyword">for</span> item <span class="hljs-keyword">in</span> order.items {
+        inventory.reserve(item)
+    }
+
+    <span class="hljs-comment">// While loop</span>
+    <span class="hljs-keyword">while</span> !order.isComplete() {
+        order.processNext()
+    }
+
+    <span class="hljs-comment">// Async call</span>
+    <span class="hljs-keyword">await</span> notificationService.send(order)
+
+    <span class="hljs-comment">// Return</span>
+    <span class="hljs-keyword">return</span> order
+}</code></pre>
+
+      <h3 id="expressions">Expressions</h3>
+      <pre><code class="language-pact"><span class="hljs-comment">// Literals</span>
+<span class="hljs-number">42</span>                          <span class="hljs-comment">// int</span>
+<span class="hljs-number">3.14</span>                        <span class="hljs-comment">// float</span>
+<span class="hljs-string">"hello"</span>                     <span class="hljs-comment">// string</span>
+<span class="hljs-keyword">true</span>                        <span class="hljs-comment">// boolean</span>
+<span class="hljs-keyword">null</span>                        <span class="hljs-comment">// null</span>
+
+<span class="hljs-comment">// Variable</span>
+user
+
+<span class="hljs-comment">// Field access</span>
+user.name
+
+<span class="hljs-comment">// Method call</span>
+user.getName()
+service.process(arg1, arg2)
+
+<span class="hljs-comment">// Binary operations</span>
+a + b
+x > <span class="hljs-number">10</span> && y < <span class="hljs-number">20</span>
+
+<span class="hljs-comment">// Unary operations</span>
+!isValid
+-amount
+
+<span class="hljs-comment">// Ternary</span>
+condition ? thenExpr : elseExpr
+
+<span class="hljs-comment">// Nullish coalescing</span>
+value ?? defaultValue
+value ?? <span class="hljs-keyword">throw</span> NullError</code></pre>
+
+      <h3 id="state-machines">State Machines</h3>
+      <pre><code class="language-pact"><span class="hljs-keyword">states</span> <span class="hljs-type">OrderState</span> {
+    <span class="hljs-keyword">initial</span> Pending
+    <span class="hljs-keyword">final</span> Completed
+    <span class="hljs-keyword">final</span> Cancelled
+
+    <span class="hljs-comment">// Simple state</span>
+    <span class="hljs-keyword">state</span> Processing {
+        <span class="hljs-keyword">entry</span> [startProcessing]
+        <span class="hljs-keyword">exit</span> [cleanup]
+    }
+
+    <span class="hljs-comment">// Hierarchical state</span>
+    <span class="hljs-keyword">state</span> Active {
+        <span class="hljs-keyword">initial</span> SubState1
+
+        <span class="hljs-keyword">state</span> SubState1 { }
+        <span class="hljs-keyword">state</span> SubState2 { }
+
+        SubState1 -> SubState2 <span class="hljs-keyword">on</span> advance
+    }
+
+    <span class="hljs-comment">// Transitions</span>
+    Pending -> Processing <span class="hljs-keyword">on</span> submit
+    Processing -> Completed <span class="hljs-keyword">when</span> order.isPaid()
+    Processing -> Cancelled <span class="hljs-keyword">after</span> <span class="hljs-number">24h</span>
+
+    <span class="hljs-comment">// Transition with guard and actions</span>
+    Processing -> Shipped <span class="hljs-keyword">on</span> ship <span class="hljs-keyword">when</span> inventory.available() <span class="hljs-keyword">do</span> [updateInventory, notify]
+
+    <span class="hljs-comment">// Parallel state</span>
+    <span class="hljs-keyword">parallel</span> ActiveState {
+        <span class="hljs-keyword">region</span> BillingRegion {
+            <span class="hljs-keyword">initial</span> Unbilled
+            <span class="hljs-keyword">state</span> Unbilled { }
+            <span class="hljs-keyword">state</span> Billed { }
+            Unbilled -> Billed <span class="hljs-keyword">on</span> charge
+        }
+        <span class="hljs-keyword">region</span> ShippingRegion {
+            <span class="hljs-keyword">initial</span> Preparing
+            <span class="hljs-keyword">state</span> Preparing { }
+            <span class="hljs-keyword">state</span> Shipped { }
+            Preparing -> Shipped <span class="hljs-keyword">on</span> ship
+        }
+    }
+}</code></pre>
+
+      <h3 id="annotations">Annotations</h3>
+      <pre><code class="language-pact"><span class="hljs-attr">@deprecated</span>
+<span class="hljs-attr">@note</span>(<span class="hljs-string">"This is a description"</span>)
+<span class="hljs-attr">@custom</span>(key: <span class="hljs-string">"value"</span>, other: <span class="hljs-string">"data"</span>)
+<span class="hljs-keyword">component</span> <span class="hljs-type">Example</span> { }</code></pre>
+
+      <h2 id="ast-structure">AST Structure</h2>
+
+      <h3>Root</h3>
+      <pre><code>SpecFile
+├── Imports[]
+├── Component (single, legacy)
+├── Components[] (multiple)
+├── Interfaces[]
+├── Types[]
+└── Annotations[]</code></pre>
+
+      <h3>Component</h3>
+      <pre><code>ComponentDecl
+├── Name: string
+├── Annotations[]
+└── Body
+    ├── Types[]
+    ├── Relations[]
+    ├── Provides[]
+    ├── Requires[]
+    ├── Flows[]
+    └── States[]</code></pre>
+
+      <h3>Expression Hierarchy</h3>
+      <pre><code>Expr (interface)
+├── LiteralExpr (int, float, string, bool, null)
+├── VariableExpr
+├── FieldExpr
+├── CallExpr
+├── BinaryExpr
+├── UnaryExpr
+├── TernaryExpr
+└── NullishExpr</code></pre>
+
+      <h3>Step Hierarchy</h3>
+      <pre><code>Step (interface)
+├── AssignStep
+├── CallStep
+├── ReturnStep
+├── ThrowStep
+├── IfStep
+├── ForStep
+└── WhileStep</code></pre>
+
+      <h2>Operator Precedence</h2>
+      <table>
+        <thead>
+          <tr><th>Level</th><th>Operators</th><th>Associativity</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>1</td><td><code>?:</code>, <code>??</code></td><td>Right</td></tr>
+          <tr><td>2</td><td><code>||</code></td><td>Left</td></tr>
+          <tr><td>3</td><td><code>&&</code></td><td>Left</td></tr>
+          <tr><td>4</td><td><code>==</code>, <code>!=</code></td><td>Left</td></tr>
+          <tr><td>5</td><td><code>&lt;</code>, <code>&gt;</code>, <code>&lt;=</code>, <code>&gt;=</code></td><td>Left</td></tr>
+          <tr><td>6</td><td><code>+</code>, <code>-</code></td><td>Left</td></tr>
+          <tr><td>7</td><td><code>*</code>, <code>/</code>, <code>%</code></td><td>Left</td></tr>
+          <tr><td>8</td><td><code>!</code>, <code>-</code> (unary)</td><td>Right</td></tr>
+          <tr><td>9</td><td><code>.</code> (member)</td><td>Left</td></tr>
+        </tbody>
+      </table>
+
+      <h2>Duration Literals</h2>
+      <pre><code class="language-pact"><span class="hljs-number">500ms</span>   <span class="hljs-comment">// milliseconds</span>
+<span class="hljs-number">30s</span>     <span class="hljs-comment">// seconds</span>
+<span class="hljs-number">5m</span>      <span class="hljs-comment">// minutes</span>
+<span class="hljs-number">24h</span>     <span class="hljs-comment">// hours</span>
+<span class="hljs-number">7d</span>      <span class="hljs-comment">// days</span></code></pre>
+
+      <h2>Comments</h2>
+      <pre><code class="language-pact"><span class="hljs-comment">// Single line comment</span>
+
+<span class="hljs-comment">/*
+  Multi-line
+  comment
+*/</span></code></pre>
+
+      <h2>String Escapes</h2>
+      <table>
+        <thead>
+          <tr><th>Escape</th><th>Meaning</th></tr>
+        </thead>
+        <tbody>
+          <tr><td><code>\"</code></td><td>Double quote</td></tr>
+          <tr><td><code>\\</code></td><td>Backslash</td></tr>
+          <tr><td><code>\n</code></td><td>Newline</td></tr>
+          <tr><td><code>\t</code></td><td>Tab</td></tr>
+          <tr><td><code>\r</code></td><td>Carriage return</td></tr>
+        </tbody>
+      </table>
+
+      <hr style="margin: var(--space-2xl) 0; border-color: var(--color-border);">
+
+      <h2 id="examples">Complete Example</h2>
+      <pre><code class="language-pact"><span class="hljs-attr">@note</span>(<span class="hljs-string">"Order management service"</span>)
+<span class="hljs-keyword">component</span> <span class="hljs-type">OrderService</span> {
+    <span class="hljs-keyword">type</span> <span class="hljs-type">Order</span> {
+        +id: <span class="hljs-type">string</span>
+        +customer: <span class="hljs-type">Customer</span>
+        +items: <span class="hljs-type">OrderItem[]</span>
+        +status: <span class="hljs-type">OrderStatus</span>
+        -createdAt: <span class="hljs-type">string</span>
+    }
+
+    <span class="hljs-keyword">type</span> <span class="hljs-type">OrderItem</span> {
+        +product: <span class="hljs-type">Product</span>
+        +quantity: <span class="hljs-type">int</span>
+        +price: <span class="hljs-type">float</span>
+    }
+
+    <span class="hljs-keyword">enum</span> <span class="hljs-type">OrderStatus</span> {
+        Pending
+        Processing
+        Shipped
+        Delivered
+        Cancelled
+    }
+
+    <span class="hljs-keyword">depends on</span> Database: database
+    <span class="hljs-keyword">depends on</span> PaymentGateway: external <span class="hljs-keyword">as</span> payments
+    <span class="hljs-keyword">depends on</span> NotificationService
+
+    <span class="hljs-keyword">provides</span> <span class="hljs-type">OrderAPI</span> {
+        createOrder(customer: <span class="hljs-type">Customer</span>, items: <span class="hljs-type">OrderItem[]</span>) -> <span class="hljs-type">Order</span> <span class="hljs-keyword">throws</span> ValidationError
+        getOrder(id: <span class="hljs-type">string</span>) -> <span class="hljs-type">Order?</span>
+        <span class="hljs-keyword">async</span> processOrder(id: <span class="hljs-type">string</span>) -> <span class="hljs-type">Order</span> <span class="hljs-keyword">throws</span> PaymentError
+    }
+
+    <span class="hljs-keyword">requires</span> <span class="hljs-type">InventoryService</span> {
+        checkStock(productId: <span class="hljs-type">string</span>) -> <span class="hljs-type">int</span>
+        reserve(productId: <span class="hljs-type">string</span>, quantity: <span class="hljs-type">int</span>) -> <span class="hljs-type">bool</span>
+    }
+
+    <span class="hljs-keyword">flow</span> <span class="hljs-type">CreateOrder</span> {
+        validation = validateItems(items)
+        <span class="hljs-keyword">if</span> !validation.isValid {
+            <span class="hljs-keyword">throw</span> ValidationError
+        }
+
+        <span class="hljs-keyword">for</span> item <span class="hljs-keyword">in</span> items {
+            stock = inventoryService.checkStock(item.product.id)
+            <span class="hljs-keyword">if</span> stock < item.quantity {
+                <span class="hljs-keyword">throw</span> InsufficientStockError
+            }
+        }
+
+        order = db.createOrder(customer, items)
+        <span class="hljs-keyword">await</span> notifications.sendConfirmation(order)
+        <span class="hljs-keyword">return</span> order
+    }
+
+    <span class="hljs-keyword">states</span> <span class="hljs-type">OrderLifecycle</span> {
+        <span class="hljs-keyword">initial</span> Pending
+        <span class="hljs-keyword">final</span> Delivered
+        <span class="hljs-keyword">final</span> Cancelled
+
+        <span class="hljs-keyword">state</span> Processing {
+            <span class="hljs-keyword">entry</span> [validatePayment]
+            <span class="hljs-keyword">exit</span> [notifyCustomer]
+        }
+
+        Pending -> Processing <span class="hljs-keyword">on</span> submit <span class="hljs-keyword">when</span> payment.isValid()
+        Processing -> Shipped <span class="hljs-keyword">on</span> ship <span class="hljs-keyword">do</span> [updateInventory, createShipment]
+        Shipped -> Delivered <span class="hljs-keyword">on</span> deliver
+        Pending -> Cancelled <span class="hljs-keyword">on</span> cancel
+        Processing -> Cancelled <span class="hljs-keyword">on</span> cancel <span class="hljs-keyword">when</span> canCancel()
+    }
+}</code></pre>
+
+      <hr style="margin: var(--space-2xl) 0; border-color: var(--color-border);">
+      <p style="color: var(--color-text-muted); font-size: 0.875rem;">Last updated: 2026-02-02</p>
+    </main>
+  </div>
+
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-content">
+        <p>&copy; 2024-2026 Pact Project</p>
+        <div class="footer-links">
+          <a href="https://github.com/tubasasakunn/pact" target="_blank">GitHub</a>
+          <a href="specification.html">Specification</a>
+          <a href="sample/">Gallery</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // Smooth scroll for anchor links
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', function (e) {
+        e.preventDefault();
+        const target = document.querySelector(this.getAttribute('href'));
+        if (target) {
+          target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+      });
+    });
+
+    // Highlight active section in nav
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          document.querySelectorAll('.doc-nav-link').forEach(link => {
+            link.classList.remove('active');
+            if (link.getAttribute('href') === '#' + entry.target.id) {
+              link.classList.add('active');
+            }
+          });
+        }
+      });
+    }, { rootMargin: '-20% 0px -80% 0px' });
+
+    document.querySelectorAll('h1[id], h2[id], h3[id]').forEach(section => {
+      observer.observe(section);
+    });
+  </script>
+</body>
+</html>

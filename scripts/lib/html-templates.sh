@@ -1,30 +1,6 @@
 #!/bin/bash
 # HTML template functions for Pact gallery
-
-# =============================================================================
-# Common Styles
-# =============================================================================
-
-readonly COMMON_STYLES='
-    * { box-sizing: border-box; margin: 0; padding: 0; }
-    body {
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-      background: #0d1117;
-      color: #c9d1d9;
-      min-height: 100vh;
-    }
-    a { color: #58a6ff; text-decoration: none; }
-    a:hover { text-decoration: underline; }
-    .badge {
-      display: inline-block;
-      background: #21262d;
-      border: 1px solid #30363d;
-      border-radius: 2em;
-      padding: 0.25em 0.75em;
-      font-size: 0.75rem;
-      margin-right: 0.5rem;
-    }
-'
+# Uses shared CSS from docs/assets/css/main.css
 
 # =============================================================================
 # Main Index Page (Commit List)
@@ -38,67 +14,39 @@ render_main_header() {
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Pact Sample Gallery</title>
-  <style>
-    * { box-sizing: border-box; margin: 0; padding: 0; }
-    body {
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-      background: #0d1117;
-      color: #c9d1d9;
-      min-height: 100vh;
-      padding: 2rem;
-    }
-    .container { max-width: 800px; margin: 0 auto; }
-    h1 { font-size: 2rem; margin-bottom: 0.5rem; color: #58a6ff; }
-    .subtitle { color: #8b949e; margin-bottom: 2rem; }
-    .commit-list { list-style: none; }
-    .commit-item {
-      background: #161b22;
-      border: 1px solid #30363d;
-      border-radius: 6px;
-      margin-bottom: 1rem;
-      transition: border-color 0.2s;
-    }
-    .commit-item:hover { border-color: #58a6ff; }
-    .commit-link {
-      display: block;
-      padding: 1.5rem;
-      text-decoration: none;
-      color: inherit;
-    }
-    .commit-id {
-      font-family: monospace;
-      font-size: 1.25rem;
-      color: #58a6ff;
-      margin-bottom: 0.5rem;
-    }
-    .commit-meta { font-size: 0.875rem; color: #8b949e; }
-    .badge {
-      display: inline-block;
-      background: #21262d;
-      border: 1px solid #30363d;
-      border-radius: 2em;
-      padding: 0.25em 0.75em;
-      font-size: 0.75rem;
-      margin-right: 0.5rem;
-    }
-    footer {
-      margin-top: 3rem;
-      padding-top: 1.5rem;
-      border-top: 1px solid #30363d;
-      text-align: center;
-      color: #8b949e;
-      font-size: 0.875rem;
-    }
-    footer a { color: #58a6ff; text-decoration: none; }
-    footer a:hover { text-decoration: underline; }
-  </style>
+  <title>Sample Gallery - Pact</title>
+  <link rel="stylesheet" href="../assets/css/main.css">
 </head>
 <body>
-  <div class="container">
-    <h1>Pact Sample Gallery</h1>
-    <p class="subtitle">Generated SVG diagrams from .pact files</p>
-    <ul class="commit-list">
+  <nav class="navbar">
+    <div class="nav-container">
+      <a href="../" class="nav-logo">
+        <span class="logo-icon">&#9670;</span>
+        <span class="logo-text">Pact</span>
+      </a>
+      <div class="nav-links">
+        <a href="../specification.html" class="nav-link">Specification</a>
+        <a href="./" class="nav-link active">Gallery</a>
+        <a href="https://github.com/tubasasakunn/pact" class="nav-link nav-link-external" target="_blank">
+          GitHub
+          <svg width="12" height="12" viewBox="0 0 12 12" fill="currentColor">
+            <path d="M3.5 3a.5.5 0 0 0 0 1h3.793L2.146 9.146a.5.5 0 0 0 .708.708L8 4.707V8.5a.5.5 0 0 0 1 0v-5a.5.5 0 0 0-.5-.5h-5z"/>
+          </svg>
+        </a>
+      </div>
+    </div>
+  </nav>
+
+  <header class="page-header">
+    <div class="container">
+      <h1 style="font-size: 1.75rem; margin-bottom: 0.5rem;">Sample Gallery</h1>
+      <p style="color: var(--color-text-secondary);">Generated SVG diagrams from .pact sample files</p>
+    </div>
+  </header>
+
+  <main style="padding: var(--space-xl);">
+    <div class="container" style="max-width: 900px;">
+      <ul class="commit-list">
 EOF
 }
 
@@ -110,30 +58,51 @@ render_commit_item() {
   local state_count="$3"
   local flow_count="$4"
   local sequence_count="$5"
+  local total=$((class_count + state_count + flow_count + sequence_count))
 
   cat << EOF
-      <li class="commit-item">
-        <a href="commit/$commit/" class="commit-link">
-          <div class="commit-id">$commit</div>
-          <div class="commit-meta">
-            <span class="badge">class: $class_count</span>
-            <span class="badge">state: $state_count</span>
-            <span class="badge">flow: $flow_count</span>
-            <span class="badge">sequence: $sequence_count</span>
-          </div>
-        </a>
-      </li>
+        <li class="commit-item">
+          <a href="commit/$commit/" class="commit-link">
+            <div class="commit-icon">
+              <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="12" cy="12" r="4"/>
+                <path d="M12 2v6M12 16v6"/>
+              </svg>
+            </div>
+            <div class="commit-info">
+              <div class="commit-id">$commit</div>
+              <div class="commit-badges">
+                <span class="badge">class: $class_count</span>
+                <span class="badge">state: $state_count</span>
+                <span class="badge">flow: $flow_count</span>
+                <span class="badge">sequence: $sequence_count</span>
+              </div>
+            </div>
+            <div class="commit-arrow">&rarr;</div>
+          </a>
+        </li>
 EOF
 }
 
 # Generate main index footer
 render_main_footer() {
   cat << 'EOF'
-    </ul>
-    <footer>
-      <p>Generated by <a href="https://github.com/tubasasakunn/pact">Pact</a></p>
-    </footer>
-  </div>
+      </ul>
+    </div>
+  </main>
+
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-content">
+        <p>&copy; 2024-2026 Pact Project</p>
+        <div class="footer-links">
+          <a href="https://github.com/tubasasakunn/pact" target="_blank">GitHub</a>
+          <a href="../specification.html">Specification</a>
+          <a href="./">Gallery</a>
+        </div>
+      </div>
+    </div>
+  </footer>
 </body>
 </html>
 EOF
@@ -155,153 +124,37 @@ render_commit_header() {
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>$commit - Pact Sample Gallery</title>
-  <style>
-    * { box-sizing: border-box; margin: 0; padding: 0; }
-    body {
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-      background: #0d1117;
-      color: #c9d1d9;
-      min-height: 100vh;
-    }
-    .header {
-      background: #161b22;
-      border-bottom: 1px solid #30363d;
-      padding: 1rem 2rem;
-      position: sticky;
-      top: 0;
-      z-index: 100;
-    }
-    .header-content {
-      max-width: 1400px;
-      margin: 0 auto;
-      display: flex;
-      align-items: center;
-      gap: 1rem;
-    }
-    .back-link {
-      color: #8b949e;
-      text-decoration: none;
-      font-size: 1.5rem;
-    }
-    .back-link:hover { color: #58a6ff; }
-    h1 { font-size: 1.25rem; color: #c9d1d9; }
-    h1 code {
-      color: #58a6ff;
-      background: #21262d;
-      padding: 0.2em 0.5em;
-      border-radius: 4px;
-    }
-
-    /* Tab Navigation */
-    .tabs {
-      display: flex;
-      gap: 0.5rem;
-      padding: 1rem 2rem;
-      background: #161b22;
-      border-bottom: 1px solid #30363d;
-      overflow-x: auto;
-    }
-    .tab {
-      padding: 0.5rem 1rem;
-      background: transparent;
-      border: 1px solid #30363d;
-      border-radius: 6px;
-      color: #8b949e;
-      cursor: pointer;
-      font-size: 0.875rem;
-      white-space: nowrap;
-      transition: all 0.2s;
-    }
-    .tab:hover {
-      border-color: #58a6ff;
-      color: #c9d1d9;
-    }
-    .tab.active {
-      background: #58a6ff;
-      border-color: #58a6ff;
-      color: #0d1117;
-    }
-    .tab .count {
-      background: #21262d;
-      padding: 0.1em 0.5em;
-      border-radius: 2em;
-      margin-left: 0.5rem;
-      font-size: 0.75rem;
-    }
-    .tab.active .count { background: rgba(0,0,0,0.2); }
-
-    /* Content Area */
-    .content { padding: 2rem; }
-    .gallery {
-      display: none;
-      max-width: 1400px;
-      margin: 0 auto;
-    }
-    .gallery.active { display: block; }
-    .gallery-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
-      gap: 1.5rem;
-    }
-
-    /* Cards */
-    .card {
-      background: #161b22;
-      border: 1px solid #30363d;
-      border-radius: 8px;
-      overflow: hidden;
-      transition: border-color 0.2s;
-    }
-    .card:hover { border-color: #58a6ff; }
-    .card-header {
-      padding: 0.75rem 1rem;
-      background: #21262d;
-      border-bottom: 1px solid #30363d;
-      font-size: 0.875rem;
-      font-family: monospace;
-      color: #8b949e;
-    }
-    .card-body {
-      padding: 1rem;
-      background: #fff;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      min-height: 200px;
-    }
-    .card-body img {
-      max-width: 100%;
-      max-height: 400px;
-      height: auto;
-    }
-    .card-footer {
-      padding: 0.5rem 1rem;
-      border-top: 1px solid #30363d;
-      text-align: right;
-    }
-    .card-footer a {
-      color: #58a6ff;
-      text-decoration: none;
-      font-size: 0.875rem;
-    }
-    .card-footer a:hover { text-decoration: underline; }
-
-    /* Empty State */
-    .empty-state {
-      text-align: center;
-      padding: 3rem;
-      color: #8b949e;
-    }
-  </style>
+  <link rel="stylesheet" href="../../../assets/css/main.css">
 </head>
 <body>
-  <header class="header">
-    <div class="header-content">
+  <nav class="navbar">
+    <div class="nav-container">
+      <a href="../../../" class="nav-logo">
+        <span class="logo-icon">&#9670;</span>
+        <span class="logo-text">Pact</span>
+      </a>
+      <div class="nav-links">
+        <a href="../../../specification.html" class="nav-link">Specification</a>
+        <a href="../../" class="nav-link active">Gallery</a>
+        <a href="https://github.com/tubasasakunn/pact" class="nav-link nav-link-external" target="_blank">
+          GitHub
+          <svg width="12" height="12" viewBox="0 0 12 12" fill="currentColor">
+            <path d="M3.5 3a.5.5 0 0 0 0 1h3.793L2.146 9.146a.5.5 0 0 0 .708.708L8 4.707V8.5a.5.5 0 0 0 1 0v-5a.5.5 0 0 0-.5-.5h-5z"/>
+          </svg>
+        </a>
+      </div>
+    </div>
+  </nav>
+
+  <header class="page-header">
+    <div class="page-header-content">
       <a href="../../" class="back-link">&larr;</a>
-      <h1>Commit <code>$commit</code></h1>
+      <h1 class="page-title">Commit <code>$commit</code></h1>
     </div>
   </header>
-  <nav class="tabs">
+
+  <div class="tabs-container">
+    <div class="tabs">
 EOF
 }
 
@@ -314,12 +167,15 @@ render_tabs() {
   local sequence_count="$4"
 
   cat << EOF
-    <button class="tab active" data-target="class">Class <span class="count">$class_count</span></button>
-    <button class="tab" data-target="state">State <span class="count">$state_count</span></button>
-    <button class="tab" data-target="flow">Flow <span class="count">$flow_count</span></button>
-    <button class="tab" data-target="sequence">Sequence <span class="count">$sequence_count</span></button>
-  </nav>
-  <main class="content">
+      <button class="tab active" data-target="class">Class <span class="count">$class_count</span></button>
+      <button class="tab" data-target="state">State <span class="count">$state_count</span></button>
+      <button class="tab" data-target="flow">Flow <span class="count">$flow_count</span></button>
+      <button class="tab" data-target="sequence">Sequence <span class="count">$sequence_count</span></button>
+    </div>
+  </div>
+
+  <main style="padding: var(--space-xl);">
+    <div class="container">
 EOF
 }
 
@@ -332,8 +188,8 @@ render_gallery_start() {
   [ "$is_active" = "true" ] && active_class=" active"
 
   cat << EOF
-    <section id="$category" class="gallery$active_class">
-      <div class="gallery-grid">
+      <section id="$category" class="gallery$active_class">
+        <div class="gallery-grid">
 EOF
 }
 
@@ -346,26 +202,41 @@ render_svg_card() {
   alt="${alt//_/ }"
 
   cat << EOF
-        <div class="card">
-          <div class="card-header">$filename</div>
-          <div class="card-body"><img src="$category/$filename" alt="$alt" loading="lazy"></div>
-          <div class="card-footer"><a href="$category/$filename" target="_blank">Open</a></div>
-        </div>
+          <div class="svg-card">
+            <div class="svg-card-header">$filename</div>
+            <div class="svg-card-body"><img src="$category/$filename" alt="$alt" loading="lazy"></div>
+            <div class="svg-card-footer"><a href="$category/$filename" target="_blank">Open in new tab</a></div>
+          </div>
 EOF
 }
 
 # Generate gallery section end
 render_gallery_end() {
   cat << 'EOF'
-      </div>
-    </section>
+        </div>
+      </section>
 EOF
 }
 
 # Generate commit page footer with JavaScript
 render_commit_footer() {
   cat << 'EOF'
+    </div>
   </main>
+
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-content">
+        <p>&copy; 2024-2026 Pact Project</p>
+        <div class="footer-links">
+          <a href="https://github.com/tubasasakunn/pact" target="_blank">GitHub</a>
+          <a href="../../../specification.html">Specification</a>
+          <a href="../../">Gallery</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
   <script>
     document.querySelectorAll('.tab').forEach(tab => {
       tab.addEventListener('click', () => {
