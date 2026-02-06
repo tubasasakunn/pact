@@ -234,7 +234,7 @@ func (c *Canvas) WriteTo(w io.Writer) (int64, error) {
 // String はSVGを文字列として返す
 func (c *Canvas) String() string {
 	var buf bytes.Buffer
-	c.WriteTo(&buf)
+	_, _ = c.WriteTo(&buf)
 	return buf.String()
 }
 

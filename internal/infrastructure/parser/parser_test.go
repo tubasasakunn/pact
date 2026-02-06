@@ -927,7 +927,7 @@ func TestParser_Flow_If_Simple(t *testing.T) {
 	if !ok {
 		t.Fatalf("expected IfStep, got %T", spec.Component.Body.Flows[0].Steps[0])
 	}
-	if step.Else != nil && len(step.Else) > 0 {
+	if len(step.Else) > 0 {
 		t.Errorf("expected no else block")
 	}
 }

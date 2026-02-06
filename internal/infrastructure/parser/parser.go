@@ -1924,18 +1924,3 @@ func toString(v interface{}) string {
 	}
 }
 
-func (p *Parser) curTokenIs(t TokenType) bool {
-	return p.curToken.Type == t
-}
-
-func (p *Parser) peekTokenIs(t TokenType) bool {
-	return p.peekToken.Type == t
-}
-
-func (p *Parser) expectPeek(t TokenType) bool {
-	if p.peekTokenIs(t) {
-		p.nextToken()
-		return true
-	}
-	return false
-}

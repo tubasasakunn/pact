@@ -415,5 +415,5 @@ func generateIndex(outDir string, patterns []canvas.PatternType) {
 </body>
 </html>
 `
-	os.WriteFile(filepath.Join(outDir, "index.html"), []byte(html), 0644)
+	_ = os.WriteFile(filepath.Join(outDir, "index.html"), []byte(html), 0644)
 }

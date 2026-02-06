@@ -144,7 +144,7 @@ func generateClassDiagram(client *pact.Client, spec *pact.SpecFile, output, base
 	if err != nil {
 		return err
 	}
-	defer f.Close()
+	defer func() { _ = f.Close() }()
 
 	return client.RenderClassDiagram(diagram, f)
 }
@@ -169,10 +169,10 @@ func generateSequenceDiagrams(client *pact.Client, spec *pact.SpecFile, output, 
 		}
 
 		if err := client.RenderSequenceDiagram(diagram, f); err != nil {
-			f.Close()
+			_ = f.Close()
 			return err
 		}
-		f.Close()
+		_ = f.Close()
 		fmt.Printf("  Generated %s_sequence_%s.svg\n", baseName, flowName)
 	}
 	return nil
@@ -198,10 +198,10 @@ func generateStateDiagrams(client *pact.Client, spec *pact.SpecFile, output, bas
 		}
 
 		if err := client.RenderStateDiagram(diagram, f); err != nil {
-			f.Close()
+			_ = f.Close()
 			return err
 		}
-		f.Close()
+		_ = f.Close()
 		fmt.Printf("  Generated %s_state_%s.svg\n", baseName, stateName)
 	}
 	return nil
@@ -227,10 +227,10 @@ func generateFlowcharts(client *pact.Client, spec *pact.SpecFile, output, baseNa
 		}
 
 		if err := client.RenderFlowchart(diagram, f); err != nil {
-			f.Close()
+			_ = f.Close()
 			return err
 		}
-		f.Close()
+		_ = f.Close()
 		fmt.Printf("  Generated %s_flow_%s.svg\n", baseName, flowName)
 	}
 	return nil

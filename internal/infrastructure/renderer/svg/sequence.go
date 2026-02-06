@@ -196,10 +196,11 @@ func (r *SequenceRenderer) renderEvents(c *canvas.Canvas, events []sequence.Even
 			// 注釈の種類によって色を変える
 			fillColor := canvas.ColorDefaultNote
 			strokeColor := canvas.ColorNodeStroke
-			if e.NoteType == sequence.NoteTypeThrow {
+			switch e.NoteType {
+			case sequence.NoteTypeThrow:
 				fillColor = canvas.ColorThrowFill
 				strokeColor = canvas.ColorThrowStroke
-			} else if e.NoteType == sequence.NoteTypeReturn {
+			case sequence.NoteTypeReturn:
 				fillColor = canvas.ColorReturnFill
 				strokeColor = canvas.ColorReturnStroke
 			}
@@ -243,9 +244,6 @@ func (r *SequenceRenderer) drawOpenArrow(c *canvas.Canvas, fromX, toX, y int) {
 	}
 }
 
-func (r *SequenceRenderer) renderParticipant(c *canvas.Canvas, p sequence.Participant, x, y int) {
-	r.renderParticipantWithWidth(c, p, x, y, 80)
-}
 
 func (r *SequenceRenderer) renderParticipantWithWidth(c *canvas.Canvas, p sequence.Participant, x, y, width int) {
 	switch p.Type {

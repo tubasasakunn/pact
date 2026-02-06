@@ -39,7 +39,9 @@ func TestSeqRenderer_SingleParticipant(t *testing.T) {
 
 	renderer := NewSequenceRenderer()
 	var buf bytes.Buffer
-	renderer.Render(diagram, &buf)
+	if err := renderer.Render(diagram, &buf); err != nil {
+		t.Fatalf("unexpected error: %v", err)
+	}
 
 	svg := buf.String()
 	// 矩形とライフライン
@@ -64,7 +66,9 @@ func TestSeqRenderer_MultipleParticipants(t *testing.T) {
 
 	renderer := NewSequenceRenderer()
 	var buf bytes.Buffer
-	renderer.Render(diagram, &buf)
+	if err := renderer.Render(diagram, &buf); err != nil {
+		t.Fatalf("unexpected error: %v", err)
+	}
 
 	svg := buf.String()
 	rectCount := strings.Count(svg, "<rect")
@@ -83,7 +87,9 @@ func TestSeqRenderer_ParticipantType_Actor(t *testing.T) {
 
 	renderer := NewSequenceRenderer()
 	var buf bytes.Buffer
-	renderer.Render(diagram, &buf)
+	if err := renderer.Render(diagram, &buf); err != nil {
+		t.Fatalf("unexpected error: %v", err)
+	}
 
 	svg := buf.String()
 	// 人型は円と線で構成
@@ -102,7 +108,9 @@ func TestSeqRenderer_ParticipantType_Database(t *testing.T) {
 
 	renderer := NewSequenceRenderer()
 	var buf bytes.Buffer
-	renderer.Render(diagram, &buf)
+	if err := renderer.Render(diagram, &buf); err != nil {
+		t.Fatalf("unexpected error: %v", err)
+	}
 
 	svg := buf.String()
 	// 円柱は楕円で構成

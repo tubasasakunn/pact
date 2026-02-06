@@ -425,10 +425,7 @@ func (l *Lexer) readString() string {
 	var result []byte
 	l.readChar() // 開始の '"' をスキップ
 
-	for {
-		if l.ch == '"' || l.ch == 0 {
-			break
-		}
+	for l.ch != '"' && l.ch != 0 {
 		if l.ch == '\\' {
 			l.readChar()
 			switch l.ch {

@@ -125,7 +125,9 @@ func TestClassRenderer_Stereotype(t *testing.T) {
 
 	renderer := NewClassRenderer()
 	var buf bytes.Buffer
-	renderer.Render(diagram, &buf)
+	if err := renderer.Render(diagram, &buf); err != nil {
+		t.Fatalf("unexpected error: %v", err)
+	}
 
 	svg := buf.String()
 	if !strings.Contains(svg, "&lt;&lt;interface&gt;&gt;") {
@@ -152,7 +154,9 @@ func TestClassRenderer_VisibilitySymbols(t *testing.T) {
 
 	renderer := NewClassRenderer()
 	var buf bytes.Buffer
-	renderer.Render(diagram, &buf)
+	if err := renderer.Render(diagram, &buf); err != nil {
+		t.Fatalf("unexpected error: %v", err)
+	}
 
 	svg := buf.String()
 	if !strings.Contains(svg, "+ pub") {
@@ -208,7 +212,9 @@ func TestClassRenderer_Edge_Inheritance(t *testing.T) {
 
 	renderer := NewClassRenderer()
 	var buf bytes.Buffer
-	renderer.Render(diagram, &buf)
+	if err := renderer.Render(diagram, &buf); err != nil {
+		t.Fatalf("unexpected error: %v", err)
+	}
 
 	svg := buf.String()
 	// 三角形の装飾
@@ -231,7 +237,9 @@ func TestClassRenderer_Edge_Composition(t *testing.T) {
 
 	renderer := NewClassRenderer()
 	var buf bytes.Buffer
-	renderer.Render(diagram, &buf)
+	if err := renderer.Render(diagram, &buf); err != nil {
+		t.Fatalf("unexpected error: %v", err)
+	}
 
 	svg := buf.String()
 	// 黒ひし形の装飾
@@ -255,7 +263,9 @@ func TestClassRenderer_Edge_Aggregation(t *testing.T) {
 
 	renderer := NewClassRenderer()
 	var buf bytes.Buffer
-	renderer.Render(diagram, &buf)
+	if err := renderer.Render(diagram, &buf); err != nil {
+		t.Fatalf("unexpected error: %v", err)
+	}
 
 	svg := buf.String()
 	// 白ひし形の装飾
@@ -276,7 +286,9 @@ func TestClassRenderer_Layout(t *testing.T) {
 
 	renderer := NewClassRenderer()
 	var buf bytes.Buffer
-	renderer.Render(diagram, &buf)
+	if err := renderer.Render(diagram, &buf); err != nil {
+		t.Fatalf("unexpected error: %v", err)
+	}
 
 	svg := buf.String()
 	// 3つのノードがある

@@ -60,13 +60,14 @@ func (r *FlowRenderer) Render(diagram *flow.Diagram, w io.Writer) error {
 
 		if fromNode.Shape == flow.NodeShapeDecision {
 			// 分岐ノードの場合
-			if edge.Label == "Yes" {
+			switch edge.Label {
+			case "Yes":
 				// 下向き
 				r.renderFlowEdge(c, edge, fromPos.x, fromPos.y+fromHeight, toPos.x, toPos.y)
-			} else if edge.Label == "No" {
+			case "No":
 				// 右向きに曲げる
 				r.renderBranchEdge(c, edge, fromPos.x+40, fromPos.y+20, toPos.x, toPos.y)
-			} else {
+			default:
 				r.renderFlowEdge(c, edge, fromPos.x, fromPos.y+fromHeight, toPos.x, toPos.y)
 			}
 		} else {

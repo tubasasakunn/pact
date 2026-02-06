@@ -18,7 +18,7 @@ func setupTestFiles(t *testing.T, files map[string]string) string {
 	if err != nil {
 		t.Fatalf("failed to create temp dir: %v", err)
 	}
-	t.Cleanup(func() { os.RemoveAll(dir) })
+	t.Cleanup(func() { _ = os.RemoveAll(dir) })
 
 	for name, content := range files {
 		path := filepath.Join(dir, name)
