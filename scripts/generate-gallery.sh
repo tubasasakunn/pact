@@ -43,13 +43,16 @@ generate_main_index() {
     for commit in $commits; do
       local commit_path="$COMMIT_DIR/$commit"
       local class_count state_count flow_count sequence_count
+      local commit_date commit_message
 
       class_count=$(count_svgs "$commit_path/class")
       state_count=$(count_svgs "$commit_path/state")
       flow_count=$(count_svgs "$commit_path/flow")
       sequence_count=$(count_svgs "$commit_path/sequence")
+      commit_date=$(get_commit_date "$commit")
+      commit_message=$(get_commit_message "$commit")
 
-      render_commit_item "$commit" "$class_count" "$state_count" "$flow_count" "$sequence_count" >> "$DOCS_DIR/index.html"
+      render_commit_item "$commit" "$class_count" "$state_count" "$flow_count" "$sequence_count" "$commit_date" "$commit_message" >> "$DOCS_DIR/index.html"
     done
   fi
 
