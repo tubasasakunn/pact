@@ -621,16 +621,32 @@ pre code {
   min-width: 0;
 }
 
+.commit-header-row {
+  display: flex;
+  align-items: baseline;
+  gap: var(--space-md);
+  margin-bottom: var(--space-xs);
+}
+
 .commit-id {
   font-family: var(--font-mono);
   font-size: 1.125rem;
   color: var(--color-accent);
-  margin-bottom: var(--space-xs);
 }
 
 .commit-date {
   font-size: 0.8125rem;
+  color: var(--color-text-muted);
+  white-space: nowrap;
+}
+
+.commit-message {
+  font-size: 0.9375rem;
   color: var(--color-text-secondary);
+  margin-bottom: var(--space-sm);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .commit-badges {
@@ -983,6 +999,15 @@ pre code {
   .commit-link {
     flex-direction: column;
     align-items: flex-start;
+  }
+
+  .commit-header-row {
+    flex-direction: column;
+    gap: var(--space-xs);
+  }
+
+  .commit-message {
+    white-space: normal;
   }
 
   .commit-badges {

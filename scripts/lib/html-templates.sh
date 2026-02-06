@@ -51,14 +51,19 @@ EOF
 }
 
 # Generate a single commit item
-# Usage: render_commit_item <commit_id> <class_count> <state_count> <flow_count> <sequence_count>
+# Usage: render_commit_item <commit_id> <class_count> <state_count> <flow_count> <sequence_count> <date> <message>
 render_commit_item() {
   local commit="$1"
   local class_count="$2"
   local state_count="$3"
   local flow_count="$4"
   local sequence_count="$5"
+  local date="$6"
+  local message="$7"
   local total=$((class_count + state_count + flow_count + sequence_count))
+
+  # Escape HTML special characters in commit message
+  message=$(echo "$message" | sed 's/&/\&amp;/g; s/</\&lt;/g; s/>/\&gt;/g; s/"/\&quot;/g')
 
   cat << EOF
         <li class="commit-item">
@@ -70,7 +75,11 @@ render_commit_item() {
               </svg>
             </div>
             <div class="commit-info">
-              <div class="commit-id">$commit</div>
+              <div class="commit-header-row">
+                <div class="commit-id">$commit</div>
+                <div class="commit-date">$date</div>
+              </div>
+              <div class="commit-message">$message</div>
               <div class="commit-badges">
                 <span class="badge">class: $class_count</span>
                 <span class="badge">state: $state_count</span>
