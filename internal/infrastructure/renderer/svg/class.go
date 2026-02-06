@@ -422,9 +422,9 @@ func (r *ClassRenderer) calculateDistributedEndpoints(
 	toCenterX := toPos.x + toPos.width/2
 	toCenterY := toPos.y + toPos.height/2
 
-	// エッジ配置の分散幅（ノード幅の80%を使用）
-	fromSpread := int(float64(fromPos.width) * 0.8)
-	toSpread := int(float64(toPos.width) * 0.8)
+	// エッジ配置の分散幅（ノード幅の50%を使用、端に寄りすぎないように）
+	fromSpread := int(float64(fromPos.width) * 0.5)
+	toSpread := int(float64(toPos.width) * 0.5)
 
 	// 垂直方向の差が大きい場合（下向き/上向き接続）
 	if abs(toCenterY-fromCenterY) > abs(toCenterX-fromCenterX) {
@@ -455,8 +455,8 @@ func (r *ClassRenderer) calculateDistributedEndpoints(
 	}
 
 	// 水平方向の接続
-	fromHeightSpread := int(float64(fromPos.height) * 0.6)
-	toHeightSpread := int(float64(toPos.height) * 0.6)
+	fromHeightSpread := int(float64(fromPos.height) * 0.4)
+	toHeightSpread := int(float64(toPos.height) * 0.4)
 
 	fromYOffset := 0
 	if outTotal > 1 {
@@ -548,33 +548,8 @@ func (r *ClassRenderer) calculateWaypoints(x1, y1, x2, y2 int, obstacles []rect)
 	// 2. Z字型（2回曲がり）
 	// 3. U字型（障害物を迂回）
 
-	// L字型ルーティング
-	// 主方向に合わせて最終セグメントの向きを決定
-	// （矢印の向きがノードへの接続方向と一致するように）
-	cornerA := point{x2, y1} // 水平→垂直（最終セグメントが垂直）
-	cornerB := point{x1, y2} // 垂直→水平（最終セグメントが水平）
-
-	if abs(y2-y1) >= abs(x2-x1) {
-		// 垂直が主方向：最終セグメントが垂直になるcornerAを優先
-		if !r.pathIntersectsAnyObstacle(start, cornerA, obstacles) &&
-			!r.pathIntersectsAnyObstacle(cornerA, end, obstacles) {
-			return []point{start, cornerA, end}
-		}
-		if !r.pathIntersectsAnyObstacle(start, cornerB, obstacles) &&
-			!r.pathIntersectsAnyObstacle(cornerB, end, obstacles) {
-			return []point{start, cornerB, end}
-		}
-	} else {
-		// 水平が主方向：最終セグメントが水平になるcornerBを優先
-		if !r.pathIntersectsAnyObstacle(start, cornerB, obstacles) &&
-			!r.pathIntersectsAnyObstacle(cornerB, end, obstacles) {
-			return []point{start, cornerB, end}
-		}
-		if !r.pathIntersectsAnyObstacle(start, cornerA, obstacles) &&
-			!r.pathIntersectsAnyObstacle(cornerA, end, obstacles) {
-			return []point{start, cornerA, end}
-		}
-	}
+	// L字型はスキップし、Z字型ルーティングで最初と最後のセグメントが
+	// 接続辺に垂直になるようにする（矢印が辺に並行にならない）
 
 	// Z字型（両方向を試す：V-H-V と H-V-H）
 	// 主方向を先に試し、ダメならもう一方の向きも試す
@@ -859,8 +834,8 @@ func (r *ClassRenderer) renderVerticalEdge(c *canvas.Canvas, edge class.Edge,
 	fromCenterX := fromPos.x + fromPos.width/2
 	toCenterX := toPos.x + toPos.width/2
 
-	// 接続点を分散配置（中央を基準に均等分布）
-	toSpread := int(float64(toPos.width) * 0.8)
+	// 接続点を分散配置（中央を基準に均等分布、端に寄りすぎないように）
+	toSpread := int(float64(toPos.width) * 0.5)
 	toOffset := 0
 	if inTotal > 1 {
 		toOffset = (2*inIdx - (inTotal - 1)) * toSpread / (2 * (inTotal - 1))
