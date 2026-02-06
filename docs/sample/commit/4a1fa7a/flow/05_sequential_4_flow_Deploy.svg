@@ -1,0 +1,55 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 1060" width="800" height="1060">
+<defs>
+<style>text { font-family: -apple-system, "Segoe UI", "Helvetica Neue", Arial, sans-serif; }</style>
+<filter id="drop-shadow" x="-5%" y="-5%" width="115%" height="115%"><feGaussianBlur in="SourceAlpha" stdDeviation="2" result="blur"/><feOffset in="blur" dx="1" dy="2" result="offsetBlur"/><feComponentTransfer in="offsetBlur" result="shadow"><feFuncA type="linear" slope="0.12"/></feComponentTransfer><feMerge><feMergeNode in="shadow"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+<symbol id="actor" viewBox="0 0 40 70" preserveAspectRatio="none"><circle cx="20" cy="10" r="10" fill="#fafbfc" stroke="#2d3748" stroke-width="1.5"/><line x1="20" y1="20" x2="20" y2="45" stroke="#2d3748" stroke-width="1.5"/><line x1="5" y1="30" x2="35" y2="30" stroke="#2d3748" stroke-width="1.5"/><line x1="20" y1="45" x2="5" y2="65" stroke="#2d3748" stroke-width="1.5"/><line x1="20" y1="45" x2="35" y2="65" stroke="#2d3748" stroke-width="1.5"/></symbol>
+<symbol id="initial-state" viewBox="0 0 20 20" preserveAspectRatio="none"><circle cx="10" cy="10" r="10" fill="#1a202c"/></symbol>
+<symbol id="final-state" viewBox="0 0 24 24" preserveAspectRatio="none"><circle cx="12" cy="12" r="12" fill="none" stroke="#2d3748" stroke-width="2"/><circle cx="12" cy="12" r="8" fill="#1a202c"/></symbol>
+</defs>
+<rect x="350" y="50" width="100" height="40" rx="20" ry="20" fill="#fafbfc" stroke="#2d3748" stroke-width="2" filter="url(#drop-shadow)"/>
+<text x="400" y="75" text-anchor="middle" fill="#1a202c">Start</text>
+<rect x="227" y="130" width="346" height="40" stroke-width="2" filter="url(#drop-shadow)" fill="#fafbfc" stroke="#2d3748"/>
+<text x="400" y="155" text-anchor="middle" fill="#1a202c">artifact = self.buildApplication(sourceCode)</text>
+<rect x="310" y="210" width="181" height="40" fill="#fafbfc" stroke="#2d3748" stroke-width="2" filter="url(#drop-shadow)"/>
+<text x="400" y="235" fill="#1a202c" text-anchor="middle">notifyBuildComplete()</text>
+<rect x="252" y="290" width="296" height="40" stroke-width="2" filter="url(#drop-shadow)" fill="#fafbfc" stroke="#2d3748"/>
+<text x="400" y="315" text-anchor="middle" fill="#1a202c">testResults = self.runTests(artifact)</text>
+<rect x="310" y="370" width="181" height="40" stroke-width="2" filter="url(#drop-shadow)" fill="#fafbfc" stroke="#2d3748"/>
+<text x="400" y="395" fill="#1a202c" text-anchor="middle">notifyTestsComplete()</text>
+<rect x="231" y="450" width="339" height="40" stroke="#2d3748" stroke-width="2" filter="url(#drop-shadow)" fill="#fafbfc"/>
+<text x="400" y="475" text-anchor="middle" fill="#1a202c">stagingUrl = self.deployToStaging(artifact)</text>
+<rect x="332" y="530" width="137" height="40" fill="#fafbfc" stroke="#2d3748" stroke-width="2" filter="url(#drop-shadow)"/>
+<text x="400" y="555" fill="#1a202c" text-anchor="middle">runSmokeTests()</text>
+<rect x="303" y="610" width="195" height="40" stroke-width="2" filter="url(#drop-shadow)" fill="#fafbfc" stroke="#2d3748"/>
+<text x="400" y="635" text-anchor="middle" fill="#1a202c">notifyStagingComplete()</text>
+<rect x="209" y="690" width="382" height="40" fill="#fafbfc" stroke="#2d3748" stroke-width="2" filter="url(#drop-shadow)"/>
+<text x="400" y="715" text-anchor="middle" fill="#1a202c">productionUrl = self.deployToProduction(artifact)</text>
+<rect x="292" y="770" width="217" height="40" fill="#fafbfc" stroke="#2d3748" stroke-width="2" filter="url(#drop-shadow)"/>
+<text x="400" y="795" text-anchor="middle" fill="#1a202c">notifyProductionComplete()</text>
+<rect x="350" y="850" width="100" height="40" rx="20" ry="20" fill="#fafbfc" stroke="#2d3748" stroke-width="2" filter="url(#drop-shadow)"/>
+<text x="400" y="875" text-anchor="middle" fill="#1a202c">return</text>
+<rect x="350" y="930" width="100" height="40" rx="20" ry="20" fill="#fafbfc" stroke="#2d3748" stroke-width="2" filter="url(#drop-shadow)"/>
+<text x="400" y="955" text-anchor="middle" fill="#1a202c">End</text>
+<line x1="400" y1="90" x2="400" y2="130" stroke="#2d3748"/>
+<polygon points="400,130 396,122 404,122" fill="#000"/>
+<line x1="400" y1="170" x2="400" y2="210" stroke="#2d3748"/>
+<polygon points="400,210 396,202 404,202" fill="#000"/>
+<line x1="400" y1="250" x2="400" y2="290" stroke="#2d3748"/>
+<polygon points="400,290 396,282 404,282" fill="#000"/>
+<line x1="400" y1="330" x2="400" y2="370" stroke="#2d3748"/>
+<polygon points="400,370 396,362 404,362" fill="#000"/>
+<line x1="400" y1="410" x2="400" y2="450" stroke="#2d3748"/>
+<polygon points="400,450 396,442 404,442" fill="#000"/>
+<line x1="400" y1="490" x2="400" y2="530" stroke="#2d3748"/>
+<polygon points="400,530 396,522 404,522" fill="#000"/>
+<line x1="400" y1="570" x2="400" y2="610" stroke="#2d3748"/>
+<polygon points="400,610 396,602 404,602" fill="#000"/>
+<line x1="400" y1="650" x2="400" y2="690" stroke="#2d3748"/>
+<polygon points="400,690 396,682 404,682" fill="#000"/>
+<line x1="400" y1="730" x2="400" y2="770" stroke="#2d3748"/>
+<polygon points="400,770 396,762 404,762" fill="#000"/>
+<line x1="400" y1="810" x2="400" y2="850" stroke="#2d3748"/>
+<polygon points="400,850 396,842 404,842" fill="#000"/>
+<line x1="400" y1="890" x2="400" y2="930" stroke="#2d3748"/>
+<polygon points="400,930 396,922 404,922" fill="#000"/>
+</svg>
