@@ -5,6 +5,7 @@ import (
 
 	"pact/internal/domain/diagram/state"
 	"pact/internal/infrastructure/renderer/canvas"
+	"pact/internal/infrastructure/renderer/geom"
 )
 
 // renderOrthogonalTransition は直交ルーティングで遷移を描画する
@@ -35,7 +36,7 @@ func (r *StateRenderer) renderOrthogonalTransition(c *canvas.Canvas, t state.Tra
 		c.DrawArrowHead(endX, endY, endX, startY-30)
 		midX = startX + 15
 		midY = startY - 15
-	} else if abs(dx) > abs(dy) {
+	} else if geom.Abs(dx) > geom.Abs(dy) {
 		// 主に水平方向
 		if dx > 0 {
 			startX = x1 + w1/2

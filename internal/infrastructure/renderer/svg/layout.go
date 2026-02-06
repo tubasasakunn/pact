@@ -5,43 +5,8 @@ import (
 
 	"pact/internal/domain/diagram/common"
 	"pact/internal/infrastructure/renderer/canvas"
+	"pact/internal/infrastructure/renderer/geom"
 )
-
-// maxInt は2つの整数の大きい方を返す
-func maxInt(a, b int) int {
-	if a > b {
-		return a
-	}
-	return b
-}
-
-// minInt は2つの整数の小さい方を返す
-func minInt(a, b int) int {
-	if a < b {
-		return a
-	}
-	return b
-}
-
-// abs は整数の絶対値を返す
-func abs(x int) int {
-	if x < 0 {
-		return -x
-	}
-	return x
-}
-
-// sqrt はニュートン法で平方根を計算する
-func sqrt(x float64) float64 {
-	if x <= 0 {
-		return 0
-	}
-	z := x
-	for i := 0; i < 10; i++ {
-		z = z - (z*z-x)/(2*z)
-	}
-	return z
-}
 
 // pointInRect は点が矩形内にあるかチェック
 func pointInRect(px, py, left, top, right, bottom int) bool {
@@ -51,11 +16,11 @@ func pointInRect(px, py, left, top, right, bottom int) bool {
 // segmentsIntersect は2つの線分が交差するかチェック（直交線分用に最適化）
 func segmentsIntersect(ax1, ay1, ax2, ay2, bx1, by1, bx2, by2 int) bool {
 	// 線分Aの範囲
-	aminX, amaxX := minInt(ax1, ax2), maxInt(ax1, ax2)
-	aminY, amaxY := minInt(ay1, ay2), maxInt(ay1, ay2)
+	aminX, amaxX := geom.MinInt(ax1, ax2), geom.MaxInt(ax1, ax2)
+	aminY, amaxY := geom.MinInt(ay1, ay2), geom.MaxInt(ay1, ay2)
 	// 線分Bの範囲
-	bminX, bmaxX := minInt(bx1, bx2), maxInt(bx1, bx2)
-	bminY, bmaxY := minInt(by1, by2), maxInt(by1, by2)
+	bminX, bmaxX := geom.MinInt(bx1, bx2), geom.MaxInt(bx1, bx2)
+	bminY, bmaxY := geom.MinInt(by1, by2), geom.MaxInt(by1, by2)
 
 	// 両方水平
 	if ay1 == ay2 && by1 == by2 {

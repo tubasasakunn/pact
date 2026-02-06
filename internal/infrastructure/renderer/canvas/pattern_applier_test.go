@@ -2,6 +2,8 @@ package canvas
 
 import (
 	"testing"
+
+	"pact/internal/infrastructure/renderer/geom"
 )
 
 // ============================================================
@@ -376,9 +378,9 @@ func TestAbs(t *testing.T) {
 	}
 
 	for _, tt := range tests {
-		got := abs(tt.input)
+		got := geom.Abs(tt.input)
 		if got != tt.want {
-			t.Errorf("abs(%d) = %d, want %d", tt.input, got, tt.want)
+			t.Errorf("Abs(%d) = %d, want %d", tt.input, got, tt.want)
 		}
 	}
 }

@@ -1,6 +1,10 @@
 package canvas
 
-import "fmt"
+import (
+	"fmt"
+
+	"pact/internal/infrastructure/renderer/geom"
+)
 
 // Diamond はひし形を描画する
 func (c *Canvas) Diamond(cx, cy, width, height int, opts ...Option) {
@@ -20,7 +24,7 @@ func (c *Canvas) Arrow(x1, y1, x2, y2 int, opts ...Option) {
 	arrowSize := 8
 	dx := float64(x2 - x1)
 	dy := float64(y2 - y1)
-	length := sqrt(dx*dx + dy*dy)
+	length := geom.Sqrt(dx*dx + dy*dy)
 	if length == 0 {
 		return
 	}
@@ -87,7 +91,7 @@ func (c *Canvas) DrawArrowHead(x2, y2, fromX, fromY int) {
 	arrowSize := 8
 	dx := float64(x2 - fromX)
 	dy := float64(y2 - fromY)
-	length := sqrt(dx*dx + dy*dy)
+	length := geom.Sqrt(dx*dx + dy*dy)
 	if length == 0 {
 		return
 	}
@@ -102,17 +106,6 @@ func (c *Canvas) DrawArrowHead(x2, y2, fromX, fromY int) {
 	p2x := int(ax - px*float64(arrowSize)/2)
 	p2y := int(ay - py*float64(arrowSize)/2)
 	c.Polygon(fmt.Sprintf("%d,%d %d,%d %d,%d", x2, y2, p1x, p1y, p2x, p2y), Fill("#000"))
-}
-
-func sqrt(x float64) float64 {
-	if x <= 0 {
-		return 0
-	}
-	z := x
-	for i := 0; i < 10; i++ {
-		z = z - (z*z-x)/(2*z)
-	}
-	return z
 }
 
 // Stadium は角丸長方形（端子形状）を描画する

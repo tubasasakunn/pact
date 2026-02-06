@@ -1,6 +1,10 @@
 // Package canvas provides pattern layout application for diagrams.
 package canvas
 
+import (
+	"pact/internal/infrastructure/renderer/geom"
+)
+
 // NodeLayout represents calculated absolute positions for a node
 type NodeLayout struct {
 	ID     string
@@ -321,7 +325,7 @@ func (a *PatternLayoutApplier) calculateConnectionPoint(node NodeLayout, targetX
 	dy := targetY - centerY
 
 	// Determine which edge to connect to
-	if abs(dx)*node.Height > abs(dy)*node.Width {
+	if geom.Abs(dx)*node.Height > geom.Abs(dy)*node.Width {
 		// Connect to left or right edge
 		if dx > 0 {
 			return node.X + node.Width, centerY // Right edge
@@ -333,13 +337,6 @@ func (a *PatternLayoutApplier) calculateConnectionPoint(node NodeLayout, targetX
 		return centerX, node.Y + node.Height // Bottom edge
 	}
 	return centerX, node.Y // Top edge
-}
-
-func abs(x int) int {
-	if x < 0 {
-		return -x
-	}
-	return x
 }
 
 func (a *PatternLayoutApplier) applyDecorators(layout *PatternLayout, canvasWidth, canvasHeight int) []AppliedDecorator {
