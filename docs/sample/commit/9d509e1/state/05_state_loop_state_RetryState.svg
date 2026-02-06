@@ -1,0 +1,44 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" width="800" height="600">
+<defs>
+<style>text { font-family: -apple-system, "Segoe UI", "Helvetica Neue", Arial, sans-serif; }</style>
+<filter id="drop-shadow" x="-5%" y="-5%" width="115%" height="115%"><feGaussianBlur in="SourceAlpha" stdDeviation="2" result="blur"/><feOffset in="blur" dx="1" dy="2" result="offsetBlur"/><feComponentTransfer in="offsetBlur" result="shadow"><feFuncA type="linear" slope="0.12"/></feComponentTransfer><feMerge><feMergeNode in="shadow"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+<symbol id="actor" viewBox="0 0 40 70" preserveAspectRatio="none"><circle cx="20" cy="10" r="10" fill="#fafbfc" stroke="#2d3748" stroke-width="1.5"/><line x1="20" y1="20" x2="20" y2="45" stroke="#2d3748" stroke-width="1.5"/><line x1="5" y1="30" x2="35" y2="30" stroke="#2d3748" stroke-width="1.5"/><line x1="20" y1="45" x2="5" y2="65" stroke="#2d3748" stroke-width="1.5"/><line x1="20" y1="45" x2="35" y2="65" stroke="#2d3748" stroke-width="1.5"/></symbol>
+<symbol id="initial-state" viewBox="0 0 20 20" preserveAspectRatio="none"><circle cx="10" cy="10" r="10" fill="#1a202c"/></symbol>
+<symbol id="final-state" viewBox="0 0 24 24" preserveAspectRatio="none"><circle cx="12" cy="12" r="12" fill="none" stroke="#2d3748" stroke-width="2"/><circle cx="12" cy="12" r="8" fill="#1a202c"/></symbol>
+</defs>
+<use href="#initial-state" x="118" y="40" width="20" height="20"/>
+<rect x="50" y="100" width="156" height="75" rx="10" ry="10" fill="#fafbfc" stroke="#2d3748" stroke-width="2" filter="url(#drop-shadow)"/>
+<text x="128" y="125" text-anchor="middle" fill="#1a202c" font-weight="bold">Idle</text>
+<line x1="50" y1="135" x2="206" y2="135" stroke="#cbd5e0"/>
+<text x="55" y="150" fill="#1a202c">entry/ resetCounter</text>
+<rect x="246" y="100" width="171" height="75" rx="10" ry="10" fill="#fafbfc" stroke="#2d3748" stroke-width="2" filter="url(#drop-shadow)"/>
+<text x="331" y="125" text-anchor="middle" fill="#1a202c" font-weight="bold">Attempting</text>
+<line x1="246" y1="135" x2="416" y2="135" stroke="#cbd5e0"/>
+<text x="251" y="150" fill="#1a202c">entry/ executeRequest</text>
+<rect x="457" y="100" width="185" height="90" rx="10" ry="10" fill="#fafbfc" stroke="#2d3748" stroke-width="2" filter="url(#drop-shadow)"/>
+<text x="549" y="125" text-anchor="middle" fill="#1a202c" font-weight="bold">Waiting</text>
+<line x1="457" y1="135" x2="641" y2="135" stroke="#cbd5e0"/>
+<text x="462" y="150" fill="#1a202c">entry/ incrementCounter</text>
+<text x="462" y="165" fill="#1a202c">entry/ calculateDelay</text>
+<use href="#final-state" x="116" y="268" width="24" height="24"/>
+<use href="#final-state" x="266" y="268" width="24" height="24"/>
+<line x1="128" y1="60" x2="128" y2="83" stroke="#2d3748"/>
+<polygon points="128,83 124,75 132,75" fill="#000"/>
+<line x1="206" y1="120" x2="246" y2="120" stroke="#2d3748"/>
+<polygon points="246,120 238,124 238,116" fill="#000"/>
+<text x="226" y="115" text-anchor="middle" fill="#4a5568">start</text>
+<line x1="246" y1="120" x2="246" y2="280" stroke="#2d3748"/>
+<line x1="246" y1="280" x2="140" y2="280" stroke="#2d3748"/>
+<polygon points="140,280 147,276 147,283" fill="#000"/>
+<text x="246" y="195" text-anchor="middle" fill="#4a5568">success</text>
+<line x1="416" y1="120" x2="457" y2="120" stroke="#2d3748"/>
+<polygon points="457,120 449,124 449,116" fill="#000"/>
+<text x="436" y="85" fill="#4a5568" text-anchor="middle">failure</text>
+<line x1="457" y1="120" x2="416" y2="120" stroke="#2d3748"/>
+<polygon points="416,120 424,116 424,124" fill="#000"/>
+<text x="436" y="85" text-anchor="middle" fill="#4a5568">retryTimer</text>
+<line x1="457" y1="120" x2="457" y2="280" stroke="#2d3748"/>
+<line x1="457" y1="280" x2="290" y2="280" stroke="#2d3748"/>
+<polygon points="290,280 297,276 297,283" fill="#000"/>
+<text x="457" y="195" text-anchor="middle" fill="#4a5568">maxRetriesReached</text>
+</svg>
