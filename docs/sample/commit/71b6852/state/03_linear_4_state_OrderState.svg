@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" width="800" height="600">
+<defs>
+<style>text { font-family: -apple-system, "Segoe UI", "Helvetica Neue", Arial, sans-serif; }</style>
+<filter id="drop-shadow" x="-5%" y="-5%" width="115%" height="115%"><feGaussianBlur in="SourceAlpha" stdDeviation="2" result="blur"/><feOffset in="blur" dx="1" dy="2" result="offsetBlur"/><feComponentTransfer in="offsetBlur" result="shadow"><feFuncA type="linear" slope="0.12"/></feComponentTransfer><feMerge><feMergeNode in="shadow"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+<symbol id="actor" viewBox="0 0 40 70" preserveAspectRatio="none"><circle cx="20" cy="10" r="10" fill="#fafbfc" stroke="#2d3748" stroke-width="1.5"/><line x1="20" y1="20" x2="20" y2="45" stroke="#2d3748" stroke-width="1.5"/><line x1="5" y1="30" x2="35" y2="30" stroke="#2d3748" stroke-width="1.5"/><line x1="20" y1="45" x2="5" y2="65" stroke="#2d3748" stroke-width="1.5"/><line x1="20" y1="45" x2="35" y2="65" stroke="#2d3748" stroke-width="1.5"/></symbol>
+<symbol id="initial-state" viewBox="0 0 20 20" preserveAspectRatio="none"><circle cx="10" cy="10" r="10" fill="#1a202c"/></symbol>
+<symbol id="final-state" viewBox="0 0 24 24" preserveAspectRatio="none"><circle cx="12" cy="12" r="12" fill="none" stroke="#2d3748" stroke-width="2"/><circle cx="12" cy="12" r="8" fill="#1a202c"/></symbol>
+</defs>
+<use href="#initial-state" x="114" y="40" width="20" height="20"/>
+<rect x="50" y="100" width="149" height="75" rx="10" ry="10" fill="#fafbfc" stroke="#2d3748" stroke-width="2" filter="url(#drop-shadow)"/>
+<text x="124" y="125" fill="#1a202c" font-weight="bold" text-anchor="middle">Pending</text>
+<line x1="50" y1="135" x2="198" y2="135" stroke="#cbd5e0"/>
+<text x="55" y="150" fill="#1a202c">entry/ createOrder</text>
+<rect x="239" y="100" width="185" height="75" rx="10" ry="10" filter="url(#drop-shadow)" fill="#fafbfc" stroke="#2d3748" stroke-width="2"/>
+<text x="331" y="125" text-anchor="middle" fill="#1a202c" font-weight="bold">Confirmed</text>
+<line x1="239" y1="135" x2="423" y2="135" stroke="#cbd5e0"/>
+<text x="244" y="150" fill="#1a202c">entry/ sendConfirmation</text>
+<rect x="464" y="100" width="171" height="75" rx="10" ry="10" stroke="#2d3748" stroke-width="2" filter="url(#drop-shadow)" fill="#fafbfc"/>
+<text x="549" y="125" text-anchor="middle" fill="#1a202c" font-weight="bold">Shipped</text>
+<line x1="464" y1="135" x2="634" y2="135" stroke="#cbd5e0"/>
+<text x="469" y="150" fill="#1a202c">entry/ updateTracking</text>
+<use href="#final-state" x="112" y="268" width="24" height="24"/>
+<line x1="124" y1="60" x2="124" y2="83" stroke="#2d3748"/>
+<polygon points="124,83 120,75 128,75" fill="#000"/>
+<line x1="198" y1="120" x2="239" y2="120" stroke="#2d3748"/>
+<polygon points="239,120 231,124 231,116" fill="#000"/>
+<text x="218" y="85" text-anchor="middle" fill="#4a5568">confirm</text>
+<line x1="423" y1="120" x2="464" y2="120" stroke="#2d3748"/>
+<polygon points="464,120 456,124 456,116" fill="#000"/>
+<text x="443" y="115" text-anchor="middle" fill="#4a5568">ship</text>
+<line x1="464" y1="120" x2="464" y2="280" stroke="#2d3748"/>
+<line x1="464" y1="280" x2="136" y2="280" stroke="#2d3748"/>
+<polygon points="136,280 143,276 143,283" fill="#000"/>
+<text x="464" y="195" text-anchor="middle" fill="#4a5568">deliver</text>
+</svg>
