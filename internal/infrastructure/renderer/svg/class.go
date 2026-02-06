@@ -32,12 +32,20 @@ func (r *ClassRenderer) Render(diagram *class.Diagram, w io.Writer) error {
 		nodeSizes[node.ID] = struct{ width, height int }{w, h}
 	}
 
-	// エッジ接続情報を構築
+	// エッジ接続情報を構築（レイアウト用）
+	// 継承・実装エッジはレイアウト上の方向を反転させる
+	// （親クラス・インターフェースが上、子クラス・実装が下に配置されるように）
 	outgoing := make(map[string][]string) // from -> []to
 	incoming := make(map[string][]string) // to -> []from
 	for _, edge := range diagram.Edges {
-		outgoing[edge.From] = append(outgoing[edge.From], edge.To)
-		incoming[edge.To] = append(incoming[edge.To], edge.From)
+		if edge.Type == class.EdgeTypeInheritance || edge.Type == class.EdgeTypeImplementation {
+			// 継承・実装: 親/インターフェースを上に配置するため方向を反転
+			outgoing[edge.To] = append(outgoing[edge.To], edge.From)
+			incoming[edge.From] = append(incoming[edge.From], edge.To)
+		} else {
+			outgoing[edge.From] = append(outgoing[edge.From], edge.To)
+			incoming[edge.To] = append(incoming[edge.To], edge.From)
+		}
 	}
 
 	// レイヤー割り当て（トポロジカルソート風）
@@ -490,10 +498,16 @@ func (r *ClassRenderer) renderEdgeImproved(c *canvas.Canvas, edge class.Edge, x1
 	// パスを描画
 	r.renderPath(c, waypoints, opts)
 
-	// 矢印を描画（最後のセグメントの方向で）
+	// 矢印を描画
 	if len(waypoints) >= 2 {
-		lastIdx := len(waypoints) - 1
-		r.drawArrowHead(c, edge, waypoints[lastIdx-1].x, waypoints[lastIdx-1].y, waypoints[lastIdx].x, waypoints[lastIdx].y)
+		if edge.Decoration == class.DecorationFilledDiamond || edge.Decoration == class.DecorationEmptyDiamond {
+			// ダイヤモンド装飾はFrom（始点）ノード側に描画
+			r.drawArrowHead(c, edge, waypoints[0].x, waypoints[0].y, waypoints[1].x, waypoints[1].y)
+		} else {
+			// 三角形・矢印装飾はTo（終点）ノード側に描画（最後のセグメントの方向で）
+			lastIdx := len(waypoints) - 1
+			r.drawArrowHead(c, edge, waypoints[lastIdx-1].x, waypoints[lastIdx-1].y, waypoints[lastIdx].x, waypoints[lastIdx].y)
+		}
 	}
 
 	// ラベル描画
@@ -527,18 +541,32 @@ func (r *ClassRenderer) calculateWaypoints(x1, y1, x2, y2 int, obstacles []rect)
 	// 2. Z字型（2回曲がり）
 	// 3. U字型（障害物を迂回）
 
-	// まずL字型を試す（終点側で曲がる）
-	corner1 := point{x1, y2}
-	if !r.pathIntersectsAnyObstacle(start, corner1, obstacles) &&
-		!r.pathIntersectsAnyObstacle(corner1, end, obstacles) {
-		return []point{start, corner1, end}
-	}
+	// L字型ルーティング
+	// 主方向に合わせて最終セグメントの向きを決定
+	// （矢印の向きがノードへの接続方向と一致するように）
+	cornerA := point{x2, y1} // 水平→垂直（最終セグメントが垂直）
+	cornerB := point{x1, y2} // 垂直→水平（最終セグメントが水平）
 
-	// L字型（始点側で曲がる）
-	corner2 := point{x2, y1}
-	if !r.pathIntersectsAnyObstacle(start, corner2, obstacles) &&
-		!r.pathIntersectsAnyObstacle(corner2, end, obstacles) {
-		return []point{start, corner2, end}
+	if abs(y2-y1) >= abs(x2-x1) {
+		// 垂直が主方向：最終セグメントが垂直になるcornerAを優先
+		if !r.pathIntersectsAnyObstacle(start, cornerA, obstacles) &&
+			!r.pathIntersectsAnyObstacle(cornerA, end, obstacles) {
+			return []point{start, cornerA, end}
+		}
+		if !r.pathIntersectsAnyObstacle(start, cornerB, obstacles) &&
+			!r.pathIntersectsAnyObstacle(cornerB, end, obstacles) {
+			return []point{start, cornerB, end}
+		}
+	} else {
+		// 水平が主方向：最終セグメントが水平になるcornerBを優先
+		if !r.pathIntersectsAnyObstacle(start, cornerB, obstacles) &&
+			!r.pathIntersectsAnyObstacle(cornerB, end, obstacles) {
+			return []point{start, cornerB, end}
+		}
+		if !r.pathIntersectsAnyObstacle(start, cornerA, obstacles) &&
+			!r.pathIntersectsAnyObstacle(cornerA, end, obstacles) {
+			return []point{start, cornerA, end}
+		}
 	}
 
 	// Z字型（中央で曲がる）
