@@ -1,0 +1,57 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1471 600" width="1471" height="600">
+<defs>
+<style>text { font-family: -apple-system, "Segoe UI", "Helvetica Neue", Arial, sans-serif; }</style>
+<filter id="drop-shadow" x="-5%" y="-5%" width="115%" height="115%"><feGaussianBlur in="SourceAlpha" stdDeviation="2" result="blur"/><feOffset in="blur" dx="1" dy="2" result="offsetBlur"/><feComponentTransfer in="offsetBlur" result="shadow"><feFuncA type="linear" slope="0.12"/></feComponentTransfer><feMerge><feMergeNode in="shadow"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+<symbol id="actor" viewBox="0 0 40 70" preserveAspectRatio="none"><circle cx="20" cy="10" r="10" fill="#fafbfc" stroke="#2d3748" stroke-width="1.5"/><line x1="20" y1="20" x2="20" y2="45" stroke="#2d3748" stroke-width="1.5"/><line x1="5" y1="30" x2="35" y2="30" stroke="#2d3748" stroke-width="1.5"/><line x1="20" y1="45" x2="5" y2="65" stroke="#2d3748" stroke-width="1.5"/><line x1="20" y1="45" x2="35" y2="65" stroke="#2d3748" stroke-width="1.5"/></symbol>
+<symbol id="initial-state" viewBox="0 0 20 20" preserveAspectRatio="none"><circle cx="10" cy="10" r="10" fill="#1a202c"/></symbol>
+<symbol id="final-state" viewBox="0 0 24 24" preserveAspectRatio="none"><circle cx="12" cy="12" r="12" fill="none" stroke="#2d3748" stroke-width="2"/><circle cx="12" cy="12" r="8" fill="#1a202c"/></symbol>
+</defs>
+<rect x="576" y="230" width="318" height="140" fill="#fafbfc" stroke="#2d3748" stroke-width="2" filter="url(#drop-shadow)"/>
+<text x="735" y="257" text-anchor="middle" fill="#4a5568" font-style="italic">&lt;&lt;component&gt;&gt;</text>
+<text x="735" y="277" text-anchor="middle" fill="#1a202c" font-weight="bold">Storage</text>
+<line x1="576" y1="292" x2="894" y2="292" stroke="#cbd5e0"/>
+<text x="586" y="307" fill="#1a202c">+ Save(key: string, value: string): bool</text>
+<text x="586" y="327" fill="#1a202c">+ Load(key: string): string</text>
+<text x="586" y="347" fill="#1a202c">+ Delete(key: string): bool</text>
+<rect x="50" y="50" width="267" height="100" fill="#fafbfc" stroke="#2d3748" stroke-width="2" filter="url(#drop-shadow)"/>
+<text x="183" y="77" text-anchor="middle" fill="#4a5568" font-style="italic">&lt;&lt;component&gt;&gt;</text>
+<text x="183" y="97" text-anchor="middle" fill="#1a202c" font-weight="bold">FileStorage</text>
+<line x1="50" y1="112" x2="317" y2="112" stroke="#cbd5e0"/>
+<text x="60" y="127" fill="#1a202c">+ SetBasePath(path: string): bool</text>
+<rect x="756" y="50" width="166" height="100" fill="#fafbfc" stroke="#2d3748" stroke-width="2" filter="url(#drop-shadow)"/>
+<text x="839" y="77" fill="#1a202c" font-weight="bold" text-anchor="middle">FileStorageConfig</text>
+<line x1="756" y1="92" x2="922" y2="92" stroke="#cbd5e0"/>
+<text x="766" y="107" fill="#1a202c">+ basePath: string</text>
+<text x="766" y="127" fill="#1a202c">+ extension: string</text>
+<rect x="357" y="50" width="145" height="120" filter="url(#drop-shadow)" fill="#fafbfc" stroke="#2d3748" stroke-width="2"/>
+<text x="429" y="77" font-style="italic" text-anchor="middle" fill="#4a5568">&lt;&lt;component&gt;&gt;</text>
+<text x="429" y="97" fill="#1a202c" font-weight="bold" text-anchor="middle">MemoryStorage</text>
+<line x1="357" y1="112" x2="502" y2="112" stroke="#cbd5e0"/>
+<text x="367" y="127" fill="#1a202c">+ Clear(): bool</text>
+<text x="367" y="147" fill="#1a202c">+ GetSize(): int</text>
+<rect x="962" y="50" width="202" height="100" fill="#fafbfc" stroke="#2d3748" stroke-width="2" filter="url(#drop-shadow)"/>
+<text x="1063" y="77" text-anchor="middle" fill="#1a202c" font-weight="bold">MemoryStorageConfig</text>
+<line x1="962" y1="92" x2="1164" y2="92" stroke="#cbd5e0"/>
+<text x="972" y="107" fill="#1a202c">+ maxSize: int</text>
+<text x="972" y="127" fill="#1a202c">+ evictionPolicy: string</text>
+<rect x="542" y="50" width="174" height="120" stroke-width="2" filter="url(#drop-shadow)" fill="#fafbfc" stroke="#2d3748"/>
+<text x="629" y="77" text-anchor="middle" fill="#4a5568" font-style="italic">&lt;&lt;component&gt;&gt;</text>
+<text x="629" y="97" text-anchor="middle" fill="#1a202c" font-weight="bold">DatabaseStorage</text>
+<line x1="542" y1="112" x2="716" y2="112" stroke="#cbd5e0"/>
+<text x="552" y="127" fill="#1a202c">+ Connect(): bool</text>
+<text x="552" y="147" fill="#1a202c">+ Disconnect(): bool</text>
+<rect x="1204" y="50" width="217" height="100" fill="#fafbfc" stroke="#2d3748" stroke-width="2" filter="url(#drop-shadow)"/>
+<text x="1312" y="77" text-anchor="middle" fill="#1a202c" font-weight="bold">DatabaseStorageConfig</text>
+<line x1="1204" y1="92" x2="1421" y2="92" stroke="#cbd5e0"/>
+<text x="1214" y="107" fill="#1a202c">+ connectionString: string</text>
+<text x="1214" y="127" fill="#1a202c">+ tableName: string</text>
+<line x1="317" y1="100" x2="317" y2="258" stroke-dasharray="5,5" stroke="#2d3748"/>
+<line x1="317" y1="258" x2="576" y2="258" stroke-dasharray="5,5" stroke="#2d3748"/>
+<polygon points="576,258 566,262 566,253" fill="#fafbfc" stroke="#2d3748"/>
+<line x1="502" y1="110" x2="502" y2="300" stroke="#2d3748" stroke-dasharray="5,5"/>
+<line x1="502" y1="300" x2="576" y2="300" stroke="#2d3748" stroke-dasharray="5,5"/>
+<polygon points="576,300 566,304 566,295" fill="#fafbfc" stroke="#2d3748"/>
+<line x1="629" y1="170" x2="629" y2="230" stroke="#2d3748" stroke-dasharray="5,5"/>
+<line x1="629" y1="230" x2="862" y2="230" stroke="#2d3748" stroke-dasharray="5,5"/>
+<polygon points="862,230 852,234 852,225" fill="#fafbfc" stroke="#2d3748"/>
+</svg>
