@@ -180,7 +180,8 @@ func (r *ClassRenderer) Render(diagram *class.Diagram, w io.Writer) error {
 			// 継承・実装エッジは常に垂直接続（子のtop → 親のbottom）
 			r.renderVerticalEdge(c, edge, fromPos, toPos,
 				outIdx, outgoingCount[edge.From],
-				inIdx, incomingCount[edge.To])
+				inIdx, incomingCount[edge.To],
+				nodePositions)
 		} else {
 			// その他のエッジは従来の分散接続点計算
 			fromX, fromY, toX, toY := r.calculateDistributedEndpoints(
@@ -575,26 +576,64 @@ func (r *ClassRenderer) calculateWaypoints(x1, y1, x2, y2 int, obstacles []rect)
 		}
 	}
 
-	// Z字型（中央で曲がる）
+	// Z字型（両方向を試す：V-H-V と H-V-H）
+	// 主方向を先に試し、ダメならもう一方の向きも試す
+	tryVHV := func() []point {
+		// 垂直-水平-垂直
+		zCandidates := []int{
+			(y1 + y2) / 2,
+			y1 + (y2-y1)/4,
+			y1 + (y2-y1)*3/4,
+			y1 + (y2-y1)/3,
+			y1 + (y2-y1)*2/3,
+		}
+		for _, midY := range zCandidates {
+			mid1 := point{x1, midY}
+			mid2 := point{x2, midY}
+			if !r.pathIntersectsAnyObstacle(start, mid1, obstacles) &&
+				!r.pathIntersectsAnyObstacle(mid1, mid2, obstacles) &&
+				!r.pathIntersectsAnyObstacle(mid2, end, obstacles) {
+				return []point{start, mid1, mid2, end}
+			}
+		}
+		return nil
+	}
+
+	tryHVH := func() []point {
+		// 水平-垂直-水平
+		zCandidates := []int{
+			(x1 + x2) / 2,
+			x1 + (x2-x1)/4,
+			x1 + (x2-x1)*3/4,
+			x1 + (x2-x1)/3,
+			x1 + (x2-x1)*2/3,
+		}
+		for _, midX := range zCandidates {
+			mid1 := point{midX, y1}
+			mid2 := point{midX, y2}
+			if !r.pathIntersectsAnyObstacle(start, mid1, obstacles) &&
+				!r.pathIntersectsAnyObstacle(mid1, mid2, obstacles) &&
+				!r.pathIntersectsAnyObstacle(mid2, end, obstacles) {
+				return []point{start, mid1, mid2, end}
+			}
+		}
+		return nil
+	}
+
+	// 主方向を先に試し、ダメなら逆方向も試す
 	if abs(y2-y1) > abs(x2-x1) {
-		// 垂直が主方向：垂直-水平-垂直
-		midY := (y1 + y2) / 2
-		mid1 := point{x1, midY}
-		mid2 := point{x2, midY}
-		if !r.pathIntersectsAnyObstacle(start, mid1, obstacles) &&
-			!r.pathIntersectsAnyObstacle(mid1, mid2, obstacles) &&
-			!r.pathIntersectsAnyObstacle(mid2, end, obstacles) {
-			return []point{start, mid1, mid2, end}
+		if result := tryVHV(); result != nil {
+			return result
+		}
+		if result := tryHVH(); result != nil {
+			return result
 		}
 	} else {
-		// 水平が主方向：水平-垂直-水平
-		midX := (x1 + x2) / 2
-		mid1 := point{midX, y1}
-		mid2 := point{midX, y2}
-		if !r.pathIntersectsAnyObstacle(start, mid1, obstacles) &&
-			!r.pathIntersectsAnyObstacle(mid1, mid2, obstacles) &&
-			!r.pathIntersectsAnyObstacle(mid2, end, obstacles) {
-			return []point{start, mid1, mid2, end}
+		if result := tryHVH(); result != nil {
+			return result
+		}
+		if result := tryVHV(); result != nil {
+			return result
 		}
 	}
 
@@ -621,17 +660,66 @@ func (r *ClassRenderer) calculateWaypoints(x1, y1, x2, y2 int, obstacles []rect)
 
 		// 上を通るルート
 		topY := minObsY - margin
-		if y1 <= topY || y2 <= topY {
-			mid1 := point{x1, topY}
-			mid2 := point{x2, topY}
+		mid1 := point{x1, topY}
+		mid2 := point{x2, topY}
+		if !r.pathIntersectsAnyObstacle(start, mid1, obstacles) &&
+			!r.pathIntersectsAnyObstacle(mid1, mid2, obstacles) &&
+			!r.pathIntersectsAnyObstacle(mid2, end, obstacles) {
 			return []point{start, mid1, mid2, end}
 		}
 
 		// 下を通るルート
 		bottomY := maxObsY + margin
-		mid1 := point{x1, bottomY}
-		mid2 := point{x2, bottomY}
-		return []point{start, mid1, mid2, end}
+		mid1 = point{x1, bottomY}
+		mid2 = point{x2, bottomY}
+		if !r.pathIntersectsAnyObstacle(start, mid1, obstacles) &&
+			!r.pathIntersectsAnyObstacle(mid1, mid2, obstacles) &&
+			!r.pathIntersectsAnyObstacle(mid2, end, obstacles) {
+			return []point{start, mid1, mid2, end}
+		}
+
+		// 左を通るルート
+		leftX := minObsX - margin
+		mid1 = point{leftX, y1}
+		mid2 = point{leftX, y2}
+		if !r.pathIntersectsAnyObstacle(start, mid1, obstacles) &&
+			!r.pathIntersectsAnyObstacle(mid1, mid2, obstacles) &&
+			!r.pathIntersectsAnyObstacle(mid2, end, obstacles) {
+			return []point{start, mid1, mid2, end}
+		}
+
+		// 右を通るルート
+		rightX := maxObsX + margin
+		mid1 = point{rightX, y1}
+		mid2 = point{rightX, y2}
+		if !r.pathIntersectsAnyObstacle(start, mid1, obstacles) &&
+			!r.pathIntersectsAnyObstacle(mid1, mid2, obstacles) &&
+			!r.pathIntersectsAnyObstacle(mid2, end, obstacles) {
+			return []point{start, mid1, mid2, end}
+		}
+
+		// 5セグメントルーティング: 上/下に出て障害物を回避して戻る
+		for _, bypassY := range []int{topY, bottomY} {
+			for _, bypassX := range []int{leftX, rightX} {
+				wp := []point{
+					start,
+					{x1, bypassY},
+					{bypassX, bypassY},
+					{bypassX, y2},
+					end,
+				}
+				allClear := true
+				for i := 0; i < len(wp)-1; i++ {
+					if r.pathIntersectsAnyObstacle(wp[i], wp[i+1], obstacles) {
+						allClear = false
+						break
+					}
+				}
+				if allClear {
+					return wp
+				}
+			}
+		}
 	}
 
 	// フォールバック: 単純なZ字型
@@ -656,31 +744,50 @@ func (r *ClassRenderer) renderPath(c *canvas.Canvas, waypoints []point, opts []c
 	}
 }
 
-// lineIntersectsRect は直線が矩形と交差するかチェック
+// lineIntersectsRect は直線（直交セグメント）が矩形と交差するかチェック
 func (r *ClassRenderer) lineIntersectsRect(x1, y1, x2, y2, rx, ry, rw, rh int) bool {
-	// 簡易的な交差判定：直線のバウンディングボックスと矩形の交差
+	// 矩形の外側にマージンを設けて判定（線が矩形に近づきすぎないように）
+	margin := 5
+	rectLeft := rx - margin
+	rectRight := rx + rw + margin
+	rectTop := ry - margin
+	rectBottom := ry + rh + margin
+
 	lminX := minInt(x1, x2)
 	lmaxX := maxInt(x1, x2)
 	lminY := minInt(y1, y2)
 	lmaxY := maxInt(y1, y2)
 
-	// 矩形の内側にマージンを設けて判定
-	margin := 10
-	rectLeft := rx + margin
-	rectRight := rx + rw - margin
-	rectTop := ry + margin
-	rectBottom := ry + rh - margin
-
-	// バウンディングボックスが重なっているかチェック
+	// バウンディングボックスが重なっていなければ交差しない
 	if lmaxX < rectLeft || lminX > rectRight || lmaxY < rectTop || lminY > rectBottom {
 		return false
 	}
 
-	// 直線が矩形の内部を通過するかの簡易チェック
-	// 直線の中点が矩形内にあるか
-	midX := (x1 + x2) / 2
-	midY := (y1 + y2) / 2
-	if midX > rectLeft && midX < rectRight && midY > rectTop && midY < rectBottom {
+	// 水平線セグメントの場合
+	if y1 == y2 {
+		return y1 >= rectTop && y1 <= rectBottom &&
+			lmaxX >= rectLeft && lminX <= rectRight
+	}
+
+	// 垂直線セグメントの場合
+	if x1 == x2 {
+		return x1 >= rectLeft && x1 <= rectRight &&
+			lmaxY >= rectTop && lminY <= rectBottom
+	}
+
+	// 斜め線の場合（直交ルーティングでは通常発生しないが安全のため）
+	// 線分の任意の点が矩形内にあるかチェック
+	// 端点チェック
+	if pointInRect(x1, y1, rectLeft, rectTop, rectRight, rectBottom) ||
+		pointInRect(x2, y2, rectLeft, rectTop, rectRight, rectBottom) {
+		return true
+	}
+
+	// 矩形の4辺と線分の交差チェック
+	if segmentsIntersect(x1, y1, x2, y2, rectLeft, rectTop, rectRight, rectTop) ||
+		segmentsIntersect(x1, y1, x2, y2, rectRight, rectTop, rectRight, rectBottom) ||
+		segmentsIntersect(x1, y1, x2, y2, rectLeft, rectBottom, rectRight, rectBottom) ||
+		segmentsIntersect(x1, y1, x2, y2, rectLeft, rectTop, rectLeft, rectBottom) {
 		return true
 	}
 
@@ -746,7 +853,8 @@ func (r *ClassRenderer) renderEdgeWithOffset(c *canvas.Canvas, edge class.Edge, 
 // 子のtop → 親のbottomを常に垂直に接続し、最後のセグメントが辺に垂直になるようにする
 func (r *ClassRenderer) renderVerticalEdge(c *canvas.Canvas, edge class.Edge,
 	fromPos, toPos struct{ x, y, width, height int },
-	outIdx, outTotal, inIdx, inTotal int) {
+	outIdx, outTotal, inIdx, inTotal int,
+	nodePositions map[string]struct{ x, y, width, height int }) {
 
 	fromCenterX := fromPos.x + fromPos.width/2
 	toCenterX := toPos.x + toPos.width/2
@@ -769,14 +877,32 @@ func (r *ClassRenderer) renderVerticalEdge(c *canvas.Canvas, edge class.Edge,
 		opts = append(opts, canvas.Dashed())
 	}
 
+	// 障害物リストを構築（始点・終点ノード以外）
+	var obstacles []rect
+	for nodeID, pos := range nodePositions {
+		if nodeID == edge.From || nodeID == edge.To {
+			continue
+		}
+		obstacles = append(obstacles, rect{pos.x, pos.y, pos.width, pos.height})
+	}
+
 	if fromX == toX {
-		// 真っ直ぐ垂直: 直線で接続
-		c.Line(fromX, fromY, toX, toY, opts...)
-		r.drawArrowHead(c, edge, fromX, fromY, toX, toY)
+		// 真っ直ぐ垂直: 障害物チェック付き
+		if !r.pathIntersectsAnyObstacle(point{fromX, fromY}, point{toX, toY}, obstacles) {
+			c.Line(fromX, fromY, toX, toY, opts...)
+			r.drawArrowHead(c, edge, fromX, fromY, toX, toY)
+		} else {
+			// 障害物を回避するためウェイポイント計算
+			waypoints := r.calculateWaypoints(fromX, fromY, toX, toY, obstacles)
+			r.renderPath(c, waypoints, opts)
+			if len(waypoints) >= 2 {
+				lastIdx := len(waypoints) - 1
+				r.drawArrowHead(c, edge, waypoints[lastIdx-1].x, waypoints[lastIdx-1].y, waypoints[lastIdx].x, waypoints[lastIdx].y)
+			}
+		}
 	} else {
-		// Z字型ルーティング: 垂直→水平→垂直
-		// 最後のセグメントが常に垂直になり、親のbottom辺に垂直に接続する
-		midY := (fromY + toY) / 2
+		// Z字型ルーティング: 障害物を回避する中間Y座標を探す
+		midY := r.findSafeVerticalMidY(fromX, fromY, toX, toY, obstacles)
 		c.Line(fromX, fromY, fromX, midY, opts...)
 		c.Line(fromX, midY, toX, midY, opts...)
 		c.Line(toX, midY, toX, toY, opts...)
@@ -792,6 +918,83 @@ func (r *ClassRenderer) renderVerticalEdge(c *canvas.Canvas, edge class.Edge,
 			canvas.Fill(canvas.ColorEdgeLabel),
 		)
 	}
+}
+
+// findSafeVerticalMidY はZ字型ルーティングで障害物を回避する中間Y座標を見つける
+func (r *ClassRenderer) findSafeVerticalMidY(fromX, fromY, toX, toY int, obstacles []rect) int {
+	// デフォルトの中間Y（2点の中間）
+	midY := (fromY + toY) / 2
+
+	// 3セグメント全て（垂直→水平→垂直）が障害物を回避できるかチェック
+	if !r.zShapeIntersectsObstacles(fromX, fromY, toX, toY, midY, obstacles) {
+		return midY
+	}
+
+	// 中間Yをずらして障害物を回避する候補を試す
+	// fromY（上）とtoY（下）の間で複数のY座標を試す
+	minY := minInt(fromY, toY)
+	maxY := maxInt(fromY, toY)
+	margin := 15
+
+	// 上端寄り・下端寄りを含む複数候補を試す
+	candidates := []int{
+		minY + margin,             // 上端近く
+		maxY - margin,             // 下端近く
+		minY + (maxY-minY)/4,     // 1/4
+		minY + (maxY-minY)*3/4,   // 3/4
+		minY + (maxY-minY)/3,     // 1/3
+		minY + (maxY-minY)*2/3,   // 2/3
+	}
+
+	for _, candidateY := range candidates {
+		if candidateY <= minY || candidateY >= maxY {
+			continue
+		}
+		if !r.zShapeIntersectsObstacles(fromX, fromY, toX, toY, candidateY, obstacles) {
+			return candidateY
+		}
+	}
+
+	// 外側を通るルート
+	if len(obstacles) > 0 {
+		minObsY := obstacles[0].y
+		maxObsY := obstacles[0].y + obstacles[0].h
+		for _, obs := range obstacles {
+			if obs.y < minObsY {
+				minObsY = obs.y
+			}
+			if obs.y+obs.h > maxObsY {
+				maxObsY = obs.y + obs.h
+			}
+		}
+		// 障害物の上を通る
+		topY := minObsY - 20
+		if !r.zShapeIntersectsObstacles(fromX, fromY, toX, toY, topY, obstacles) {
+			return topY
+		}
+		// 障害物の下を通る
+		bottomY := maxObsY + 20
+		if !r.zShapeIntersectsObstacles(fromX, fromY, toX, toY, bottomY, obstacles) {
+			return bottomY
+		}
+	}
+
+	// フォールバック: デフォルトの中間Y
+	return midY
+}
+
+// zShapeIntersectsObstacles はZ字型パス（垂直→水平→垂直）が障害物と交差するかチェック
+func (r *ClassRenderer) zShapeIntersectsObstacles(fromX, fromY, toX, toY, midY int, obstacles []rect) bool {
+	seg1Start := point{fromX, fromY}
+	seg1End := point{fromX, midY}
+	seg2Start := point{fromX, midY}
+	seg2End := point{toX, midY}
+	seg3Start := point{toX, midY}
+	seg3End := point{toX, toY}
+
+	return r.pathIntersectsAnyObstacle(seg1Start, seg1End, obstacles) ||
+		r.pathIntersectsAnyObstacle(seg2Start, seg2End, obstacles) ||
+		r.pathIntersectsAnyObstacle(seg3Start, seg3End, obstacles)
 }
 
 // drawArrowHead はエッジの装飾（矢印先端）を描画

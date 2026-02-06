@@ -43,6 +43,54 @@ func sqrt(x float64) float64 {
 	return z
 }
 
+// pointInRect は点が矩形内にあるかチェック
+func pointInRect(px, py, left, top, right, bottom int) bool {
+	return px >= left && px <= right && py >= top && py <= bottom
+}
+
+// segmentsIntersect は2つの線分が交差するかチェック（直交線分用に最適化）
+func segmentsIntersect(ax1, ay1, ax2, ay2, bx1, by1, bx2, by2 int) bool {
+	// 線分Aの範囲
+	aminX, amaxX := minInt(ax1, ax2), maxInt(ax1, ax2)
+	aminY, amaxY := minInt(ay1, ay2), maxInt(ay1, ay2)
+	// 線分Bの範囲
+	bminX, bmaxX := minInt(bx1, bx2), maxInt(bx1, bx2)
+	bminY, bmaxY := minInt(by1, by2), maxInt(by1, by2)
+
+	// 両方水平
+	if ay1 == ay2 && by1 == by2 {
+		return ay1 == by1 && amaxX >= bminX && aminX <= bmaxX
+	}
+	// 両方垂直
+	if ax1 == ax2 && bx1 == bx2 {
+		return ax1 == bx1 && amaxY >= bminY && aminY <= bmaxY
+	}
+	// 一方が水平、他方が垂直
+	if ay1 == ay2 && bx1 == bx2 {
+		return bx1 >= aminX && bx1 <= amaxX && ay1 >= bminY && ay1 <= bmaxY
+	}
+	if ax1 == ax2 && by1 == by2 {
+		return by1 >= aminY && by1 <= amaxY && ax1 >= bminX && ax1 <= bmaxX
+	}
+
+	// 一般的な交差判定（外積を使用）
+	d1 := cross(bx2-bx1, by2-by1, ax1-bx1, ay1-by1)
+	d2 := cross(bx2-bx1, by2-by1, ax2-bx1, ay2-by1)
+	d3 := cross(ax2-ax1, ay2-ay1, bx1-ax1, by1-ay1)
+	d4 := cross(ax2-ax1, ay2-ay1, bx2-ax1, by2-ay1)
+
+	if ((d1 > 0 && d2 < 0) || (d1 < 0 && d2 > 0)) &&
+		((d3 > 0 && d4 < 0) || (d3 < 0 && d4 > 0)) {
+		return true
+	}
+	return false
+}
+
+// cross は2次元外積（z成分）を計算する
+func cross(ax, ay, bx, by int) int {
+	return ax*by - ay*bx
+}
+
 // rect は矩形を表す
 type rect struct {
 	x, y, w, h int
