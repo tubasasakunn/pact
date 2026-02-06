@@ -2,42 +2,26 @@
 
 ## Project Overview
 
-Pact は `.pact` DSL ファイルから UML ダイアグラム（クラス図・シーケンス図・状態遷移図・フローチャート）を生成する Go 製 CLI ツール兼ライブラリ。
+`.pact` DSL → UML ダイアグラム（クラス図・シーケンス図・状態遷移図・フローチャート）を生成する Go CLI + ライブラリ。
 
-## Build & Test Commands
+## Build & Test
 
 ```bash
-# Build
 make build                    # go build -o bin/pact ./cmd/pact
-
-# Test (全体)
 make test                     # lint + unit + integration + e2e
-
-# Test (個別)
 make test-unit                # go test -v -race ./internal/...
 make test-integration         # go test -v -race ./test/integration/...
 make test-e2e                 # go test -v -race ./test/e2e/...
 make test-api                 # go test -v -race ./pkg/...
-
-# 特定パッケージ
-make test-pkg PKG=internal/infrastructure/parser
-
-# 特定テスト
-make test-run RUN=TestParseComponent
-
-# Lint
+make test-pkg PKG=internal/infrastructure/parser  # 特定パッケージ
+make test-run RUN=TestParseComponent              # 特定テスト
 make lint                     # golangci-lint run ./...
-
-# Format
 make fmt                      # go fmt ./...
-
-# Coverage
-make test-coverage            # coverage.html を生成
 ```
 
 ## Architecture
 
-DDD レイヤードアーキテクチャ + Clean Architecture の原則に従う。
+DDD レイヤード + Clean Architecture。
 
 ```
 cmd/pact/           → CLI エントリポイント（薄いレイヤー）
@@ -48,7 +32,7 @@ internal/
   infrastructure/   → 外部I/O（parser, renderer, resolver, config）
 ```
 
-### 依存ルール（最重要）
+### 依存ルール（MUST: 違反禁止）
 
 ```
 cmd/ → pkg/ → application/ → domain/
@@ -56,162 +40,71 @@ cmd/ → pkg/ → application/ → domain/
               infrastructure/  → domain/
 ```
 
-- **domain/** は他のどのレイヤーにも依存してはならない（Go 標準ライブラリのみ）
-- **application/** は domain/ にのみ依存する。infrastructure/ への依存はインターフェース経由
-- **infrastructure/** は domain/ にのみ依存する
-- **pkg/** は application/ と infrastructure/ を組み合わせて公開 API を提供する
-- **cmd/** は pkg/ にのみ依存する
+- **cmd/** は `pkg/` のみ import 可。internal/ への直接 import 禁止
+- **pkg/** は `application/` + `infrastructure/` を組み合わせて公開 API 提供
+- **application/** は `domain/` のみ。infrastructure/ はインターフェース経由
+- **infrastructure/** は `domain/` のみ
+- **domain/** は Go 標準ライブラリのみ。外部パッケージ依存ゼロ
 
-## Go Coding Conventions
+レイヤー詳細は `.claude/rules/{domain,application,infrastructure,pkg,cmd}.md` 参照。
 
-### 全般
-
-- Go 1.21 以上
-- `go fmt` / `goimports` でフォーマット統一
-- `golangci-lint` で静的解析通過必須
-- コメントは日本語可（ただし公開パッケージの godoc は英語）
-- エラーは `fmt.Errorf("context: %w", err)` でラップ
-- `panic` は使用禁止（テスト以外）
-
-### 命名規則
-
-- パッケージ名: 小文字、単一単語（`transformer`、`parser`、`svg`）
-- インターフェース: `-er` suffix（`Parser`、`Renderer`、`Resolver`）
-- コンストラクタ: `New` prefix（`NewParser()`、`NewClassTransformer()`）
-- テストファイル: `*_test.go`
-- テスト関数: `Test<対象>_<条件>` 形式
-
-### インターフェース設計
-
-- **"Accept interfaces, return structs"** の原則に従う
-- インターフェースは消費側で定義する（実装側ではなく）
-- 不必要に大きなインターフェースを定義しない（Interface Segregation）
-
-### エラーハンドリング
-
-- `domain/errors/` に定義されたエラー型を使用
-- ポジション情報付きエラー（`ParseError`、`SemanticError`）でユーザーフレンドリーなメッセージ
-- `MultiError` で複数エラーの集約
-- sentinel error よりカスタムエラー型を優先
-
-### テスト
-
-- テーブル駆動テスト推奨
-- `testdata/` ディレクトリに `.pact` テストファイルを配置
-- テストヘルパーは `internal/testutil/` に集約
-- `-race` フラグ付きでテスト実行
-
-## File Size Guidelines
-
-- 1 ファイル 500 行以内を目安とする
-- 500 行を超える場合は責務ごとに分割を検討
-- テストファイルは例外（テーブル駆動テストで長くなることは許容）
-
-## Data Flow
+### Data Flow
 
 ```
 .pact file → Lexer → Parser → AST → Validator → Transformer → Diagram Model → Renderer → SVG
 ```
 
-## Key Design Patterns
+## Key File Locations
 
-- **Visitor Pattern**: AST 走査（`ast/visitor.go`）
-- **Options Pattern**: Transformer へのオプション渡し
-- **Factory Pattern**: `New*()` コンストラクタ
-- **Strategy Pattern**: 各ダイアグラム型ごとの Transformer/Renderer
+| 責務 | ファイル |
+|---|---|
+| Lexer | `parser/lexer.go`, `lexer_read.go`, `token.go` |
+| Parser コア | `parser/parser.go`（オーケストレーション・ヘルパー） |
+| Parser 文法要素 | `parser/parser_{component,types,relations,flow,expressions,states,annotations}.go` |
+| AST 定義 | `domain/ast/{node,stmt,expr,type,state,visitor}.go` |
+| Transformer | `application/transformer/{class,sequence,state,flow}.go` |
+| Validator | `application/validator/{validator,component,type,flow,state}.go` |
+| Class図 SVG | `svg/class.go`(描画), `class_layout.go`(配置), `class_edge.go`(エッジ) |
+| State図 SVG | `svg/state.go`, `state_compound.go`, `state_transition.go` |
+| SVG 共通ユーティリティ | `svg/layout.go`（abs, maxInt, minInt, sqrt, 衝突検出, ノート描画） |
+| Canvas 描画 | `canvas/canvas.go`(プリミティブ), `canvas/template.go`(テンプレート) |
+| パターン定義 | `canvas/pattern.go`(型+レジストリ), `pattern_{class,state,flow,sequence}.go` |
+| パターン検出 | `canvas/pattern_detector_{class,state,flow,sequence}.go` |
+| デコレーション | `canvas/pattern_decorations.go`(型), `_gradients/_filters/_styles/_render.go` |
+| 公開 API | `pkg/pact/api.go`, `preview.go` |
+| エラー型 | `domain/errors/errors.go` |
+
+## Coding Conventions
+
+- Go 1.21+, `golangci-lint` 通過必須
+- エラーは `fmt.Errorf("context: %w", err)` でラップ。`panic` 禁止（テスト以外）
+- コメントは日本語可（公開パッケージの godoc は英語）
+- パッケージ: 小文字単一単語。インターフェース: `-er` suffix。コンストラクタ: `New` prefix
+- テスト: `Test<対象>_<条件>` 形式、テーブル駆動推奨、`testdata/` 配置、`-race` 付き
+- "Accept interfaces, return structs"。インターフェースは消費側で定義
+- カスタムエラー型（`domain/errors/`）を sentinel error より優先
+
+### ファイル分割ルール
+
+- **1ファイル 500行以内**（テストファイルは例外）
+- 分割命名: `<base>_<concern>.go`（例: `parser_flow.go`, `class_edge.go`, `state_transition.go`）
+- Go 同一パッケージ内の分割は `package` 宣言のみで OK。import 変更不要
+
+## Design Patterns
+
+- **Visitor**: AST 走査（`ast/visitor.go`）
+- **Options**: Transformer オプション（`transformer/options.go`）
+- **Factory**: `New*()` コンストラクタ
+- **Strategy**: ダイアグラム型ごとの Transformer/Renderer
 
 ## Dependencies
 
-- 外部依存は最小限に保つ（現在は `gopkg.in/yaml.v3` のみ）
-- 新しい外部依存追加時はレビュー必須
-- 標準ライブラリで実現可能なら標準ライブラリを使う
+外部依存は `gopkg.in/yaml.v3` のみ。追加時はレビュー必須。標準ライブラリ優先。
 
-## Sample Files & SVG Generation
+## Gotchas
 
-### ディレクトリ構成
-
-```
-sample/
-  pact/                 → サンプル .pact ファイル（ソース）
-    class/              → クラス図パターン
-    state/              → 状態遷移図パターン
-    flow/               → フローチャートパターン
-    sequence/           → シーケンス図パターン
-
-docs/
-  sample/               → GitHub Pages 用（生成された SVG）
-    index.html          → commit 一覧ページ
-    commit/
-      <commit-id>/      → コミットID単位でグループ化
-        index.html      → SVG ギャラリーページ
-        class/
-        state/
-        flow/
-        sequence/
-```
-
-### パターンテンプレート
-
-SVG 生成には以下のパターンテンプレートが使用される（`internal/infrastructure/renderer/canvas/pattern.go`）：
-
-**Class Patterns:**
-- InheritanceTree2/3/4 - 継承ツリー（2〜4子クラス）
-- InterfaceImpl2/3/4 - インターフェース実装（2〜4実装クラス）
-- Composition2/3/4 - コンポジション（2〜4パーツ）
-- Diamond - ダイヤモンド依存
-- Layered3x2/3x3 - レイヤードアーキテクチャ
-
-**State Patterns:**
-- LinearStates2/3/4 - 直線状態遷移（2〜4状態）
-- BinaryChoice - 二項選択
-- StateLoop - ループ状態
-- StarTopology - 星型トポロジー
-
-**Flow Patterns:**
-- IfElse, IfElseIfElse - 条件分岐
-- WhileLoop - ループ
-- Sequential3/4 - 順次処理（3〜4ステップ）
-
-**Sequence Patterns:**
-- RequestResponse - リクエスト/レスポンス
-- Callback - コールバック
-- Chain3/4 - チェーン（3〜4参加者）
-- FanOut - ファンアウト
-
-### パターンプレビューツール
-
-パターンテンプレートのプレビューを生成：
-
-```bash
-go run ./cmd/pattern-preview
-# → pattern-preview/index.html をブラウザで開く
-```
-
-### GitHub Pages ギャラリー
-
-サンプル SVG を GitHub Pages で閲覧可能：
-
-- **URL**: `https://<username>.github.io/pact/sample/`
-- **commit 一覧**: `/sample/index.html`
-- **各 commit の SVG**: `/sample/commit/<commit-id>/index.html`
-
-#### 自動生成（GitHub Actions）
-
-`sample/pact/` や `internal/` の変更が main にマージされると、GitHub Actions が自動で：
-
-1. SVG を `docs/sample/commit/<commit-id>/` に生成
-2. `index.html` を更新
-3. 変更をコミット＆プッシュ
-
-手動で生成する場合：
-
-```bash
-./scripts/generate-gallery.sh
-```
-
-#### GitHub Pages 設定
-
-1. リポジトリの Settings → Pages
-2. Source: "Deploy from a branch"
-3. Branch: `main` (または `master`)、フォルダ: `/docs`
-4. Save
+- `cmd/pattern-preview/` は `.gitignore` 対象 → git 操作時は `git add -f` が必要
+- `svg/layout.go` に共通ユーティリティ（`abs`, `maxInt`, `minInt`, `sqrt` 等）あり → 他ファイルで再定義しない
+- `canvas/pattern.go` にパターン型定義（`PatternRegistry`, `ClassPatternMatch` 等）集約
+- Parser エラーリカバリ: `synchronize()` で `}` まで読み飛ばして解析継続
+- サンプル/SVG/GitHub Pages 関連は `.claude/rules/samples.md` 参照
