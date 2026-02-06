@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" width="800" height="600">
+<defs>
+<style>text { font-family: -apple-system, "Segoe UI", "Helvetica Neue", Arial, sans-serif; }</style>
+<filter id="drop-shadow" x="-5%" y="-5%" width="115%" height="115%"><feGaussianBlur in="SourceAlpha" stdDeviation="2" result="blur"/><feOffset in="blur" dx="1" dy="2" result="offsetBlur"/><feComponentTransfer in="offsetBlur" result="shadow"><feFuncA type="linear" slope="0.12"/></feComponentTransfer><feMerge><feMergeNode in="shadow"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+<symbol id="actor" viewBox="0 0 40 70" preserveAspectRatio="none"><circle cx="20" cy="10" r="10" fill="#fafbfc" stroke="#2d3748" stroke-width="1.5"/><line x1="20" y1="20" x2="20" y2="45" stroke="#2d3748" stroke-width="1.5"/><line x1="5" y1="30" x2="35" y2="30" stroke="#2d3748" stroke-width="1.5"/><line x1="20" y1="45" x2="5" y2="65" stroke="#2d3748" stroke-width="1.5"/><line x1="20" y1="45" x2="35" y2="65" stroke="#2d3748" stroke-width="1.5"/></symbol>
+<symbol id="initial-state" viewBox="0 0 20 20" preserveAspectRatio="none"><circle cx="10" cy="10" r="10" fill="#1a202c"/></symbol>
+<symbol id="final-state" viewBox="0 0 24 24" preserveAspectRatio="none"><circle cx="12" cy="12" r="12" fill="none" stroke="#2d3748" stroke-width="2"/><circle cx="12" cy="12" r="8" fill="#1a202c"/></symbol>
+</defs>
+<rect x="50" y="50" width="106" height="40" stroke="#2d3748" stroke-width="2" filter="url(#drop-shadow)" fill="#fafbfc"/>
+<text x="103" y="75" text-anchor="middle" fill="#1a202c" font-weight="bold">EventHandler</text>
+<line x1="103" y1="100" x2="103" y2="500" stroke="#2d3748" stroke-dasharray="5,5"/>
+<rect x="186" y="50" width="80" height="40" stroke-width="2" filter="url(#drop-shadow)" fill="#fafbfc" stroke="#2d3748"/>
+<text x="226" y="75" text-anchor="middle" fill="#1a202c" font-weight="bold">self</text>
+<line x1="226" y1="100" x2="226" y2="500" stroke="#2d3748" stroke-dasharray="5,5"/>
+<line x1="103" y1="120" x2="226" y2="120" stroke="#2d3748"/>
+<polygon points="226,120 218,123 218,116" fill="#000"/>
+<text x="164" y="115" text-anchor="middle" fill="#1a202c">parseEvent</text>
+<line x1="103" y1="160" x2="226" y2="160" stroke="#2d3748"/>
+<polygon points="226,160 218,163 218,156" fill="#000"/>
+<text x="164" y="155" text-anchor="middle" fill="#1a202c">processEvent</text>
+<line x1="103" y1="200" x2="226" y2="200" stroke="#2d3748"/>
+<polygon points="226,200 218,203 218,196" fill="#000"/>
+<text x="164" y="195" text-anchor="middle" fill="#1a202c">notifyObservers</text>
+<rect x="123" y="230" width="113" height="25" stroke="#276749" fill="#c6f6d5"/>
+<text x="133" y="245" fill="#1a202c">return result</text>
+<rect x="221" y="120" width="10" height="150" fill="#e2e8f0" stroke="#2d3748"/>
+</svg>
