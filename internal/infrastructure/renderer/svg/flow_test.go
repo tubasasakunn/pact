@@ -39,7 +39,9 @@ func TestFlowRenderer_TerminalNode(t *testing.T) {
 
 	renderer := NewFlowRenderer()
 	var buf bytes.Buffer
-	renderer.Render(diagram, &buf)
+	if err := renderer.Render(diagram, &buf); err != nil {
+		t.Fatalf("unexpected error: %v", err)
+	}
 
 	svg := buf.String()
 	// 角丸長方形
@@ -58,7 +60,9 @@ func TestFlowRenderer_ProcessNode(t *testing.T) {
 
 	renderer := NewFlowRenderer()
 	var buf bytes.Buffer
-	renderer.Render(diagram, &buf)
+	if err := renderer.Render(diagram, &buf); err != nil {
+		t.Fatalf("unexpected error: %v", err)
+	}
 
 	svg := buf.String()
 	if !strings.Contains(svg, "<rect") {
@@ -76,7 +80,9 @@ func TestFlowRenderer_DecisionNode(t *testing.T) {
 
 	renderer := NewFlowRenderer()
 	var buf bytes.Buffer
-	renderer.Render(diagram, &buf)
+	if err := renderer.Render(diagram, &buf); err != nil {
+		t.Fatalf("unexpected error: %v", err)
+	}
 
 	svg := buf.String()
 	// ひし形
@@ -95,7 +101,9 @@ func TestFlowRenderer_IONode(t *testing.T) {
 
 	renderer := NewFlowRenderer()
 	var buf bytes.Buffer
-	renderer.Render(diagram, &buf)
+	if err := renderer.Render(diagram, &buf); err != nil {
+		t.Fatalf("unexpected error: %v", err)
+	}
 
 	svg := buf.String()
 	// 平行四辺形
@@ -114,7 +122,9 @@ func TestFlowRenderer_DatabaseNode(t *testing.T) {
 
 	renderer := NewFlowRenderer()
 	var buf bytes.Buffer
-	renderer.Render(diagram, &buf)
+	if err := renderer.Render(diagram, &buf); err != nil {
+		t.Fatalf("unexpected error: %v", err)
+	}
 
 	svg := buf.String()
 	// 円柱
@@ -133,7 +143,9 @@ func TestFlowRenderer_NodeLabel(t *testing.T) {
 
 	renderer := NewFlowRenderer()
 	var buf bytes.Buffer
-	renderer.Render(diagram, &buf)
+	if err := renderer.Render(diagram, &buf); err != nil {
+		t.Fatalf("unexpected error: %v", err)
+	}
 
 	svg := buf.String()
 	if !strings.Contains(svg, "Process Data") {

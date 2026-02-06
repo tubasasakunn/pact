@@ -39,7 +39,9 @@ func TestStateRenderer_InitialState(t *testing.T) {
 
 	renderer := NewStateRenderer()
 	var buf bytes.Buffer
-	renderer.Render(diagram, &buf)
+	if err := renderer.Render(diagram, &buf); err != nil {
+		t.Fatalf("unexpected error: %v", err)
+	}
 
 	svg := buf.String()
 	// 初期状態のシンボルテンプレートが使用されている
@@ -58,7 +60,9 @@ func TestStateRenderer_FinalState(t *testing.T) {
 
 	renderer := NewStateRenderer()
 	var buf bytes.Buffer
-	renderer.Render(diagram, &buf)
+	if err := renderer.Render(diagram, &buf); err != nil {
+		t.Fatalf("unexpected error: %v", err)
+	}
 
 	svg := buf.String()
 	// 二重丸（2つの円）
@@ -78,7 +82,9 @@ func TestStateRenderer_AtomicState(t *testing.T) {
 
 	renderer := NewStateRenderer()
 	var buf bytes.Buffer
-	renderer.Render(diagram, &buf)
+	if err := renderer.Render(diagram, &buf); err != nil {
+		t.Fatalf("unexpected error: %v", err)
+	}
 
 	svg := buf.String()
 	// 角丸矩形
@@ -97,7 +103,9 @@ func TestStateRenderer_StateWithName(t *testing.T) {
 
 	renderer := NewStateRenderer()
 	var buf bytes.Buffer
-	renderer.Render(diagram, &buf)
+	if err := renderer.Render(diagram, &buf); err != nil {
+		t.Fatalf("unexpected error: %v", err)
+	}
 
 	svg := buf.String()
 	if !strings.Contains(svg, "Processing") {

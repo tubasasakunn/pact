@@ -156,9 +156,8 @@ func (t *FlowTransformer) transformStep(step ast.Step, prevNodeID string, diagra
 		return node.ID
 
 	case *ast.CallStep:
-		label := "Call"
 		if call, ok := s.Expr.(*ast.CallExpr); ok {
-			label = call.Method + "()"
+			label := call.Method + "()"
 			node := t.createNode(label, flow.NodeShapeProcess)
 			if v, ok := call.Object.(*ast.VariableExpr); ok {
 				node.Swimlane = v.Name

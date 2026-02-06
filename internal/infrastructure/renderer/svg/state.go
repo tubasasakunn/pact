@@ -371,62 +371,6 @@ func (r *StateRenderer) renderParallelState(c *canvas.Canvas, s state.State, x, 
 	}
 }
 
-func (r *StateRenderer) renderTransition(c *canvas.Canvas, t state.Transition, x1, y1, x2, y2 int, labelOffset int) {
-	// 矢印を描画
-	c.Arrow(x1, y1, x2, y2, canvas.Stroke(canvas.ColorEdge))
-
-	// ラベルを構築: トリガー [ガード] / アクション
-	midX := (x1 + x2) / 2
-	midY := (y1+y2)/2 - 10 - labelOffset
-
-	// トリガー部分
-	triggerLabel := ""
-	if t.Trigger != nil {
-		switch trig := t.Trigger.(type) {
-		case *state.EventTrigger:
-			triggerLabel = trig.Event
-		case *state.WhenTrigger:
-			triggerLabel = "when(" + trig.Condition + ")"
-		case *state.AfterTrigger:
-			triggerLabel = fmt.Sprintf("after %d%s", trig.Duration.Value, trig.Duration.Unit)
-		}
-	}
-
-	// ガード条件
-	guardLabel := ""
-	if t.Guard != "" {
-		guardLabel = "[" + t.Guard + "]"
-	}
-
-	// アクション
-	actionLabel := ""
-	if len(t.Actions) > 0 {
-		actionLabel = "/ "
-		for i, action := range t.Actions {
-			if i > 0 {
-				actionLabel += ", "
-			}
-			actionLabel += action
-		}
-	}
-
-	// ラベルを結合
-	label := triggerLabel
-	if guardLabel != "" {
-		if label != "" {
-			label += " "
-		}
-		label += guardLabel
-	}
-	if actionLabel != "" {
-		label += " " + actionLabel
-	}
-
-	if label != "" {
-		c.Text(midX, midY, label, canvas.TextAnchor("middle"))
-	}
-}
-
 // renderOrthogonalTransition は直交ルーティングで遷移を描画する
 func (r *StateRenderer) renderOrthogonalTransition(c *canvas.Canvas, t state.Transition,
 	x1, y1, w1, h1, x2, y2, w2, h2 int, labelOffset int, nodeBounds []stateRect) {
