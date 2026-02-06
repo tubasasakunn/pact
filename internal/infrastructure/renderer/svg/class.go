@@ -176,14 +176,20 @@ func (r *ClassRenderer) Render(diagram *class.Diagram, w io.Writer) error {
 		outgoingIndex[edge.From]++
 		incomingIndex[edge.To]++
 
-		// 分散された接続点を計算
-		fromX, fromY, toX, toY := r.calculateDistributedEndpoints(
-			fromPos, toPos,
-			outIdx, outgoingCount[edge.From],
-			inIdx, incomingCount[edge.To],
-		)
-
-		r.renderEdgeImproved(c, edge, fromX, fromY, toX, toY, nodePositions)
+		if edge.Type == class.EdgeTypeInheritance || edge.Type == class.EdgeTypeImplementation {
+			// 継承・実装エッジは常に垂直接続（子のtop → 親のbottom）
+			r.renderVerticalEdge(c, edge, fromPos, toPos,
+				outIdx, outgoingCount[edge.From],
+				inIdx, incomingCount[edge.To])
+		} else {
+			// その他のエッジは従来の分散接続点計算
+			fromX, fromY, toX, toY := r.calculateDistributedEndpoints(
+				fromPos, toPos,
+				outIdx, outgoingCount[edge.From],
+				inIdx, incomingCount[edge.To],
+			)
+			r.renderEdgeImproved(c, edge, fromX, fromY, toX, toY, nodePositions)
+		}
 	}
 
 	// ノートをレンダリング
@@ -421,14 +427,14 @@ func (r *ClassRenderer) calculateDistributedEndpoints(
 
 	// 垂直方向の差が大きい場合（下向き/上向き接続）
 	if abs(toCenterY-fromCenterY) > abs(toCenterX-fromCenterX) {
-		// 出力点を下端/上端に分散配置
+		// 出力点を下端/上端に分散配置（中央を基準に均等分布）
 		fromOffset := 0
 		if outTotal > 1 {
-			fromOffset = (outIdx - outTotal/2) * (fromSpread / maxInt(outTotal-1, 1))
+			fromOffset = (2*outIdx - (outTotal - 1)) * fromSpread / (2 * (outTotal - 1))
 		}
 		toOffset := 0
 		if inTotal > 1 {
-			toOffset = (inIdx - inTotal/2) * (toSpread / maxInt(inTotal-1, 1))
+			toOffset = (2*inIdx - (inTotal - 1)) * toSpread / (2 * (inTotal - 1))
 		}
 
 		if toCenterY > fromCenterY {
@@ -453,11 +459,11 @@ func (r *ClassRenderer) calculateDistributedEndpoints(
 
 	fromYOffset := 0
 	if outTotal > 1 {
-		fromYOffset = (outIdx - outTotal/2) * (fromHeightSpread / maxInt(outTotal-1, 1))
+		fromYOffset = (2*outIdx - (outTotal - 1)) * fromHeightSpread / (2 * (outTotal - 1))
 	}
 	toYOffset := 0
 	if inTotal > 1 {
-		toYOffset = (inIdx - inTotal/2) * (toHeightSpread / maxInt(inTotal-1, 1))
+		toYOffset = (2*inIdx - (inTotal - 1)) * toHeightSpread / (2 * (inTotal - 1))
 	}
 
 	if toCenterX > fromCenterX {
@@ -733,6 +739,58 @@ func (r *ClassRenderer) renderEdgeWithOffset(c *canvas.Canvas, edge class.Edge, 
 		// 直線
 		c.Line(x1, y1, x2, y2, opts...)
 		r.drawArrowHead(c, edge, x1, y1, x2, y2)
+	}
+}
+
+// renderVerticalEdge は継承・実装エッジを垂直接続で描画する
+// 子のtop → 親のbottomを常に垂直に接続し、最後のセグメントが辺に垂直になるようにする
+func (r *ClassRenderer) renderVerticalEdge(c *canvas.Canvas, edge class.Edge,
+	fromPos, toPos struct{ x, y, width, height int },
+	outIdx, outTotal, inIdx, inTotal int) {
+
+	fromCenterX := fromPos.x + fromPos.width/2
+	toCenterX := toPos.x + toPos.width/2
+
+	// 接続点を分散配置（中央を基準に均等分布）
+	toSpread := int(float64(toPos.width) * 0.8)
+	toOffset := 0
+	if inTotal > 1 {
+		toOffset = (2*inIdx - (inTotal - 1)) * toSpread / (2 * (inTotal - 1))
+	}
+
+	// 子のtop、親のbottomに接続
+	fromX := fromCenterX
+	fromY := fromPos.y
+	toX := toCenterX + toOffset
+	toY := toPos.y + toPos.height
+
+	opts := []canvas.Option{canvas.Stroke(canvas.ColorEdge)}
+	if edge.LineStyle == class.LineStyleDashed {
+		opts = append(opts, canvas.Dashed())
+	}
+
+	if fromX == toX {
+		// 真っ直ぐ垂直: 直線で接続
+		c.Line(fromX, fromY, toX, toY, opts...)
+		r.drawArrowHead(c, edge, fromX, fromY, toX, toY)
+	} else {
+		// Z字型ルーティング: 垂直→水平→垂直
+		// 最後のセグメントが常に垂直になり、親のbottom辺に垂直に接続する
+		midY := (fromY + toY) / 2
+		c.Line(fromX, fromY, fromX, midY, opts...)
+		c.Line(fromX, midY, toX, midY, opts...)
+		c.Line(toX, midY, toX, toY, opts...)
+		r.drawArrowHead(c, edge, toX, midY, toX, toY)
+	}
+
+	// ラベル描画
+	if edge.Label != "" {
+		midX := (fromX + toX) / 2
+		midY := (fromY + toY) / 2
+		c.Text(midX, midY-5, edge.Label,
+			canvas.TextAnchor("middle"),
+			canvas.Fill(canvas.ColorEdgeLabel),
+		)
 	}
 }
 
